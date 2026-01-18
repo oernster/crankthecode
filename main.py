@@ -18,31 +18,32 @@ POSTS_DIR = Path("posts")
 def get_all_posts():
     posts = []
     for post_file in sorted(POSTS_DIR.glob("*.md"), reverse=True):
-        with open(post_file, "r", encoding="utf-8") as f:
-            content = frontmatter.load(f)
-            slug = post_file.stem
-            posts.append({
-                "slug": slug,
-                "title": content.get("title", slug),
-                "date": content.get("date", "Unknown Date"),
-                "tags": content.get("tags", []),
-                "summary": content.content[:200] + "..."
-            })
+        post = frontmatter.load(post_file)  # parse frontmatter
+        slug = post_file.stem
+        summary_md = post.content.split("\n\n")[0]  # first paragraph
+        summary_html = markdown.markdown(summary_md, extensions=["fenced_code"])
+        posts.append({
+            "slug": slug,
+            "title": post.get("title", slug),
+            "date": post.get("date", "Unknown Date"),
+            "tags": post.get("tags", []),
+            "summary": summary_html
+        })
     return posts
 
 def get_post(slug):
     post_path = POSTS_DIR / f"{slug}.md"
     if not post_path.exists():
         return None
-    with open(post_path, "r", encoding="utf-8") as f:
-        post = frontmatter.load(f)
-        html_content = markdown.markdown(post.content, extensions=["fenced_code", "codehilite"])
-        return {
-            "title": post.get("title", slug),
-            "date": post.get("date", "Unknown Date"),
-            "tags": post.get("tags", []),
-            "content": html_content
-        }
+
+    post = frontmatter.load(post_path)  # parse frontmatter
+    html_content = markdown.markdown(post.content, extensions=["fenced_code", "codehilite"])
+    return {
+        "title": post.get("title", slug),
+        "date": post.get("date", "Unknown Date"),
+        "tags": post.get("tags", []),
+        "content": html_content
+    }
 
 @app.get("/", response_class=HTMLResponse)
 async def homepage(request: Request):
