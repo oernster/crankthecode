@@ -1,19 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 body {
-  font-family: monospace;
-  background: #111;
-  color: #eee;
-  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top left, #0a0a0a, #111);
+  color: #e0e0e0;
+  font-size: 20px;
+  line-height: 1.8;
+  padding: 4rem 2rem;
+  margin: 0;
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+  text-rendering: optimizeLegibility;
 }
+
+h1, h2, h3 {
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 2.4rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+p {
+  margin-bottom: 2rem;
+}
+
 a {
-  color: #00ffff;
+  color: #00f0ff;
   text-decoration: none;
+  transition: all 0.2s ease-in-out;
 }
+
 a:hover {
-  text-decoration: underline;
+  color: #ffffff;
+  text-shadow: 0 0 8px #00f0ff;
 }
+
+ul {
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+small {
+  display: block;
+  margin: 0.5rem 0 1rem;
+  color: #aaa;
+}
+
 code {
-  background: #222;
-  padding: 0.2rem 0.4rem;
+  background: #1a1a1a;
+  color: #ffcc00;
+  padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-family: monospace;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+}
+
+pre {
+  background: #1a1a1a;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  box-shadow: 0 0 12px #00000033;
+}
+
+.tag {
+  display: inline-block;
+  background: #1f1f1f;
+  color: #00f0ff;
+  padding: 0.4rem 0.8rem;
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 5px #00f0ff22;
+  transition: background 0.3s ease;
+}
+
+.tag:hover {
+  background: #222;
+  box-shadow: 0 0 8px #00f0ff66;
+}
+
+a[href=\"/\"] {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+a[href=\"/\"]:hover {
+  color: #fff;
+  text-shadow: 0 0 4px #00f0ff;
 }
