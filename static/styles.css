@@ -1,0 +1,19 @@
+body {
+  font-family: monospace;
+  background: #111;
+  color: #eee;
+  padding: 2rem;
+}
+a {
+  color: #00ffff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  background: #222;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+}
