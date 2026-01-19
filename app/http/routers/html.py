@@ -111,17 +111,17 @@ async def homepage(
             "homepage_projects": {
                 "featured": [
                     {"slug": "stellody", "label": "Stellody"},
-                    {"slug": "3D-printing-info", "label": "3D printing info"},
+                    {"slug": "3D-printing-info", "label": "3D Printing Info"},
                     {"slug": "calendifier", "label": "Calendifier"},
                     {"slug": "trainer", "label": "Trainer"},
                     {"slug": "axisdb", "label": "AxisDB"},
                     {"slug": "edcolonizationasst", "label": "EDColonizationAsst"},
                 ],
                 "backlog": [
-                    {"slug": "3D-printer-launcher", "label": "3D printer launcher"},
-                    {"slug": "audiodeck", "label": "Audiodeck"},
+                    {"slug": "3D-printer-launcher", "label": "3D Printer Launcher"},
+                    {"slug": "audiodeck", "label": "Audio Deck"},
                     {"slug": "elevator", "label": "Elevator"},
-                    {"slug": "fancy-clock", "label": "Fancy clock"},
+                    {"slug": "fancy-clock", "label": "Fancy Clock"},
                     {"slug": "galacticunicorn", "label": "Galactic Unicorn"},
                     {"slug": "numismatism", "label": "Numismatism"},
                     {"slug": "snarkapi", "label": "SnarkAPI"},
