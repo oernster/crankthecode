@@ -21,5 +21,5 @@ def test_filesystem_repository_reads_frontmatter(tmp_path: Path):
 
     assert post is not None
     assert post.title == "Hello"
-    assert post.date == "2024-01-01"
+    assert post.date == "2024-01-01 12:00"
     assert list(post.tags) == ["python"]

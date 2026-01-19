@@ -10,13 +10,13 @@
   <ul>
     {% for post in posts %}
       <li>
-        <a href="/posts/{{ post.slug }}">{{ post.title }}</a><br>
+        <a class="btn-link" href="/posts/{{ post.slug }}">{{ post.title }}</a><br>
         <small>{{ post.date }} — Tags:
           {% for tag in post.tags %}
             <span class="tag">{{ tag }}</span>
           {% endfor %}
         </small><br>
-        <p>{{ post.summary | safe }}</p>
+        <p>{{ post.summary_text }}</p>
       </li>
     {% endfor %}
   </ul>

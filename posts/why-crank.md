@@ -1,13 +1,12 @@
 ---
 title: "Why Crank?"
-date: "2026-01-20"
-tags: ["meta", "overengineering", "why"]
+date: "2026-01-20 12:00"
+tags: ["overengineering", "why"]
 ---
-
 Everyone asks why.  
 Nobody asks *why not crank*.
 
-This blog exists because I was tired of bloated platforms, slow render times, and markdown parsers that don’t understand me emotionally.
+This blog exists because I was tired of bloated platforms, slow render times, and markdown parsers that don’t understand me emotionally(!)
 
 So I wrote my own.  
 In FastAPI.  
@@ -17,7 +16,7 @@ With tags nobody uses.
 ## Things I refuse to do
 
 - Use WordPress
-- Pay $9/month to blog
+- Use PHP (though I'm forced against my will to use PHP sometimes)
 - Pretend I like Medium
 - Give up control over fonts
 

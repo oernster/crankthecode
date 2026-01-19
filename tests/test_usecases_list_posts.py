@@ -12,14 +12,14 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
             MarkdownPost(
                 slug="old",
                 title="Old",
-                date="2020-01-01",
+                date="2020-01-01 12:00",
                 tags=("t",),
                 content_markdown="First para\n\nSecond para",
             ),
             MarkdownPost(
                 slug="new",
                 title="New",
-                date="2021-01-01",
+                date="2021-01-01 12:00",
                 tags=(),
                 content_markdown="Hello\n\nMore",
             ),

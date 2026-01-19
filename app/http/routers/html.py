@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -16,14 +18,20 @@ async def homepage(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
-    # Keep template compatibility: templates expect `post.summary`.
+    # Homepage: keep it lightweight by rendering a short excerpt, not full content.
+    # We already have `summary_html` from `blog.list_posts()`.
+    def _html_to_text(html: str) -> str:
+        # Good-enough tag strip for excerpts; avoids pulling in a full HTML parser.
+        text = re.sub(r"<[^>]+>", "", html)
+        return " ".join(text.split())
+
     posts = [
         {
             "slug": p.slug,
             "title": p.title,
             "date": p.date,
             "tags": list(p.tags),
-            "summary": p.summary_html,
+            "summary_text": _html_to_text(p.summary_html),
         }
         for p in blog.list_posts()
     ]

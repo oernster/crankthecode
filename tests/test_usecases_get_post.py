@@ -18,7 +18,7 @@ def test_get_post_renders_html_when_found():
             MarkdownPost(
                 slug="hello",
                 title="Hello",
-                date="2020-01-01",
+                date="2020-01-01 12:00",
                 tags=(),
                 content_markdown="# Title",
             ),
