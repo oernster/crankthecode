@@ -15,6 +15,96 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Ensure full-width page layout containers can exceed the content max-width
+   while keeping the main content column aligned with existing sizing. */
+.page-layout {
+  width: 100%;
+}
+
+.page-main {
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sidebar layout: desktop = left sidebar + content; mobile = sidebar above content */
+.page-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 1.25rem;
+  align-self: start;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+.sidebar-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  color: rgba(233, 231, 255, 0.92);
+}
+
+.sidebar-link {
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: 12px;
+  color: rgba(233, 231, 255, 0.85);
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  text-shadow: none;
+}
+
+.sidebar-link.is-active {
+  background: rgba(178, 255, 178, 0.2);
+  border: 1px solid rgba(178, 255, 178, 0.55);
+  color: rgba(233, 231, 255, 0.92);
+}
+
+.sidebar-link:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.65);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0.75rem;
+  background: rgba(255, 242, 168, 0.92);
+  border: 1px solid rgba(255, 242, 168, 0.55);
+  color: #171827;
+  padding: 0.45rem 0.8rem;
+  border-radius: 12px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  left: 0.75rem;
+}
+
+@media (max-width: 860px) {
+  body {
+    padding: 2.75rem 1rem;
+  }
+
+  .page-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+}
+
 /* Top-of-page call to action */
 .top-links {
   position: relative;

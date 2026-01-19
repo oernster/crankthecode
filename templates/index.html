@@ -1,99 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>CrankTheCode</title>
-  <link rel="stylesheet" href="/static/styles.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
-  <script type="text/javascript">
-    // Slightly annoying but effective
-    const user = "oernster";
-    const domain = "codecrafter.uk";
-    const link = `mailto:${user}@${domain}`;
-    document.write(`<a href="${link}">${user}@${domain}</a>`);
-  </script>
-  <noscript>Email visible with JavaScript enabled — or reach me via GitHub.</noscript>
-</head>
-<body>
-  <div class="top-links" aria-label="Top links">
-    <a class="top-about-link" href="/about">About Me</a>
-    <a class="top-favicon-link" href="/" aria-label="Home">
-      <img class="top-favicon-icon" src="/favicon.ico" alt="" aria-hidden="true" />
-    </a>
-  </div>
-  <header class="site-header">
-    <div class="header-spacer" aria-hidden="true"></div>
-    <h1 class="site-title">Crank The Code</h1>
-    <div class="header-actions">
-      <button
-        class="icon-btn search-toggle"
-        type="button"
-        aria-label="Search"
-        aria-expanded="false"
-        aria-controls="search-panel"
-      >
-        🔍
-      </button>
-      <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
-        <img class="rss-icon" src="/static/rss.svg" alt="" />
-      </a>
+{% extends "base.html" %}
+
+{% block title %}CrankTheCode{% endblock %}
+
+{% block content %}
+  <section class="featured-projects" aria-label="Projects">
+    <h2 class="section-title section-title--accent">Featured Projects...</h2>
+    <div class="featured-buttons" aria-label="Featured project links">
+      <a class="btn-link btn-link--primary featured-primary" href="/posts/stellody">Stellody</a>
+
+      <a class="btn-link" href="/posts/3D-printing-info">3D printing info</a>
+      <a class="btn-link" href="/posts/calendifier">Calendifier</a>
+      <a class="btn-link" href="/posts/trainer">Trainer</a>
+      <a class="btn-link" href="/posts/axisdb">AxisDB</a>
+      <a class="btn-link" href="/posts/edcolonizationasst">EDColonizationAsst</a>
     </div>
-  </header>
-  <div id="search-panel" class="search-panel" hidden>
-    <label class="visually-hidden" for="site-search">Search posts</label>
-    <form class="search-form" role="search" action="/posts" method="get">
-      <div class="search-input-wrap">
-        <input
-          id="site-search"
-          class="search-input"
-          name="q"
-          type="search"
-          placeholder="Search posts…"
-          autocomplete="on"
-          required
-        />
-        <div id="search-suggestions" class="search-suggestions" hidden></div>
-        <button
-          class="search-close"
-          type="button"
-          aria-label="Close search"
-          title="Close search"
-        >
-          ✕
-        </button>
-      </div>
-      <button class="search-go" type="submit" aria-label="Search">Go</button>
-    </form>
-  </div>
-  <main>
-    <section class="featured-projects" aria-label="Projects">
-      <h2 class="section-title section-title--accent">Featured Projects...</h2>
-      <div class="featured-buttons" aria-label="Featured project links">
-        <a class="btn-link btn-link--primary featured-primary" href="/posts/stellody">Stellody</a>
 
-        <a class="btn-link" href="/posts/3D-printing-info">3D printing info</a>
-        <a class="btn-link" href="/posts/calendifier">Calendifier</a>
-        <a class="btn-link" href="/posts/trainer">Trainer</a>
-        <a class="btn-link" href="/posts/axisdb">AxisDB</a>
-        <a class="btn-link" href="/posts/edcolonizationasst">EDColonizationAsst</a>
-      </div>
+    <hr class="post-separator" aria-hidden="true" />
 
-      <hr class="post-separator" aria-hidden="true" />
+    <h2 class="section-title section-title--accent">Backlog of Brilliance!</h2>
+    <div class="featured-buttons" aria-label="Backlog project links">
+      <a class="btn-link" href="/posts/3D-printer-launcher">3D printer launcher</a>
+      <a class="btn-link" href="/posts/audiodeck">Audiodeck</a>
+      <a class="btn-link" href="/posts/elevator">Elevator</a>
+      <a class="btn-link" href="/posts/fancy-clock">Fancy clock</a>
+      <a class="btn-link" href="/posts/galacticunicorn">Galactic Unicorn</a>
+      <a class="btn-link" href="/posts/numismatism">Numismatism</a>
+      <a class="btn-link" href="/posts/snarkapi">SnarkAPI</a>
 
-      <h2 class="section-title section-title--accent">Backlog of Brilliance!</h2>
-      <div class="featured-buttons" aria-label="Backlog project links">
-        <a class="btn-link" href="/posts/3D-printer-launcher">3D printer launcher</a>
-        <a class="btn-link" href="/posts/audiodeck">Audiodeck</a>
-        <a class="btn-link" href="/posts/elevator">Elevator</a>
-        <a class="btn-link" href="/posts/fancy-clock">Fancy clock</a>
-        <a class="btn-link" href="/posts/galacticunicorn">Galactic Unicorn</a>
-        <a class="btn-link" href="/posts/numismatism">Numismatism</a>
-        <a class="btn-link" href="/posts/snarkapi">SnarkAPI</a>
-
-        <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
-      </div>
-    </section>
-  </main>
-  <script src="/static/search.js" defer></script>
-</body>
-</html>
+      <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
+    </div>
+  </section>
+{% endblock %}

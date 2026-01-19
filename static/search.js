@@ -33,10 +33,24 @@
       }
       const q = (rawQuery || "").trim().toLowerCase();
 
+      const terms = q
+        .split("|")
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
+
+      const isOrQuery = terms.length > 1;
+
       const visibleItems = [];
       for (const li of items) {
         const haystack = (li.dataset.search || "").toLowerCase();
-        const visible = !(q.length > 0 && !haystack.includes(q));
+        let visible = true;
+        if (q.length > 0) {
+          if (isOrQuery) {
+            visible = terms.some((t) => haystack.includes(t));
+          } else {
+            visible = haystack.includes(q);
+          }
+        }
         li.hidden = !visible;
         if (visible) {
           visibleItems.push(li);

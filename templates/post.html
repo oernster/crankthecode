@@ -1,37 +1,8 @@
-<!DOCTYPE html>
-<html>
-<script type="text/javascript">
-  // Slightly annoying but effective
-  const user = "oernster";
-  const domain = "codecrafter.uk";
-  const link = `mailto:${user}@${domain}`;
-  document.write(`<a href="${link}">${user}@${domain}</a>`);
-</script>
-<noscript>[Enable JavaScript to see my email address]</noscript>
-<head>
-  <title>{{ post.title }}</title>
-  <link rel="stylesheet" href="/static/styles.css">
-  <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
-</head>
-<body>
-  <div class="top-links" aria-label="Top links">
-    <a class="top-about-link" href="/about">About Me</a>
-    <a class="top-favicon-link" href="/" aria-label="Home">
-      <img class="top-favicon-icon" src="/favicon.ico" alt="" aria-hidden="true" />
-    </a>
-  </div>
-  <header class="site-header">
-    <a class="back-link" href="/">← Back to posts</a>
-    <a class="site-title-link" href="/" aria-label="Homepage">
-      <span class="site-title">Crank The Code</span>
-    </a>
-    <div class="header-actions">
-      <a class="icon-btn" href="/" aria-label="Search">🔍</a>
-      <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
-        <img class="rss-icon" src="/static/rss.svg" alt="" />
-      </a>
-    </div>
-  </header>
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
   <div class="post-heading">
     <h1>{{ post.title }}</h1>
     <p><small>{{ post.date }} — Tags: {{ post.tags | join(", ") }}</small></p>
@@ -49,5 +20,4 @@
   <div class="post-content{% if post.slug == 'hello-crank' %} post-content--centered{% endif %}">
     {{ post.content | safe }}
   </div>
-</body>
-</html>
+{% endblock %}

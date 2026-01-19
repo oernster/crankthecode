@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import re
 from pathlib import Path
+from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
@@ -13,6 +13,33 @@ from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
 
 router = APIRouter()
+
+
+def _sidebar_categories() -> list[dict[str, str]]:
+    categories = [
+        ("Python Projects", "python"),
+        ("Django Projects", "django"),
+        ("React Projects", "react"),
+        ("3D Printing", "3d|printing|klipper"),
+        ("MicroPython", "micropython"),
+        ("Machine Learning", "machine learning|computer vision"),
+    ]
+    return [
+        {
+            "label": label,
+            "query": query,
+            "href": f"/posts?q={quote(query, safe='')}",
+        }
+        for (label, query) in categories
+    ]
+
+
+def _base_context(request: Request) -> dict:
+    return {
+        "request": request,
+        "sidebar_categories": _sidebar_categories(),
+        "current_q": (request.query_params.get("q") or "").strip(),
+    }
 
 
 def _load_about_html() -> str:
@@ -38,7 +65,9 @@ async def homepage(
     request: Request,
     templates: Jinja2Templates = Depends(get_templates),
 ):
-    return templates.TemplateResponse("index.html", {"request": request})
+    ctx = _base_context(request)
+    ctx.update({"is_homepage": True})
+    return templates.TemplateResponse("index.html", ctx)
 
 
 @router.get("/posts", response_class=HTMLResponse)
@@ -59,9 +88,9 @@ async def posts_index(
         }
         for p in blog.list_posts()
     ]
-    return templates.TemplateResponse(
-        "posts.html", {"request": request, "posts": posts}
-    )
+    ctx = _base_context(request)
+    ctx.update({"posts": posts, "is_homepage": False})
+    return templates.TemplateResponse("posts.html", ctx)
 
 
 @router.get("/about", response_class=HTMLResponse)
@@ -69,13 +98,16 @@ async def about_page(
     request: Request,
     templates: Jinja2Templates = Depends(get_templates),
 ):
-    return templates.TemplateResponse(
-        "about.html",
+    ctx = _base_context(request)
+    ctx.update(
         {
-            "request": request,
             "about_html": _load_about_html(),
-        },
+            "is_homepage": False,
+            "back_link_href": "/",
+            "back_link_label": "← Back to posts",
+        }
     )
+    return templates.TemplateResponse("about.html", ctx)
 
 
 @router.get("/posts/{slug}", response_class=HTMLResponse)
@@ -99,4 +131,13 @@ async def read_post(
         "extra_image_urls": list(getattr(detail, "extra_image_urls", [])),
         "content": detail.content_html,
     }
-    return templates.TemplateResponse("post.html", {"request": request, "post": post})
+    ctx = _base_context(request)
+    ctx.update(
+        {
+            "post": post,
+            "is_homepage": False,
+            "back_link_href": "/posts",
+            "back_link_label": "← Back to posts",
+        }
+    )
+    return templates.TemplateResponse("post.html", ctx)
