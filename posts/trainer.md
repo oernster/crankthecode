@@ -1,7 +1,8 @@
 ---
 title: "Trainer"
 date: "2026-01-19 07:05"
-tags: ["Train", "Train times", "Astronomy", "Weather", "Routing"]
+tags: ["train", "train times", "astronomy", "weather", "routing", "travel"]
+blurb: "Travel tracker"
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

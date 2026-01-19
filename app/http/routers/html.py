@@ -25,6 +25,17 @@ def _post_cover_index(blog: BlogService) -> dict[str, str]:
     return covers
 
 
+def _post_blurb_index(blog: BlogService) -> dict[str, str]:
+    """Map post slug -> blurb (only when present)."""
+
+    blurbs: dict[str, str] = {}
+    for p in blog.list_posts():
+        blurb = getattr(p, "blurb", None)
+        if blurb:
+            blurbs[p.slug] = blurb
+    return blurbs
+
+
 def _sidebar_categories() -> list[dict[str, str]]:
     categories = [
         ("Python Projects", "python"),
@@ -78,6 +89,7 @@ async def homepage(
 ):
     ctx = _base_context(request)
     cover_index = _post_cover_index(blog)
+    blurb_index = _post_blurb_index(blog)
     ctx.update(
         {
             "is_homepage": True,
@@ -101,6 +113,7 @@ async def homepage(
                 ],
             },
             "homepage_cover_index": cover_index,
+            "homepage_blurb_index": blurb_index,
         }
     )
     return templates.TemplateResponse("index.html", ctx)
@@ -118,6 +131,7 @@ async def posts_index(
             "title": p.title,
             "date": p.date,
             "tags": list(p.tags),
+            "blurb": getattr(p, "blurb", None),
             "cover_image_url": p.cover_image_url,
             # Keep links in summaries clickable.
             "summary_html": p.summary_html,
@@ -163,6 +177,7 @@ async def read_post(
         "title": detail.title,
         "date": detail.date,
         "tags": list(detail.tags),
+        "blurb": getattr(detail, "blurb", None),
         "cover_image_url": detail.cover_image_url,
         "extra_image_urls": list(getattr(detail, "extra_image_urls", [])),
         "content": detail.content_html,

@@ -101,6 +101,7 @@ class ListPostsUseCase:
                     title=post.title,
                     date=post.date,
                     tags=post.tags,
+                    blurb=getattr(post, "blurb", None),
                     cover_image_url=cover_url,
                     summary_html=summary_html,
                 )

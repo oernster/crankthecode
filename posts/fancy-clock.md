@@ -1,7 +1,8 @@
 ---
 title: "Fancy Clock"
 date: "2026-01-19 02:35"
-tags: ["clock", "fancy", "fun", "internationalisation"]
+tags: ["clock", "fancy", "fun", "internationalization", "skins", "video"]
+blurb: "Desktop clock"
 # Primary (cover) image used by the site header.
 # This will NOT be duplicated in the post body (the renderer strips a matching standalone image).
 image: /static/images/fancy-clock.png

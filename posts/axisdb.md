@@ -2,6 +2,7 @@
 title: "AxisDB"
 date: "2026-01-19 05:38"
 tags: ["python", "database", "db", "multidimensional", "json", "PyPi"]
+blurb: "JSON database"
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

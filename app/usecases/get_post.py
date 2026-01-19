@@ -38,6 +38,7 @@ class GetPostUseCase:
             title=post.title,
             date=post.date,
             tags=post.tags,
+            blurb=getattr(post, "blurb", None),
             cover_image_url=cover_url,
             extra_image_urls=extra_urls,
             content_html=html_content,

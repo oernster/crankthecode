@@ -2,6 +2,7 @@
 title: "3D Printing Info"
 date: "2026-01-19 06:55"
 tags: ["3D", "Printing"]
+blurb: "Print guide"
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

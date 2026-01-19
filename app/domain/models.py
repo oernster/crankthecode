@@ -12,6 +12,7 @@ class MarkdownPost:
     title: str
     date: str
     tags: Sequence[str]
+    blurb: str | None
     image: str | None
     extra_images: Sequence[str]
     content_markdown: str
@@ -25,6 +26,7 @@ class PostSummary:
     title: str
     date: str
     tags: Sequence[str]
+    blurb: str | None
     cover_image_url: str | None
     summary_html: str
 
@@ -37,6 +39,7 @@ class PostDetail:
     title: str
     date: str
     tags: Sequence[str]
+    blurb: str | None
     cover_image_url: str | None
     extra_image_urls: Sequence[str]
     content_html: str

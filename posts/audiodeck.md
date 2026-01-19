@@ -1,7 +1,8 @@
 ---
 title: "AudioDeck"
 date: "2026-01-19 06:50"
-tags: ["Audio", "switch", "windows", "streamdeck", "standalone app", "console"]
+tags: ["audio", "switch", "windows", "streamdeck", "standalone app", "console", "elgato"]
+blurb: "Audio switcher"
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

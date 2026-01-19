@@ -1,7 +1,8 @@
 ---
 title: "Elevator"
 date: "2026-01-19 07:30"
-tags: ["python", "Django", "React", "Control Panel"]
+tags: ["python", "Django", "React", "control panel"]
+blurb: "Web panel"
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

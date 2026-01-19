@@ -12,10 +12,16 @@
           href="/posts/{{ p.slug }}"
         >
           {% set cover = homepage_cover_index.get(p.slug) %}
+          {% set blurb = homepage_blurb_index.get(p.slug) %}
           {% if cover %}
             <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
           {% endif %}
-          <span class="btn-text">{{ p.label }}</span>
+          <span class="btn-text">
+            {{ p.label }}
+            {% if blurb %}
+              <span class="btn-subtext">{{ blurb }}</span>
+            {% endif %}
+          </span>
         </a>
       {% endfor %}
     </div>
@@ -27,12 +33,40 @@
       {% for p in homepage_projects.backlog %}
         <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
           {% set cover = homepage_cover_index.get(p.slug) %}
+          {% set blurb = homepage_blurb_index.get(p.slug) %}
           {% if cover %}
             <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
           {% endif %}
-          <span class="btn-text">{{ p.label }}</span>
+          <span class="btn-text">
+            {{ p.label }}
+            {% if blurb %}
+              <span class="btn-subtext">{{ blurb }}</span>
+            {% endif %}
+          </span>
         </a>
       {% endfor %}
+
+      <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
+    </div>
+
+    <hr class="post-separator" aria-hidden="true" />
+
+    <h2 class="section-title section-title--accent">Site Launch...</h2>
+    <div class="featured-buttons" aria-label="Site launch posts">
+      <a class="btn-link btn-link--with-thumb" href="/posts/hello-crank">
+        {% set cover = homepage_cover_index.get('hello-crank') %}
+        {% if cover %}
+          <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+        {% endif %}
+        <span class="btn-text">Hello Crank</span>
+      </a>
+      <a class="btn-link btn-link--with-thumb" href="/posts/why-crank">
+        {% set cover = homepage_cover_index.get('why-crank') %}
+        {% if cover %}
+          <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+        {% endif %}
+        <span class="btn-text">Why Crank</span>
+      </a>
 
       <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
     </div>

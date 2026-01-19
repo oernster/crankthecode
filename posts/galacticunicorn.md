@@ -2,6 +2,7 @@
 title: "Galactic Unicorn Timer"
 date: "2026-01-19 07:15"
 tags: ["GalacticUnicorn", "MicroPython"]
+blurb: "MicroPython LED"
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

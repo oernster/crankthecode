@@ -11,7 +11,12 @@
             {% if post.cover_image_url %}
               <img class="btn-thumb" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
             {% endif %}
-            <span class="btn-text">{{ post.title }}</span>
+            <span class="btn-text">
+              {{ post.title }}
+              {% if post.blurb %}
+                <span class="btn-subtext">{{ post.blurb }}</span>
+              {% endif %}
+            </span>
           </a>
           <small>{{ post.date }} — Tags:
             {% for tag in post.tags %}
