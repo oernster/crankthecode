@@ -8,9 +8,12 @@
 <body>
   <header class="site-header">
     <a class="back-link" href="/">← Back to posts</a>
-    <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
-      <img class="rss-icon" src="/static/rss.svg" alt="" />
-    </a>
+    <div class="header-actions">
+      <a class="icon-btn" href="/" aria-label="Search">🔍</a>
+      <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
+        <img class="rss-icon" src="/static/rss.svg" alt="" />
+      </a>
+    </div>
   </header>
   <h1>{{ post.title }}</h1>
   <p><small>{{ post.date }} — Tags: {{ post.tags | join(", ") }}</small></p>
