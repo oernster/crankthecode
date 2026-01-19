@@ -1,7 +1,7 @@
 ---
 title: "AudioDeck"
 date: "2026-01-19 06:50"
-tags: ["audio", "switch", "windows", "streamdeck", "standalone app", "console", "elgato"]
+tags: ["audio", "switch", "windows", "streamdeck", "standalone app", "console", "elgato", "python"]
 blurb: "Audio switcher"
 one_liner: "A Windows utility for quickly switching audio devices and routes with a StreamDeck-style workflow."
 

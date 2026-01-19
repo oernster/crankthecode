@@ -1,6 +1,6 @@
 ---
 title: "Galactic Unicorn Timer"
-date: "2026-01-19 07:15"
+date: "2026-01-19 06:45"
 tags: ["GalacticUnicorn", "MicroPython"]
 blurb: "MicroPython LED"
 one_liner: "MicroPython experiments on the Galactic Unicorn LED matrix, exploring visuals and device control."

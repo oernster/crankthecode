@@ -1,7 +1,7 @@
 ---
 title: "SnarkAPI"
 date: "2026-01-19 06:05"
-tags: ["snark", "sarcasm", "roast", "IT", "software", "rude"]
+tags: ["snark", "sarcasm", "roast", "IT", "software", "rude", "python"]
 blurb: "Sarcasm API"
 one_liner: "A playful API that generates sarcastic, roast-style responses for IT and software scenarios."
 

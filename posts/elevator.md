@@ -1,6 +1,6 @@
 ---
 title: "Elevator"
-date: "2026-01-19 07:30"
+date: "2026-01-19 04:30"
 tags: ["python", "Django", "React", "control panel"]
 blurb: "Web panel"
 one_liner: "A web-based elevator control panel built with Django and React."

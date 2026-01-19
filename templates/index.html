@@ -74,25 +74,7 @@
         </a>
       </div>
 
-      <div class="home-cta" aria-label="Contact call to action">
-        <span class="home-cta-slot" aria-label="Email me">
-          <script type="text/javascript">
-            // Keep the email address out of the static HTML to reduce bot scraping.
-            (function () {
-              const user = "oernster";
-              const domain = "codecrafter.uk";
-              const link = `mailto:${user}@${domain}`;
-              const label = "Let’s build something ~ email me.";
-              // Write into this span without leaking the address into the DOM as plain text.
-              document.currentScript.insertAdjacentHTML(
-                "beforebegin",
-                `<a class=\"home-cta-link\" href=\"${link}\">${label}</a>`
-              );
-            })();
-          </script>
-          <noscript>Want a project like this built? Let’s chat — here’s how to reach me. (Enable JavaScript to reveal the email link.)</noscript>
-        </span>
-      </div>
+      {# CTA moved to the global header (below “Crank The Code”) in base.html #}
     </div>
   </section>
 {% endblock %}

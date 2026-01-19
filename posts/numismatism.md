@@ -1,7 +1,7 @@
 ---
 title: "Coin Analysis"
 date: "2026-01-19 06:10"
-tags: ["coin", "coins", "machine learning", "computer vision", "numismatist", "numismatism", "collecting"]
+tags: ["coin", "coins", "machine learning", "computer vision", "numismatist", "numismatism", "collecting", "python"]
 blurb: "Coin vision"
 one_liner: "Computer-vision and ML experiments for recognising, identifying, and cataloguing coins from images."
 

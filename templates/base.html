@@ -75,6 +75,25 @@
         <div class="header-spacer" aria-hidden="true"></div>
       </header>
 
+      <div class="header-cta" aria-label="Contact call to action">
+        <span class="header-cta-slot" aria-label="Email me">
+          <script type="text/javascript">
+            // Keep the email address out of the static HTML to reduce bot scraping.
+            (function () {
+              const user = "oernster";
+              const domain = "codecrafter.uk";
+              const link = `mailto:${user}@${domain}`;
+              const label = "Let’s build something ~ email me.";
+              document.currentScript.insertAdjacentHTML(
+                "beforebegin",
+                `<a class=\"header-cta-link\" href=\"${link}\">${label}</a>`
+              );
+            })();
+          </script>
+          <noscript>Let’s build something ~ email me. (Enable JavaScript to reveal the email link.)</noscript>
+        </span>
+      </div>
+
       <div id="search-panel" class="search-panel" hidden>
         <label class="visually-hidden" for="site-search">Search posts</label>
         <form class="search-form" role="search" action="/posts" method="get">

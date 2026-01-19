@@ -1,6 +1,6 @@
 ---
 title: "AxisDB"
-date: "2026-01-19 05:38"
+date: "2026-01-19 12:38"
 tags: ["python", "database", "db", "multidimensional", "json", "PyPi"]
 blurb: "JSON database"
 one_liner: "An embedded Python database that stores JSON documents with atomic commits and multidimensional keys."

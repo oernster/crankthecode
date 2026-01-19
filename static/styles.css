@@ -923,16 +923,16 @@ a[href=\"/\"]:hover {
   border-color: rgba(255, 255, 255, 0.12);
 }
 
-.home-cta {
-  margin-top: 1.15rem;
+.header-cta {
+  margin: -1.1rem 0 2rem;
   text-align: center;
 }
 
-.home-cta-slot {
+.header-cta-slot {
   display: inline;
 }
 
-.home-cta-link {
+.header-cta-link {
   display: inline-block;
   padding: 0.55rem 0.9rem;
   border-radius: 999px;
@@ -941,7 +941,7 @@ a[href=\"/\"]:hover {
   color: #171827;
 }
 
-.home-cta-link:hover {
+.header-cta-link:hover {
   background: rgba(255, 242, 168, 1);
   color: #171827;
   text-shadow: none;

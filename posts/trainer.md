@@ -1,7 +1,7 @@
 ---
 title: "Trainer"
 date: "2026-01-19 07:05"
-tags: ["train", "train times", "astronomy", "weather", "routing", "travel"]
+tags: ["train", "train times", "astronomy", "weather", "routing", "travel", "python"]
 blurb: "Travel tracker"
 one_liner: "A personal dashboard that brings together travel, weather, and other daily-use data in one place."
 

@@ -1,7 +1,7 @@
 ---
 title: "Calendifier"
 date: "2026-01-19 06:35"
-tags: ["calendar", "event", "events", "RFC5545", "notes", "internationalization", "clock"]
+tags: ["calendar", "event", "events", "RFC5545", "notes", "internationalization", "clock", "python"]
 blurb: "Calendar tool"
 one_liner: "A calendar app with full iCalendar (RFC5545) support and deep internationalisation across languages and locales."
 
