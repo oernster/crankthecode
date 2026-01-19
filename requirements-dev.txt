@@ -1,0 +1,6 @@
+pytest
+httpx
+black
+flake8
+pre-commit
+
