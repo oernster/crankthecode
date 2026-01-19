@@ -4,69 +4,95 @@
 
 {% block content %}
   <section class="featured-projects" aria-label="Projects">
-    <h2 class="section-title section-title--accent">Featured Projects...</h2>
-    <div class="featured-buttons" aria-label="Featured project links">
-      {% for p in homepage_projects.featured %}
-        <a
-          class="btn-link btn-link--with-thumb{% if loop.first %} btn-link--primary featured-primary{% endif %}"
-          href="/posts/{{ p.slug }}"
-        >
-          {% set cover = homepage_cover_index.get(p.slug) %}
-          {% set blurb = homepage_blurb_index.get(p.slug) %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
-          {% endif %}
-          <span class="btn-text">
-            {{ p.label }}
-            {% if blurb %}
-              <span class="btn-subtext">{{ blurb }}</span>
+    <div class="section-panel section-panel--featured">
+      <h2 class="section-title section-title--accent">Featured Projects...</h2>
+      <div class="featured-buttons" aria-label="Featured project links">
+        {% for p in homepage_projects.featured %}
+          <a
+            class="btn-link btn-link--with-thumb{% if loop.first %} btn-link--primary featured-primary{% endif %}"
+            href="/posts/{{ p.slug }}"
+          >
+            {% set cover = homepage_cover_index.get(p.slug) %}
+            {% set blurb = homepage_blurb_index.get(p.slug) %}
+            {% if cover %}
+              <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
             {% endif %}
-          </span>
-        </a>
-      {% endfor %}
+            <span class="btn-text">
+              {{ p.label }}
+              {% if blurb %}
+                <span class="btn-subtext">{{ blurb }}</span>
+              {% endif %}
+            </span>
+          </a>
+        {% endfor %}
+      </div>
     </div>
 
     <hr class="post-separator" aria-hidden="true" />
 
-    <h2 class="section-title section-title--accent">Backlog of Brilliance!</h2>
-    <div class="featured-buttons" aria-label="Backlog project links">
-      {% for p in homepage_projects.backlog %}
-        <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
-          {% set cover = homepage_cover_index.get(p.slug) %}
-          {% set blurb = homepage_blurb_index.get(p.slug) %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
-          {% endif %}
-          <span class="btn-text">
-            {{ p.label }}
-            {% if blurb %}
-              <span class="btn-subtext">{{ blurb }}</span>
+    <div class="section-panel section-panel--backlog">
+      <h2 class="section-title section-title--accent">Backlog of Brilliance!</h2>
+      <div class="featured-buttons" aria-label="Backlog project links">
+        {% for p in homepage_projects.backlog %}
+          <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+            {% set cover = homepage_cover_index.get(p.slug) %}
+            {% set blurb = homepage_blurb_index.get(p.slug) %}
+            {% if cover %}
+              <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
             {% endif %}
-          </span>
-        </a>
-      {% endfor %}
+            <span class="btn-text">
+              {{ p.label }}
+              {% if blurb %}
+                <span class="btn-subtext">{{ blurb }}</span>
+              {% endif %}
+            </span>
+          </a>
+        {% endfor %}
 
-      <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
+        <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
+      </div>
     </div>
 
     <hr class="post-separator" aria-hidden="true" />
 
-    <h2 class="section-title section-title--accent">Site Launch...</h2>
-    <div class="featured-buttons" aria-label="Site launch posts">
-      <a class="btn-link btn-link--with-thumb" href="/posts/hello-crank">
-        {% set cover = homepage_cover_index.get('hello-crank') %}
-        {% if cover %}
-          <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
-        {% endif %}
-        <span class="btn-text">Hello Crank</span>
-      </a>
-      <a class="btn-link btn-link--with-thumb" href="/posts/why-crank">
-        {% set cover = homepage_cover_index.get('why-crank') %}
-        {% if cover %}
-          <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
-        {% endif %}
-        <span class="btn-text">Why Crank</span>
-      </a>
+    <div class="section-panel section-panel--launch">
+      <h2 class="section-title section-title--accent">Site Launch...</h2>
+      <div class="featured-buttons" aria-label="Site launch posts">
+        <a class="btn-link btn-link--with-thumb" href="/posts/hello-crank">
+          {% set cover = homepage_cover_index.get('hello-crank') %}
+          {% if cover %}
+            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+          {% endif %}
+          <span class="btn-text">Hello Crank</span>
+        </a>
+        <a class="btn-link btn-link--with-thumb" href="/posts/why-crank">
+          {% set cover = homepage_cover_index.get('why-crank') %}
+          {% if cover %}
+            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+          {% endif %}
+          <span class="btn-text">Why Crank</span>
+        </a>
+      </div>
+
+      <div class="home-cta" aria-label="Contact call to action">
+        <span class="home-cta-slot" aria-label="Email me">
+          <script type="text/javascript">
+            // Keep the email address out of the static HTML to reduce bot scraping.
+            (function () {
+              const user = "oernster";
+              const domain = "codecrafter.uk";
+              const link = `mailto:${user}@${domain}`;
+              const label = "Let’s build something ~ email me.";
+              // Write into this span without leaking the address into the DOM as plain text.
+              document.currentScript.insertAdjacentHTML(
+                "beforebegin",
+                `<a class=\"home-cta-link\" href=\"${link}\">${label}</a>`
+              );
+            })();
+          </script>
+          <noscript>Let’s build something ~ email me. (Enable JavaScript to reveal the email link.)</noscript>
+        </span>
+      </div>
     </div>
   </section>
 {% endblock %}

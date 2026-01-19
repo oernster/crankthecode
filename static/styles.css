@@ -816,6 +816,12 @@ a[href=\"/\"]:hover {
   font-weight: 700;
   line-height: 1.2;
   box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease,
+    color 0.18s ease;
 }
 
 /* Button links with tiny thumbnails */
@@ -902,6 +908,43 @@ a[href=\"/\"]:hover {
 /* Homepage featured project buttons */
 .featured-projects {
   margin: 0.25rem 0 2.25rem;
+}
+
+/* Homepage: subtle section panels to improve scan-ability */
+.section-panel {
+  padding: 1.1rem 1.1rem 1.25rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-panel--backlog {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.home-cta {
+  margin-top: 1.15rem;
+  text-align: center;
+}
+
+.home-cta-slot {
+  display: inline;
+}
+
+.home-cta-link {
+  display: inline-block;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 242, 168, 0.92);
+  border: 1px solid rgba(255, 242, 168, 0.55);
+  color: #171827;
+}
+
+.home-cta-link:hover {
+  background: rgba(255, 242, 168, 1);
+  color: #171827;
+  text-shadow: none;
 }
 
 .featured-projects .section-title {
