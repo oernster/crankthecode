@@ -3,7 +3,7 @@ title: "Fancy Clock"
 date: "2026-01-19 02:35"
 tags: ["clock", "fancy", "fun", "internationalisation"]
 ---
-I wrote a FancyClock app for fun.
+I wrote a FancyClock app for fun: [FancyClock code](https://github.com/oernster/FancyClock).
 This was quite the project since I wanted to knock something up quickly to show off to a friend.
 However, it turned out to be more complex as I added more features.
 
