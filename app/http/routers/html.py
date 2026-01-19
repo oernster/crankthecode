@@ -15,6 +15,16 @@ from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
 router = APIRouter()
 
 
+def _post_cover_index(blog: BlogService) -> dict[str, str]:
+    """Map post slug -> cover_image_url (only when present)."""
+
+    covers: dict[str, str] = {}
+    for p in blog.list_posts():
+        if p.cover_image_url:
+            covers[p.slug] = p.cover_image_url
+    return covers
+
+
 def _sidebar_categories() -> list[dict[str, str]]:
     categories = [
         ("Python Projects", "python"),
@@ -63,10 +73,36 @@ def _load_about_html() -> str:
 @router.get("/", response_class=HTMLResponse)
 async def homepage(
     request: Request,
+    blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
-    ctx.update({"is_homepage": True})
+    cover_index = _post_cover_index(blog)
+    ctx.update(
+        {
+            "is_homepage": True,
+            "homepage_projects": {
+                "featured": [
+                    {"slug": "stellody", "label": "Stellody"},
+                    {"slug": "3D-printing-info", "label": "3D printing info"},
+                    {"slug": "calendifier", "label": "Calendifier"},
+                    {"slug": "trainer", "label": "Trainer"},
+                    {"slug": "axisdb", "label": "AxisDB"},
+                    {"slug": "edcolonizationasst", "label": "EDColonizationAsst"},
+                ],
+                "backlog": [
+                    {"slug": "3D-printer-launcher", "label": "3D printer launcher"},
+                    {"slug": "audiodeck", "label": "Audiodeck"},
+                    {"slug": "elevator", "label": "Elevator"},
+                    {"slug": "fancy-clock", "label": "Fancy clock"},
+                    {"slug": "galacticunicorn", "label": "Galactic Unicorn"},
+                    {"slug": "numismatism", "label": "Numismatism"},
+                    {"slug": "snarkapi", "label": "SnarkAPI"},
+                ],
+            },
+            "homepage_cover_index": cover_index,
+        }
+    )
     return templates.TemplateResponse("index.html", ctx)
 
 

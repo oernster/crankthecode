@@ -7,7 +7,12 @@
     {% for post in posts %}
       <div class="post-item" data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}">
         <div class="post-heading">
-          <a class="btn-link" href="/posts/{{ post.slug }}">{{ post.title }}</a>
+          <a class="btn-link btn-link--with-thumb" href="/posts/{{ post.slug }}">
+            {% if post.cover_image_url %}
+              <img class="btn-thumb" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
+            {% endif %}
+            <span class="btn-text">{{ post.title }}</span>
+          </a>
           <small>{{ post.date }} — Tags:
             {% for tag in post.tags %}
               <span class="tag">{{ tag }}</span>

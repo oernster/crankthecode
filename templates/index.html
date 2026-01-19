@@ -6,26 +6,33 @@
   <section class="featured-projects" aria-label="Projects">
     <h2 class="section-title section-title--accent">Featured Projects...</h2>
     <div class="featured-buttons" aria-label="Featured project links">
-      <a class="btn-link btn-link--primary featured-primary" href="/posts/stellody">Stellody</a>
-
-      <a class="btn-link" href="/posts/3D-printing-info">3D printing info</a>
-      <a class="btn-link" href="/posts/calendifier">Calendifier</a>
-      <a class="btn-link" href="/posts/trainer">Trainer</a>
-      <a class="btn-link" href="/posts/axisdb">AxisDB</a>
-      <a class="btn-link" href="/posts/edcolonizationasst">EDColonizationAsst</a>
+      {% for p in homepage_projects.featured %}
+        <a
+          class="btn-link btn-link--with-thumb{% if loop.first %} btn-link--primary featured-primary{% endif %}"
+          href="/posts/{{ p.slug }}"
+        >
+          {% set cover = homepage_cover_index.get(p.slug) %}
+          {% if cover %}
+            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+          {% endif %}
+          <span class="btn-text">{{ p.label }}</span>
+        </a>
+      {% endfor %}
     </div>
 
     <hr class="post-separator" aria-hidden="true" />
 
     <h2 class="section-title section-title--accent">Backlog of Brilliance!</h2>
     <div class="featured-buttons" aria-label="Backlog project links">
-      <a class="btn-link" href="/posts/3D-printer-launcher">3D printer launcher</a>
-      <a class="btn-link" href="/posts/audiodeck">Audiodeck</a>
-      <a class="btn-link" href="/posts/elevator">Elevator</a>
-      <a class="btn-link" href="/posts/fancy-clock">Fancy clock</a>
-      <a class="btn-link" href="/posts/galacticunicorn">Galactic Unicorn</a>
-      <a class="btn-link" href="/posts/numismatism">Numismatism</a>
-      <a class="btn-link" href="/posts/snarkapi">SnarkAPI</a>
+      {% for p in homepage_projects.backlog %}
+        <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+          {% set cover = homepage_cover_index.get(p.slug) %}
+          {% if cover %}
+            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+          {% endif %}
+          <span class="btn-text">{{ p.label }}</span>
+        </a>
+      {% endfor %}
 
       <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
     </div>

@@ -641,6 +641,26 @@ a[href=\"/\"]:hover {
   box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
 }
 
+/* Button links with tiny thumbnails */
+.btn-link--with-thumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.btn-text {
+  display: inline-block;
+}
+
 .btn-link--primary {
   background: rgba(203, 182, 255, 0.92);
   box-shadow: 0 16px 34px rgba(203, 182, 255, 0.18);
