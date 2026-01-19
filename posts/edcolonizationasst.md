@@ -3,9 +3,10 @@ title: "Elite Dangerous Colonization Assistant"
 date: "2026-01-19 04:40"
 tags: ["elite", "frontier", "dangerous", "colonization", "trailblazer", "gaming"]
 ---
+I developed: [EDColonizationAsst](https://github.com/oernster/EDColonizationAsst).
 I play the game Elite Dangerous a lot and have a full HOTAS and rudder pedals and GameGlass setup for it on a tablet.
-I wanted the ability to manage a shopping list of goods and commodities for when you're building out new space stations and orbital sites etc..
-So I wrote: [EDColonizationAsst code](https://github.com/oernster/EDColonizationAsst).
+I wanted the ability to manage a shopping list of goods and commodities for when you're building out new space stations and orbital sites
+on a second tablet (I run Samsung Galaxy A9+ tablets).
 
 # Supported features:
 - Add heartbeat to keep awake and make tablet only.
