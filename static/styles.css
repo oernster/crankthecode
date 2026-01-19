@@ -947,6 +947,48 @@ a[href=\"/\"]:hover {
   text-shadow: none;
 }
 
+/* Scroll-to-top button (all pages) */
+.scroll-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 242, 168, 0.55);
+  background: rgba(255, 242, 168, 0.92);
+  color: #171827;
+  cursor: pointer;
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease;
+}
+
+.scroll-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  background: rgba(255, 242, 168, 1);
+}
+
+.scroll-top:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.65);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-top {
+    transition: none;
+  }
+}
+
 .featured-projects .section-title {
   margin-top: 1.25rem;
 }
