@@ -13,7 +13,7 @@ extra_images:
   - /static/images/qidi.png
   - /static/images/voron.png
 ---
-I developed: [3D printer launcher](https://github.com/oernster/3D-Printer-Launcher).
+I developed: [3D Printer Launcher](https://github.com/oernster/3D-Printer-Launcher).
 I do a lot of 3D printing and construction/playing with electronics and software relating to 3D printing.
 This is a simple launcher tool written in python and PySide6 you can use and integrate with OBS Studio to 
 display real time data while printing

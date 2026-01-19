@@ -12,7 +12,7 @@ image: /static/images/audiodeck1.png
 extra_images:
   - /static/images/audiodeck2.png
 ---
-I developed: [AudioDeck](https://github.com/oernster/AudioDeck).
+I developed: [Audio Deck](https://github.com/oernster/AudioDeck).
 A professional audio device switcher for Windows with Stream Deck integration.
 
 ## Overview

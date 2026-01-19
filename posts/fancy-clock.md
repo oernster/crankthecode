@@ -12,7 +12,7 @@ extra_images:
   - /static/images/fancy-clock2.jpg
   - /static/images/fancy-clock3.jpg
 ---
-I wrote a FancyClock app for fun: [FancyClock](https://github.com/oernster/FancyClock).
+I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/FancyClock).
 
 # Challenges along the way
 This was quite the project since I wanted to knock something up quickly to show off to a friend

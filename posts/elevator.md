@@ -2,7 +2,7 @@
 title: "Elevator"
 date: "2026-01-19 04:30"
 tags: ["python", "Django", "React", "control panel"]
-blurb: "Web panel"
+blurb: "Elevator control panel"
 one_liner: "A web-based elevator control panel built with Django and React."
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
