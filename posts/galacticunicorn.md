@@ -8,7 +8,7 @@ tags: ["GalacticUnicorn", "MicroPython"]
 image: /static/images/galacticunicorn.png
 ---
 I played with micropython and a Galactic Unicorn device: [GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn).
-TBH I don't get on with micropython since it's such a limited feature set but it was quite fun to do.
+TBH I don't really get on with micropython since it's such a limited feature set but it was quite fun to do.
 
 ## Overview
 Button controls on the Galactic Unicorn itself...
