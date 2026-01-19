@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import re
+import html
 from datetime import datetime
 from email.utils import format_datetime
 from urllib.parse import urljoin
@@ -21,6 +22,32 @@ ET.register_namespace("media", _MEDIA_NS)
 
 _CONTENT_NS = "http://purl.org/rss/1.0/modules/content/"
 ET.register_namespace("content", _CONTENT_NS)
+
+
+_CDATA_SECTION_RE = re.compile(r"&lt;!\[CDATA\[(.*?)\]\]&gt;", flags=re.S)
+
+
+def _wrap_cdata(text: str) -> str:
+    """Wrap raw text in a CDATA section.
+
+    ElementTree doesn't support emitting CDATA natively. We embed CDATA markers
+    into the element text, then post-process the serialized XML to turn the
+    escaped markers back into real CDATA sections.
+
+    Note: `]]>` is not allowed inside a CDATA section; split it safely.
+    """
+
+    safe = text.replace("]]>", "]]]]><![CDATA[>")
+    return f"<![CDATA[{safe}]]>"
+
+
+def _unescape_cdata_sections(xml_text: str) -> str:
+    """Convert escaped CDATA markers back into real CDATA sections."""
+
+    return _CDATA_SECTION_RE.sub(
+        lambda m: "<![CDATA[" + html.unescape(m.group(1)) + "]]>",
+        xml_text,
+    )
 
 
 def _site_url(request: Request) -> str:
@@ -99,27 +126,58 @@ async def rss_feed(
         guid = ET.SubElement(item, "guid", {"isPermaLink": "true"})
         guid.text = link
         ET.SubElement(item, "pubDate").text = _rfc822_date(post.date)
-        ET.SubElement(item, "description").text = post.summary_html
+
+        # Many readers (including Feedly list views) derive thumbnails from the
+        # first <img> in the item's HTML body, not from Media RSS alone.
+        # Put HTML in CDATA so it's not entity-escaped.
+        description_elem = ET.SubElement(item, "description")
 
         # Feedly and many RSS readers pick up per-item images via Media RSS.
         # We take the first <img> from the full post content (author can add
         # images to markdown, e.g. `![Alt](/static/images/foo.png)`).
         detail = blog.get_post(post.slug)
         if detail is None:
+            # Still emit a description; without detail we can't reliably pick an image.
+            description_elem.text = _wrap_cdata(post.summary_html)
             continue
 
         img_src = detail.cover_image_url or _first_image_src(detail.content_html)
         if not img_src:
+            description_elem.text = _wrap_cdata(post.summary_html)
+
+            # Still provide full content if available.
+            content_elem = ET.SubElement(item, f"{{{_CONTENT_NS}}}encoded")
+            content_elem.text = _wrap_cdata(detail.content_html)
             continue
 
         img_url = img_src
         if not img_url.startswith("http://") and not img_url.startswith("https://"):
             img_url = urljoin(base_url, img_url)
 
+        # Description: keep it short (image + excerpt) so list views can pick it up.
+        description_html = (
+            f'<p><img src="{html.escape(img_url, quote=True)}" alt="" /></p>'
+            + post.summary_html
+        )
+        description_elem.text = _wrap_cdata(description_html)
+
+        # Full content for readers that use RSS content instead of linking out.
+        content_elem = ET.SubElement(item, f"{{{_CONTENT_NS}}}encoded")
+        content_html = (
+            f'<p><img src="{html.escape(img_url, quote=True)}" alt="" /></p>'
+            + detail.content_html
+        )
+        content_elem.text = _wrap_cdata(content_html)
+
+        mime = _guess_image_mime(img_url)
         ET.SubElement(
             item,
             f"{{{_MEDIA_NS}}}content",
-            {"url": img_url, "medium": "image"},
+            {
+                "url": img_url,
+                "medium": "image",
+                **({"type": mime} if mime else {}),
+            },
         )
 
         # Some readers prefer `media:thumbnail` for list views.
@@ -129,7 +187,6 @@ async def rss_feed(
             {"url": img_url},
         )
 
-        mime = _guess_image_mime(img_url)
         if mime:
             ET.SubElement(
                 item,
@@ -138,5 +195,7 @@ async def rss_feed(
             )
 
     xml_bytes = ET.tostring(rss, encoding="utf-8", xml_declaration=True)
-    return Response(content=xml_bytes, media_type="application/rss+xml")
+    xml_text = xml_bytes.decode("utf-8")
+    xml_text = _unescape_cdata_sections(xml_text)
+    return Response(content=xml_text.encode("utf-8"), media_type="application/rss+xml")
 

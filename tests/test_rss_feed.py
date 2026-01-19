@@ -99,3 +99,39 @@ def test_rss_items_include_media_image_when_post_contains_img_tag():
     finally:
         os.environ.pop("SITE_URL", None)
 
+
+def test_rss_items_include_content_encoded_html_with_leading_img_for_feed_thumbnails():
+    """Feed readers like Feedly often derive list thumbnails from item HTML.
+
+    Ensure we provide `content:encoded` containing an <img> at the top.
+    """
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/rss.xml")
+        assert resp.status_code == 200
+
+        root = ET.fromstring(resp.text)
+        channel = root.find("channel")
+        assert channel is not None
+
+        items = channel.findall("item")
+        assert len(items) >= 1
+
+        # Look for at least one content:encoded element containing an <img src="...">.
+        content_ns = "http://purl.org/rss/1.0/modules/content/"
+        content_tag = f"{{{content_ns}}}encoded"
+
+        encoded = [item.find(content_tag) for item in items]
+        encoded = [elem for elem in encoded if elem is not None and elem.text]
+        assert len(encoded) >= 1
+
+        encoded_text = encoded[0].text or ""
+        assert "<img" in encoded_text
+        assert "https://example.com/" in encoded_text
+    finally:
+        os.environ.pop("SITE_URL", None)
+
