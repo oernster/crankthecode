@@ -60,7 +60,21 @@ def _base_context(request: Request) -> dict:
         "request": request,
         "sidebar_categories": _sidebar_categories(),
         "current_q": (request.query_params.get("q") or "").strip(),
+        "breadcrumb_items": [
+            {"label": "Home", "href": "/"},
+        ],
     }
+
+
+def _category_label_for_query(query: str) -> str | None:
+    """Return the friendly sidebar label for an exact category query."""
+
+    if not query:
+        return None
+    for c in _sidebar_categories():
+        if c["query"] == query:
+            return c["label"]
+    return None
 
 
 def _load_about_html() -> str:
@@ -93,6 +107,7 @@ async def homepage(
     ctx.update(
         {
             "is_homepage": True,
+            "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "homepage_projects": {
                 "featured": [
                     {"slug": "stellody", "label": "Stellody"},
@@ -139,7 +154,31 @@ async def posts_index(
         for p in blog.list_posts()
     ]
     ctx = _base_context(request)
-    ctx.update({"posts": posts, "is_homepage": False})
+    current_q = ctx.get("current_q", "")
+    category_label = _category_label_for_query(current_q)
+    filtered_href = (
+        f"/posts?q={quote(current_q, safe='')}" if current_q else "/posts"
+    )
+    ctx.update(
+        {
+            "posts": posts,
+            "is_homepage": False,
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Posts", "href": "/posts"},
+                *(
+                    [
+                        {
+                            "label": category_label or current_q,
+                            "href": filtered_href,
+                        }
+                    ]
+                    if current_q
+                    else []
+                ),
+            ],
+        }
+    )
     return templates.TemplateResponse("posts.html", ctx)
 
 
@@ -155,6 +194,10 @@ async def about_page(
             "is_homepage": False,
             "back_link_href": "/",
             "back_link_label": "← Back to posts",
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "About", "href": "/about"},
+            ],
         }
     )
     return templates.TemplateResponse("about.html", ctx)
@@ -189,6 +232,11 @@ async def read_post(
             "is_homepage": False,
             "back_link_href": "/posts",
             "back_link_label": "← Back to posts",
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Posts", "href": "/posts"},
+                {"label": detail.title, "href": f"/posts/{detail.slug}"},
+            ],
         }
     )
     return templates.TemplateResponse("post.html", ctx)

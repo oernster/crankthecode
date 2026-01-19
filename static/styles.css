@@ -101,6 +101,19 @@ body {
     padding: 2.75rem 1rem;
   }
 
+  .header-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .header-gutter {
+    display: none;
+  }
+
+  .header-topbar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
   .page-layout {
     grid-template-columns: 1fr;
   }
@@ -116,6 +129,113 @@ body {
   width: 100%;
   max-width: var(--content-max);
   margin: -2.5rem auto 1.5rem;
+}
+
+/* Header layout aligned with the main content column (accounts for the sidebar). */
+.header-layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.header-main {
+  width: 100%;
+}
+
+.header-email {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0.25rem;
+}
+
+.header-email-link {
+  color: #8bb3ff;
+}
+
+.header-email-link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(139, 179, 255, 0.35);
+}
+
+.header-topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.header-about-wrap {
+  justify-self: center;
+}
+
+/* Icon cluster (top-right): favicon above RSS (aligned right), search next to RSS below */
+.header-actions {
+  justify-self: end;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    ". home"
+    "search rss";
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Make search + RSS controls match the favicon (crank icon) size */
+.header-actions .icon-btn,
+.header-actions .rss-link {
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-actions .icon-btn {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.header-actions .rss-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.header-actions .home-favicon-link {
+  grid-area: home;
+}
+
+.header-actions .search-toggle {
+  grid-area: search;
+}
+
+.header-actions .rss-link {
+  grid-area: rss;
+}
+
+/* Home favicon in the topbar should match the original landing-page styling */
+.header-home-link {
+  position: static;
+  transform: none;
+  width: 64px;
+  height: 64px;
+}
+
+.header-about-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* (legacy) */
+.header-top-links {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 1rem;
 }
 
 .top-about-link {
@@ -184,6 +304,31 @@ body {
   margin-bottom: 2rem;
 }
 
+/* On post pages (back link present), align the title row with the email row:
+   email | title | icons */
+.header-layout--has-back .site-header {
+  grid-template-columns: 1fr auto auto;
+}
+
+.header-layout--has-back .site-title-link {
+  justify-self: start;
+}
+
+/* Ensure the site title styling is consistent even when rendered as a <span> */
+.site-title {
+  margin: 0;
+  text-align: center;
+  color: #cbb6ff;
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 1.15;
+}
+
+.site-title-link {
+  justify-self: center;
+  color: inherit;
+}
+
 .site-title {
   margin: 0;
   text-align: center;
@@ -222,10 +367,38 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  /* Pale yellow background, red icon (foreground) */
+/* Pale yellow background, red icon (foreground) */
   color: #ff4d4d;
   background: rgba(255, 242, 168, 0.92);
   border: 1px solid rgba(255, 242, 168, 0.55);
+}
+
+/* Home favicon button: top-right, rounded, and 2x the RSS icon size */
+.home-favicon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 242, 168, 0.92);
+  border: 1px solid rgba(255, 242, 168, 0.55);
+}
+
+.home-favicon-link:hover {
+  background: rgba(255, 242, 168, 1);
+}
+
+.home-favicon-link:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.65);
+  outline-offset: 3px;
+}
+
+.home-favicon-icon {
+  width: 52px;
+  height: 52px;
+  display: block;
+  border-radius: 14px;
 }
 
 .icon-btn {
@@ -424,7 +597,8 @@ body {
 }
 
 h1, h2, h3 {
-  color: #cbb6ff;
+  /* Post/page headings should match the site's pale yellow accent */
+  color: rgba(255, 242, 168, 0.92);
   font-weight: 700;
   margin-bottom: 1.5rem;
 }
