@@ -2,6 +2,13 @@
 title: "Fancy Clock"
 date: "2026-01-19 02:35"
 tags: ["clock", "fancy", "fun", "internationalisation"]
+# Primary (cover) image used by the site header.
+# This will NOT be duplicated in the post body (the renderer strips a matching standalone image).
+image: /static/images/fancy-clock.png
+
+extra_images:
+  - /static/images/fancy-clock2.jpg
+  - /static/images/fancy-clock3.jpg
 ---
 I wrote a FancyClock app for fun: [FancyClock](https://github.com/oernster/FancyClock).
 This was quite the project since I wanted to knock something up quickly to show off to a friend.
@@ -20,4 +27,6 @@ However, it turned out to be more complex as I added more features.
 - Ability to search for a city to find your time zone.
 - Custom skins with many choices of animated video backgrounds for the analogue clock.
 
-![Fancy Clock cover](/static/images/fancy-clock.png)
+![Fancy Clock 2](/static/images/fancy-clock2.png)
+
+![Fancy Clock 3](/static/images/fancy-clock3.png)

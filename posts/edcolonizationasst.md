@@ -2,6 +2,13 @@
 title: "Elite Dangerous Colonization Assistant"
 date: "2026-01-19 04:40"
 tags: ["elite", "frontier", "dangerous", "colonization", "trailblazer", "gaming"]
+
+# Used by the site as the cover image AND by the RSS feed thumbnail.
+# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
+image: /static/images/EDColonizationAsst.png
+
+extra_images:
+  - /static/images/EDColonizationAsst2.png
 ---
 I developed: [EDColonizationAsst](https://github.com/oernster/EDColonizationAsst).
 I play the game Elite Dangerous a lot and have a full HOTAS and rudder pedals and GameGlass setup for it on a tablet.
@@ -32,5 +39,3 @@ on a second tablet (I run Samsung Galaxy A9+ tablets).
 - Fedora
 - RHEL
 - Void
-
-![EDColonizationAsst cover](/static/images/EDColonizationAsst.png)

@@ -15,6 +15,7 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
                 date="2020-01-01 12:00",
                 tags=("t",),
                 image=None,
+                extra_images=(),
                 content_markdown="First para\n\nSecond para",
             ),
             MarkdownPost(
@@ -23,6 +24,7 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
                 date="2021-01-01 12:00",
                 tags=(),
                 image=None,
+                extra_images=(),
                 content_markdown="Hello\n\nMore",
             ),
         )
@@ -45,6 +47,7 @@ def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_matching_image
                 date="2021-01-01 12:00",
                 tags=(),
                 image="/static/images/cover.jpg",
+                extra_images=(),
                 content_markdown="Intro\n\n![Banner](/static/images/cover.jpg)\n\nMore",
             ),
         )

@@ -86,6 +86,12 @@ class ListPostsUseCase:
                 cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
                     post.content_markdown
                 )
+
+            # Also strip any `extra_images` (if present) so they don't appear twice
+            # (once in the custom gallery and again if the author embedded them).
+            for extra_url in getattr(post, "extra_images", ()):
+                markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, extra_url)
+
             markdown_for_summary = markdown_wo_cover
             summary_md = _extract_summary_markdown(markdown_for_summary)
             summary_html = self.renderer.render(summary_md)

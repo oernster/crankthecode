@@ -18,13 +18,6 @@ async def homepage(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
-    # Homepage: keep it lightweight by rendering a short excerpt, not full content.
-    # We already have `summary_html` from `blog.list_posts()`.
-    def _html_to_text(html: str) -> str:
-        # Good-enough tag strip for excerpts; avoids pulling in a full HTML parser.
-        text = re.sub(r"<[^>]+>", "", html)
-        return " ".join(text.split())
-
     posts = [
         {
             "slug": p.slug,
@@ -32,7 +25,8 @@ async def homepage(
             "date": p.date,
             "tags": list(p.tags),
             "cover_image_url": p.cover_image_url,
-            "summary_text": _html_to_text(p.summary_html),
+            # Keep links in summaries clickable on the homepage.
+            "summary_html": p.summary_html,
         }
         for p in blog.list_posts()
     ]
@@ -59,6 +53,7 @@ async def read_post(
         "date": detail.date,
         "tags": list(detail.tags),
         "cover_image_url": detail.cover_image_url,
+        "extra_image_urls": list(getattr(detail, "extra_image_urls", [])),
         "content": detail.content_html,
     }
     return templates.TemplateResponse("post.html", {"request": request, "post": post})

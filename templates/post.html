@@ -18,13 +18,20 @@
       </a>
     </div>
   </header>
-  {% if post.cover_image_url %}
-    <img class="post-cover" src="{{ post.cover_image_url }}" alt="" />
-  {% endif %}
   <div class="post-heading">
     <h1>{{ post.title }}</h1>
     <p><small>{{ post.date }} — Tags: {{ post.tags | join(", ") }}</small></p>
   </div>
+  {% if post.cover_image_url %}
+    <img class="post-cover" src="{{ post.cover_image_url }}" alt="" />
+  {% endif %}
+  {% if post.extra_image_urls %}
+    <div class="post-extra-images" aria-label="Additional images">
+      {% for url in post.extra_image_urls %}
+        <img class="post-extra-image" src="{{ url }}" alt="" loading="lazy" />
+      {% endfor %}
+    </div>
+  {% endif %}
   <div class="post-content{% if post.slug == 'hello-crank' %} post-content--centered{% endif %}">
     {{ post.content | safe }}
   </div>

@@ -34,5 +34,7 @@ async def get_post(slug: str, blog: BlogService = Depends(get_blog_service)):
         title=post.title,
         date=post.date,
         tags=list(post.tags),
+        cover_image_url=post.cover_image_url,
+        extra_image_urls=list(getattr(post, "extra_image_urls", [])),
         content_html=post.content_html,
     )

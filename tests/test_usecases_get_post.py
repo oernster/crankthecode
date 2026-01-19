@@ -21,6 +21,7 @@ def test_get_post_renders_html_when_found():
                 date="2020-01-01 12:00",
                 tags=(),
                 image=None,
+                extra_images=(),
                 content_markdown="# Title",
             ),
         )
@@ -41,6 +42,7 @@ def test_get_post_uses_frontmatter_image_as_cover_and_strips_matching_image_para
                 date="2020-01-01 12:00",
                 tags=(),
                 image="/static/images/cover.png",
+                extra_images=(),
                 content_markdown="Intro\n\n![Banner](/static/images/cover.png)\n\nMore text",
             ),
         )

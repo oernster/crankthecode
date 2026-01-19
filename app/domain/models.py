@@ -13,6 +13,7 @@ class MarkdownPost:
     date: str
     tags: Sequence[str]
     image: str | None
+    extra_images: Sequence[str]
     content_markdown: str
 
 
@@ -37,4 +38,5 @@ class PostDetail:
     date: str
     tags: Sequence[str]
     cover_image_url: str | None
+    extra_image_urls: Sequence[str]
     content_html: str

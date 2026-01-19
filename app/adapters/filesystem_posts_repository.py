@@ -39,8 +39,11 @@ class FilesystemPostsRepository(PostsRepository):
         published_at_raw = post.get("date", "1900-01-01")
         tags = post.get("tags", [])
         image = post.get("image")
+        extra_images_raw = post.get("extra_images", [])
         if tags is None:
             tags = []
+        if extra_images_raw is None:
+            extra_images_raw = []
 
         published_at = FilesystemPostsRepository._normalize_published_at(
             published_at_raw
@@ -52,6 +55,7 @@ class FilesystemPostsRepository(PostsRepository):
             date=published_at,
             tags=tuple(str(t) for t in tags),
             image=str(image) if image else None,
+            extra_images=tuple(str(u) for u in extra_images_raw),
             content_markdown=post.content,
         )
 

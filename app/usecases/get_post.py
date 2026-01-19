@@ -20,6 +20,7 @@ class GetPostUseCase:
             return None
 
         cover_url = getattr(post, "image", None)
+        extra_urls = tuple(getattr(post, "extra_images", ()))
         markdown_wo_cover = post.content_markdown
         if cover_url:
             markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, cover_url)
@@ -27,6 +28,10 @@ class GetPostUseCase:
             cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
                 post.content_markdown
             )
+
+        for extra_url in extra_urls:
+            markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, extra_url)
+
         html_content = self.renderer.render(markdown_wo_cover)
         return PostDetail(
             slug=post.slug,
@@ -34,5 +39,6 @@ class GetPostUseCase:
             date=post.date,
             tags=post.tags,
             cover_image_url=cover_url,
+            extra_image_urls=extra_urls,
             content_html=html_content,
         )

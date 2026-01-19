@@ -253,9 +253,17 @@ img {
   height: auto;
 }
 
+/* Center images inside post bodies (markdown-rendered) */
+.post-content img {
+  display: block;
+  margin: 1.25rem auto;
+  width: 100%;
+  max-width: 840px;
+}
+
 .post-cover-link {
   display: block;
-  max-width: 640px;
+  max-width: 840px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -263,11 +271,32 @@ img {
 .post-cover {
   display: block;
   width: 100%;
-  max-width: 640px;
+  max-width: 840px;
   border-radius: 14px;
   border: 0;
   box-shadow: none;
   margin: 0.5rem auto 1.25rem;
+}
+
+/* Post page: additional images from frontmatter `extra_images` */
+.post-extra-images {
+  width: 100%;
+  max-width: 840px;
+  margin: 0.5rem auto 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.post-extra-image {
+  display: block;
+  width: 100%;
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 14px;
 }
 
 .tag {
@@ -332,6 +361,15 @@ a[href=\"/\"] {
 .post-content--centered ol {
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Homepage: divider between posts */
+.post-separator {
+  height: 3px;
+  border: 0;
+  background: rgba(178, 255, 178, 0.9);
+  margin: 2rem 0;
+  border-radius: 999px;
 }
 
 a[href=\"/\"]:hover {

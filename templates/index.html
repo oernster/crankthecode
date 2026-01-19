@@ -48,11 +48,6 @@
   <div>
     {% for post in posts %}
       <div class="post-item" data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}">
-        {% if post.cover_image_url %}
-          <a class="post-cover-link" href="/posts/{{ post.slug }}" aria-label="Open {{ post.title }}">
-            <img class="post-cover" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
-          </a>
-        {% endif %}
         <div class="post-heading">
           <a class="btn-link" href="/posts/{{ post.slug }}">{{ post.title }}</a>
           <small>{{ post.date }} — Tags:
@@ -61,8 +56,16 @@
             {% endfor %}
           </small>
         </div>
-        <p class="post-summary">{{ post.summary_text }}</p>
+        {% if post.cover_image_url %}
+          <a class="post-cover-link" href="/posts/{{ post.slug }}" aria-label="Open {{ post.title }}">
+            <img class="post-cover" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
+          </a>
+        {% endif %}
+        <div class="post-summary">{{ post.summary_html | safe }}</div>
       </div>
+      {% if not loop.last %}
+        <hr class="post-separator" />
+      {% endif %}
     {% endfor %}
     </div>
   <script src="/static/search.js" defer></script>
