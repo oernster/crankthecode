@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.usecases.list_posts import _extract_cover_image_and_strip
+from app.usecases.list_posts import _extract_cover_image_and_strip, _strip_image_paragraph
 
 from app.domain.models import PostDetail
 from app.ports.markdown_renderer import MarkdownRenderer
@@ -19,9 +19,14 @@ class GetPostUseCase:
         if post is None:
             return None
 
-        cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
-            post.content_markdown
-        )
+        cover_url = getattr(post, "image", None)
+        markdown_wo_cover = post.content_markdown
+        if cover_url:
+            markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, cover_url)
+        else:
+            cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
+                post.content_markdown
+            )
         html_content = self.renderer.render(markdown_wo_cover)
         return PostDetail(
             slug=post.slug,

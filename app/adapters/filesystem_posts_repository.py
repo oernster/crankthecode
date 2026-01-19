@@ -38,6 +38,7 @@ class FilesystemPostsRepository(PostsRepository):
         title = post.get("title", slug)
         published_at_raw = post.get("date", "1900-01-01")
         tags = post.get("tags", [])
+        image = post.get("image")
         if tags is None:
             tags = []
 
@@ -50,6 +51,7 @@ class FilesystemPostsRepository(PostsRepository):
             title=str(title),
             date=published_at,
             tags=tuple(str(t) for t in tags),
+            image=str(image) if image else None,
             content_markdown=post.content,
         )
 

@@ -12,6 +12,7 @@ class MarkdownPost:
     title: str
     date: str
     tags: Sequence[str]
+    image: str | None
     content_markdown: str
 
 

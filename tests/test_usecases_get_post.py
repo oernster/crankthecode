@@ -20,6 +20,7 @@ def test_get_post_renders_html_when_found():
                 title="Hello",
                 date="2020-01-01 12:00",
                 tags=(),
+                image=None,
                 content_markdown="# Title",
             ),
         )
@@ -29,3 +30,25 @@ def test_get_post_renders_html_when_found():
 
     assert result is not None
     assert "<h1>" in result.content_html
+
+
+def test_get_post_uses_frontmatter_image_as_cover_and_strips_matching_image_paragraph():
+    repo = InMemoryPostsRepository(
+        posts=(
+            MarkdownPost(
+                slug="hello",
+                title="Hello",
+                date="2020-01-01 12:00",
+                tags=(),
+                image="/static/images/cover.png",
+                content_markdown="Intro\n\n![Banner](/static/images/cover.png)\n\nMore text",
+            ),
+        )
+    )
+    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    result = uc.execute("hello")
+
+    assert result is not None
+    assert result.cover_image_url == "/static/images/cover.png"
+    # Should not render the duplicated cover image inside the content.
+    assert "/static/images/cover.png" not in result.content_html

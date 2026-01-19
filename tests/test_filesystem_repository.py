@@ -11,6 +11,7 @@ def test_filesystem_repository_reads_frontmatter(tmp_path: Path):
         "title: Hello\n"
         "date: 2024-01-01\n"
         "tags: [python]\n"
+        "image: /static/images/hello.png\n"
         "---\n"
         "Hi there\n",
         encoding="utf-8",
@@ -23,3 +24,4 @@ def test_filesystem_repository_reads_frontmatter(tmp_path: Path):
     assert post.title == "Hello"
     assert post.date == "2024-01-01 12:00"
     assert list(post.tags) == ["python"]
+    assert post.image == "/static/images/hello.png"

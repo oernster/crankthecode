@@ -2,6 +2,7 @@
 title: "Why Crank?"
 date: "2026-01-19 01:00"
 tags: ["overengineering", "why"]
+image: "/static/images/me-cyborg.png"
 ---
 Everyone asks why.  
 Nobody asks *why not crank*.
@@ -28,5 +29,3 @@ With tags nobody uses.
 - Possibly cursed JavaScript pretending it’s clever
 
 Welcome. You’re part of this now.
-
-![Why Crank? cover](/static/images/me-cyborg.png)

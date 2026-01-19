@@ -53,6 +53,23 @@ def _extract_cover_image_and_strip(markdown_text: str) -> tuple[str | None, str]
     return None, markdown_text
 
 
+def _strip_image_paragraph(markdown_text: str, image_url: str) -> str:
+    """Remove a standalone image paragraph that points to `image_url`."""
+
+    paragraphs = [p.strip() for p in markdown_text.split("\n\n")]
+    paragraphs = [p for p in paragraphs if p]
+    if not paragraphs:
+        return markdown_text
+
+    for idx, para in enumerate(paragraphs):
+        match = _COVER_IMAGE_PARAGRAPH_RE.match(para)
+        if match and match.group(1) == image_url:
+            remaining = (paragraphs[:idx] + paragraphs[idx + 1 :])
+            return "\n\n".join(remaining).strip()
+
+    return markdown_text
+
+
 @dataclass(frozen=True, slots=True)
 class ListPostsUseCase:
     repo: PostsRepository
@@ -61,9 +78,14 @@ class ListPostsUseCase:
     def execute(self) -> Sequence[PostSummary]:
         posts = []
         for post in self.repo.list_posts():
-            cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
-                post.content_markdown
-            )
+            cover_url = getattr(post, "image", None)
+            markdown_wo_cover = post.content_markdown
+            if cover_url:
+                markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, cover_url)
+            else:
+                cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
+                    post.content_markdown
+                )
             markdown_for_summary = markdown_wo_cover
             summary_md = _extract_summary_markdown(markdown_for_summary)
             summary_html = self.renderer.render(summary_md)

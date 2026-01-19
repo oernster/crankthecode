@@ -90,6 +90,12 @@ def test_rss_items_include_media_image_when_post_contains_img_tag():
         # At least one post includes an image in its markdown.
         assert len(media_elems) >= 1
         assert media_elems[0].attrib.get("url", "").startswith("https://example.com/")
+
+        # Thumbnail should also be present for better Feedly support.
+        thumb_tag = f"{{{media_ns}}}thumbnail"
+        thumbs = [item.find(thumb_tag) for item in items]
+        thumbs = [elem for elem in thumbs if elem is not None]
+        assert len(thumbs) >= 1
     finally:
         os.environ.pop("SITE_URL", None)
 
