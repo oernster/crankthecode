@@ -1,6 +1,6 @@
 ---
 title: "Why Crank?"
-date: "2026-01-20 12:00"
+date: "2026-01-19 01:00"
 tags: ["overengineering", "why"]
 ---
 Everyone asks why.  
