@@ -45,9 +45,9 @@
       </button>
     </div>
   </div>
-  <ul>
+  <div>
     {% for post in posts %}
-      <li class="post-item" data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}">
+      <div class="post-item" data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}">
         {% if post.cover_image_url %}
           <a class="post-cover-link" href="/posts/{{ post.slug }}" aria-label="Open {{ post.title }}">
             <img class="post-cover" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
@@ -62,9 +62,9 @@
           </small>
         </div>
         <p class="post-summary">{{ post.summary_text }}</p>
-      </li>
+      </div>
     {% endfor %}
-  </ul>
+    </div>
   <script src="/static/search.js" defer></script>
 </body>
 </html>
