@@ -810,9 +810,9 @@ a[href=\"/\"]:hover {
   min-height: 56px;
   background: #8bb3ff;
   color: #ffffff;
-  border: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  padding: 0.7rem 1.25rem;
+  padding: 0.78rem 1.35rem;
   font-weight: 700;
   line-height: 1.2;
   box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
@@ -864,6 +864,7 @@ a[href=\"/\"]:hover {
 
 .btn-link--primary {
   background: rgba(203, 182, 255, 0.92);
+  border-color: rgba(203, 182, 255, 0.55);
   box-shadow: 0 16px 34px rgba(203, 182, 255, 0.18);
 }
 
@@ -887,6 +888,10 @@ a[href=\"/\"]:hover {
   transform: translateY(-1px);
   background: #a6c4ff;
   color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 14px 30px rgba(139, 179, 255, 0.22),
+    0 0 0 3px rgba(255, 242, 168, 0.18);
 }
 
 .btn-link:focus-visible {
@@ -910,9 +915,30 @@ a[href=\"/\"]:hover {
 .featured-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  /* More breathing room between discrete items */
+  gap: 0.9rem;
   justify-content: center;
   align-items: center;
+}
+
+/* Posts index: treat each post entry like a discrete row/card for easier scanning */
+.posts-index .post-item {
+  padding: 0.9rem 0.9rem 1.1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.posts-index .post-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* On /posts, separators should be subtle (homepage uses the bolder green separators). */
+.posts-index .post-separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 1.1rem 0;
 }
 
 .featured-primary {
