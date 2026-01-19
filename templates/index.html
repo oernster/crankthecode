@@ -7,7 +7,7 @@
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
 </head>
 <body>
-  <a class="top-about-link" href="#about-me">About Me</a>
+  <a class="top-about-link" href="/about">About Me</a>
   <header class="site-header">
     <div class="header-spacer" aria-hidden="true"></div>
     <h1 class="site-title">Crank The Code</h1>
@@ -46,13 +46,6 @@
       </button>
     </div>
   </div>
-  {% if about_html %}
-    <section id="about-me" class="about-section">
-      <div class="about-content">
-        {{ about_html | safe }}
-      </div>
-    </section>
-  {% endif %}
   <div>
     {% for post in posts %}
       <div class="post-item" data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}">

@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html>
+<script type="text/javascript">
+  // Slightly annoying but effective
+  const user = "oernster";
+  const domain = "codecrafter.uk";
+  const link = `mailto:${user}@${domain}`;
+  document.write(`<a href="${link}">${user}@${domain}</a>`);
+</script>
+<noscript>[Enable JavaScript to see my email address]</noscript>
 <head>
   <title>{{ post.title }}</title>
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
 </head>
 <body>
-  <a class="top-about-link" href="/#about-me">About Me</a>
+  <a class="top-about-link" href="/about">About Me</a>
   <header class="site-header">
     <a class="back-link" href="/">← Back to posts</a>
     <a class="site-title-link" href="/" aria-label="Homepage">
