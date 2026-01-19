@@ -64,3 +64,32 @@ def test_rss_items_have_expected_fields_and_absolute_links():
     finally:
         os.environ.pop("SITE_URL", None)
 
+
+def test_rss_items_include_media_image_when_post_contains_img_tag():
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/rss.xml")
+        assert resp.status_code == 200
+
+        root = ET.fromstring(resp.text)
+        channel = root.find("channel")
+        assert channel is not None
+
+        items = channel.findall("item")
+        assert len(items) >= 1
+
+        media_ns = "http://search.yahoo.com/mrss/"
+        media_tag = f"{{{media_ns}}}content"
+
+        media_elems = [item.find(media_tag) for item in items]
+        media_elems = [elem for elem in media_elems if elem is not None]
+
+        # At least one post includes an image in its markdown.
+        assert len(media_elems) >= 1
+        assert media_elems[0].attrib.get("url", "").startswith("https://example.com/")
+    finally:
+        os.environ.pop("SITE_URL", None)
+

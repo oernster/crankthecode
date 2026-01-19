@@ -28,3 +28,5 @@ With tags nobody uses.
 - Possibly cursed JavaScript pretending it’s clever
 
 Welcome. You’re part of this now.
+
+![Why Crank? cover](/static/images/me-cyborg.png)

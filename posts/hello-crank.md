@@ -5,3 +5,5 @@ tags: ["launch"]
 ---
 
 This is my first post. I wrote it in Markdown. I am unstoppable.
+
+![Hello Crank cover](/static/images/me.jpg)
