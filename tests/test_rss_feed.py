@@ -58,7 +58,8 @@ def test_rss_items_have_expected_fields_and_absolute_links():
 
         assert title
         assert link and link.startswith("https://example.com/")
-        assert guid == link
+        assert guid
+        assert guid.startswith(link)
         assert description
         assert pub_date
     finally:

@@ -17,6 +17,10 @@ from app.services.blog_service import BlogService
 
 router = APIRouter(tags=["rss"])
 
+# Bump this when you need feed readers to treat items as new (e.g. to re-ingest
+# thumbnails). This intentionally changes <guid> while keeping <link> stable.
+_FEED_ITEM_GUID_VERSION = "2"
+
 _MEDIA_NS = "http://search.yahoo.com/mrss/"
 ET.register_namespace("media", _MEDIA_NS)
 
@@ -123,8 +127,10 @@ async def rss_feed(
         ET.SubElement(item, "title").text = post.title
         link = urljoin(base_url, f"posts/{post.slug}")
         ET.SubElement(item, "link").text = link
-        guid = ET.SubElement(item, "guid", {"isPermaLink": "true"})
-        guid.text = link
+        # Feed readers key off <guid> for de-duplication and caching. If you need
+        # them to reprocess existing entries, bump `_FEED_ITEM_GUID_VERSION`.
+        guid = ET.SubElement(item, "guid", {"isPermaLink": "false"})
+        guid.text = f"{link}#rss-v{_FEED_ITEM_GUID_VERSION}"
         ET.SubElement(item, "pubDate").text = _rfc822_date(post.date)
 
         # Many readers (including Feedly list views) derive thumbnails from the
