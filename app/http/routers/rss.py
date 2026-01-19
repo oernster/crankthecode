@@ -155,8 +155,10 @@ async def rss_feed(
             img_url = urljoin(base_url, img_url)
 
         # Description: keep it short (image + excerpt) so list views can pick it up.
+        # Feedly thumbnail heuristics can be very strict: place a "naked" <img>
+        # as the very first node in the description (not wrapped in <p>).
         description_html = (
-            f'<p><img src="{html.escape(img_url, quote=True)}" alt="" /></p>'
+            f'<img src="{html.escape(img_url, quote=True)}" alt="" />'
             + post.summary_html
         )
         description_elem.text = _wrap_cdata(description_html)
@@ -164,7 +166,7 @@ async def rss_feed(
         # Full content for readers that use RSS content instead of linking out.
         content_elem = ET.SubElement(item, f"{{{_CONTENT_NS}}}encoded")
         content_html = (
-            f'<p><img src="{html.escape(img_url, quote=True)}" alt="" /></p>'
+            f'<img src="{html.escape(img_url, quote=True)}" alt="" />'
             + detail.content_html
         )
         content_elem.text = _wrap_cdata(content_html)
