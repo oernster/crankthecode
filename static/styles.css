@@ -15,6 +15,31 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Top-of-page call to action */
+.top-about-link {
+  display: block;
+  width: fit-content;
+  margin: -2.5rem auto 1.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: rgba(178, 255, 178, 0.2);
+  border: 1px solid rgba(178, 255, 178, 0.55);
+  color: rgba(233, 231, 255, 0.92);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.top-about-link:hover {
+  background: rgba(178, 255, 178, 0.3);
+  color: #ffffff;
+  text-shadow: none;
+}
+
+.top-about-link:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.65);
+  outline-offset: 3px;
+}
+
 /* Simple site header (title + RSS icon) */
 .site-header {
   display: grid;
@@ -101,6 +126,20 @@ body {
   gap: 0.75rem;
   margin: -1rem 0 2rem;
   justify-content: center;
+}
+
+.about-section {
+  margin: 0 0 2.5rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.about-content {
+  text-align: left;
+  padding: 1.25rem 1.25rem 0.25rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
 }
 
 /* Ensure the `hidden` attribute always wins (overrides `.search-panel { display: flex; }`). */

@@ -10,6 +10,11 @@ image: /static/images/numismatism.png
 I developed: [Coin Analysis](https://github.com/oernster/coin-analysis).
 A desktop application for recognizing years and mint marks on US cents using computer vision and machine learning techniques.
 
+# Challenges along the way
+This was very hard to get the machine learning and computer vision algorithms to work as I desired.
+Even now, the source data sets I was able to find on the internet are really insufficient to properly test the app.
+I'd love to train it on better data sets to prove it more but I can't find any good data sources anywhere apart from what 
+I'm already using. 
 
 # Coin Recognition Application
 

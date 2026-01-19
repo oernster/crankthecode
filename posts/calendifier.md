@@ -11,6 +11,15 @@ extra_images:
 ---
 # 📅 Calendifier
 
+# Challenges along the way
+The main app was HARD due to internationalization; this was my first foray into internationalizing an app and I did it 
+for BOTH a browser AND home assistant dashboard cards.
+Another really difficult thing for me was not only identifying holidays for locales which aren't British but making them 
+appear correctly on the UI depending on the locale selected.
+However, aside from the aforementioned internationalization support challenges, I really struggled through writing code to support
+RFC5545 which is basically the official canonical way to support Eventing in a Calendar application.  I got there in the end though
+and I feel the UI is relatively intuitive for this purpose.
+
 ## 🌟 Overview
 
 **Calendifier** is a sophisticated calendar system available in two deployment modes:

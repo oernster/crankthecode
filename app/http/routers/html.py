@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
@@ -8,6 +9,8 @@ from fastapi.templating import Jinja2Templates
 
 from app.http.deps import get_blog_service, get_templates
 from app.services.blog_service import BlogService
+from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
+from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
 
 router = APIRouter()
 
@@ -18,6 +21,18 @@ async def homepage(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
+    # Render the "About Me" markdown into HTML for the homepage intro.
+    # Keep it out of the posts list + RSS by loading it directly (not via BlogService).
+    about_html = ""
+    try:
+        repo = FilesystemPostsRepository(posts_dir=Path("posts"))
+        about_post = repo.get_post("about-me")
+        if about_post is not None:
+            about_html = PythonMarkdownRenderer().render(about_post.content_markdown)
+    except Exception:
+        # Fail open: homepage should still render if about content can't be loaded.
+        about_html = ""
+
     posts = [
         {
             "slug": p.slug,
@@ -31,7 +46,7 @@ async def homepage(
         for p in blog.list_posts()
     ]
     return templates.TemplateResponse(
-        "index.html", {"request": request, "posts": posts}
+        "index.html", {"request": request, "posts": posts, "about_html": about_html}
     )
 
 

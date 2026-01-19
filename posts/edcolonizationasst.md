@@ -15,6 +15,13 @@ I play the game Elite Dangerous a lot and have a full HOTAS and rudder pedals an
 I wanted the ability to manage a shopping list of goods and commodities for when you're building out new space stations and orbital sites
 on a second tablet (I run Samsung Galaxy A9+ tablets).
 
+# Challenges along the way
+Making it function correctly by reading game journal data was a bit of a hassle.  However, once I understood the structure of the data
+and how it updates the journal files became a little easier to work with.
+UI challenges on the website were a little funky for me since I'm more of a backend dev rather than a front end UI designer.
+However, I actually feel that the UI came out rather nicely.
+The UI is fully tested in a web browser, both on a PC and a tablet. 
+
 # Supported features:
 - Add heartbeat to keep awake and make tablet only.
 - Settings | Display/Power keep awake (recommended for tablets).

@@ -11,8 +11,13 @@ extra_images:
   - /static/images/fancy-clock3.jpg
 ---
 I wrote a FancyClock app for fun: [FancyClock](https://github.com/oernster/FancyClock).
-This was quite the project since I wanted to knock something up quickly to show off to a friend.
-However, it turned out to be more complex as I added more features.
+
+# Challenges along the way
+This was quite the project since I wanted to knock something up quickly to show off to a friend
+but it turned out to be more complex as I added more features.  Then I decided to add video skins - that was 
+a fun challenge but I got there in the end.
+The REAL struggle was internationalizing the app.  Multiple languages and timezones throughout the world are HARD
+to support.  Especially when you want to support regional numbering systems AS WELL! 
 
 ## Current release v1.5.3
 - Majorly refactored code to be OO, meet SOLID principles, PEP8 compliant, flake8/black compliant, TDD; all files < 350 lines.

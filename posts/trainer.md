@@ -15,6 +15,11 @@ extra_images:
 I developed: [Trainer](https://github.com/oernster/Trainer).
 Train Times with Weather Integration & Astronomical Events
 
+# Challenges along the way
+Creating a curated list of all train stops, train lines, underground variants etc. throughout the UK (excluding Northern Ireland) took a lot of time and perseverance.
+Finding suitable astronomical sites to be linked was not as straightforward as I desired.
+Weather and moon phasing and UI subtleties turned out to be quite the frustration but I ploughed on through until I got it how I wanted it! 
+
 ## Overview
 A modern PySide6 desktop application that displays real-time train departure information with integrated weather forecasting and astronomical events. 
 Features include a dark theme, automatic refresh, and a clean architecture following SOLID principles and modern design patterns.
