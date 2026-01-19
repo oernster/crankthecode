@@ -19,6 +19,9 @@ router = APIRouter(tags=["rss"])
 _MEDIA_NS = "http://search.yahoo.com/mrss/"
 ET.register_namespace("media", _MEDIA_NS)
 
+_CONTENT_NS = "http://purl.org/rss/1.0/modules/content/"
+ET.register_namespace("content", _CONTENT_NS)
+
 
 def _site_url(request: Request) -> str:
     configured = os.getenv("SITE_URL")
@@ -105,7 +108,7 @@ async def rss_feed(
         if detail is None:
             continue
 
-        img_src = _first_image_src(detail.content_html)
+        img_src = detail.cover_image_url or _first_image_src(detail.content_html)
         if not img_src:
             continue
 
@@ -117,6 +120,13 @@ async def rss_feed(
             item,
             f"{{{_MEDIA_NS}}}content",
             {"url": img_url, "medium": "image"},
+        )
+
+        # Some readers prefer `media:thumbnail` for list views.
+        ET.SubElement(
+            item,
+            f"{{{_MEDIA_NS}}}thumbnail",
+            {"url": img_url},
         )
 
         mime = _guess_image_mime(img_url)

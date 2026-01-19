@@ -23,6 +23,7 @@ class PostSummary:
     title: str
     date: str
     tags: Sequence[str]
+    cover_image_url: str | None
     summary_html: str
 
 
@@ -34,4 +35,5 @@ class PostDetail:
     title: str
     date: str
     tags: Sequence[str]
+    cover_image_url: str | None
     content_html: str

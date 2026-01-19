@@ -8,6 +8,9 @@
 <body>
   <header class="site-header">
     <a class="back-link" href="/">← Back to posts</a>
+    <a class="site-title-link" href="/" aria-label="Homepage">
+      <span class="site-title">Crank The Code</span>
+    </a>
     <div class="header-actions">
       <a class="icon-btn" href="/" aria-label="Search">🔍</a>
       <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
@@ -15,8 +18,15 @@
       </a>
     </div>
   </header>
-  <h1>{{ post.title }}</h1>
-  <p><small>{{ post.date }} — Tags: {{ post.tags | join(", ") }}</small></p>
-  <div>{{ post.content | safe }}</div>
+  {% if post.cover_image_url %}
+    <img class="post-cover" src="{{ post.cover_image_url }}" alt="" />
+  {% endif %}
+  <div class="post-heading">
+    <h1>{{ post.title }}</h1>
+    <p><small>{{ post.date }} — Tags: {{ post.tags | join(", ") }}</small></p>
+  </div>
+  <div class="post-content{% if post.slug == 'hello-crank' %} post-content--centered{% endif %}">
+    {{ post.content | safe }}
+  </div>
 </body>
 </html>

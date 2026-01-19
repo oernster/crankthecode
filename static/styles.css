@@ -17,21 +17,41 @@ body {
 
 /* Simple site header (title + RSS icon) */
 .site-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
 .site-title {
   margin: 0;
+  text-align: center;
+}
+
+.header-spacer {
+  min-width: 1px;
+}
+
+.site-title-link {
+  justify-self: center;
+  color: inherit;
+}
+
+.site-title-link:hover {
+  color: inherit;
+  text-shadow: none;
+}
+
+.site-header .back-link {
+  justify-self: start;
 }
 
 .header-actions {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  justify-self: end;
 }
 
 .icon-btn,
@@ -227,6 +247,28 @@ pre {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.post-cover-link {
+  display: block;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-cover {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  border-radius: 14px;
+  border: 0;
+  box-shadow: none;
+  margin: 0.5rem auto 1.25rem;
+}
+
 .tag {
   display: inline-block;
   background: rgba(139, 179, 255, 0.12);
@@ -260,6 +302,35 @@ a[href=\"/\"] {
   margin-bottom: 0;
   font-size: 0.9rem;
   color: rgba(233, 231, 255, 0.72);
+}
+
+/* Center the post title button + tags/meta, but keep body/content left-aligned */
+.post-heading {
+  text-align: center;
+}
+
+.post-heading > h1,
+.post-heading > p,
+.post-heading > small {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Homepage-only: center the post summary text under the title/tags */
+.post-summary {
+  text-align: center;
+}
+
+/* One-off: center content for the Hello Crank post only */
+.post-content--centered {
+  text-align: center;
+}
+
+.post-content--centered p,
+.post-content--centered ul,
+.post-content--centered ol {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 a[href=\"/\"]:hover {

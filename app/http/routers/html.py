@@ -31,6 +31,7 @@ async def homepage(
             "title": p.title,
             "date": p.date,
             "tags": list(p.tags),
+            "cover_image_url": p.cover_image_url,
             "summary_text": _html_to_text(p.summary_html),
         }
         for p in blog.list_posts()
@@ -57,6 +58,7 @@ async def read_post(
         "title": detail.title,
         "date": detail.date,
         "tags": list(detail.tags),
+        "cover_image_url": detail.cover_image_url,
         "content": detail.content_html,
     }
     return templates.TemplateResponse("post.html", {"request": request, "post": post})
