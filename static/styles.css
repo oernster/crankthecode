@@ -128,6 +128,14 @@ body {
   justify-content: center;
 }
 
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  justify-content: center;
+}
+
 .about-section {
   margin: 0 0 2.5rem;
   scroll-margin-top: 1.5rem;
@@ -154,6 +162,41 @@ body {
   max-width: 520px;
 }
 
+.search-suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  z-index: 10;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(18, 19, 33, 0.98);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.search-suggestions[hidden] {
+  display: none;
+}
+
+.search-suggestions a {
+  display: block;
+  padding: 0.55rem 0.75rem;
+  color: rgba(233, 231, 255, 0.92);
+}
+
+.search-suggestions a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  text-shadow: none;
+}
+
+.search-suggestions .search-suggestion-sub {
+  display: block;
+  font-size: 0.9rem;
+  color: rgba(233, 231, 255, 0.65);
+  margin-top: 0.1rem;
+}
+
 .search-input {
   flex: 1;
   width: 100%;
@@ -163,6 +206,29 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.06);
   color: #e9e7ff;
+}
+
+.search-go {
+  height: 42px;
+  padding: 0 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(233, 231, 255, 0.82);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.search-go:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.search-go:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.65);
+  outline-offset: 3px;
 }
 
 /* Hide the browser-provided clear (×) button so we only show our custom close icon. */
@@ -434,6 +500,26 @@ a[href=\"/\"]:hover {
   box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
 }
 
+.btn-link--primary {
+  background: rgba(203, 182, 255, 0.92);
+  box-shadow: 0 16px 34px rgba(203, 182, 255, 0.18);
+}
+
+.btn-link--primary:hover {
+  background: rgba(214, 198, 255, 1);
+}
+
+.btn-link--subtle {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(233, 231, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+}
+
+.btn-link--subtle:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
 .btn-link:hover {
   text-decoration: none;
   transform: translateY(-1px);
@@ -444,4 +530,24 @@ a[href=\"/\"]:hover {
 .btn-link:focus-visible {
   outline: 3px solid rgba(203, 182, 255, 0.65);
   outline-offset: 3px;
+}
+
+/* Homepage featured project buttons */
+.featured-projects {
+  margin: 0.25rem 0 2.25rem;
+}
+
+.featured-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.featured-primary {
+  flex-basis: 100%;
+  text-align: center;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }

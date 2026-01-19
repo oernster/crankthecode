@@ -36,6 +36,14 @@ def _load_about_html() -> str:
 @router.get("/", response_class=HTMLResponse)
 async def homepage(
     request: Request,
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@router.get("/posts", response_class=HTMLResponse)
+async def posts_index(
+    request: Request,
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
@@ -46,13 +54,13 @@ async def homepage(
             "date": p.date,
             "tags": list(p.tags),
             "cover_image_url": p.cover_image_url,
-            # Keep links in summaries clickable on the homepage.
+            # Keep links in summaries clickable.
             "summary_html": p.summary_html,
         }
         for p in blog.list_posts()
     ]
     return templates.TemplateResponse(
-        "index.html", {"request": request, "posts": posts}
+        "posts.html", {"request": request, "posts": posts}
     )
 
 

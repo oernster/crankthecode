@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CrankTheCode</title>
+  <title>CrankTheCode — Posts</title>
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
@@ -60,20 +60,28 @@
       <button class="search-go" type="submit" aria-label="Search">Go</button>
     </form>
   </div>
-  <main>
-    <section class="featured-projects" aria-label="Featured projects">
-      <div class="featured-buttons">
-        <a class="btn-link btn-link--primary featured-primary" href="/posts/stellody">Stellody</a>
-
-        <a class="btn-link" href="/posts/3D-printing-info">3D printing info</a>
-        <a class="btn-link" href="/posts/calendifier">Calendifier</a>
-        <a class="btn-link" href="/posts/trainer">Trainer</a>
-        <a class="btn-link" href="/posts/axisdb">AxisDB</a>
-        <a class="btn-link" href="/posts/edcolonizationasst">EDColonizationAsst</a>
-
-        <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
+  <main class="posts-index" aria-label="All posts">
+    {% for post in posts %}
+      <div class="post-item" data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}">
+        <div class="post-heading">
+          <a class="btn-link" href="/posts/{{ post.slug }}">{{ post.title }}</a>
+          <small>{{ post.date }} — Tags:
+            {% for tag in post.tags %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </small>
+        </div>
+        {% if post.cover_image_url %}
+          <a class="post-cover-link" href="/posts/{{ post.slug }}" aria-label="Open {{ post.title }}">
+            <img class="post-cover" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
+          </a>
+        {% endif %}
+        <div class="post-summary">{{ post.summary_html | safe }}</div>
       </div>
-    </section>
+      {% if not loop.last %}
+        <hr class="post-separator" />
+      {% endif %}
+    {% endfor %}
   </main>
   <script src="/static/search.js" defer></script>
 </body>
