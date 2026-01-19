@@ -3,6 +3,7 @@ title: "Coin Analysis"
 date: "2026-01-19 06:10"
 tags: ["coin", "coins", "machine learning", "computer vision", "numismatist", "numismatism", "collecting"]
 blurb: "Coin vision"
+one_liner: "Computer-vision and ML experiments for recognising, identifying, and cataloguing coins from images."
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

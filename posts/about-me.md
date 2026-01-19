@@ -1,7 +1,8 @@
 ---
 title: "About Me"
-date: "1900-01-01 00:00"
-tags: []
+date: "2026-01-18 07:35"
+tags: ["about", "me"]
+one_liner: "A quick intro to who I am and the kind of software projects I like to build."
 ---
 # About Me
 

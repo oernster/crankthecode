@@ -147,6 +147,7 @@ async def posts_index(
             "date": p.date,
             "tags": list(p.tags),
             "blurb": getattr(p, "blurb", None),
+            "one_liner": getattr(p, "one_liner", None),
             "cover_image_url": p.cover_image_url,
             # Keep links in summaries clickable.
             "summary_html": p.summary_html,
@@ -221,6 +222,7 @@ async def read_post(
         "date": detail.date,
         "tags": list(detail.tags),
         "blurb": getattr(detail, "blurb", None),
+        "one_liner": getattr(detail, "one_liner", None),
         "cover_image_url": detail.cover_image_url,
         "extra_image_urls": list(getattr(detail, "extra_image_urls", [])),
         "content": detail.content_html,

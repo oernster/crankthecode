@@ -3,6 +3,7 @@ title: "Elite Dangerous Colonization Assistant"
 date: "2026-01-19 04:40"
 tags: ["elite", "frontier", "dangerous", "colonization", "trailblazer", "gaming", "game"]
 blurb: "Elite helper"
+one_liner: "A helper tool for Elite Dangerous colonisation planning and Trailblazer workflow."
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).

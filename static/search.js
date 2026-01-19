@@ -272,12 +272,10 @@
     });
 
     // Posts index: support deep-links like /posts?q=stellody.
+    // When navigating via the sidebar, we want the filtering but we *don't* want
+    // to auto-open the search UI or populate the search field.
     if (isPostsIndex && initialQuery.length > 0) {
-      openSearch();
-      input.value = initialQuery;
       applyFilter(initialQuery);
-      void loadAutocompleteIndex();
-      renderAutocomplete(initialQuery);
     }
   });
 })();

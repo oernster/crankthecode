@@ -3,6 +3,7 @@ title: "Trainer"
 date: "2026-01-19 07:05"
 tags: ["train", "train times", "astronomy", "weather", "routing", "travel"]
 blurb: "Travel tracker"
+one_liner: "A personal dashboard that brings together travel, weather, and other daily-use data in one place."
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
