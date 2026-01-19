@@ -30,6 +30,19 @@ def test_rss_endpoint_responds_with_rss2_xml():
     assert root.find("channel") is not None
 
 
+def test_rss_channel_includes_image_block_for_reader_compatibility():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/rss.xml")
+    assert resp.status_code == 200
+
+    root = ET.fromstring(resp.text)
+    channel = root.find("channel")
+    assert channel is not None
+    assert channel.find("image") is not None
+
+
 def test_rss_items_have_expected_fields_and_absolute_links():
     # Ensure deterministic base URL for absolute links.
     os.environ["SITE_URL"] = "https://example.com"
@@ -97,6 +110,10 @@ def test_rss_items_include_media_image_when_post_contains_img_tag():
         thumbs = [item.find(thumb_tag) for item in items]
         thumbs = [elem for elem in thumbs if elem is not None]
         assert len(thumbs) >= 1
+
+        # Thumbnail should appear before description for maximum reader compatibility.
+        item_xml = ET.tostring(items[0], encoding="unicode")
+        assert item_xml.find(thumb_tag) < item_xml.find("description")
     finally:
         os.environ.pop("SITE_URL", None)
 

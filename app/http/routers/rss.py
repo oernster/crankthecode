@@ -19,7 +19,7 @@ router = APIRouter(tags=["rss"])
 
 # Bump this when you need feed readers to treat items as new (e.g. to re-ingest
 # thumbnails). This intentionally changes <guid> while keeping <link> stable.
-_FEED_ITEM_GUID_VERSION = "2"
+_FEED_ITEM_GUID_VERSION = "3"
 
 _MEDIA_NS = "http://search.yahoo.com/mrss/"
 ET.register_namespace("media", _MEDIA_NS)
@@ -86,6 +86,12 @@ def _first_image_src(html: str) -> str | None:
     return match.group(1)
 
 
+def _absolute_url(base_url: str, url: str) -> str:
+    if url.startswith("http://") or url.startswith("https://"):
+        return url
+    return urljoin(base_url, url)
+
+
 def _guess_image_mime(url: str) -> str | None:
     lower = url.lower()
     if lower.endswith(".png"):
@@ -122,11 +128,36 @@ async def rss_feed(
     ET.SubElement(channel, "link").text = base_url.rstrip("/")
     ET.SubElement(channel, "description").text = "Blog posts"
 
+    # Channel image (logo) helps some readers render a consistent preview.
+    channel_image = ET.SubElement(channel, "image")
+    ET.SubElement(channel_image, "url").text = urljoin(base_url, "static/favicon.ico")
+    ET.SubElement(channel_image, "title").text = "Crankthecode"
+    ET.SubElement(channel_image, "link").text = base_url.rstrip("/")
+
     for post in posts:
         item = ET.SubElement(channel, "item")
         ET.SubElement(item, "title").text = post.title
         link = urljoin(base_url, f"posts/{post.slug}")
         ET.SubElement(item, "link").text = link
+
+        detail = blog.get_post(post.slug)
+        img_url: str | None = None
+        mime: str | None = None
+
+        if detail is not None:
+            img_src = detail.cover_image_url or _first_image_src(detail.content_html)
+            if img_src:
+                img_url = _absolute_url(base_url, img_src)
+                mime = _guess_image_mime(img_url)
+
+                # Feedly can be picky: it sometimes only sees thumbnails if they
+                # appear early in the <item>.
+                ET.SubElement(
+                    item,
+                    f"{{{_MEDIA_NS}}}thumbnail",
+                    {"url": img_url},
+                )
+
         # Feed readers key off <guid> for de-duplication and caching. If you need
         # them to reprocess existing entries, bump `_FEED_ITEM_GUID_VERSION`.
         guid = ET.SubElement(item, "guid", {"isPermaLink": "false"})
@@ -138,69 +169,51 @@ async def rss_feed(
         # Put HTML in CDATA so it's not entity-escaped.
         description_elem = ET.SubElement(item, "description")
 
-        # Feedly and many RSS readers pick up per-item images via Media RSS.
-        # We take the first <img> from the full post content (author can add
-        # images to markdown, e.g. `![Alt](/static/images/foo.png)`).
-        detail = blog.get_post(post.slug)
         if detail is None:
-            # Still emit a description; without detail we can't reliably pick an image.
+            # Still emit a description; without detail we can't provide content:encoded.
             description_elem.text = _wrap_cdata(post.summary_html)
             continue
 
-        img_src = detail.cover_image_url or _first_image_src(detail.content_html)
-        if not img_src:
+        if img_url:
+            # Description: keep it short (image + excerpt) so list views can pick it up.
+            # Feedly thumbnail heuristics can be very strict: place a "naked" <img>
+            # as the very first node in the description (not wrapped in <p>).
+            description_html = (
+                f'<img src="{html.escape(img_url, quote=True)}" alt="" />'
+                + post.summary_html
+            )
+            description_elem.text = _wrap_cdata(description_html)
+        else:
             description_elem.text = _wrap_cdata(post.summary_html)
-
-            # Still provide full content if available.
-            content_elem = ET.SubElement(item, f"{{{_CONTENT_NS}}}encoded")
-            content_elem.text = _wrap_cdata(detail.content_html)
-            continue
-
-        img_url = img_src
-        if not img_url.startswith("http://") and not img_url.startswith("https://"):
-            img_url = urljoin(base_url, img_url)
-
-        # Description: keep it short (image + excerpt) so list views can pick it up.
-        # Feedly thumbnail heuristics can be very strict: place a "naked" <img>
-        # as the very first node in the description (not wrapped in <p>).
-        description_html = (
-            f'<img src="{html.escape(img_url, quote=True)}" alt="" />'
-            + post.summary_html
-        )
-        description_elem.text = _wrap_cdata(description_html)
 
         # Full content for readers that use RSS content instead of linking out.
         content_elem = ET.SubElement(item, f"{{{_CONTENT_NS}}}encoded")
-        content_html = (
-            f'<img src="{html.escape(img_url, quote=True)}" alt="" />'
-            + detail.content_html
-        )
+        if img_url:
+            content_html = (
+                f'<img src="{html.escape(img_url, quote=True)}" alt="" />'
+                + detail.content_html
+            )
+        else:
+            content_html = detail.content_html
         content_elem.text = _wrap_cdata(content_html)
 
-        mime = _guess_image_mime(img_url)
-        ET.SubElement(
-            item,
-            f"{{{_MEDIA_NS}}}content",
-            {
-                "url": img_url,
-                "medium": "image",
-                **({"type": mime} if mime else {}),
-            },
-        )
-
-        # Some readers prefer `media:thumbnail` for list views.
-        ET.SubElement(
-            item,
-            f"{{{_MEDIA_NS}}}thumbnail",
-            {"url": img_url},
-        )
-
-        if mime:
+        if img_url:
             ET.SubElement(
                 item,
-                "enclosure",
-                {"url": img_url, "type": mime, "length": "0"},
+                f"{{{_MEDIA_NS}}}content",
+                {
+                    "url": img_url,
+                    "medium": "image",
+                    **({"type": mime} if mime else {}),
+                },
             )
+
+            if mime:
+                ET.SubElement(
+                    item,
+                    "enclosure",
+                    {"url": img_url, "type": mime, "length": "0"},
+                )
 
     xml_bytes = ET.tostring(rss, encoding="utf-8", xml_declaration=True)
     xml_text = xml_bytes.decode("utf-8")
