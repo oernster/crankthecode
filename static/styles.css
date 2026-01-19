@@ -15,6 +15,49 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Simple site header (title + RSS icon) */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.site-title {
+  margin: 0;
+}
+
+.rss-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  /* Pale yellow background, red icon (foreground) */
+  color: #ff4d4d;
+  background: rgba(255, 242, 168, 0.92);
+  border: 1px solid rgba(255, 242, 168, 0.55);
+}
+
+.rss-link:hover {
+  color: #ff2f2f;
+  background: rgba(255, 242, 168, 1);
+  text-shadow: none;
+}
+
+.rss-link:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.65);
+  outline-offset: 3px;
+}
+
+.rss-icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
 h1, h2, h3 {
   color: #cbb6ff;
   font-weight: 700;
@@ -107,7 +150,20 @@ a[href=\"/\"] {
   color: rgba(233, 231, 255, 0.72);
 }
 
+/* Back link inside header should not create extra spacing */
+.site-header .back-link {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  color: rgba(233, 231, 255, 0.72);
+}
+
 a[href=\"/\"]:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(203, 182, 255, 0.35);
+}
+
+.site-header .back-link:hover {
   color: #ffffff;
   text-shadow: 0 0 8px rgba(203, 182, 255, 0.35);
 }

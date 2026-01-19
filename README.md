@@ -23,6 +23,14 @@ Render deploy compatibility is preserved via the shim [`main.py`](main.py:1), so
 - `GET /api/posts` – list posts
 - `GET /api/posts/{slug}` – post detail
 
+## RSS
+
+- `GET /rss.xml` – RSS 2.0 feed (latest 20 posts)
+
+If you want absolute URLs in feed items to point at your public domain behind a proxy/CDN,
+set `SITE_URL` (e.g. `https://crankthecode.com`). If unset, the feed uses the incoming
+request base URL.
+
 ## Dev / TDD
 
 ```bash

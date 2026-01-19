@@ -7,6 +7,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.http.routers.api import router as api_router
 from app.http.routers.html import router as html_router
+from app.http.routers.rss import router as rss_router
 
 
 def create_app() -> FastAPI:
@@ -24,6 +25,7 @@ def create_app() -> FastAPI:
 
     fastapi_app.include_router(html_router)
     fastapi_app.include_router(api_router)
+    fastapi_app.include_router(rss_router)
 
     return fastapi_app
 

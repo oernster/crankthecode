@@ -3,9 +3,15 @@
 <head>
   <title>{{ post.title }}</title>
   <link rel="stylesheet" href="/static/styles.css">
+  <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
 </head>
 <body>
-  <a href="/">← Back to posts</a>
+  <header class="site-header">
+    <a class="back-link" href="/">← Back to posts</a>
+    <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
+      <img class="rss-icon" src="/static/rss.svg" alt="" />
+    </a>
+  </header>
   <h1>{{ post.title }}</h1>
   <p><small>{{ post.date }} — Tags: {{ post.tags | join(", ") }}</small></p>
   <div>{{ post.content | safe }}</div>
