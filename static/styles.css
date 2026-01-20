@@ -20,6 +20,23 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Homepage: tighten the header stack so the landing content starts higher. */
+body.is-homepage {
+  padding-top: 2.25rem;
+}
+
+body.is-homepage .header-topbar {
+  margin-bottom: 0.55rem;
+}
+
+body.is-homepage .site-header {
+  margin-bottom: 1.25rem;
+}
+
+body.is-homepage .header-cta {
+  margin: -0.75rem 0 1.25rem;
+}
+
 /* Ensure full-width page layout containers can exceed the content max-width
    while keeping the main content column aligned with existing sizing. */
 .page-layout {
@@ -771,6 +788,58 @@ a[href=\"/\"] {
   text-align: center;
 }
 
+/* AxisDB: left-align the “server starts at” note (blockquotes are centered elsewhere). */
+.axisdb-run-note {
+  text-align: left;
+  /* Remove default blockquote indent so it aligns with the H1 left edge. */
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  border-left: 0;
+}
+
+.axisdb-run-note p {
+  margin: 0 0 0.35rem;
+}
+
+.axisdb-run-note__url {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.axisdb-run-note .code-copy--icon {
+  width: 42px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.axisdb-run-note .code-copy__icon {
+  width: 18px;
+  height: 18px;
+  fill: rgba(233, 231, 255, 0.88);
+}
+
+.axisdb-run-note .code-copy--icon[data-copied="true"] {
+  background: rgba(178, 255, 178, 0.22);
+  border-color: rgba(178, 255, 178, 0.55);
+}
+
+.axisdb-run-note .code-copy--icon[data-copied="true"] .code-copy__icon {
+  fill: rgba(233, 231, 255, 0.98);
+}
+
+/* Ensure the URL is not given extra “inline code pill” padding in this specific note. */
+.axisdb-run-note__url code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.15rem 0.45rem;
+  border-radius: 8px;
+}
+
 /* One-off: center content for the Hello Crank post only */
 .post-content--centered {
   text-align: center;
@@ -986,11 +1055,36 @@ a[href=\"/\"]:hover {
 }
 
 .fake-terminal__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   padding: 0.55rem 0.9rem;
   font-size: 0.9rem;
   color: rgba(233, 231, 255, 0.78);
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fake-terminal__title .code-copy--icon {
+  width: 42px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fake-terminal__title .code-copy__icon {
+  width: 18px;
+  height: 18px;
+  fill: rgba(233, 231, 255, 0.88);
+}
+
+.fake-terminal__title .code-copy--icon[data-copied="true"] {
+  background: rgba(178, 255, 178, 0.22);
+  border-color: rgba(178, 255, 178, 0.55);
 }
 
 .fake-terminal__body {
@@ -1009,30 +1103,668 @@ a[href=\"/\"]:hover {
   border-radius: 0;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
+  line-height: 1.55;
 }
 
-.fake-terminal__cursor {
-  display: inline-block;
-  width: 0.6ch;
-  height: 1.15em;
-  vertical-align: -0.2em;
-  margin-left: 0.15ch;
-  background: rgba(233, 231, 255, 0.85);
-  animation: fake-terminal-blink 1s steps(2, end) infinite;
+/* Copyable code blocks (AxisDB quick start) */
+.code-block {
+  max-width: var(--content-max);
+  margin: 1.25rem auto 2rem;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
 }
 
-@keyframes fake-terminal-blink {
+.code-block__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0.9rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-block__label {
+  font-size: 0.9rem;
+  color: rgba(233, 231, 255, 0.78);
+}
+
+.code-copy {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(233, 231, 255, 0.9);
+  padding: 0.3rem 0.55rem;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* Icon-only copy button (used across AxisDB) */
+.code-copy--icon {
+  width: 42px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.code-copy__icon {
+  width: 18px;
+  height: 18px;
+  fill: rgba(233, 231, 255, 0.88);
+}
+
+/* When the icon copy button is in “copied” state, give it a subtle highlight. */
+.code-copy--icon[data-copied="true"] {
+  background: rgba(178, 255, 178, 0.22);
+  border-color: rgba(178, 255, 178, 0.55);
+}
+
+.code-copy:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.code-copy:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.code-copy:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.65);
+  outline-offset: 3px;
+}
+
+.code-block__body {
+  margin: 0;
+  padding: 0.95rem 1.05rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-x: auto;
+}
+
+.code-block__body code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  white-space: pre;
+}
+
+/* AxisDB “live feed” terminal: step-reveal + typing (one line at a time) */
+.fake-terminal {
+  /* Master timeline for all animations */
+  --ft-cycle: 70s;
+}
+
+/* Faster feeds */
+.fake-terminal--axisdb-install {
+  /* Total loop time (includes a ~3s “rest” where the finished commands remain visible) */
+  /* Typing completes at ~13.8s, then rests ~3s, then immediately restarts. */
+  --ft-cycle: 16.8s;
+}
+
+.fake-terminal--axisdb-run {
+  /* Match the install terminal loop length so the overall pacing feels consistent. */
+  --ft-cycle: 24s;
+}
+
+/* AxisDB run terminal: override the generic timeline with a simple 2-step feed. */
+.fake-terminal--axisdb-run {
+  /* Finish typing, then rest ~3s, then immediately restart. */
+  --ft-run-cycle: 10.92s;
+}
+
+.fake-terminal--axisdb-run .ft-step--1 {
+  animation: ft-run-show-step-1 var(--ft-run-cycle) linear infinite;
+}
+
+.fake-terminal--axisdb-run .ft-step--2 {
+  animation: ft-run-show-step-2 var(--ft-run-cycle) linear infinite;
+}
+
+.fake-terminal--axisdb-run .fake-terminal__typed--run {
+  animation: ft-run-type var(--ft-run-cycle) steps(52, end) infinite;
+}
+
+.fake-terminal--axisdb-run .fake-terminal__cursor-wrap--run {
+  animation: ft-run-cursor var(--ft-run-cycle) linear infinite;
+}
+
+@keyframes ft-run-show-step-1 {
   0%,
-  49% {
+  100% {
+    opacity: 1;
+    max-height: 60em;
+  }
+}
+
+@keyframes ft-run-show-step-2 {
+  0%,
+  72.5% {
+    opacity: 0;
+    max-height: 0;
+  }
+  72.51%,
+  100% {
+    opacity: 1;
+    max-height: 60em;
+  }
+}
+
+@keyframes ft-run-type {
+  0%,
+  4.4% {
+    width: 0;
+  }
+  /* ~7.5s typing for a 52ch command in a 24s loop (≈31%) */
+  72.5%,
+  100% {
+    width: 52ch;
+  }
+}
+
+@keyframes ft-run-cursor {
+  0%,
+  72.5% {
     opacity: 1;
   }
-  50%,
+  72.51%,
   100% {
     opacity: 0;
   }
 }
 
+.fake-terminal__output {
+  color: rgba(233, 231, 255, 0.7);
+}
+
+.fake-terminal__code {
+  display: block;
+  color: rgba(233, 231, 255, 0.82);
+  white-space: pre;
+  margin-top: 0.25rem;
+  padding-left: 1.8ch;
+}
+
+.fake-terminal__body .ft-step {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.fake-terminal__prompt {
+  color: rgba(139, 179, 255, 0.9);
+}
+
+.fake-terminal__typed {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  line-height: inherit;
+  vertical-align: baseline;
+  /* Visually nudge the animated inline-block down onto the same baseline as the
+     inline prompt text. Using `transform` avoids baseline quirks across browsers. */
+  transform: translateY(0);
+}
+
+.fake-terminal__cursor-wrap {
+  display: inline-block;
+  vertical-align: baseline;
+  transform: translateY(0);
+}
+
+.fake-terminal__cursor {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1em;
+  vertical-align: baseline;
+  margin-left: 0.15ch;
+  /* Nudge the blinking block cursor down slightly so it sits perfectly on the text baseline. */
+  transform: translateY(2px);
+  background: rgba(233, 231, 255, 0.85);
+  animation: fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+/* Step visibility windows (each step appears when its action starts, then stays until reset). */
+.fake-terminal__body .ft-step--1  { animation: ft-show-s1  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--2  { animation: ft-show-s2  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--3  { animation: ft-show-s3  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--4  { animation: ft-show-s4  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--5  { animation: ft-show-s5  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--6  { animation: ft-show-s6  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--7  { animation: ft-show-s7  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--8  { animation: ft-show-s8  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--9  { animation: ft-show-s9  var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--10 { animation: ft-show-s10 var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--11 { animation: ft-show-s11 var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--12 { animation: ft-show-s12 var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--13 { animation: ft-show-s13 var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--14 { animation: ft-show-s14 var(--ft-cycle) linear infinite; }
+.fake-terminal__body .ft-step--15 { animation: ft-show-s15 var(--ft-cycle) linear infinite; }
+
+/* Typing windows (one line at a time). */
+.fake-terminal__typed--1 { animation: ft-type-s1  var(--ft-cycle) steps(20, end) infinite; }
+.fake-terminal__typed--2 { animation: ft-type-s2  var(--ft-cycle) steps(24, end) infinite; }
+.fake-terminal__typed--3 { animation: ft-type-s3  var(--ft-cycle) steps(25, end) infinite; }
+.fake-terminal__typed--4 { animation: ft-type-s4  var(--ft-cycle) steps(18, end) infinite; }
+.fake-terminal__typed--5 { animation: ft-type-s5  var(--ft-cycle) steps(23, end) infinite; }
+.fake-terminal__typed--6 { animation: ft-type-s13 var(--ft-cycle) steps(52, end) infinite; }
+
+/* Cursor only shows while the line is typing. */
+.fake-terminal__cursor-wrap--1 { animation: ft-cursor-s1  var(--ft-cycle) linear infinite; }
+.fake-terminal__cursor-wrap--2 { animation: ft-cursor-s2  var(--ft-cycle) linear infinite; }
+.fake-terminal__cursor-wrap--3 { animation: ft-cursor-s3  var(--ft-cycle) linear infinite; }
+.fake-terminal__cursor-wrap--4 { animation: ft-cursor-s4  var(--ft-cycle) linear infinite; }
+.fake-terminal__cursor-wrap--5 { animation: ft-cursor-s5  var(--ft-cycle) linear infinite; }
+.fake-terminal__cursor-wrap--6 { animation: ft-cursor-s13 var(--ft-cycle) linear infinite; }
+
+/* Timeline markers (70s cycle)
+   0%      = 0s
+   5.714%  = 4s
+   11.429% = 8s
+   17.143% = 12s
+   22.857% = 16s
+   28.571% = 20s
+   31.429% = 22s
+   50%     = 35s
+   52.857% = 37s
+   64.286% = 45s
+   67.143% = 47s
+   78.571% = 55s
+   81.429% = 57s
+   90%     = 63s
+   92.857% = 65s
+   97.143% = 68s
+*/
+
+/* Install terminal typing: type each line, then keep the finished output visible for ~3s.
+   No “blank” gap between loops: the clear + restart happens at the loop boundary. */
+@keyframes ft-type-s1 {
+  0%,
+  2.86% {
+    width: 0;
+  }
+  20.71%,
+  100% {
+    width: 20ch;
+  }
+}
+
+@keyframes ft-type-s2 {
+  0%,
+  20.71% {
+    width: 0;
+  }
+  38.57%,
+  100% {
+    width: 24ch;
+  }
+}
+
+@keyframes ft-type-s3 {
+  0%,
+  38.57% {
+    width: 0;
+  }
+  56.43%,
+  100% {
+    width: 25ch;
+  }
+}
+
+@keyframes ft-type-s4 {
+  0%,
+  56.43% {
+    width: 0;
+  }
+  /* Finish typing by ~57.5% (≈13.8s), then hold until the loop ends (~24s). */
+  82.14%,
+  100% {
+    width: 18ch;
+  }
+}
+
+@keyframes ft-type-s5 {
+  0%,
+  22.857% { width: 0; }
+  28.571%,
+  97.143% { width: 23ch; }
+  100% { width: 0; }
+}
+
+@keyframes ft-type-s13 {
+  0%,
+  81.429% { width: 0; }
+  90%,
+  97.143% { width: 52ch; }
+  100% { width: 0; }
+}
+
+/* Cursor visibility windows */
+@keyframes ft-cursor-s1 {
+  0%,
+  20.71% { opacity: 1; }
+  20.72%,
+  100% { opacity: 0; }
+}
+
+@keyframes ft-cursor-s2 {
+  0%,
+  20.71% { opacity: 0; }
+  20.72%,
+  38.57% { opacity: 1; }
+  38.58%,
+  100% { opacity: 0; }
+}
+
+@keyframes ft-cursor-s3 {
+  0%,
+  38.57% { opacity: 0; }
+  38.58%,
+  56.43% { opacity: 1; }
+  56.44%,
+  100% { opacity: 0; }
+}
+
+@keyframes ft-cursor-s4 {
+  0%,
+  56.43% { opacity: 0; }
+  56.44%,
+  82.14% { opacity: 1; }
+  82.15%,
+  100% { opacity: 0; }
+}
+
+@keyframes ft-cursor-s5 {
+  0%,
+  22.857% { opacity: 0; }
+  22.858%,
+  28.571% { opacity: 1; }
+  28.572%,
+  100% { opacity: 0; }
+}
+
+@keyframes ft-cursor-s13 {
+  0%,
+  81.429% { opacity: 0; }
+  81.43%,
+  90% { opacity: 1; }
+  90.001%,
+  100% { opacity: 0; }
+}
+
+/* Step show windows */
+@keyframes ft-show-s1 {
+  0%,
+  100% {
+    opacity: 1;
+    max-height: 60em;
+  }
+}
+
+@keyframes ft-show-s2 {
+  0%,
+  20.71% {
+    opacity: 0;
+    max-height: 0;
+  }
+  20.72%,
+  100% {
+    opacity: 1;
+    max-height: 60em;
+  }
+}
+
+@keyframes ft-show-s3 {
+  0%,
+  38.57% {
+    opacity: 0;
+    max-height: 0;
+  }
+  38.58%,
+  100% {
+    opacity: 1;
+    max-height: 60em;
+  }
+}
+
+@keyframes ft-show-s4 {
+  0%,
+  56.43% {
+    opacity: 0;
+    max-height: 0;
+  }
+  56.44%,
+  100% {
+    opacity: 1;
+    max-height: 60em;
+  }
+}
+
+@keyframes ft-show-s5 {
+  0%,
+  22.856% {
+    opacity: 0;
+    max-height: 0;
+  }
+  22.857%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s6 {
+  0%,
+  28.57% {
+    opacity: 0;
+    max-height: 0;
+  }
+  28.571%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s7 {
+  0%,
+  31.428% {
+    opacity: 0;
+    max-height: 0;
+  }
+  31.429%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s8 {
+  0%,
+  49.999% {
+    opacity: 0;
+    max-height: 0;
+  }
+  50%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s9 {
+  0%,
+  52.856% {
+    opacity: 0;
+    max-height: 0;
+  }
+  52.857%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s10 {
+  0%,
+  64.285% {
+    opacity: 0;
+    max-height: 0;
+  }
+  64.286%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s11 {
+  0%,
+  67.142% {
+    opacity: 0;
+    max-height: 0;
+  }
+  67.143%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s12 {
+  0%,
+  78.57% {
+    opacity: 0;
+    max-height: 0;
+  }
+  78.571%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s13 {
+  0%,
+  81.428% {
+    opacity: 0;
+    max-height: 0;
+  }
+  81.429%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s14 {
+  0%,
+  89.999% {
+    opacity: 0;
+    max-height: 0;
+  }
+  90%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes ft-show-s15 {
+  0%,
+  92.856% {
+    opacity: 0;
+    max-height: 0;
+  }
+  92.857%,
+  97.143% {
+    opacity: 1;
+    max-height: 60em;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes fake-terminal-blink {
+  0%,
+  49% { opacity: 1; }
+  50%,
+  100% { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .fake-terminal__typed {
+    width: auto;
+    animation: none;
+  }
+
+  .fake-terminal__cursor-wrap {
+    opacity: 1;
+    animation: none;
+  }
+
+  .fake-terminal__body .ft-step {
+    opacity: 1;
+    animation: none;
+  }
+
   .fake-terminal__cursor {
     animation: none;
     opacity: 1;

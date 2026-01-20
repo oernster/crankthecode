@@ -49,7 +49,7 @@
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
 </head>
-<body>
+<body{% if is_homepage %} class="is-homepage"{% endif %}>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <div class="header-layout{% if back_link_href %} header-layout--has-back{% endif %}">
@@ -89,16 +89,18 @@
         </div>
       </div>
 
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
-        {% for bc in breadcrumb_items or [] %}
-          {% if loop.last %}
-            <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
-          {% else %}
-            <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
-            <span class="breadcrumb-sep" aria-hidden="true">›</span>
-          {% endif %}
-        {% endfor %}
-      </nav>
+      {% if (breadcrumb_items or []) and not is_homepage %}
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          {% for bc in breadcrumb_items or [] %}
+            {% if loop.last %}
+              <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
+            {% else %}
+              <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
+              <span class="breadcrumb-sep" aria-hidden="true">›</span>
+            {% endif %}
+          {% endfor %}
+        </nav>
+      {% endif %}
 
       <header class="site-header">
         {% if back_link_href %}
@@ -203,6 +205,7 @@
 
   <script src="/static/search.js" defer></script>
   <script src="/static/scroll-top.js" defer></script>
+  <script src="/static/copy-code.js" defer></script>
 </body>
 </html>
 

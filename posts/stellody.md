@@ -10,6 +10,7 @@ one_liner: "A cross-platform app that analyses your library (or Spotify) and gen
 image: /static/images/stellody.png
 
 extra_images:
+  - /static/images/stellody-installer.png
   - /static/images/stellody-options.png
   - /static/images/stellody-playlists.png
   - /static/images/stellody-formats.png

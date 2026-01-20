@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from jinja2 import Environment, FileSystemLoader
 
 from app.http.routers.api import router as api_router
 from app.http.routers.html import router as html_router
@@ -18,7 +19,17 @@ def create_app() -> FastAPI:
 
     # Static and templates
     fastapi_app.mount("/static", StaticFiles(directory="static"), name="static")
-    fastapi_app.state.templates = Jinja2Templates(directory="templates")
+
+    # Templates
+    # - auto_reload + cache_size=0 ensures template edits are reflected without restarting the server
+    #   (useful during local dev; acceptable overhead for this small site).
+    env = Environment(
+        loader=FileSystemLoader("templates"),
+        autoescape=True,
+        auto_reload=True,
+        cache_size=0,
+    )
+    fastapi_app.state.templates = Jinja2Templates(env=env)
 
     @fastapi_app.get("/favicon.ico", include_in_schema=False)
     async def favicon():
