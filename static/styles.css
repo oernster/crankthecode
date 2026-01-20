@@ -3,6 +3,11 @@
 :root {
   /* Default content width was 840px; widened ~1.5x. */
   --content-max: 1260px;
+
+  /* Hover highlight accent (keeps the dark theme but makes hover states obvious). */
+  --hover-accent-bg: rgba(203, 182, 255, 0.18);
+  --hover-accent-border: rgba(203, 182, 255, 0.45);
+  --hover-accent-shadow: 0 0 0 3px rgba(203, 182, 255, 0.14);
 }
 
 body {
@@ -82,7 +87,13 @@ body.is-homepage .header-cta {
 }
 
 .sidebar-link:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    90deg,
+    var(--hover-accent-bg),
+    rgba(139, 179, 255, 0.10)
+  );
+  border: 1px solid var(--hover-accent-border);
+  box-shadow: var(--hover-accent-shadow);
   text-shadow: none;
 }
 
@@ -287,7 +298,9 @@ body.is-homepage .header-cta {
 }
 
 .top-favicon-link:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--hover-accent-bg);
+  border: 1px solid var(--hover-accent-border);
+  box-shadow: var(--hover-accent-shadow);
   text-shadow: none;
 }
 
@@ -508,7 +521,11 @@ body.is-homepage .header-cta {
 }
 
 .search-suggestions a:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    90deg,
+    var(--hover-accent-bg),
+    rgba(255, 255, 255, 0.06)
+  );
   text-shadow: none;
 }
 
@@ -955,6 +972,20 @@ a[href=\"/\"]:hover {
     color 0.18s ease;
 }
 
+/* Homepage “All” button: slightly wider while keeping the same base button styling. */
+.btn-link--all {
+  padding-left: 1.55rem;
+  padding-right: 1.55rem;
+  min-width: 88px;
+}
+
+/* Homepage “All” button: slightly wider while keeping the same base button styling. */
+.btn-link--all {
+  padding-left: 1.55rem;
+  padding-right: 1.55rem;
+  min-width: 88px;
+}
+
 /* Button links with tiny thumbnails */
 .btn-link--with-thumb {
   display: inline-flex;
@@ -1016,6 +1047,16 @@ a[href=\"/\"]:hover {
   box-shadow: 0 16px 34px rgba(203, 182, 255, 0.18);
 }
 
+/* Homepage: the wide first featured button (Stellody) should start with the same
+   background as other buttons, so the hover colour change is obvious.
+   This is intentionally scoped to `.featured-primary` to avoid affecting other
+   potential uses of `.btn-link--primary`. */
+.featured-primary.btn-link--primary {
+  background: #8bb3ff;
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
+}
+
 .btn-link--primary:hover {
   background: rgba(214, 198, 255, 1);
 }
@@ -1034,12 +1075,23 @@ a[href=\"/\"]:hover {
 .btn-link:hover {
   text-decoration: none;
   transform: translateY(-1px);
-  background: #a6c4ff;
+  /* Default buttons are light blue; on hover, switch to the site's purple accent
+     so the state change is obvious (and not “more light blue”). */
+  background: rgba(203, 182, 255, 0.92);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.28);
+  border-color: rgba(203, 182, 255, 0.65);
   box-shadow:
-    0 14px 30px rgba(139, 179, 255, 0.22),
-    0 0 0 3px rgba(255, 242, 168, 0.18);
+    0 14px 30px rgba(139, 179, 255, 0.14),
+    var(--hover-accent-shadow);
+}
+
+/* Subtle/primary button variants: keep the original variant color, but add a more
+   obvious hover highlight via the purple accent ring. */
+.btn-link--primary:hover,
+.btn-link--subtle:hover {
+  box-shadow:
+    0 14px 30px rgba(139, 179, 255, 0.16),
+    var(--hover-accent-shadow);
 }
 
 .btn-link:focus-visible {
@@ -2284,8 +2336,13 @@ a[href=\"/\"]:hover {
 }
 
 .posts-index .post-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: linear-gradient(
+    90deg,
+    rgba(203, 182, 255, 0.12),
+    rgba(255, 255, 255, 0.05)
+  );
+  border-color: var(--hover-accent-border);
+  box-shadow: var(--hover-accent-shadow);
 }
 
 /* On /posts, separators should be subtle (homepage uses the bolder green separators). */

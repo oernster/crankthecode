@@ -118,7 +118,7 @@
           </a>
         {% endfor %}
 
-        <a class="btn-link btn-link--subtle" href="/posts" aria-label="All posts">All</a>
+        <a class="btn-link btn-link--all" href="/posts" aria-label="All posts">All</a>
       </div>
     </div>
 
@@ -140,6 +140,26 @@
             <img class="btn-thumb" src="{{ cover }}" alt="Why Crank" loading="lazy" />
           {% endif %}
           <span class="btn-text">Why Crank</span>
+        </a>
+
+        <a class="btn-link btn-link--with-thumb" href="/posts/blog1">
+          {% set cover = homepage_cover_index.get('blog1') %}
+          {% if cover %}
+            <img class="btn-thumb" src="{{ cover }}" alt="This blog" loading="lazy" />
+          {% else %}
+            <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+          {% endif %}
+          <span class="btn-text">This blog</span>
+        </a>
+
+        <a class="btn-link btn-link--with-thumb" href="/posts/blog2">
+          {% set cover = homepage_cover_index.get('blog2') %}
+          {% if cover %}
+            <img class="btn-thumb" src="{{ cover }}" alt="Chaos Contained: January 2026 Update" loading="lazy" />
+          {% else %}
+            <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧪</span>
+          {% endif %}
+          <span class="btn-text">Chaos Contained: January 2026 Update</span>
         </a>
       </div>
 
