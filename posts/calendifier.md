@@ -11,7 +11,15 @@ image: /static/images/calendifier.png
 extra_images:
   - /static/images/calendifier-ha.png
 ---
-# 📅 Calendifier
+# Calendifier  📅
+
+## Problem → Solution → Impact
+
+**Problem:** Implementing RFC-compliant calendars manually is tedious and error-prone.
+
+**Solution:** Calendifier parses and generates RFC5545 calendar formats for event management.
+
+**Impact:** Saves time and reduces errors in building scheduling features for software projects.
 
 # Rationale
 I wanted a fun project that created a next-gen calendar for both desktop and Home Assistant.

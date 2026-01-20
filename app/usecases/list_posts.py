@@ -79,6 +79,7 @@ class ListPostsUseCase:
         posts = []
         for post in self.repo.list_posts():
             cover_url = getattr(post, "image", None)
+            thumb_url = getattr(post, "thumb_image", None)
             markdown_wo_cover = post.content_markdown
             if cover_url:
                 markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, cover_url)
@@ -86,6 +87,10 @@ class ListPostsUseCase:
                 cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
                     post.content_markdown
                 )
+
+            # Prefer explicit thumb image for list tiles/buttons; fall back to cover.
+            if not thumb_url:
+                thumb_url = cover_url
 
             # Also strip any `extra_images` (if present) so they don't appear twice
             # (once in the custom gallery and again if the author embedded them).
@@ -104,6 +109,7 @@ class ListPostsUseCase:
                     blurb=getattr(post, "blurb", None),
                     one_liner=getattr(post, "one_liner", None),
                     cover_image_url=cover_url,
+                    thumb_image_url=thumb_url,
                     summary_html=summary_html,
                 )
             )

@@ -9,7 +9,15 @@ one_liner: "Computer-vision and ML experiments for recognising, identifying, and
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/numismatism.png
 ---
-[Coin Analysis](https://github.com/oernster/coin-analysis)
+[Coin Analysis](https://github.com/oernster/coin-analysis)  🪙
+
+## Problem → Solution → Impact
+
+**Problem:** There are few modern computer vision solutions tailored for identifying and sorting collectible coins.
+
+**Solution:** This project explores ML classification for coins using custom-trained models and image recognition.
+
+**Impact:** A helpful educational prototype in vision + classification for niche ML use cases.
 
 # Rationale
 A US friend of mine (well 2 of them actually) are really into collecting 1 cent coins and manually identifying each one

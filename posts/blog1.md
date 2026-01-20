@@ -6,7 +6,7 @@ one_liner: "Blog formally released but this time updated with SEO optimisation!"
 blurb: "Blog update with SEO"
 ---
 This blog is now a *THING!*
-However, it needed SEO optimisation
+However, it needed SEO optimisation  🔍
 
 ## This iteration involved implementing SEO optimisation.
 It wasn't too hard actually.

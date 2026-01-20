@@ -8,6 +8,7 @@ one_liner: "A personal dashboard that brings together travel, weather, and other
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/trainer.png
+thumb_image: /static/images/trainer-icon.png
 
 extra_images:
   - /static/images/trainer2.png
@@ -18,6 +19,14 @@ I developed: [Trainer](https://github.com/oernster/Trainer).
 Train Times with Weather Integration & Astronomical Events
 
 [Releases](https://github.com/oernster/Trainer/releases/)
+
+## Problem → Solution → Impact
+
+**Problem:** Regular travelers (e.g., consultants/trainers) often have messy or inconsistent travel logging.
+
+**Solution:** Trainer Travel Tracker provides a clean interface and backend for routing travel events, timestamps and offers weather to plan.
+
+**Impact:** Simplifies trip management and streamlines journey tracking.  Also supports astronomy data for fun!
 
 # Rationale
 I wanted a Train scheduling app that allowed me to look up train times without all the frustrating adverts you see on public sites such 

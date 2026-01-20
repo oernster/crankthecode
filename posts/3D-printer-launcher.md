@@ -8,12 +8,13 @@ one_liner: "A launcher and monitoring overlay for Klipper printers, designed to 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/3D-printer-launcher.png
+thumb_image: /static/images/3dprinterlauncher-icon.png
 
 extra_images:
   - /static/images/qidi.png
   - /static/images/voron.png
 ---
-I developed: [3D Printer Launcher](https://github.com/oernster/3D-Printer-Launcher).
+[3D Printer Launcher](https://github.com/oernster/3D-Printer-Launcher).
 I do a lot of 3D printing and construction/playing with electronics and software relating to 3D printing.
 This is a simple launcher tool written in python and PySide6 you can use and integrate with OBS Studio to 
 display real time data while printing

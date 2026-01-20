@@ -34,6 +34,17 @@ def _post_cover_index(blog: BlogService) -> dict[str, str]:
     return covers
 
 
+def _post_thumb_index(blog: BlogService) -> dict[str, str]:
+    """Map post slug -> thumb_image_url (only when present)."""
+
+    thumbs: dict[str, str] = {}
+    for p in blog.list_posts():
+        thumb = getattr(p, "thumb_image_url", None)
+        if thumb:
+            thumbs[p.slug] = thumb
+    return thumbs
+
+
 def _post_blurb_index(blog: BlogService) -> dict[str, str]:
     """Map post slug -> blurb (only when present)."""
 
@@ -121,6 +132,7 @@ async def homepage(
 ):
     ctx = _base_context(request)
     cover_index = _post_cover_index(blog)
+    thumb_index = _post_thumb_index(blog)
     blurb_index = _post_blurb_index(blog)
     ctx.update(
         {
@@ -148,6 +160,7 @@ async def homepage(
                 ],
             },
             "homepage_cover_index": cover_index,
+            "homepage_thumb_index": thumb_index,
             "homepage_blurb_index": blurb_index,
         }
     )
@@ -169,6 +182,7 @@ async def posts_index(
             "blurb": getattr(p, "blurb", None),
             "one_liner": getattr(p, "one_liner", None),
             "cover_image_url": p.cover_image_url,
+            "thumb_image_url": getattr(p, "thumb_image_url", None),
             # Keep links in summaries clickable.
             "summary_html": p.summary_html,
         }

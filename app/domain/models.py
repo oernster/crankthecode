@@ -15,6 +15,8 @@ class MarkdownPost:
     blurb: str | None
     one_liner: str | None
     image: str | None
+    # Optional thumbnail image used for homepage/buttons. If omitted, `image` is used.
+    thumb_image: str | None
     extra_images: Sequence[str]
     content_markdown: str
 
@@ -30,6 +32,7 @@ class PostSummary:
     blurb: str | None
     one_liner: str | None
     cover_image_url: str | None
+    thumb_image_url: str | None
     summary_html: str
 
 

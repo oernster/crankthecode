@@ -7,12 +7,21 @@ one_liner: "A helper tool for Elite Dangerous colonisation planning and Trailbla
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
-image: /static/images/EDColonizationAsst.png
+image: /static/images/edcolonizationasst.png
+thumb_image: /static/images/edcolonizationasst-icon.png
 
 extra_images:
   - /static/images/EDColonizationAsst2.png
 ---
 [EDColonizationAsst](https://github.com/oernster/EDColonizationAsst)
+
+## Problem → Solution → Impact
+
+**Problem:** Complex games like Elite: Dangerous overwhelm players with disorganized data.
+
+**Solution:** EDColonizationAsst captures and organizes in-game colonization data for easy reference and planning.
+
+**Impact:** Enhances user experience by reducing decision fatigue and helping players track long-term objectives.
 
 # Rationale
 I play the game Elite Dangerous a lot and have a full HOTAS and rudder pedals and GameGlass setup for it on a tablet.

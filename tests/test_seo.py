@@ -8,7 +8,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
-from app.http.seo import build_meta_description
+from app.http.seo import build_meta_description, get_site_url, to_iso_date
 from app.main import create_app
 
 
@@ -76,4 +76,28 @@ def test_robots_txt_includes_sitemap_location():
         assert re.search(r"(?im)^User-agent:\s*\*$", resp.text)
     finally:
         os.environ.pop("SITE_URL", None)
+
+
+def test_get_site_url_uses_default_when_no_env_and_no_request():
+    os.environ.pop("SITE_URL", None)
+    assert get_site_url(None).startswith("https://")
+
+
+def test_build_meta_description_empty_returns_empty_string():
+    assert build_meta_description(None, fallback=None, default="") == ""
+
+
+def test_build_meta_description_truncates_with_ellipsis():
+    long = "x" * 500
+    desc = build_meta_description(long, default="")
+    assert desc.endswith("…")
+    assert len(desc) <= 160
+
+
+def test_to_iso_date_parses_supported_formats_and_returns_none_for_invalid():
+    assert to_iso_date("2026-01-20 10:10") == "2026-01-20"
+    assert to_iso_date("2026-01-20") == "2026-01-20"
+    assert to_iso_date("") is None
+    assert to_iso_date("not-a-date") is None
+
 

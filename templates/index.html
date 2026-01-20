@@ -53,9 +53,23 @@
             class="btn-link btn-link--with-thumb{% if loop.first %} btn-link--primary featured-primary{% endif %}"
             href="/posts/{{ p.slug }}"
           >
-            {% set cover = homepage_cover_index.get(p.slug) %}
+            {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
             {% set blurb = homepage_blurb_index.get(p.slug) %}
-            {% if cover %}
+            {% if p.slug == 'blog1' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+            {% elif p.slug == 'calendifier' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+            {% elif p.slug == 'elevator' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+            {% elif p.slug == 'audiodeck' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+            {% elif p.slug == 'galacticunicorn' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+            {% elif p.slug == '3D-printer-launcher' %}
+              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
+            {% elif p.slug == 'fancy-clock' %}
+              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
+            {% elif cover %}
               <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
             {% endif %}
             <span class="btn-text">
@@ -76,9 +90,23 @@
       <div class="featured-buttons" aria-label="Backlog project links">
         {% for p in homepage_projects.backlog %}
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
-            {% set cover = homepage_cover_index.get(p.slug) %}
+            {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
             {% set blurb = homepage_blurb_index.get(p.slug) %}
-            {% if cover %}
+            {% if p.slug == 'blog1' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+            {% elif p.slug == 'calendifier' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+            {% elif p.slug == 'elevator' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+            {% elif p.slug == 'audiodeck' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+            {% elif p.slug == 'galacticunicorn' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+            {% elif p.slug == '3D-printer-launcher' %}
+              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
+            {% elif p.slug == 'fancy-clock' %}
+              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
+            {% elif cover %}
               <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
             {% endif %}
             <span class="btn-text">

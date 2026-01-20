@@ -9,7 +9,15 @@ one_liner: "An embedded Python database that stores JSON documents with atomic c
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/AxisDB.png
 ---
-[AxisDB](https://github.com/oernster/AxisDB)
+[AxisDB](https://github.com/oernster/AxisDB)  🗃️
+
+## Problem → Solution → Impact
+
+**Problem:** Small projects often need reliable, lightweight data storage without a full-blown RDBMS.
+
+**Solution:** AxisDB is a Python-native, atomic, multidimensional key-value JSON database with optional RESTful interface.
+
+**Impact:** Provides durable and minimal-effort local storage with modern developer ergonomics. [Install via PyPI](https://pypi.org/project/axisdb)
 
 # Rationale
 Because everything else was too normal...

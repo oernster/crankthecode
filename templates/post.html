@@ -42,7 +42,8 @@ pip install axisdb</code></pre>
     </div>
   {% endif %}
 
-  {% if post.cover_image_url %}
+  {# Stellody's `image` is a square app icon; avoid rendering it as a huge header cover. #}
+  {% if post.cover_image_url and post.slug != 'stellody' %}
     <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" />
   {% endif %}
   {% if post.extra_image_urls %}

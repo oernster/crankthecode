@@ -7,12 +7,21 @@ one_liner: "A customisable desktop clock featuring skins, localisation, and anim
 # Primary (cover) image used by the site header.
 # This will NOT be duplicated in the post body (the renderer strips a matching standalone image).
 image: /static/images/fancy-clock.png
+thumb_image: /static/images/fancyclock-icon.png
 
 extra_images:
   - /static/images/fancy-clock2.png
   - /static/images/fancy-clock3.png
 ---
-I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/FancyClock).
+I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/FancyClock)
+
+## Problem → Solution → Impact
+
+**Problem:** Default desktop clocks are boring, inflexible, and lack meaningful utility.
+
+**Solution:** FancyClock is a customizable desktop clock with additional display options and user-adjustable features.
+
+**Impact:** Gives users a visually rich and practical desktop enhancement while demonstrating real-time UI design.
 
 # Rationale
 I wanted to knock something up quickly to show off to a friend using AI but got diverted into making it fully featured 

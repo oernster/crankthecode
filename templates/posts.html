@@ -11,8 +11,23 @@
       >
         <div class="post-heading">
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ post.slug }}">
-            {% if post.cover_image_url %}
-              <img class="btn-thumb" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="lazy" />
+            {% set thumb = post.thumb_image_url or post.cover_image_url %}
+            {% if post.slug == 'blog1' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+            {% elif post.slug == 'calendifier' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+            {% elif post.slug == 'elevator' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+            {% elif post.slug == 'audiodeck' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+            {% elif post.slug == 'galacticunicorn' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+            {% elif post.slug == '3D-printer-launcher' %}
+              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ post.title }}" loading="lazy" />
+            {% elif post.slug == 'fancy-clock' %}
+              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ post.title }}" loading="lazy" />
+            {% elif thumb %}
+              <img class="btn-thumb" src="{{ thumb }}" alt="{{ post.title }}" loading="lazy" />
             {% endif %}
             <span class="btn-text">
               {{ post.title }}

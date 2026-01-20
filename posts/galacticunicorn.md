@@ -9,7 +9,15 @@ one_liner: "MicroPython experiments on the Galactic Unicorn LED matrix, explorin
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/galacticunicorn.png
 ---
-[GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn)
+[GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn)  🦄
+
+## Problem → Solution → Impact
+
+**Problem:** LED animation projects for MicroPython often lack structured, beginner-friendly examples.
+
+**Solution:** This project showcases MicroPython control of the Galactic Unicorn LED board with reusable patterns.
+
+**Impact:** Provides a fun and approachable starting point for embedded LED development.
 
 # Rationale
 I bought a GalacticUnicorn as a fun device to play with and wanted a project to work on rather than simply

@@ -12,10 +12,18 @@ image: /static/images/audiodeck1.png
 extra_images:
   - /static/images/audiodeck2.png
 ---
-I developed: [Audio Deck](https://github.com/oernster/AudioDeck).
+[Audio Deck](https://github.com/oernster/AudioDeck)  🔊
 A professional audio device switcher for Windows with Stream Deck integration.
 
 [Releases](https://github.com/oernster/AudioDeck/releases/)
+
+## Problem → Solution → Impact
+
+**Problem:** Switching between multiple audio inputs/outputs in hardware or desktop setups is awkward.
+
+**Solution:** Audiodeck is a programmable audio routing manager for streamlining device switching.
+
+**Impact:** Improves usability in home labs, streaming setups, and embedded audio workflows.
 
 ## Overview
 

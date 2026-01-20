@@ -9,8 +9,17 @@ one_liner: "A web-based elevator control panel built with Django and React."
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/elevator.png
 ---
+[Elevator](https://github.com/oernster/elevator)  🛗
 
-I knocked up a simple elevator control panel you can run locally as a website: [Elevator](https://github.com/oernster/elevator).
+I knocked up a simple elevator control panel you can run locally as a website.
+
+## Problem → Solution → Impact
+
+**Problem:** Real-time simulation and control of elevator logic through the browser is rarely intuitive.
+
+**Solution:** This panel offers a live-reactive UI wired to backend logic that simulates elevator behavior.
+
+**Impact:** A flexible demo platform for teaching, prototyping, or gamifying state-driven UI systems.
 
 # Rationale
 A fun test of my, at the time, primitive React skillset.
