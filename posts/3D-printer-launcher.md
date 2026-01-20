@@ -1,7 +1,7 @@
 ---
 title: "3D Printer Launcher"
 date: "2026-01-19 07:15"
-tags: ["3D", "printing", "launcher", "klipper", "monitoring", "temperatures", "real time", "OBS Studio"]
+tags: ["3D", "printing", "launcher", "klipper", "monitoring", "temperatures", "real time", "OBS Studio", "python"]
 blurb: "Klipper launcher"
 one_liner: "A launcher and monitoring overlay for Klipper printers, designed to be stream-friendly and information-dense."
 

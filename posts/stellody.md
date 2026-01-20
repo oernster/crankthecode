@@ -1,7 +1,7 @@
 ---
 title: "Stellody"
 date: "2026-01-19 13:45"
-tags: ["Stellody", "stellar", "melody", "curated", "Sub-Genres", "music", "playlists", "music library", "spotify"]
+tags: ["Stellody", "stellar", "melody", "curated", "Sub-Genres", "music", "playlists", "music library", "spotify", "python"]
 blurb: "Music playlists"
 one_liner: "A cross-platform app that analyses your library (or Spotify) and generates genre-sorted playlists."
 
