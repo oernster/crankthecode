@@ -19,9 +19,16 @@ Train Times with Weather Integration & Astronomical Events
 
 [Releases](https://github.com/oernster/Trainer/releases/)
 
+# Rationale
+I wanted a Train scheduling app that allowed me to look up train times without all the frustrating adverts you see on public sites such 
+as https://www.thetrainline.com
+Then I wanted to know whether to take an umbrella or coat to the station when I was commuting so I added in weather options.
+As a final touch I decided to throw in some astronomical and moon phasing imagery and links since I have a degree in physics and I'm 
+nerdy like that!
+
 # Challenges along the way
-Creating a curated list of all train stops, train lines, underground variants etc. throughout the UK (excluding Northern Ireland) took a lot of time and perseverance.
-Finding suitable astronomical sites to be linked was not as straightforward as I desired.
+Creating a curated list of all train stops, train lines, underground variants etc. throughout the UK (excluding Northern Ireland) took a 
+lot of time and perseverance.  Finding suitable astronomical sites to be linked was not as straightforward as I desired.
 Weather and moon phasing and UI subtleties turned out to be quite the frustration but I ploughed on through until I got it how I wanted it! 
 
 ## Overview

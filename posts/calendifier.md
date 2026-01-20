@@ -13,6 +13,14 @@ extra_images:
 ---
 # 📅 Calendifier
 
+# Rationale
+I wanted a fun project that created a next-gen calendar for both desktop and Home Assistant.
+I then wanted to make it fully featured with an NTP synchronised digital/analogue clock, with full and effective 
+support for eventing.  Then I fancied adding in some additional features so for extra fun and defiance I wrote in 
+functionality for locale specific holidays.  As a final coup de grace, I made it fully internationlized for a large 
+number of locales around the world in foreign languages/numbering standards; that, by the way, was freaking HARD! 
+
+
 # Challenges along the way
 A standards-compliant calendar backend. RFC5545? I *hardly* knew her.
 The main app was HARD due to internationalization; this was my first foray into internationalizing an app and I did it 

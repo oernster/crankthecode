@@ -12,7 +12,9 @@ image: /static/images/EDColonizationAsst.png
 extra_images:
   - /static/images/EDColonizationAsst2.png
 ---
-I developed: [EDColonizationAsst](https://github.com/oernster/EDColonizationAsst).
+[EDColonizationAsst](https://github.com/oernster/EDColonizationAsst)
+
+# Rationale
 I play the game Elite Dangerous a lot and have a full HOTAS and rudder pedals and GameGlass setup for it on a tablet.
 I wanted the ability to manage a shopping list of goods and commodities for when you're building out new space stations and orbital sites
 on a second tablet (I run Samsung Galaxy A9+ tablets).

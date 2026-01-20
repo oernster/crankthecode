@@ -10,6 +10,11 @@ one_liner: "A playful API that generates sarcastic, roast-style responses for IT
 image: /static/images/snarkapi.png
 ---
 # Snark-as-a-service API
-I did something for fun to roast IT devs/operators: [SnarkAPI](https://snarkapi.com/).
+[SnarkAPI](https://snarkapi.com/)
+
+# Rationale
+I wanted to roast IT devs/operators and do it publicly!
+
+# Overview
 Public sarcasm-as-a-service. Yes, it’s real. No, I won’t apologize.
 It's a minimal FastAPI service that returns a sarcastic quote with some IT crowd quotes thrown in for good measure.

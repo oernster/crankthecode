@@ -9,8 +9,12 @@ one_liner: "MicroPython experiments on the Galactic Unicorn LED matrix, explorin
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/galacticunicorn.png
 ---
-I played with micropython and a Galactic Unicorn device: [GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn).
-TBH I don't really get on with micropython since it's such a limited feature set but it was quite fun to do.
+[GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn)
+
+# Rationale
+I bought a GalacticUnicorn as a fun device to play with and wanted a project to work on rather than simply
+play with the supplied apps.  This allowed me to play with micropython.  To be honest I don't really like 
+micropython since it's such a limited feature set but it was quite fun to write.
 
 ## Overview
 Button controls on the Galactic Unicorn itself...
