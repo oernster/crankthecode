@@ -12,7 +12,7 @@ For almost 3 decades, I’ve worked across a galaxy of companies (from nimble st
 
 But when I'm not neck-deep in Python, C, C++, AWS Terraform scripts, FastAPI endpoints, or navigating the emotional rollercoaster that is Django migrations, I’m probably elbow-deep in plastic shavings building another 3D printer. Yes, I built six of them. Yes, they’re *probably* faster than yours.
 
-My GitHub is a pile of weird, wonderful, occasionally useful code experiments — some were hard work, some were curiosity, and some were “I wonder if I can make a train departure board talk to a weather API just because I can.” Spoiler: I can.
+My GitHub is a pile of weird, wonderful, occasionally useful code experiments — some were hard work, some were curiosity, and one was even “I wonder if I can make a train departure board talk to a weather API just because I can.” Spoiler: I can.
 
 I built this blog (yes, from scratch) to share the stuff I crank out — half portfolio, half playground, fully geeky.
 
