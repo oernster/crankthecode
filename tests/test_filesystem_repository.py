@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import date as Date
+from datetime import datetime
 from pathlib import Path
 
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
@@ -67,3 +69,34 @@ def test_filesystem_repository_handles_none_tags_and_none_extra_images(tmp_path:
     assert post is not None
     assert list(post.tags) == []
     assert list(post.extra_images) == []
+
+
+def test_normalize_published_at_supports_datetime_date_datetime_string_and_fallbacks():
+    # datetime passthrough
+    dt = datetime(2024, 1, 2, 3, 4)
+    assert FilesystemPostsRepository._normalize_published_at(dt) == "2024-01-02 03:04"
+
+    # date -> assumed midday
+    d = Date(2024, 1, 2)
+    assert FilesystemPostsRepository._normalize_published_at(d) == "2024-01-02 12:00"
+
+    # date-only string -> assumed midday
+    assert (
+        FilesystemPostsRepository._normalize_published_at("2024-01-02")
+        == "2024-01-02 12:00"
+    )
+
+    # datetime string with space separator
+    assert (
+        FilesystemPostsRepository._normalize_published_at("2024-01-02 03:04")
+        == "2024-01-02 03:04"
+    )
+
+    # invalid string -> ValueError fallback to string coercion
+    assert FilesystemPostsRepository._normalize_published_at("not-a-date") == "not-a-date"
+
+    # unknown type -> sentinel default
+    assert (
+        FilesystemPostsRepository._normalize_published_at(object())
+        == "1900-01-01 12:00"
+    )
