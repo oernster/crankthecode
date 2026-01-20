@@ -31,11 +31,23 @@ If you want absolute URLs in feed items to point at your public domain behind a 
 set `SITE_URL` (e.g. `https://crankthecode.com`). If unset, the feed uses the incoming
 request base URL.
 
+## SEO
+
+- `GET /sitemap.xml` – XML sitemap (homepage + index pages + all posts)
+- `GET /robots.txt` – robots file (allows crawl + points to sitemap)
+
+For canonical URLs (sitemap, `rel=canonical`, OpenGraph, JSON-LD), set `SITE_URL`
+(recommended: `https://www.crankthecode.com`). If unset, the app falls back to the
+incoming request base URL (and finally `https://www.crankthecode.com`).
+
+Per-post meta description uses frontmatter `blurb` (fallback `one_liner`).
+
 ## Dev / TDD
 
 ```bash
 pip install -r requirements.txt -r requirements-dev.txt
 pytest
+pytest -v --cov
 black .
 flake8
 pre-commit install
