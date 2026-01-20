@@ -1,7 +1,7 @@
 ---
 title: "Elite Dangerous Colonization Assistant"
 date: "2026-01-19 04:40"
-tags: ["elite", "frontier", "dangerous", "colonization", "trailblazer", "gaming", "game"]
+tags: ["elite", "frontier", "dangerous", "colonization", "trailblazer", "gaming", "game", "python"]
 blurb: "Elite helper"
 one_liner: "A helper tool for Elite Dangerous colonisation planning and Trailblazer workflow."
 
