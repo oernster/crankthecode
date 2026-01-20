@@ -1,6 +1,6 @@
 ---
 title: "Fancy Clock"
-date: "2026-01-19 02:35"
+date: "2026-01-19 04:35"
 tags: ["clock", "fancy", "fun", "internationalization", "skins", "video", "python"]
 blurb: "Desktop clock"
 one_liner: "A customisable desktop clock featuring skins, localisation, and animated/video backgrounds."
@@ -20,6 +20,8 @@ but it turned out to be more complex as I added more features.  Then I decided t
 a fun challenge but I got there in the end.
 The REAL struggle was internationalizing the app.  Multiple languages and timezones throughout the world are HARD
 to support.  Especially when you want to support regional numbering systems AS WELL! 
+
+[Releases](https://github.com/oernster/FancyClock/releases)
 
 ## Current release v1.5.3
 - Majorly refactored code to be OO, meet SOLID principles, PEP8 compliant, flake8/black compliant, TDD; all files < 350 lines.

@@ -17,6 +17,8 @@ I play the game Elite Dangerous a lot and have a full HOTAS and rudder pedals an
 I wanted the ability to manage a shopping list of goods and commodities for when you're building out new space stations and orbital sites
 on a second tablet (I run Samsung Galaxy A9+ tablets).
 
+[Releases](https://github.com/oernster/EDColonizationAsst/releases)
+
 # Challenges along the way
 Making it function correctly by reading game journal data was a bit of a hassle.  However, once I understood the structure of the data
 and how it updates the journal files became a little easier to work with.

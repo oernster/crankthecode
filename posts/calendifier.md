@@ -23,6 +23,8 @@ However, aside from the aforementioned internationalization support challenges, 
 RFC5545 which is basically the official canonical way to support Eventing in a Calendar application.  I got there in the end though
 and I feel the UI is relatively intuitive for this purpose.
 
+[Releases](https://github.com/oernster/Calendifier/releases)
+
 ## 🌟 Overview
 
 **Calendifier** is a sophisticated calendar system available in two deployment modes:

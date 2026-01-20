@@ -15,6 +15,8 @@ extra_images:
 I developed: [Audio Deck](https://github.com/oernster/AudioDeck).
 A professional audio device switcher for Windows with Stream Deck integration.
 
+[Releases](https://github.com/oernster/AudioDeck/releases/)
+
 ## Overview
 
 Audio Deck allows you to switch between customized audio setups instantly. It’s ideal for gamers, remote workers, content creators, and Stream Deck users who want fast, reliable control over their audio environment.
