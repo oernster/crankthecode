@@ -8,6 +8,7 @@ one_liner: "Computer-vision and ML experiments for recognising, identifying, and
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/numismatism.png
+social_image: /static/images/numismatism.png
 ---
 [Coin Analysis](https://github.com/oernster/coin-analysis)  🪙
 

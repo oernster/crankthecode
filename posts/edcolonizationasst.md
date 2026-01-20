@@ -9,6 +9,7 @@ one_liner: "A helper tool for Elite Dangerous colonisation planning and Trailbla
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/edcolonizationasst.png
 thumb_image: /static/images/edcolonizationasst-icon.png
+social_image: /static/images/edcolonizationasst.png
 
 extra_images:
   - /static/images/EDColonizationAsst2.png

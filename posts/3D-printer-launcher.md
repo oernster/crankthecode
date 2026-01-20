@@ -8,6 +8,7 @@ one_liner: "A launcher and monitoring overlay for Klipper printers, designed to 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/3D-printer-launcher.png
+social_image: /static/images/3d-printer-launcher.png
 thumb_image: /static/images/3dprinterlauncher-icon.png
 
 extra_images:

@@ -42,6 +42,7 @@ class FilesystemPostsRepository(PostsRepository):
         one_liner = post.get("one_liner")
         image = post.get("image")
         thumb_image = post.get("thumb_image")
+        social_image = post.get("social_image")
         extra_images_raw = post.get("extra_images", [])
         if tags is None:
             tags = []
@@ -71,6 +72,7 @@ class FilesystemPostsRepository(PostsRepository):
             one_liner=one_liner,
             image=str(image) if image else None,
             thumb_image=str(thumb_image) if thumb_image else None,
+            social_image=str(social_image) if social_image else None,
             extra_images=tuple(str(u) for u in extra_images_raw),
             content_markdown=post.content,
         )

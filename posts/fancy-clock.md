@@ -8,6 +8,7 @@ one_liner: "A customisable desktop clock featuring skins, localisation, and anim
 # This will NOT be duplicated in the post body (the renderer strips a matching standalone image).
 image: /static/images/fancy-clock.png
 thumb_image: /static/images/fancyclock-icon.png
+social_image: /static/images/fancy-clock.png
 
 extra_images:
   - /static/images/fancy-clock2.png

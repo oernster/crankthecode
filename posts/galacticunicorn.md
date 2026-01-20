@@ -8,6 +8,7 @@ one_liner: "MicroPython experiments on the Galactic Unicorn LED matrix, explorin
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/galacticunicorn.png
+social_image: /static/images/galacticunicorn.png
 ---
 [GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn)  🦄
 

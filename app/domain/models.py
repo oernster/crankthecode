@@ -19,6 +19,8 @@ class MarkdownPost:
     thumb_image: str | None
     extra_images: Sequence[str]
     content_markdown: str
+    # Optional social share image (OpenGraph/Twitter). If omitted, cover image is used.
+    social_image: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -49,3 +51,4 @@ class PostDetail:
     cover_image_url: str | None
     extra_image_urls: Sequence[str]
     content_html: str
+    social_image_url: str | None = None

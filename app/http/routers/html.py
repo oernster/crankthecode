@@ -80,12 +80,16 @@ def _base_context(request: Request) -> dict:
     return {
         "request": request,
         "site_url": site_url,
+        # Optional override for `<title>` in `base.html`.
+        "page_title": None,
         "site_name": "CrankTheCode",
         "robots_meta": "index,follow",
         "canonical_url": canonical_url_for_request(request, site_url=site_url),
         "og_title": "CrankTheCode",
+        "og_description": None,
         "og_type": "website",
         "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
+        "jsonld_extra_json": None,
         "meta_description": "CrankTheCode — projects and technical write-ups by Oliver Ernster.",
         "sidebar_categories": _sidebar_categories(),
         "current_q": (request.query_params.get("q") or "").strip(),
@@ -138,6 +142,7 @@ async def homepage(
         {
             "is_homepage": True,
             "og_title": "CrankTheCode",
+            "og_description": "Projects and technical write-ups by Oliver Ernster.",
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "homepage_projects": {
                 "featured": [
@@ -164,6 +169,19 @@ async def homepage(
             "homepage_blurb_index": blurb_index,
         }
     )
+
+    # Bonus SEO sauce: SoftwareApplication schema (site-level, for rich previews/search).
+    homepage_jsonld = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "CrankTheCode",
+        "url": absolute_url(get_site_url(request), "/"),
+        "author": {"@type": "Person", "name": "Oliver Ernster"},
+    }
+    ctx["jsonld_extra_json"] = json.dumps(
+        homepage_jsonld, ensure_ascii=False, separators=(",", ":")
+    )
+
     return templates.TemplateResponse(request, "index.html", ctx)
 
 
@@ -198,7 +216,9 @@ async def posts_index(
         {
             "posts": posts,
             "is_homepage": False,
+            "page_title": "Posts | CrankTheCode",
             "og_title": "Posts | CrankTheCode",
+            "og_description": "Browse all CrankTheCode posts and project write-ups.",
             "meta_description": "Browse all CrankTheCode posts and project write-ups.",
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
@@ -229,7 +249,9 @@ async def about_page(
         {
             "about_html": _load_about_html(),
             "is_homepage": False,
+            "page_title": "About Me | CrankTheCode",
             "og_title": "About Me | CrankTheCode",
+            "og_description": "About Oliver Ernster and the CrankTheCode blog.",
             "meta_description": "About Oliver Ernster and the CrankTheCode blog.",
             "back_link_href": "/",
             "back_link_label": "← Back to posts",
@@ -270,14 +292,46 @@ async def read_post(
     # Post-specific SEO.
     site_url = ctx.get("site_url") or DEFAULT_SITE_URL
     canonical = canonical_url_for_request(request, site_url=site_url)
+    # SEO meta description: keep it stable and concise; tests expect blurb first.
     description = build_meta_description(
         getattr(detail, "blurb", None),
         fallback=getattr(detail, "one_liner", None),
         default=f"Read {detail.title} on CrankTheCode.",
     )
 
-    og_image = detail.cover_image_url or absolute_url(site_url, "/static/images/me.jpg")
+    # Social previews: one-liner reads better when shared.
+    og_description = build_meta_description(
+        getattr(detail, "one_liner", None),
+        fallback=getattr(detail, "blurb", None),
+        default=description,
+    )
+
+    subtitle = (getattr(detail, "one_liner", None) or getattr(detail, "blurb", None) or "").strip()
+    og_title = f"{detail.title} - {subtitle}" if subtitle else detail.title
+
+    og_image = (
+        getattr(detail, "social_image_url", None)
+        or detail.cover_image_url
+        or absolute_url(site_url, "/static/images/me.jpg")
+    )
     og_image = absolute_url(site_url, og_image)
+
+    # Bonus SEO sauce: for project posts, add SoftwareApplication schema.
+    is_project = bool(getattr(detail, "one_liner", None) or getattr(detail, "blurb", None))
+    if is_project:
+        app_jsonld = {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": detail.title,
+            "operatingSystem": "Cross-platform",
+            "applicationCategory": "Developer Tool",
+            "description": og_description,
+            "author": {"@type": "Person", "name": "Oliver Ernster"},
+            "url": canonical,
+        }
+        ctx["jsonld_extra_json"] = json.dumps(
+            app_jsonld, ensure_ascii=False, separators=(",", ":")
+        )
 
     published_iso = to_iso_date(detail.date)
     jsonld: dict[str, object] = {
@@ -296,9 +350,11 @@ async def read_post(
         {
             "post": post,
             "is_homepage": False,
+            "page_title": f"{og_title} | CrankTheCode",
             "canonical_url": canonical,
             "meta_description": description,
-            "og_title": f"{detail.title} | CrankTheCode",
+            "og_title": og_title,
+            "og_description": og_description,
             "og_type": "article",
             "og_image_url": og_image,
             "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),

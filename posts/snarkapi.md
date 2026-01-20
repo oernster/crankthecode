@@ -8,6 +8,7 @@ one_liner: "A playful API that generates sarcastic, roast-style responses for IT
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/snarkapi-icon.png
+social_image: /static/images/snarkapi-card.png
 thumb_image: /static/images/snarkapi-icon.png
 ---
 # Snark-as-a-service API

@@ -8,6 +8,7 @@ one_liner: "A personal dashboard that brings together travel, weather, and other
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/trainer.png
+social_image: /static/images/trainer.png
 thumb_image: /static/images/trainer-icon.png
 
 extra_images:

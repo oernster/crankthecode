@@ -8,6 +8,8 @@ one_liner: "A Windows utility for quickly switching audio devices and routes wit
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/audiodeck1.png
+social_image: /static/images/audiodeck1.png
+thumb_image: /static/images/audiodeck1.png
 
 extra_images:
   - /static/images/audiodeck2.png

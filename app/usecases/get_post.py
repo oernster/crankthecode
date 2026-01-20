@@ -20,6 +20,7 @@ class GetPostUseCase:
             return None
 
         cover_url = getattr(post, "image", None)
+        social_url = getattr(post, "social_image", None)
         extra_urls = tuple(getattr(post, "extra_images", ()))
         markdown_wo_cover = post.content_markdown
         if cover_url:
@@ -41,6 +42,7 @@ class GetPostUseCase:
             blurb=getattr(post, "blurb", None),
             one_liner=getattr(post, "one_liner", None),
             cover_image_url=cover_url,
+            social_image_url=social_url,
             extra_image_urls=extra_urls,
             content_html=html_content,
         )

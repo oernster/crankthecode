@@ -8,6 +8,7 @@ one_liner: "A cross-platform app that analyses your library (or Spotify) and gen
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/stellody.png
+social_image: /static/images/stellody.png
 thumb_image: /static/images/stellody-icon.png
 ---
 
@@ -102,7 +103,7 @@ thumb_image: /static/images/stellody-icon.png
         vague mood sliders, and surface-level Spotify integration.
       </p>
       <p>
-        Let’s stroll through the actual landscape of <strong>Stellody’s competition</strong> — and why Stellody isn’t just
+        Let’s stroll through the actual landscape of <strong>Stellody’s competition</strong> - and why Stellody isn’t just
         better. It’s in a <strong>category of its own</strong>.
       </p>
     </div>
@@ -110,13 +111,13 @@ thumb_image: /static/images/stellody-icon.png
     <h2>✨ Stellody’s Capabilities</h2>
     <ul class="feature-list">
       <li><strong>Dual Source Support:</strong> Start with either your local music folder or your existing Spotify playlists.</li>
-      <li><strong>Genre Filtering:</strong> Pick exactly which genre families to include — from Metal and Jazz to Pop, Hip Hop, and Ambient.</li>
+      <li><strong>Genre Filtering:</strong> Pick exactly which genre families to include - from Metal and Jazz to Pop, Hip Hop, and Ambient.</li>
       <li><strong>Goal Year Range Control:</strong> Specify a target minimum and maximum year. Stellody aims to prioritise that range while keeping playlists diverse.</li>
-      <li><strong>Subgenre Awareness:</strong> Stellody understands real music taxonomy — from <em>Cloud Rap</em> to <em>Nu Metal</em> to <em>Baroque Pop</em>.</li>
+      <li><strong>Subgenre Awareness:</strong> Stellody understands real music taxonomy - from <em>Cloud Rap</em> to <em>Nu Metal</em> to <em>Baroque Pop</em>.</li>
       <li><strong>Privacy First:</strong> Your files never leave your machine. Stellody runs locally, using Spotify only for playlist creation.</li>
-      <li><strong>Spotify + MusicBrainz Integration:</strong> Enriches classification using artist metadata — not guesswork.</li>
-      <li><strong>Cross-Platform:</strong> Available for Windows, macOS, and Linux — with proper installers and versioning.</li>
-      <li><strong>Professional Licensing:</strong> Demo, Standard, and Pro tiers — all built into the app with no online account required.</li>
+      <li><strong>Spotify + MusicBrainz Integration:</strong> Enriches classification using artist metadata - not guesswork.</li>
+      <li><strong>Cross-Platform:</strong> Available for Windows, macOS, and Linux - with proper installers and versioning.</li>
+      <li><strong>Professional Licensing:</strong> Demo, Standard, and Pro tiers - all built into the app with no online account required.</li>
     </ul>
 
     <h2>💀 The Competitor Roast</h2>
@@ -127,7 +128,7 @@ thumb_image: /static/images/stellody-icon.png
       </li>
       <li>
         <strong>Playlistable.io:</strong> AI playlist building based on your listening history.
-        <br><em>Roast:</em> "Playlistable: Perfect if you want Spotify to echo your existing taste — again."
+        <br><em>Roast:</em> "Playlistable: Perfect if you want Spotify to echo your existing taste - again."
       </li>
       <li>
         <strong>Chosic & Similar:</strong> Artist or keyword input gets you genre soup.
@@ -153,18 +154,18 @@ thumb_image: /static/images/stellody-icon.png
       Still not convinced?
       <strong><a href="https://www.stellody.com/change-log">See the changelog</a></strong> or explore
       <strong><a href="https://www.stellody.com/">Stellody’s homepage</a></strong> to try it yourself.<br>
-      Built by someone who actually listens — and owns a 5k library of musical tracks.
+      Built by someone who actually listens - and owns a 5k library of musical tracks.
     </footer>
   </main>
 </div>
 
 ## Screenshots
 
-![Stellody options]( /static/images/stellody-options.png )
+![Stellody app options and settings screen](/static/images/stellody-options.png)
 
-![Stellody playlists]( /static/images/stellody-playlists.png )
+![Stellody playlist generation results view](/static/images/stellody-playlists.png)
 
-![Stellody formats]( /static/images/stellody-formats.png )
+![Stellody supported music formats selection screen](/static/images/stellody-formats.png)
 
 # Rationale
 I wanted to discover new music based on my local 5k track library of FLAC music.  However, I wanted it to be curated to my personal tastes rather than the 
@@ -190,13 +191,13 @@ Stellody is a play on words; Stellar and Melody.
 
 Start with a local music folder or your Spotify playlists.
 Stellody analyses your artists, finds similar ones, and works out the genres they belong to.
-Then it generates ready-made playlists directly in Spotify — neatly sorted by genre (works with Spotify Free or Premium).
+Then it generates ready-made playlists directly in Spotify - neatly sorted by genre (works with Spotify Free or Premium).
 
-Spotify playlist mode: your playlists are retrieved automatically — no manual importing.
+Spotify playlist mode: your playlists are retrieved automatically - no manual importing.
 
 Deezer support is built, but currently disabled due to Deezer API restrictions.
 When it’s finished, just check Spotify for your new playlists. Not on Spotify? The in-app guide explains how to transfer playlists to other services.
 
-Runs locally — your music files never leave your computer. We only create playlists in Spotify.
+Runs locally - your music files never leave your computer. We only create playlists in Spotify.
 
 It runs on Windows, Linux and MacOS.

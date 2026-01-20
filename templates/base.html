@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}CrankTheCode{% endblock %}</title>
+  <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}CrankTheCode{% endblock %}{% endif %}</title>
   {% if meta_description %}
     <meta name="description" content="{{ meta_description }}">
   {% endif %}
@@ -14,7 +14,9 @@
   {% if og_title %}
     <meta property="og:title" content="{{ og_title }}">
   {% endif %}
-  {% if meta_description %}
+  {% if og_description %}
+    <meta property="og:description" content="{{ og_description }}">
+  {% elif meta_description %}
     <meta property="og:description" content="{{ meta_description }}">
   {% endif %}
   {% if canonical_url %}
@@ -30,7 +32,9 @@
   {% if og_title %}
     <meta name="twitter:title" content="{{ og_title }}">
   {% endif %}
-  {% if meta_description %}
+  {% if og_description %}
+    <meta name="twitter:description" content="{{ og_description }}">
+  {% elif meta_description %}
     <meta name="twitter:description" content="{{ meta_description }}">
   {% endif %}
   {% if og_image_url %}
@@ -43,6 +47,10 @@
 
   {% if jsonld_json %}
     <script type="application/ld+json">{{ jsonld_json | safe }}</script>
+  {% endif %}
+
+  {% if jsonld_extra_json %}
+    <script type="application/ld+json">{{ jsonld_extra_json | safe }}</script>
   {% endif %}
 
   <link rel="stylesheet" href="/static/styles.css">
@@ -58,7 +66,7 @@
         // Slightly annoying but effective
         const user = "oernster";
         const domain = "codecrafter.uk";
-        const link = `mailto:${user}@${domain}`;
+        const link = "mai" + "lto:" + user + "@" + domain;
         document.write(`<a class="header-email-link" href="${link}">${user}@${domain}</a>`);
       </script>
       <noscript>Email visible with JavaScript enabled ~ or reach me via GitHub.</noscript>
@@ -72,7 +80,7 @@
 
         <div class="header-actions">
           <a class="home-favicon-link" href="/" aria-label="Home">
-            <img class="home-favicon-icon" src="/favicon.ico" alt="" aria-hidden="true" />
+            <img class="home-favicon-icon" src="/favicon.ico" alt="CrankTheCode home" />
           </a>
           <button
             class="icon-btn search-toggle"
@@ -84,7 +92,7 @@
             🔍
           </button>
           <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
-            <img class="rss-icon" src="/static/rss.svg" alt="" />
+            <img class="rss-icon" src="/static/rss.svg" alt="CrankTheCode RSS" />
           </a>
         </div>
       </div>
@@ -124,10 +132,10 @@
         <span class="header-cta-slot" aria-label="Email me">
           <script type="text/javascript">
             // Keep the email address out of the static HTML to reduce bot scraping.
-            (function () {
-              const user = "oernster";
-              const domain = "codecrafter.uk";
-              const link = `mailto:${user}@${domain}`;
+           (function () {
+             const user = "oernster";
+             const domain = "codecrafter.uk";
+              const link = "mai" + "lto:" + user + "@" + domain;
               const label = "Let’s build something ~ email me.";
               document.currentScript.insertAdjacentHTML(
                 "beforebegin",

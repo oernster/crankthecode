@@ -8,6 +8,8 @@ one_liner: "A calendar app with full iCalendar (RFC5545) support and deep intern
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/calendifier.png
+social_image: /static/images/calendifier.png
+
 extra_images:
   - /static/images/calendifier-ha.png
 ---

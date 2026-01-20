@@ -146,4 +146,32 @@
       {# CTA moved to the global header (below “Crank The Code”) in base.html #}
     </div>
   </section>
+
+  <section class="landing-outro" aria-label="Outro">
+    <div class="section-panel section-panel--intro">
+      <p>
+        If you’re here to hire me, collaborate, or just gawk at the DIY chaos - welcome.
+        I build functional, overengineered nonsense with just enough polish to pass as professional.
+      </p>
+      <p>
+        If you want to work together, debate API design, or swap horror stories about legacy code, 
+        feel free to get in touch:
+        <span class="landing-outro__email">
+          <script type="text/javascript">
+            // Keep the email address out of the static HTML to reduce bot scraping.
+            (function () {
+              const user = "oernster";
+              const domain = "codecrafter.uk";
+              const link = "mai" + "lto:" + user + "@" + domain;
+              document.currentScript.insertAdjacentHTML(
+                "beforebegin",
+                `<a href="${link}">${user}@${domain}</a>`
+              );
+            })();
+          </script>
+          <noscript>Enable JavaScript to reveal the email address.</noscript>
+        </span>
+      </p>
+    </div>
+  </section>
 {% endblock %}

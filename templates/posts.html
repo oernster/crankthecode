@@ -7,7 +7,7 @@
     {% for post in posts %}
       <div
         class="post-item"
-        data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' ')) ~ ' ' ~ (post.blurb or '') ~ ' ' ~ (post.one_liner or '') ~ ' ' ~ (post.summary_html | striptags)) | lower }}"
+        data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}"
       >
         <div class="post-heading">
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ post.slug }}">

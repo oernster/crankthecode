@@ -23,57 +23,10 @@
 
     let suggestionIndex = null;
 
-     const MAX_SUGGESTIONS = 10;
+    const MAX_SUGGESTIONS = 10;
 
-    const QUERY_ALIASES = {
-      py: "python",
-      p: "python",
-    };
-
-    function normalizeFilterQuery(rawQuery) {
-      const q = (rawQuery || "").trim().toLowerCase();
-      if (!q) {
-        return "";
-      }
-
-      // Support simple aliases so users can type `py` / `p` for Python.
-      // Also supports OR queries using `|` (e.g. `python|fastapi`).
-      const expanded = [];
-      for (const raw of q
-        .split("|")
-        .map((t) => t.trim())
-        .filter((t) => t.length > 0)) {
-        expanded.push(raw);
-        const alias = QUERY_ALIASES[raw];
-        if (alias && alias !== raw) {
-          expanded.push(alias);
-        }
-      }
-
-      // De-dupe while preserving order.
-      const seen = new Set();
-      const uniq = [];
-      for (const t of expanded) {
-        if (seen.has(t)) {
-          continue;
-        }
-        seen.add(t);
-        uniq.push(t);
-      }
-
-      return uniq.join("|");
-    }
-
-    function queryCandidates(rawQuery) {
-      const q = (rawQuery || "").trim().toLowerCase();
-      if (!q) {
-        return [];
-      }
-
-      // Support shorthand: keep the literal query (so `py` matches `pyside6`, `pypi`, etc.)
-      // and also include the semantic alias (so it matches `python` tags).
-      const alias = QUERY_ALIASES[q] || null;
-      return alias && alias !== q ? [q, alias] : [q];
+    function normalizeQuery(rawQuery) {
+      return (rawQuery || "").trim().toLowerCase();
     }
 
     const isPostsIndex = window.location.pathname === "/posts";
@@ -84,25 +37,20 @@
       if (items.length === 0) {
         return;
       }
-      const q = normalizeFilterQuery(rawQuery);
-
+      const q = normalizeQuery(rawQuery);
       const terms = q
         .split("|")
         .map((t) => t.trim())
         .filter((t) => t.length > 0);
 
-      const isOrQuery = terms.length > 1;
-
       const visibleItems = [];
       for (const li of items) {
-        const haystack = (li.dataset.search || "").toLowerCase();
+        const haystack = String(li.dataset.search || "").toLowerCase();
         let visible = true;
         if (q.length > 0) {
-          if (isOrQuery) {
-            visible = terms.some((t) => haystack.includes(t));
-          } else {
-            visible = haystack.includes(q);
-          }
+          // IMPORTANT: Filtering should ONLY match title + tags.
+          // `data-search` is populated accordingly in `templates/posts.html`.
+          visible = terms.length === 0 ? true : terms.some((t) => haystack.includes(t));
         }
         li.hidden = !visible;
         if (visible) {
@@ -159,6 +107,7 @@
               titleLower: title.toLowerCase(),
               matchLower: matchText.toLowerCase(),
               tagsLower: tags.map((t) => t.toLowerCase()),
+              tags,
               tagPreview: tags.slice(0, 6).join(", "),
             };
           })
@@ -194,6 +143,7 @@
               titleLower: title.toLowerCase(),
               matchLower: matchText.toLowerCase(),
               tagsLower: tags.map((t) => String(t).toLowerCase()),
+              tags,
               tagPreview: tags.slice(0, 6).join(", "),
             };
           })
@@ -215,104 +165,62 @@
       if (!suggestionsBox || !suggestionIndex || suggestionIndex.length === 0) {
         return;
       }
-      const qRaw = (rawQuery || "").trim().toLowerCase();
+      const qRaw = normalizeQuery(rawQuery);
       if (qRaw.length === 0) {
         hideAutocomplete();
         return;
       }
 
-      const qCandidates = queryCandidates(qRaw);
-      if (qCandidates.length === 0) {
-        hideAutocomplete();
-        return;
-      }
+      // Support OR queries using `|`.
+      const qTerms = qRaw
+        .split("|")
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0);
 
-      function scoreFor(entry, candidates) {
-        const title = entry.titleLower || "";
-        const match = entry.matchLower || title;
-        const tags = Array.isArray(entry.tagsLower) ? entry.tagsLower : [];
-
-        function tokenize(s) {
-          return String(s)
-            .toLowerCase()
-            .split(/[^a-z0-9]+/)
-            .map((t) => t.trim())
-            .filter(Boolean);
-        }
-
-        const titleTokens = tokenize(title);
-        const matchTokens = tokenize(match);
-
-        // Lower is better.
-        let bestGroup = 99;
-        let bestIdx = Number.POSITIVE_INFINITY;
-
-        for (const cand of candidates) {
-          if (!cand) {
+      function bestMatchingTag(entry, terms) {
+        const tagsLower = Array.isArray(entry.tagsLower) ? entry.tagsLower : [];
+        const tags = Array.isArray(entry.tags) ? entry.tags : [];
+        for (const term of terms) {
+          if (!term) {
             continue;
           }
-
-          if (tags.includes(cand)) {
-            // Exact tag match: highest priority.
-            bestGroup = 0;
-            bestIdx = 0;
-            break;
-          }
-
-          if (tags.some((t) => t.startsWith(cand))) {
-            if (bestGroup > 1) {
-              bestGroup = 1;
-              bestIdx = 0;
-            }
-          }
-
-          // Autocomplete should feel intentional: prefer word-start matches over
-          // arbitrary substring matches (especially for short queries like `tr`).
-          const isSingleChar = cand.length <= 1;
-
-          const titleStarts = titleTokens.some((t) => t.startsWith(cand));
-          if (titleStarts && bestGroup > 2) {
-            bestGroup = 2;
-            bestIdx = 0;
-          } else {
-            // For single-char queries, don't allow noisy substring matches.
-            if (!isSingleChar) {
-              const titleContains = titleTokens.some((t) => t.includes(cand));
-              if (titleContains && bestGroup > 2) {
-                bestGroup = 2;
-                bestIdx = 1;
-              }
-            }
-          }
-
-          const matchStarts = matchTokens.some((t) => t.startsWith(cand));
-          if (matchStarts && bestGroup > 3) {
-            bestGroup = 3;
-            bestIdx = 0;
-          } else {
-            if (!isSingleChar) {
-              const matchContains = matchTokens.some((t) => t.includes(cand));
-              if (matchContains && bestGroup > 3) {
-                bestGroup = 3;
-                bestIdx = 1;
-              }
-            }
+          const idx = tagsLower.findIndex((t) => t.includes(term));
+          if (idx >= 0) {
+            return tags[idx] || null;
           }
         }
+        return null;
+      }
 
-        return { group: bestGroup, idx: bestIdx };
+      function buildTagPreview(entry, terms) {
+        const tags = Array.isArray(entry.tags) ? entry.tags.filter(Boolean) : [];
+        if (tags.length === 0) {
+          return entry.tagPreview || "";
+        }
+        const preview = tags.slice(0, 6);
+        const matchTag = bestMatchingTag(entry, terms);
+        if (matchTag && !preview.includes(matchTag)) {
+          // Ensure the matching tag is visible in the preview.
+          if (preview.length < 6) {
+            preview.push(matchTag);
+          } else {
+            preview[preview.length - 1] = matchTag;
+          }
+        }
+        return preview.join(", ");
       }
 
       const matches = suggestionIndex
         .map((x) => {
-          const s = scoreFor(x, qCandidates);
-          return { x, group: s.group, idx: s.idx };
+          const haystack = x.matchLower || x.titleLower || "";
+          const idx = qTerms
+            .map((t) => haystack.indexOf(t))
+            .filter((n) => n >= 0)
+            .sort((a, b) => a - b)[0];
+          return { x, idx: typeof idx === "number" ? idx : -1 };
         })
-        .filter((m) => Number.isFinite(m.idx) && m.group < 99)
+        .filter((m) => m.idx >= 0)
         .sort((a, b) => {
-          if (a.group !== b.group) {
-            return a.group - b.group;
-          }
           if (a.idx !== b.idx) {
             return a.idx - b.idx;
           }
@@ -332,7 +240,7 @@
       suggestionsBox.innerHTML = matches
         .map(
           (m) =>
-            `<a href="${m.href}">${escapeHtml(m.title)}<span class="search-suggestion-sub">${escapeHtml(m.tagPreview || m.href)}</span></a>`
+            `<a href="${m.href}">${escapeHtml(m.title)}<span class="search-suggestion-sub">${escapeHtml(buildTagPreview(m, qTerms) || m.href)}</span></a>`
         )
         .join("");
       suggestionsBox.hidden = false;
