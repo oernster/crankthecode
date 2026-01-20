@@ -137,6 +137,7 @@ async def homepage(
                     {"slug": "edcolonizationasst", "label": "EDColonizationAsst"},
                 ],
                 "backlog": [
+                    {"slug": "blog1", "label": "This blog"},
                     {"slug": "3D-printer-launcher", "label": "3D Printer Launcher"},
                     {"slug": "audiodeck", "label": "Audio Deck"},
                     {"slug": "elevator", "label": "Elevator"},

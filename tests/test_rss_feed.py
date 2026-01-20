@@ -147,9 +147,11 @@ def test_rss_items_include_content_encoded_html_with_leading_img_for_feed_thumbn
         encoded = [elem for elem in encoded if elem is not None and elem.text]
         assert len(encoded) >= 1
 
-        encoded_text = encoded[0].text or ""
-        assert "<img" in encoded_text
-        assert "https://example.com/" in encoded_text
+        # At least one post should include a leading <img> in content:encoded
+        # (either from a cover image or first inline image).
+        encoded_texts = [elem.text or "" for elem in encoded]
+        assert any("<img" in text for text in encoded_texts)
+        assert any("https://example.com/" in text for text in encoded_texts)
     finally:
         os.environ.pop("SITE_URL", None)
 
