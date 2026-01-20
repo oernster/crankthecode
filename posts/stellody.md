@@ -28,14 +28,6 @@ extra_images:
 
 **Impact:** Delivers a more immersive listening experience and demonstrates the intersection of music theory, emotional modeling, and automation.
 
-# Rationale
-I wanted to discover new music based on my local 5k track library of FLAC music.  However, I wanted it to be curated to my personal tastes rather than the 
-generic categorisations that Spotify chucks at you.  So this was initially a personal project that I ended up productizing and publishing on the internet.
-It is fully featured now and even allows you to use existing playlists you've created rather than your local library to discover new music.
-
-I spent just over a year writing Stellody.
-It's the piece of work I'm most proud of and my crowning glory of a fully deployed app!
-
 # Why Stellody? 🌟🎶
 
 <div class="stellody-competition">
@@ -172,6 +164,14 @@ It's the piece of work I'm most proud of and my crowning glory of a fully deploy
     </footer>
   </main>
 </div>
+
+# Rationale
+I wanted to discover new music based on my local 5k track library of FLAC music.  However, I wanted it to be curated to my personal tastes rather than the 
+generic categorisations that Spotify chucks at you.  So this was initially a personal project that I ended up productizing and publishing on the internet.
+It is fully featured now and even allows you to use existing playlists you've created rather than your local library to discover new music.
+
+I spent just over a year writing Stellody.
+It's the piece of work I'm most proud of and my crowning glory of a fully deployed app!
 
 # Challenges along the way
 Creating an app this large took time and perseverance and a LOT of caffeine and patience.
