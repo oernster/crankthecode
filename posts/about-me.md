@@ -6,7 +6,7 @@ one_liner: "A quick intro to who I am and the kind of software projects I like t
 ---
 # About Me
 
-Hi, I’m Oliver — a professional software developer, technical tinkerer, and walking version history of Python/C++ and C; as well as more obscure mobile phone conformance testing languages such as TTCN-2.
+Hi, I’m Oliver — a professional software developer, technical tinkerer, and walking version history of Python, C++ and C; as well as more obscure mobile phone conformance testing languages such as TTCN-2.
 
 For almost 3 decades, I’ve worked across a galaxy of companies (from nimble startups to sprawling bureaucracies) solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence projects, built full-stack cloud-native apps solo, and even dabbled in the *dark arts* of React with... let's call it "dignity."
 
