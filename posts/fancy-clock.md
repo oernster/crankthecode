@@ -9,12 +9,12 @@ one_liner: "A customisable desktop clock featuring skins, localisation, and anim
 image: /static/images/fancy-clock.png
 
 extra_images:
-  - /static/images/fancy-clock2.jpg
-  - /static/images/fancy-clock3.jpg
+  - /static/images/fancy-clock2.png
+  - /static/images/fancy-clock3.png
 ---
 I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/FancyClock).
 
-# Challenges along the way
+## Challenges along the way
 This was quite the project since I wanted to knock something up quickly to show off to a friend using AI
 but it turned out to be more complex as I added more features.  Then I decided to add video skins - that was 
 a fun challenge but I got there in the end.
@@ -33,7 +33,3 @@ to support.  Especially when you want to support regional numbering systems AS W
 - As part of internationalization, numeral types are supported such as Devanagari/Indic/Bengali/Hindi/Thai/Arabic.
 - Ability to search for a city to find your time zone.
 - Custom skins with many choices of animated video backgrounds for the analogue clock.
-
-![Fancy Clock 2](/static/images/fancy-clock2.png)
-
-![Fancy Clock 3](/static/images/fancy-clock3.png)
