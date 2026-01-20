@@ -12,10 +12,10 @@ thumb_image: /static/images/stellody-icon.png
 
 extra_images:
   - /static/images/stellody.png
-  - /static/images/stellody-installer.png
   - /static/images/stellody-options.png
   - /static/images/stellody-playlists.png
   - /static/images/stellody-formats.png
+  - /static/images/stellody-installer.png
 ---
 
 [Stellody live site](https://www.stellody.com)
