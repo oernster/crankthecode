@@ -12,7 +12,7 @@ from app.ports.markdown_renderer import MarkdownRenderer
 class PythonMarkdownRenderer(MarkdownRenderer):
     """Markdown rendering strategy using the `markdown` library."""
 
-    extensions: Sequence[str] = ("fenced_code", "codehilite")
+    extensions: Sequence[str] = ("fenced_code", "codehilite", "tables")
 
     def render(self, markdown_text: str) -> str:
         return markdown.markdown(markdown_text, extensions=list(self.extensions))

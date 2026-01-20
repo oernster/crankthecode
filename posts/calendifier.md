@@ -66,88 +66,93 @@ One huge takeaway I had from this piece of work was that internationalization is
 ## 🌍 International Support
 
 ### 🗣️ Supported Languages
-- **🇺🇸🇬🇧 English** (US & UK variants)
-- **🇨🇦 Français (Québec)** (Quebec French)
-- **🇪🇸 Català** (Catalan)
-- **🇪🇸 Español** (Spanish)
-- **🇫🇷 Français** (French)
-- **🇩🇪 Deutsch** (German)
-- **🇮🇹 Italiano** (Italian)
-- **🇧🇷 Português** (Brazilian Portuguese)
-- **🇵🇹 Português** (Portuguese)
-- **🇷🇺 Русский** (Russian)
-- **🇨🇳 简体中文** (Simplified Chinese)
-- **🇹🇼 繁體中文** (Traditional Chinese)
-- **🇯🇵 日本語** (Japanese)
-- **🇰🇷 한국어** (Korean)
-- **🇮🇳 हिन्दी** (Hindi)
-- **🇸🇦 العربية** (Arabic)
-- **🇨🇿 Čeština** (Czech)
-- **🇸🇪 Svenska** (Swedish)
-- **🇳🇴 Norsk** (Norwegian)
-- **🇩🇰 Dansk** (Danish)
-- **🇫🇮 Suomi** (Finnish)
-- **🇳🇱 Nederlands** (Dutch)
-- **🇵🇱 Polski** (Polish)
-- **🇹🇷 Türkçe** (Turkish)
-- **🇺🇦 Українська** (Ukrainian)
-- **🇬🇷 Ελληνικά** (Greek)
-- **🇮🇩 Bahasa Indonesia** (Indonesian)
-- **🇻🇳 Tiếng Việt** (Vietnamese)
-- **🇹🇭 ไทย** (Thai)
-- **🇧🇬 Български** (Bulgarian)
-- **🇸🇰 Slovenčina** (Slovak)
-- **🇸🇮 Slovenščina** (Slovenian)
-- **🇭🇷 Hrvatski** (Croatian)
-- **🇭🇺 Magyar** (Hungarian)
-- **🇷🇴 Română** (Romanian)
-- **🇮🇱 עברית** (Hebrew)
-- **🇪🇪 Eesti** (Estonian)
-- **🇱🇻 Latviešu** (Latvian)
-- **🇱🇹 Lietuvių** (Lithuanian)
+
+| Code | Language | Notes |
+|---:|---|---|
+| usgb | 🇺🇸🇬🇧 English | US & UK variants |
+| ca | 🇨🇦 Français (Québec) | Quebec French |
+| es | 🇪🇸 Català | Catalan |
+| es | 🇪🇸 Español | Spanish |
+| fr | 🇫🇷 Français | French |
+| de | 🇩🇪 Deutsch | German |
+| it | 🇮🇹 Italiano | Italian |
+| br | 🇧🇷 Português | Brazilian Portuguese |
+| pt | 🇵🇹 Português | Portuguese |
+| ru | 🇷🇺 Русский | Russian |
+| cn | 🇨🇳 简体中文 | Simplified Chinese |
+| tw | 🇹🇼 繁體中文 | Traditional Chinese |
+| jp | 🇯🇵 日本語 | Japanese |
+| kr | 🇰🇷 한국어 | Korean |
+| in | 🇮🇳 हिन्दी | Hindi |
+| sa | 🇸🇦 العربية | Arabic |
+| cz | 🇨🇿 Čeština | Czech |
+| se | 🇸🇪 Svenska | Swedish |
+| no | 🇳🇴 Norsk | Norwegian |
+| dk | 🇩🇰 Dansk | Danish |
+| fi | 🇫🇮 Suomi | Finnish |
+| nl | 🇳🇱 Nederlands | Dutch |
+| pl | 🇵🇱 Polski | Polish |
+| tr | 🇹🇷 Türkçe | Turkish |
+| ua | 🇺🇦 Українська | Ukrainian |
+| gr | 🇬🇷 Ελληνικά | Greek |
+| id | 🇮🇩 Bahasa Indonesia | Indonesian |
+| vn | 🇻🇳 Tiếng Việt | Vietnamese |
+| th | 🇹🇭 ไทย | Thai |
+| bg | 🇧🇬 Български | Bulgarian |
+| sk | 🇸🇰 Slovenčina | Slovak |
+| si | 🇸🇮 Slovenščina | Slovenian |
+| hr | 🇭🇷 Hrvatski | Croatian |
+| hu | 🇭🇺 Magyar | Hungarian |
+| ro | 🇷🇴 Română | Romanian |
+| il | 🇮🇱 עברית | Hebrew |
+| ee | 🇪🇪 Eesti | Estonian |
+| lv | 🇱🇻 Latviešu | Latvian |
+| lt | 🇱🇹 Lietuvių | Lithuanian |
 
 ### 🏳️ Holiday Support
 The application automatically detects and displays holidays for 40 countries with intelligent cultural filtering:
 
-- 🇺🇸 United States | Federal holidays | ✅ 
-- 🇨🇦 Canada | Jours fériés / Holidays | ✅ 
-- 🇬🇧 United Kingdom | Bank holidays | ✅ 
-- 🇪🇸 Spain | National holidays | ✅ 
-- 🇫🇷 France | Jours fériés | ✅ 
-- 🇩🇪 Germany | Feiertage | ✅ 
-- 🇮🇹 Italy | Giorni festivi | ✅ 
-- 🇧🇷 Brazil | Feriados nacionais | ✅ 
-- 🇵🇹 Portugal | Feriados nacionais | ✅ 
-- 🇷🇺 Russia | Праздничные дни | ✅ 
-- 🇨🇳 China | 法定节假日 | ✅ 
-- 🇹🇼 Taiwan | 國定假日 | ✅ 
-- 🇯🇵 Japan | 祝日 | ✅ 
-- 🇰🇷 South Korea | 공휴일 | ✅ 
-- 🇮🇳 India | राष्ट्रीय अवकाश | ✅ 
-- 🇸🇦 Saudi Arabia | الأعياد الوطنية | ✅ 
-- 🇨🇿 Czech Republic | Státní svátky | ✅ 
-- 🇸🇪 Sweden | Helgdagar | ✅ 
-- 🇳🇴 Norway | Helligdager | ✅ 
-- 🇩🇰 Denmark | Helligdage | ✅ 
-- 🇫🇮 Finland | Juhlapäivät | ✅
-- 🇳🇱 Netherlands | Feestdagen | ✅ 
-- 🇵🇱 Poland | Święta państwowe | ✅ 
-- 🇹🇷 Turkey | Resmi tatiller | ✅ 
-- 🇺🇦 Ukraine | Державні свята | ✅ 
-- 🇬🇷 Greece | Εθνικές γιορτές | ✅ 
-- 🇮🇩 Indonesia | Hari libur nasional | ✅ 
-- 🇻🇳 Vietnam | Ngày lễ quốc gia | ✅ 
-- 🇹🇭 Thailand | วันหยุดราชการ | ✅ 
-- 🇧🇬 Bulgaria | Национални празници | ✅ 
-- 🇸🇰 Slovakia | Štátne sviatky | ✅ 
-- 🇸🇮 Slovenia | Državni prazniki | ✅ 
-- 🇭🇷 Croatia | Državni blagdani | ✅ 
-- 🇭🇺 Hungary | Nemzeti ünnepek | ✅ 
-- 🇷🇴 Romania | Sărbători naționale | ✅ 
-- 🇮🇱 Israel | חגים לאומיים | ✅ 
-- 🇪🇪 Estonia | Riigipühad | ✅ 
-- 🇱🇻 Latvia | Valsts svētki | ✅ 
-- 🇱🇹 Lithuania | Valstybės šventės | ✅ 
+| Code | Country | Holiday set | Supported |
+|---:|---|---|:---:|
+| us | 🇺🇸 United States | Federal holidays | ✅ |
+| ca | 🇨🇦 Canada | Jours fériés / Holidays | ✅ |
+| gb | 🇬🇧 United Kingdom | Bank holidays | ✅ |
+| es | 🇪🇸 Spain | National holidays | ✅ |
+| fr | 🇫🇷 France | Jours fériés | ✅ |
+| de | 🇩🇪 Germany | Feiertage | ✅ |
+| it | 🇮🇹 Italy | Giorni festivi | ✅ |
+| br | 🇧🇷 Brazil | Feriados nacionais | ✅ |
+| pt | 🇵🇹 Portugal | Feriados nacionais | ✅ |
+| ru | 🇷🇺 Russia | Праздничные дни | ✅ |
+| cn | 🇨🇳 China | 法定节假日 | ✅ |
+| tw | 🇹🇼 Taiwan | 國定假日 | ✅ |
+| jp | 🇯🇵 Japan | 祝日 | ✅ |
+| kr | 🇰🇷 South Korea | 공휴일 | ✅ |
+| in | 🇮🇳 India | राष्ट्रीय अवकाश | ✅ |
+| sa | 🇸🇦 Saudi Arabia | الأعياد الوطنية | ✅ |
+| cz | 🇨🇿 Czech Republic | Státní svátky | ✅ |
+| se | 🇸🇪 Sweden | Helgdagar | ✅ |
+| no | 🇳🇴 Norway | Helligdager | ✅ |
+| dk | 🇩🇰 Denmark | Helligdage | ✅ |
+| fi | 🇫🇮 Finland | Juhlapäivät | ✅ |
+| nl | 🇳🇱 Netherlands | Feestdagen | ✅ |
+| pl | 🇵🇱 Poland | Święta państwowe | ✅ |
+| tr | 🇹🇷 Turkey | Resmi tatiller | ✅ |
+| ua | 🇺🇦 Ukraine | Державні свята | ✅ |
+| gr | 🇬🇷 Greece | Εθνικές γιορτές | ✅ |
+| id | 🇮🇩 Indonesia | Hari libur nasional | ✅ |
+| vn | 🇻🇳 Vietnam | Ngày lễ quốc gia | ✅ |
+| th | 🇹🇭 Thailand | วันหยุดราชการ | ✅ |
+| bg | 🇧🇬 Bulgaria | Национални praznici | ✅ |
+| sk | 🇸🇰 Slovakia | Štátne sviatky | ✅ |
+| si | 🇸🇮 Slovenia | Državni prazniki | ✅ |
+| hr | 🇭🇷 Croatia | Državni blagdani | ✅ |
+| hu | 🇭🇺 Hungary | Nemzeti ünnepek | ✅ |
+| ro | 🇷🇴 Romania | Sărbători naționale | ✅ |
+| il | 🇮🇱 Israel | חגים לאומיים | ✅ |
+| ee | 🇪🇪 Estonia | Riigipühad | ✅ |
+| lv | 🇱🇻 Latvia | Valsts svētki | ✅ |
+| lt | 🇱🇹 Lithuania | Valstybės šventės | ✅ |
 
 ## ✨ Home Assistant Features
 - 🎨 **Beautiful Dashboard Cards** - Clock, Calendar, Events, Notes, Settings, Data Management

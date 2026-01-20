@@ -698,6 +698,55 @@ img {
   max-width: var(--content-max);
 }
 
+/* Markdown tables (used in posts like Calendifier). */
+.post-content table {
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.25rem auto 2rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  overflow: hidden;
+  display: table;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Keep long tables usable on smaller screens. */
+@media (max-width: 860px) {
+  .post-content table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+.post-content thead th {
+  text-align: left;
+  font-weight: 700;
+  padding: 0.65rem 0.85rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(233, 231, 255, 0.92);
+  white-space: nowrap;
+}
+
+.post-content tbody td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(233, 231, 255, 0.88);
+  vertical-align: top;
+}
+
+.post-content tbody tr:nth-child(2n) td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.post-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 /* Inline icons inside post bodies should behave like emoji-sized glyphs. */
 .post-content img.inline-icon {
   display: inline-block !important;
