@@ -9,13 +9,6 @@ one_liner: "A cross-platform app that analyses your library (or Spotify) and gen
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/stellody.png
 thumb_image: /static/images/stellody-icon.png
-
-extra_images:
-  - /static/images/stellody.png
-  - /static/images/stellody-options.png
-  - /static/images/stellody-playlists.png
-  - /static/images/stellody-formats.png
-  - /static/images/stellody-installer.png
 ---
 
 [Stellody live site](https://www.stellody.com)
@@ -164,6 +157,14 @@ extra_images:
     </footer>
   </main>
 </div>
+
+## Screenshots
+
+![Stellody options]( /static/images/stellody-options.png )
+
+![Stellody playlists]( /static/images/stellody-playlists.png )
+
+![Stellody formats]( /static/images/stellody-formats.png )
 
 # Rationale
 I wanted to discover new music based on my local 5k track library of FLAC music.  However, I wanted it to be curated to my personal tastes rather than the 
