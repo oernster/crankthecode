@@ -16,7 +16,9 @@ A desktop application for recognizing years and mint marks on US cents using com
 This was very hard to get the machine learning and computer vision algorithms to work as I desired.
 Even now, the source data sets I was able to find on the internet are really insufficient to properly test the app.
 I'd love to train it on better data sets to prove it more but I can't find any good data sources anywhere apart from what 
-I'm already using. 
+I'm already using.  I _did_ to be honest, use AI to create the code since I wanted something quick for a friend to play with.
+I'm not particularly proud of the maintainability of the code but since I can't find any good data sources online for ML material,
+I feel it's not worth investing any more time into this little project.
 
 # Coin Recognition Application
 

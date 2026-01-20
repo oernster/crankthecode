@@ -15,7 +15,7 @@ extra_images:
 I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/FancyClock).
 
 # Challenges along the way
-This was quite the project since I wanted to knock something up quickly to show off to a friend
+This was quite the project since I wanted to knock something up quickly to show off to a friend using AI
 but it turned out to be more complex as I added more features.  Then I decided to add video skins - that was 
 a fun challenge but I got there in the end.
 The REAL struggle was internationalizing the app.  Multiple languages and timezones throughout the world are HARD
