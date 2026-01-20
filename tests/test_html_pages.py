@@ -37,6 +37,20 @@ def test_about_page_renders():
     assert resp.status_code == 200
 
 
+def test_help_page_renders_and_is_noindex_and_masks_email():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/help")
+
+    assert resp.status_code == 200
+    assert "You Clicked Help" in resp.text
+    assert '<meta name="robots" content="noindex"' in resp.text
+    assert "[enable JavaScript]" in resp.text
+    # Ensure we don't include a literal mailto in the static HTML.
+    assert "mailto:" not in resp.text
+
+
 def test_unknown_post_returns_404_html():
     app = create_app()
     client = TestClient(app)

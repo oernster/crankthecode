@@ -111,7 +111,7 @@ def _category_label_for_query(query: str) -> str | None:
 
 
 def _load_about_html() -> str:
-    """Render the About Me markdown into HTML.
+    """Render the About me markdown into HTML.
 
     This is intentionally loaded directly from the posts directory so it can be
     used on a dedicated page without appearing in the main post index or RSS.
@@ -249,8 +249,8 @@ async def about_page(
         {
             "about_html": _load_about_html(),
             "is_homepage": False,
-            "page_title": "About Me | CrankTheCode",
-            "og_title": "About Me | CrankTheCode",
+            "page_title": "About me | CrankTheCode",
+            "og_title": "About me | CrankTheCode",
             "og_description": "About Oliver Ernster and the CrankTheCode blog.",
             "meta_description": "About Oliver Ernster and the CrankTheCode blog.",
             "back_link_href": "/",
@@ -262,6 +262,31 @@ async def about_page(
         }
     )
     return templates.TemplateResponse(request, "about.html", ctx)
+
+
+@router.get("/help", response_class=HTMLResponse)
+async def help_page(
+    request: Request,
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    ctx = _base_context(request)
+    ctx.update(
+        {
+            "is_homepage": False,
+            "robots_meta": "noindex",
+            "page_title": "Help | CrankTheCode",
+            "og_title": "Help | CrankTheCode",
+            "og_description": "A deliberately unhelpful help page.",
+            "meta_description": "Help page for CrankTheCode.",
+            "back_link_href": "/",
+            "back_link_label": "← Back to home",
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Help", "href": "/help"},
+            ],
+        }
+    )
+    return templates.TemplateResponse(request, "help.html", ctx)
 
 
 @router.get("/posts/{slug}", response_class=HTMLResponse)

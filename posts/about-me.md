@@ -4,7 +4,7 @@ date: "2026-01-18 07:35"
 tags: ["about", "me"]
 one_liner: "A quick intro to who I am and the kind of software projects I like to build."
 ---
-# About Me
+# About me
 
 Hi, I’m Oliver - a professional software developer, technical tinkerer, and walking version history of Python, C++ and C; as well as more obscure mobile phone conformance testing languages such as TTCN-2.
 

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Help | CrankTheCode{% endblock %}
+
+{% block content %}
+  <section class="help-page" aria-label="Help">
+    <div class="section-panel section-panel--intro">
+      <h1>🆘 You Clicked Help</h1>
+
+      <p>Well. That was adorable.</p>
+
+      <p>
+        Let’s be honest: if you're on this page, something has gone horribly wrong. You were either looking for
+        assistance, or you clicked this out of curiosity, which honestly makes me more worried.
+      </p>
+
+      <p>Here's the truth:</p>
+
+      <p>There is no documentation.</p>
+      <p>There is no guide.</p>
+      <p>
+        There is only chaos; lovingly handcrafted by someone who enjoys clean APIs and emotional suffering in equal
+        measure.
+      </p>
+
+      <h2>What Now?</h2>
+      <p>If you're lost, confused, or filled with the creeping dread of a misconfigured JSON file, you have two options:</p>
+
+      <p><strong>Repent</strong>: Accept your mistakes. Turn off your machine. Walk into the sea.</p>
+      <p>
+        <strong>Email Me</strong>: Send your cry for help to
+        <span id="masked-email">[enable JavaScript]</span>.
+      </p>
+
+      <script type="text/javascript">
+        // Keep the email address out of the static HTML to reduce bot scraping.
+        (function () {
+          const user = "oernster";
+          const domain = "codecrafter.uk";
+          const link = "mai" + "lto:" + user + "@" + domain;
+          const el = document.getElementById("masked-email");
+          if (!el) {
+            return;
+          }
+          el.innerHTML = `<a href="${link}">${user}@${domain}</a>`;
+        })();
+      </script>
+      <noscript>Enable JavaScript to reveal the email address.</noscript>
+
+      <h2>Common Questions</h2>
+      <p>
+        <strong>Q: Where is the documentation?</strong><br />
+        A: Buried beneath layers of code comments and caffeine.<br />
+        Honestly though, I think if you dive into <a href="https://github.com/oernster" target="_blank" rel="noopener noreferrer">my github</a> it reveals reasonable documentation.
+      </p>
+
+      <p>
+        <strong>Q: Can I file a bug report?</strong><br />
+        A: Absolutely. You can
+        <a href="https://github.com/oernster" target="_blank" rel="noopener noreferrer">raise an issue on GitHub</a>
+        if you're feeling constructively motivated.
+      </p>
+
+      <p>
+        <strong>Q: Is this project maintained?</strong><br />
+        A: In spirit, yes. In practice, also yes, somewhat surprisingly!
+      </p>
+
+      <h2>Final Note</h2>
+      <p>If you think this Help page is unhelpful… congratulations. You’re finally seeing the world as it is.</p>
+    </div>
+  </section>
+{% endblock %}
+
