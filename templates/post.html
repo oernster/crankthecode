@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title }} | CrankTheCode{% endblock %}
 
 {% block content %}
   <div class="post-heading">
@@ -11,12 +11,12 @@
     {% endif %}
   </div>
   {% if post.cover_image_url %}
-    <img class="post-cover" src="{{ post.cover_image_url }}" alt="" />
+    <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" />
   {% endif %}
   {% if post.extra_image_urls %}
     <div class="post-extra-images" aria-label="Additional images">
       {% for url in post.extra_image_urls %}
-        <img class="post-extra-image" src="{{ url }}" alt="" loading="lazy" />
+        <img class="post-extra-image" src="{{ url }}" alt="{{ post.title }}" loading="lazy" />
       {% endfor %}
     </div>
   {% endif %}

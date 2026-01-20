@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}CrankTheCode — Posts{% endblock %}
+{% block title %}Posts | CrankTheCode{% endblock %}
 
 {% block content %}
   <div class="posts-index" aria-label="All posts">
@@ -12,7 +12,7 @@
         <div class="post-heading">
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ post.slug }}">
             {% if post.cover_image_url %}
-              <img class="btn-thumb" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
+              <img class="btn-thumb" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="lazy" />
             {% endif %}
             <span class="btn-text">
               {{ post.title }}
@@ -32,7 +32,7 @@
         </div>
         {% if post.cover_image_url %}
           <a class="post-cover-link" href="/posts/{{ post.slug }}" aria-label="Open {{ post.title }}">
-            <img class="post-cover" src="{{ post.cover_image_url }}" alt="" loading="lazy" />
+            <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="lazy" />
           </a>
         {% endif %}
         <div class="post-summary">{{ post.summary_html | safe }}</div>

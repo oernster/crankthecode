@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from urllib.parse import quote
 
@@ -8,6 +9,14 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from app.http.deps import get_blog_service, get_templates
+from app.http.seo import (
+    DEFAULT_SITE_URL,
+    absolute_url,
+    build_meta_description,
+    canonical_url_for_request,
+    get_site_url,
+    to_iso_date,
+)
 from app.services.blog_service import BlogService
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
@@ -56,8 +65,17 @@ def _sidebar_categories() -> list[dict[str, str]]:
 
 
 def _base_context(request: Request) -> dict:
+    site_url = get_site_url(request)
     return {
         "request": request,
+        "site_url": site_url,
+        "site_name": "CrankTheCode",
+        "robots_meta": "index,follow",
+        "canonical_url": canonical_url_for_request(request, site_url=site_url),
+        "og_title": "CrankTheCode",
+        "og_type": "website",
+        "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
+        "meta_description": "CrankTheCode — projects and technical write-ups by Oliver Ernster.",
         "sidebar_categories": _sidebar_categories(),
         "current_q": (request.query_params.get("q") or "").strip(),
         "breadcrumb_items": [
@@ -107,6 +125,7 @@ async def homepage(
     ctx.update(
         {
             "is_homepage": True,
+            "og_title": "CrankTheCode",
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "homepage_projects": {
                 "featured": [
@@ -131,7 +150,7 @@ async def homepage(
             "homepage_blurb_index": blurb_index,
         }
     )
-    return templates.TemplateResponse("index.html", ctx)
+    return templates.TemplateResponse(request, "index.html", ctx)
 
 
 @router.get("/posts", response_class=HTMLResponse)
@@ -164,6 +183,8 @@ async def posts_index(
         {
             "posts": posts,
             "is_homepage": False,
+            "og_title": "Posts | CrankTheCode",
+            "meta_description": "Browse all CrankTheCode posts and project write-ups.",
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
                 {"label": "Posts", "href": "/posts"},
@@ -180,7 +201,7 @@ async def posts_index(
             ],
         }
     )
-    return templates.TemplateResponse("posts.html", ctx)
+    return templates.TemplateResponse(request, "posts.html", ctx)
 
 
 @router.get("/about", response_class=HTMLResponse)
@@ -193,6 +214,8 @@ async def about_page(
         {
             "about_html": _load_about_html(),
             "is_homepage": False,
+            "og_title": "About Me | CrankTheCode",
+            "meta_description": "About Oliver Ernster and the CrankTheCode blog.",
             "back_link_href": "/",
             "back_link_label": "← Back to posts",
             "breadcrumb_items": [
@@ -201,7 +224,7 @@ async def about_page(
             ],
         }
     )
-    return templates.TemplateResponse("about.html", ctx)
+    return templates.TemplateResponse(request, "about.html", ctx)
 
 
 @router.get("/posts/{slug}", response_class=HTMLResponse)
@@ -228,10 +251,42 @@ async def read_post(
         "content": detail.content_html,
     }
     ctx = _base_context(request)
+
+    # Post-specific SEO.
+    site_url = ctx.get("site_url") or DEFAULT_SITE_URL
+    canonical = canonical_url_for_request(request, site_url=site_url)
+    description = build_meta_description(
+        getattr(detail, "blurb", None),
+        fallback=getattr(detail, "one_liner", None),
+        default=f"Read {detail.title} on CrankTheCode.",
+    )
+
+    og_image = detail.cover_image_url or absolute_url(site_url, "/static/images/me.jpg")
+    og_image = absolute_url(site_url, og_image)
+
+    published_iso = to_iso_date(detail.date)
+    jsonld: dict[str, object] = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": detail.title,
+        "author": {"@type": "Person", "name": "Oliver Ernster"},
+        "mainEntityOfPage": canonical,
+    }
+    if published_iso:
+        jsonld["datePublished"] = published_iso
+    if detail.cover_image_url:
+        jsonld["image"] = [absolute_url(site_url, detail.cover_image_url)]
+
     ctx.update(
         {
             "post": post,
             "is_homepage": False,
+            "canonical_url": canonical,
+            "meta_description": description,
+            "og_title": f"{detail.title} | CrankTheCode",
+            "og_type": "article",
+            "og_image_url": og_image,
+            "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
             "back_link_href": "/posts",
             "back_link_label": "← Back to posts",
             "breadcrumb_items": [
@@ -241,4 +296,4 @@ async def read_post(
             ],
         }
     )
-    return templates.TemplateResponse("post.html", ctx)
+    return templates.TemplateResponse(request, "post.html", ctx)

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import re
 import html
 from datetime import datetime
@@ -12,6 +11,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import Response
 
 from app.http.deps import get_blog_service
+from app.http.seo import get_site_url
 from app.services.blog_service import BlogService
 
 
@@ -55,10 +55,8 @@ def _unescape_cdata_sections(xml_text: str) -> str:
 
 
 def _site_url(request: Request) -> str:
-    configured = os.getenv("SITE_URL")
-    if configured:
-        return configured.rstrip("/") + "/"
-    return str(request.base_url)
+    # Backwards compatible wrapper.
+    return get_site_url(request)
 
 
 def _rfc822_date(value: str) -> str:

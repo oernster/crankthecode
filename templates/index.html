@@ -15,7 +15,7 @@
             {% set cover = homepage_cover_index.get(p.slug) %}
             {% set blurb = homepage_blurb_index.get(p.slug) %}
             {% if cover %}
-              <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
             {% endif %}
             <span class="btn-text">
               {{ p.label }}
@@ -38,7 +38,7 @@
             {% set cover = homepage_cover_index.get(p.slug) %}
             {% set blurb = homepage_blurb_index.get(p.slug) %}
             {% if cover %}
-              <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
             {% endif %}
             <span class="btn-text">
               {{ p.label }}
@@ -61,14 +61,14 @@
         <a class="btn-link btn-link--with-thumb" href="/posts/hello-crank">
           {% set cover = homepage_cover_index.get('hello-crank') %}
           {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+            <img class="btn-thumb" src="{{ cover }}" alt="Hello Crank" loading="lazy" />
           {% endif %}
           <span class="btn-text">Hello Crank</span>
         </a>
         <a class="btn-link btn-link--with-thumb" href="/posts/why-crank">
           {% set cover = homepage_cover_index.get('why-crank') %}
           {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="" loading="lazy" />
+            <img class="btn-thumb" src="{{ cover }}" alt="Why Crank" loading="lazy" />
           {% endif %}
           <span class="btn-text">Why Crank</span>
         </a>

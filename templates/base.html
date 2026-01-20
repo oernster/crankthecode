@@ -2,6 +2,49 @@
 <html>
 <head>
   <title>{% block title %}CrankTheCode{% endblock %}</title>
+  {% if meta_description %}
+    <meta name="description" content="{{ meta_description }}">
+  {% endif %}
+
+  {% if canonical_url %}
+    <link rel="canonical" href="{{ canonical_url }}">
+  {% endif %}
+
+  {# OpenGraph / Twitter (non-visual, improves previews) #}
+  {% if og_title %}
+    <meta property="og:title" content="{{ og_title }}">
+  {% endif %}
+  {% if meta_description %}
+    <meta property="og:description" content="{{ meta_description }}">
+  {% endif %}
+  {% if canonical_url %}
+    <meta property="og:url" content="{{ canonical_url }}">
+  {% endif %}
+  <meta property="og:type" content="{{ og_type or 'website' }}">
+  <meta property="og:site_name" content="CrankTheCode">
+  {% if og_image_url %}
+    <meta property="og:image" content="{{ og_image_url }}">
+  {% endif %}
+
+  <meta name="twitter:card" content="summary_large_image">
+  {% if og_title %}
+    <meta name="twitter:title" content="{{ og_title }}">
+  {% endif %}
+  {% if meta_description %}
+    <meta name="twitter:description" content="{{ meta_description }}">
+  {% endif %}
+  {% if og_image_url %}
+    <meta name="twitter:image" content="{{ og_image_url }}">
+  {% endif %}
+
+  {% if robots_meta %}
+    <meta name="robots" content="{{ robots_meta }}">
+  {% endif %}
+
+  {% if jsonld_json %}
+    <script type="application/ld+json">{{ jsonld_json | safe }}</script>
+  {% endif %}
+
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
