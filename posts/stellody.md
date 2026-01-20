@@ -36,33 +36,6 @@ It is fully featured now and even allows you to use existing playlists you've cr
 I spent just over a year writing Stellody.
 It's the piece of work I'm most proud of and my crowning glory of a fully deployed app!
 
-# Challenges along the way
-Creating an app this large took time and perseverance and a LOT of caffeine and patience.
-Related artists curated from the musicbrainz API using multiple lookup techniques was NOT straightforward!
-Then creating alphabetically sorted custom curated sub-genre labelled playlists on top of that with sufficient artists 
-in each playlist pool was another fight altogether.
-The UI, since I'm not really a UI developer, I'm more of a backend dev, is something of which I'm particularly proud.
-That took a lot of time and effort to curate and make appear like a beautiful professional app.
-Then there was the installer with a custom curated UI; I even added light and dark modes to the installer AS WELL as Stellody as a subtle flex!!!
-Then there was licensing so all my hard work can't be stolen by the average noob; I think I got that down pat or at least *I hope so*.
-I think I've priced it reasonably for all license tiers and capabilities; not expensive, not free. 
-
-# Overview
-Stellody is a play on words; Stellar and Melody.
-
-Start with a local music folder or your Spotify playlists.
-Stellody analyses your artists, finds similar ones, and works out the genres they belong to.
-Then it generates ready-made playlists directly in Spotify — neatly sorted by genre (works with Spotify Free or Premium).
-
-Spotify playlist mode: your playlists are retrieved automatically — no manual importing.
-
-Deezer support is built, but currently disabled due to Deezer API restrictions.
-When it’s finished, just check Spotify for your new playlists. Not on Spotify? The in-app guide explains how to transfer playlists to other services.
-
-Runs locally — your music files never leave your computer. We only create playlists in Spotify.
-
-It runs on Windows, Linux and MacOS.
-
 # Why Stellody? 🌟🎶
 
 <div class="stellody-competition">
@@ -200,3 +173,29 @@ It runs on Windows, Linux and MacOS.
   </main>
 </div>
 
+# Challenges along the way
+Creating an app this large took time and perseverance and a LOT of caffeine and patience.
+Related artists curated from the musicbrainz API using multiple lookup techniques was NOT straightforward!
+Then creating alphabetically sorted custom curated sub-genre labelled playlists on top of that with sufficient artists 
+in each playlist pool was another fight altogether.
+The UI, since I'm not really a UI developer, I'm more of a backend dev, is something of which I'm particularly proud.
+That took a lot of time and effort to curate and make appear like a beautiful professional app.
+Then there was the installer with a custom curated UI; I even added light and dark modes to the installer AS WELL as Stellody as a subtle flex!!!
+Then there was licensing so all my hard work can't be stolen by the average noob; I think I got that down pat or at least *I hope so*.
+I think I've priced it reasonably for all license tiers and capabilities; not expensive, not free. 
+
+# Overview
+Stellody is a play on words; Stellar and Melody.
+
+Start with a local music folder or your Spotify playlists.
+Stellody analyses your artists, finds similar ones, and works out the genres they belong to.
+Then it generates ready-made playlists directly in Spotify — neatly sorted by genre (works with Spotify Free or Premium).
+
+Spotify playlist mode: your playlists are retrieved automatically — no manual importing.
+
+Deezer support is built, but currently disabled due to Deezer API restrictions.
+When it’s finished, just check Spotify for your new playlists. Not on Spotify? The in-app guide explains how to transfer playlists to other services.
+
+Runs locally — your music files never leave your computer. We only create playlists in Spotify.
+
+It runs on Windows, Linux and MacOS.
