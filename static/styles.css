@@ -1137,6 +1137,29 @@ a[href=\"/\"]:hover {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* AxisDB terminals: gently fade out at the end of the loop before restarting. */
+.fake-terminal--axisdb-install .fake-terminal__body {
+  animation: ft-axisdb-install-fade var(--ft-cycle) linear infinite;
+}
+
+.fake-terminal--axisdb-run .fake-terminal__body {
+  animation: ft-axisdb-run-fade var(--ft-run-cycle) linear infinite;
+}
+
+@keyframes ft-axisdb-install-fade {
+  0% { opacity: 0; }
+  6% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes ft-axisdb-run-fade {
+  0% { opacity: 0; }
+  6% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 .fake-terminal__title .code-copy--icon {
   width: 42px;
   height: 32px;
@@ -1166,6 +1189,16 @@ a[href=\"/\"]:hover {
   border-radius: 0;
   box-shadow: none;
   overflow-x: auto;
+  /* Prevent layout “jumping” when horizontal scrollbars appear mid-typing.
+     This keeps the terminal block height stable while the command grows. */
+  scrollbar-gutter: stable;
+}
+
+@supports not (scrollbar-gutter: stable) {
+  .fake-terminal__body {
+    /* Fallback: always reserve scrollbar space for older browsers. */
+    overflow-x: scroll;
+  }
 }
 
 .fake-terminal__body code {
@@ -1307,6 +1340,11 @@ a[href=\"/\"]:hover {
   animation: ft-run-type var(--ft-run-cycle) steps(52, end) infinite;
 }
 
+/* AxisDB run terminal: reserve full command width so the terminal never “jumps”. */
+.fake-terminal--axisdb-run .fake-terminal__typed--run {
+  --ft-line-width: 52ch;
+}
+
 .fake-terminal--axisdb-run .fake-terminal__cursor-wrap--run {
   animation: ft-run-cursor var(--ft-run-cycle) linear infinite;
 }
@@ -1335,12 +1373,14 @@ a[href=\"/\"]:hover {
 @keyframes ft-run-type {
   0%,
   4.4% {
-    width: 0;
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
   }
   /* ~7.5s typing for a 52ch command in a 24s loop (≈31%) */
   72.5%,
   100% {
-    width: 52ch;
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -1376,6 +1416,98 @@ a[href=\"/\"]:hover {
   overflow: hidden;
 }
 
+/* AxisDB: keep the fake terminal height CONSTANT.
+   The generic step reveal animations use `max-height`, which makes the terminal
+   block grow/shrink vertically. For AxisDB, reserve space for all steps from
+   the start, and reveal steps using opacity only (layout stays fixed). */
+.fake-terminal--axisdb-install .fake-terminal__body .ft-step,
+.fake-terminal--axisdb-run .fake-terminal__body .ft-step {
+  max-height: 60em;
+  overflow: visible;
+}
+
+@keyframes ft-axisdb-show-s1 {
+  0%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ft-axisdb-show-s2 {
+  0%,
+  20.71% {
+    opacity: 0;
+  }
+  20.72%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ft-axisdb-show-s3 {
+  0%,
+  38.57% {
+    opacity: 0;
+  }
+  38.58%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ft-axisdb-show-s4 {
+  0%,
+  56.43% {
+    opacity: 0;
+  }
+  56.44%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.fake-terminal--axisdb-install .fake-terminal__body .ft-step--1 {
+  animation: ft-axisdb-show-s1 var(--ft-cycle) linear infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__body .ft-step--2 {
+  animation: ft-axisdb-show-s2 var(--ft-cycle) linear infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__body .ft-step--3 {
+  animation: ft-axisdb-show-s3 var(--ft-cycle) linear infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__body .ft-step--4 {
+  animation: ft-axisdb-show-s4 var(--ft-cycle) linear infinite;
+}
+
+@keyframes ft-axisdb-run-show-step-1 {
+  0%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ft-axisdb-run-show-step-2 {
+  0%,
+  72.5% {
+    opacity: 0;
+  }
+  72.51%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.fake-terminal--axisdb-run .fake-terminal__body .ft-step--1 {
+  animation: ft-axisdb-run-show-step-1 var(--ft-run-cycle) linear infinite;
+}
+
+.fake-terminal--axisdb-run .fake-terminal__body .ft-step--2 {
+  animation: ft-axisdb-run-show-step-2 var(--ft-run-cycle) linear infinite;
+}
+
 .fake-terminal__prompt {
   color: rgba(139, 179, 255, 0.9);
 }
@@ -1384,12 +1516,176 @@ a[href=\"/\"]:hover {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  width: 0;
+  /* Keep the terminal layout stable: reserve the full line width up-front and
+     reveal characters without changing layout (no resizing/jumping). */
+  width: var(--ft-line-width, 0);
+  -webkit-clip-path: inset(0 100% 0 0);
+  clip-path: inset(0 100% 0 0);
+  position: relative;
   line-height: inherit;
   vertical-align: baseline;
   /* Visually nudge the animated inline-block down onto the same baseline as the
      inline prompt text. Using `transform` avoids baseline quirks across browsers. */
   transform: translateY(0);
+}
+
+/* AxisDB terminals: cursor should follow the typed text.
+   We hide the separate cursor span (which sits at the far right of the reserved
+   width), and instead render an animated cursor inside the typed span.
+   This keeps the terminal height constant AND places the cursor at the current
+   reveal boundary. */
+.fake-terminal--axisdb-install .fake-terminal__cursor-wrap,
+.fake-terminal--axisdb-run .fake-terminal__cursor-wrap {
+  display: none;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed::after,
+.fake-terminal--axisdb-run .fake-terminal__typed::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.6ch;
+  height: 1em;
+  margin-left: 0.15ch;
+  background: rgba(233, 231, 255, 0.85);
+  transform: translateX(0);
+  animation: fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+@keyframes ft-axisdb-cursor-move-s1 {
+  0%,
+  2.86% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  2.861% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  20.71% {
+    opacity: 1;
+    transform: translateX(var(--ft-line-width));
+  }
+  20.711%,
+  100% {
+    opacity: 0;
+    transform: translateX(var(--ft-line-width));
+  }
+}
+
+@keyframes ft-axisdb-cursor-move-s2 {
+  0%,
+  20.71% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  20.72% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  38.57% {
+    opacity: 1;
+    transform: translateX(var(--ft-line-width));
+  }
+  38.58%,
+  100% {
+    opacity: 0;
+    transform: translateX(var(--ft-line-width));
+  }
+}
+
+@keyframes ft-axisdb-cursor-move-s3 {
+  0%,
+  38.57% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  38.58% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  56.43% {
+    opacity: 1;
+    transform: translateX(var(--ft-line-width));
+  }
+  56.44%,
+  100% {
+    opacity: 0;
+    transform: translateX(var(--ft-line-width));
+  }
+}
+
+@keyframes ft-axisdb-cursor-move-s4 {
+  0%,
+  56.43% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  56.44% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  82.14% {
+    opacity: 1;
+    transform: translateX(var(--ft-line-width));
+  }
+  82.15%,
+  100% {
+    opacity: 0;
+    transform: translateX(var(--ft-line-width));
+  }
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed--1::after {
+  animation:
+    ft-axisdb-cursor-move-s1 var(--ft-cycle) steps(20, end) infinite,
+    fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed--2::after {
+  animation:
+    ft-axisdb-cursor-move-s2 var(--ft-cycle) steps(24, end) infinite,
+    fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed--3::after {
+  animation:
+    ft-axisdb-cursor-move-s3 var(--ft-cycle) steps(25, end) infinite,
+    fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed--4::after {
+  animation:
+    ft-axisdb-cursor-move-s4 var(--ft-cycle) steps(18, end) infinite,
+    fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+@keyframes ft-axisdb-run-cursor-move {
+  0%,
+  4.4% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  4.401% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  72.5% {
+    opacity: 1;
+    transform: translateX(var(--ft-line-width));
+  }
+  72.51%,
+  100% {
+    opacity: 0;
+    transform: translateX(var(--ft-line-width));
+  }
+}
+
+.fake-terminal--axisdb-run .fake-terminal__typed--run::after {
+  animation:
+    ft-axisdb-run-cursor-move var(--ft-run-cycle) steps(52, end) infinite,
+    fake-terminal-blink 1s steps(2, end) infinite;
 }
 
 .fake-terminal__cursor-wrap {
@@ -1428,12 +1724,12 @@ a[href=\"/\"]:hover {
 .fake-terminal__body .ft-step--15 { animation: ft-show-s15 var(--ft-cycle) linear infinite; }
 
 /* Typing windows (one line at a time). */
-.fake-terminal__typed--1 { animation: ft-type-s1  var(--ft-cycle) steps(20, end) infinite; }
-.fake-terminal__typed--2 { animation: ft-type-s2  var(--ft-cycle) steps(24, end) infinite; }
-.fake-terminal__typed--3 { animation: ft-type-s3  var(--ft-cycle) steps(25, end) infinite; }
-.fake-terminal__typed--4 { animation: ft-type-s4  var(--ft-cycle) steps(18, end) infinite; }
-.fake-terminal__typed--5 { animation: ft-type-s5  var(--ft-cycle) steps(23, end) infinite; }
-.fake-terminal__typed--6 { animation: ft-type-s13 var(--ft-cycle) steps(52, end) infinite; }
+.fake-terminal__typed--1 { --ft-line-width: 20ch; animation: ft-type-s1  var(--ft-cycle) steps(20, end) infinite; }
+.fake-terminal__typed--2 { --ft-line-width: 24ch; animation: ft-type-s2  var(--ft-cycle) steps(24, end) infinite; }
+.fake-terminal__typed--3 { --ft-line-width: 25ch; animation: ft-type-s3  var(--ft-cycle) steps(25, end) infinite; }
+.fake-terminal__typed--4 { --ft-line-width: 18ch; animation: ft-type-s4  var(--ft-cycle) steps(18, end) infinite; }
+.fake-terminal__typed--5 { --ft-line-width: 23ch; animation: ft-type-s5  var(--ft-cycle) steps(23, end) infinite; }
+.fake-terminal__typed--6 { --ft-line-width: 52ch; animation: ft-type-s13 var(--ft-cycle) steps(52, end) infinite; }
 
 /* Cursor only shows while the line is typing. */
 .fake-terminal__cursor-wrap--1 { animation: ft-cursor-s1  var(--ft-cycle) linear infinite; }
@@ -1467,62 +1763,88 @@ a[href=\"/\"]:hover {
 @keyframes ft-type-s1 {
   0%,
   2.86% {
-    width: 0;
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
   }
   20.71%,
   100% {
-    width: 20ch;
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
   }
 }
 
 @keyframes ft-type-s2 {
   0%,
   20.71% {
-    width: 0;
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
   }
   38.57%,
   100% {
-    width: 24ch;
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
   }
 }
 
 @keyframes ft-type-s3 {
   0%,
   38.57% {
-    width: 0;
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
   }
   56.43%,
   100% {
-    width: 25ch;
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
   }
 }
 
 @keyframes ft-type-s4 {
   0%,
   56.43% {
-    width: 0;
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
   }
   /* Finish typing by ~57.5% (≈13.8s), then hold until the loop ends (~24s). */
   82.14%,
   100% {
-    width: 18ch;
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
   }
 }
 
 @keyframes ft-type-s5 {
   0%,
-  22.857% { width: 0; }
+  22.857% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
   28.571%,
-  97.143% { width: 23ch; }
-  100% { width: 0; }
+  97.143% {
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
 }
 
 @keyframes ft-type-s13 {
   0%,
-  81.429% { width: 0; }
+  81.429% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
   90%,
-  97.143% { width: 52ch; }
-  100% { width: 0; }
+  97.143% {
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
 }
 
 /* Cursor visibility windows */
@@ -1824,6 +2146,19 @@ a[href=\"/\"]:hover {
   .fake-terminal__typed {
     width: auto;
     animation: none;
+    -webkit-clip-path: none;
+    clip-path: none;
+  }
+
+  .fake-terminal--axisdb-install .fake-terminal__body,
+  .fake-terminal--axisdb-run .fake-terminal__body {
+    opacity: 1;
+    animation: none;
+  }
+
+  .fake-terminal--axisdb-install .fake-terminal__typed::after,
+  .fake-terminal--axisdb-run .fake-terminal__typed::after {
+    display: none;
   }
 
   .fake-terminal__cursor-wrap {
