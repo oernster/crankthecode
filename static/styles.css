@@ -910,6 +910,135 @@ a[href=\"/\"]:hover {
   margin: 0.25rem 0 2.25rem;
 }
 
+/* Landing page intro (homepage) */
+.landing-intro {
+  margin: 0.25rem 0 1.75rem;
+}
+
+.section-panel--intro {
+  text-align: center;
+}
+
+.section-panel--intro p {
+  margin: 0 0 0.9rem;
+}
+
+.section-panel--intro .landing-bio {
+  margin-bottom: 1.1rem;
+  color: rgba(233, 231, 255, 0.9);
+}
+
+.section-panel--intro p:last-child {
+  margin-bottom: 0;
+}
+
+.section-panel--intro p:nth-of-type(3) {
+  color: rgba(233, 231, 255, 0.84);
+  font-style: italic;
+}
+
+.post-separator--subtle {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.14);
+  margin: 1.2rem 0 1.1rem;
+}
+
+.build-with {
+  margin-top: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  text-align: left;
+}
+
+.build-with-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  color: rgba(233, 231, 255, 0.9);
+}
+
+.build-with-items {
+  margin: 0;
+  color: rgba(233, 231, 255, 0.78);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 860px) {
+  .build-with {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Fake terminal snippet (posts) */
+.fake-terminal {
+  max-width: var(--content-max);
+  margin: 1.25rem auto 2rem;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+.fake-terminal__title {
+  padding: 0.55rem 0.9rem;
+  font-size: 0.9rem;
+  color: rgba(233, 231, 255, 0.78);
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fake-terminal__body {
+  margin: 0;
+  padding: 0.95rem 1.05rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-x: auto;
+}
+
+.fake-terminal__body code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+}
+
+.fake-terminal__cursor {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.15em;
+  vertical-align: -0.2em;
+  margin-left: 0.15ch;
+  background: rgba(233, 231, 255, 0.85);
+  animation: fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+@keyframes fake-terminal-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fake-terminal__cursor {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 /* Homepage: subtle section panels to improve scan-ability */
 .section-panel {
   padding: 1.1rem 1.1rem 1.25rem;

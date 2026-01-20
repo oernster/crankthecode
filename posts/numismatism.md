@@ -17,8 +17,13 @@ This was very hard to get the machine learning and computer vision algorithms to
 Even now, the source data sets I was able to find on the internet are really insufficient to properly test the app.
 I'd love to train it on better data sets to prove it more but I can't find any good data sources anywhere apart from what 
 I'm already using.  I _did_ to be honest, use AI to create the code since I wanted something quick for a friend to play with.
+
 I'm not particularly proud of the maintainability of the code but since I can't find any good data sources online for ML material,
 I feel it's not worth investing any more time into this little project.
+
+Basically this is now my personally curated fossil. I'll keep it in a jar.
+
+
 
 # Coin Recognition Application
 

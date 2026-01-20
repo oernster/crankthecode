@@ -11,5 +11,5 @@ image: /static/images/snarkapi.png
 ---
 # Snark-as-a-service API
 I did something for fun to roast IT devs/operators: [SnarkAPI](https://snarkapi.com/).
-
+Public sarcasm-as-a-service. Yes, it’s real. No, I won’t apologize.
 It's a minimal FastAPI service that returns a sarcastic quote with some IT crowd quotes thrown in for good measure.

@@ -14,6 +14,7 @@ extra_images:
 # 📅 Calendifier
 
 # Challenges along the way
+A standards-compliant calendar backend. RFC5545? I *hardly* knew her.
 The main app was HARD due to internationalization; this was my first foray into internationalizing an app and I did it 
 for BOTH a browser AND home assistant dashboard cards.
 Another really difficult thing for me was not only identifying holidays for locales which aren't British but making them 

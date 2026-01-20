@@ -10,6 +10,15 @@
       <p class="post-one-liner">{{ post.one_liner or post.blurb }}</p>
     {% endif %}
   </div>
+
+  {# Per-post flourish: AxisDB install prompt above the cover image #}
+  {% if post.slug == 'axisdb' %}
+    <div class="fake-terminal" aria-label="Install AxisDB">
+      <div class="fake-terminal__title">bash</div>
+      <pre class="fake-terminal__body"><code>user@linux:~$ pip install axisdb<span class="fake-terminal__cursor" aria-hidden="true"></span></code></pre>
+    </div>
+  {% endif %}
+
   {% if post.cover_image_url %}
     <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" />
   {% endif %}
