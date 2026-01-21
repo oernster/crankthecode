@@ -176,6 +176,16 @@
           {% endif %}
           <span class="btn-text">Chaos Contained: January 2026 Update</span>
         </a>
+
+        <a class="btn-link btn-link--with-thumb" href="/posts/blog3">
+          {% set cover = homepage_cover_index.get('blog3') %}
+          {% if cover %}
+            <img class="btn-thumb" src="{{ cover }}" alt="Command Centre Blog Update" loading="lazy" />
+          {% else %}
+            <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧠</span>
+          {% endif %}
+          <span class="btn-text">Command Centre Blog Update</span>
+        </a>
       </div>
 
       {# CTA moved to the global header (below “Crank The Code”) in base.html #}
