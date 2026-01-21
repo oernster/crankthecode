@@ -1,13 +1,13 @@
 ---
-title: "January 2026 Blog Update: Tables, Taglines, and Terminal Fakery"
+title: "Tables, Taglines, and Terminal Fakery"
 date: "2026-01-20 11:50"
 tags: ["blog", "update", "python", "fastapi", "changelog", "html", "css", "javascript"]
 one_liner: "Search autocomplete now works, the Help button is unhelpful, and every post has just enough recruiter bait."
 ---
 
-# Chaos Contained: January 2026 Blog Update.  Tables, Taglines, and Terminal Fakery 🧪
+# Chaos Contained: Tables, Taglines, and Terminal Fakery 🧪
 
-It’s been a busy few days of updates to the blog — the kind of work that’s 70% polish, 20% debugging things that used to work, and 10% wondering why I did any of this in the first place.
+It’s been a busy few days of updates to the blog - the kind of work that’s 70% polish, 20% debugging things that used to work, and 10% wondering why I did any of this in the first place.
 
 But here we are. Highlights below.
 
@@ -22,10 +22,10 @@ But here we are. Highlights below.
   You’ll now find a polite nudge at the base of the landing page if you’re here to hire me, collaborate, or just stare at the chaos.
 
 - **About Me updated**  
-  The page now reflects my physics background with exactly the level of smugness you'd expect. Also added a full skillset snapshot — yes, including TTCN‑2, because I refuse to forget it.
+  The page now reflects my physics background with exactly the level of smugness you'd expect. Also added a full skillset snapshot - yes, including TTCN‑2, because I refuse to forget it.
 
 - **Meta tag upgrades for SEO + social**  
-  Every post and image now includes SEO-friendly metadata and social embed previews for Discord, LinkedIn, and Twitter. Go ahead — share a post and marvel at how shockingly professional it looks.
+  Every post and image now includes SEO-friendly metadata and social embed previews for Discord, LinkedIn, and Twitter. Go ahead - share a post and marvel at how shockingly professional it looks.
 
 ---
 
@@ -47,7 +47,7 @@ But here we are. Highlights below.
 
 ## 🔎 Search Autocomplete (yes, seriously)
 
-The autocomplete search now works. Properly. And smoothly. And I only had to fight the frontend, backend, edge cases, weird caching bugs, browser autofill quirks, and possibly a minor existential crisis to get it working. But hey — it’s fast now.
+The autocomplete search now works. Properly. And smoothly. And I only had to fight the frontend, backend, edge cases, weird caching bugs, browser autofill quirks, and possibly a minor existential crisis to get it working. But hey - it’s fast now.
 
 Try typing “sarcasm” or “json” and be amazed.
 
@@ -66,7 +66,7 @@ Bots are warned. Humans are welcome to email me (if they enable JavaScript first
 Unit test coverage has been increased to **100%**.  
 Yes, I wrote tests.  
 Yes, I tested the tests.  
-No, this doesn’t mean the code won’t still betray me in production — but at least now I’ll know *why*.
+No, this doesn’t mean the code won’t still betray me in production - but at least now I’ll know *why*.
 
 ---
 

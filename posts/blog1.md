@@ -1,6 +1,6 @@
 ---
-title: "This blog"
-date: "2026-01-20 10:10"
+title: "Site SEO & Search Updates"
+date: "2026-01-19 10:10"
 tags: ["python", "fastapi", "seo", "blog", "crankthecode", "html"]
 one_liner: "Blog formally released but this time updated with SEO optimisation!"
 blurb: "Blog update with SEO"

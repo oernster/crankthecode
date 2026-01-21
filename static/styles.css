@@ -2432,6 +2432,45 @@ a[href=\"/\"]:hover {
   transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease;
 }
 
+/* Sticky “Work With Me” CTA (site-wide).
+   Position it bottom-right but ABOVE the scroll-to-top button to avoid overlap. */
+.sticky-cta {
+  position: fixed;
+  right: 1rem;
+  bottom: 4.5rem;
+  background: #007acc;
+  color: white;
+  padding: 0.75em 1.25em;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: background 0.3s;
+}
+
+.sticky-cta:hover {
+  background: #005fa3;
+}
+
+.sticky-cta:focus-visible {
+  outline: 3px solid rgba(203, 182, 255, 0.75);
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .sticky-cta {
+    right: 1rem;
+    bottom: 4.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-cta {
+    transition: none;
+  }
+}
+
 .scroll-top.is-visible {
   opacity: 1;
   transform: translateY(0);

@@ -61,44 +61,103 @@ def _sidebar_categories() -> list[dict[str, str]]:
     #
     # These map to the posts page filter (`/posts?q=...`) which matches against
     # title + tags (see `static/search.js`). We use `|` for OR queries.
-    categories = [
-        (
-            "📝 Blog",
-            "blog",
-        ),
-        (
-            "🧰 Tools",
-            "tool|tools|cli|utility|utilities|launcher|database|db",
-        ),
-        (
-            "🖥️ Desktop Apps",
-            "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|stellody",
-        ),
-        (
-            "🌐 Web APIs",
-            "api|apis|fastapi|django|rest|web",
-        ),
-        (
-            "🤖 Automation",
-            "automation|monitoring|obs|routing|script|ansible|terraform",
-        ),
-        (
-            "🎮 Gaming",
-            "gaming|game|elite|dangerous|frontier|colonization",
-        ),
-        (
-            "🧠 Data / ML",
-            "machine learning|computer vision|ml|data",
-        ),
-    ]
-    return [
+    # NOTE: Some categories are meant to highlight projects only.
+    # For those, we exclude blog-style posts when rendering `/posts?q=<category>`.
+    categories: list[dict[str, object]] = [
+        {"label": "📝 Blog", "query": "blog", "exclude_blog": False, "exclude_slugs": []},
         {
-            "label": label,
-            "query": query,
-            "href": f"/posts?q={quote(query, safe='')}",
-        }
-        for (label, query) in categories
+            "label": "🧰 Tools",
+            "query": "tool|tools|cli|utility|utilities|launcher|database|db",
+            "exclude_blog": False,
+            # AxisDB is intentionally classified under Data / ML (not Tools).
+            "exclude_slugs": ["axisdb"],
+        },
+        {
+            "label": "🖥️ Desktop Apps",
+            "query": "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|stellody|trainer",
+            "exclude_blog": False,
+            "exclude_slugs": [],
+        },
+        {
+            "label": "🌐 Web APIs",
+            "query": "api|apis|fastapi|django|rest|web",
+            # Project category: keep blog posts in the dedicated Blog section.
+            "exclude_blog": True,
+            "exclude_slugs": [],
+        },
+        {
+            "label": "🤖 Automation",
+            "query": "automation|monitoring|obs|script|ansible|terraform",
+            "exclude_blog": True,
+            "exclude_slugs": [],
+        },
+        {
+            "label": "🎮 Gaming",
+            "query": "gaming|game|elite|dangerous|frontier|colonization",
+            "exclude_blog": False,
+            "exclude_slugs": [],
+        },
+        {
+            "label": "🧠 Data / ML",
+            "query": "machine learning|computer vision|ml|data",
+            "exclude_blog": True,
+            "exclude_slugs": [],
+        },
     ]
+
+    out: list[dict[str, str]] = []
+    for c in categories:
+        query = str(c["query"])
+        exclude_slugs_raw = c.get("exclude_slugs")
+        exclude_slugs: list[str] = []
+        if isinstance(exclude_slugs_raw, (list, tuple, set)):
+            exclude_slugs = [str(s).strip() for s in exclude_slugs_raw if str(s).strip()]
+        exclude_slugs_csv = ",".join(exclude_slugs)
+        out.append(
+            {
+                "label": str(c["label"]),
+                "query": query,
+                "href": f"/posts?q={quote(query, safe='')}",
+                "exclude_blog": "true" if bool(c.get("exclude_blog")) else "false",
+                "exclude_slugs": exclude_slugs_csv,
+            }
+        )
+    return out
+
+
+def _excluded_slugs_for_query(query: str) -> set[str]:
+    """Return excluded slugs for an exact sidebar category query."""
+
+    if not query:
+        return set()
+    for c in _sidebar_categories():
+        if c.get("query") == query:
+            raw = (c.get("exclude_slugs") or "").strip()
+            if not raw:
+                return set()
+            return {s.strip().lower() for s in raw.split(",") if s.strip()}
+    return set()
+
+
+def _should_exclude_blog_posts_for_query(query: str) -> bool:
+    """Return True when a sidebar category deep-link should hide blog posts."""
+
+    if not query:
+        return False
+    for c in _sidebar_categories():
+        if c.get("query") == query:
+            return (c.get("exclude_blog") or "false").lower() == "true"
+    return False
+
+
+def _is_blog_post_slug_or_tags(slug: str, tags: list[str]) -> bool:
+    """Heuristic: treat `blog*` slugs or a `blog` tag as a blog post."""
+
+    slug_norm = (slug or "").strip().lower()
+    if slug_norm.startswith("blog"):
+        return True
+    tags_norm = [(t or "").strip().lower() for t in (tags or [])]
+    return "blog" in tags_norm
 
 
 def _base_context(request: Request) -> dict:
@@ -116,7 +175,7 @@ def _base_context(request: Request) -> dict:
         "og_type": "website",
         "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
         "jsonld_extra_json": None,
-        "meta_description": "CrankTheCode — projects and technical write-ups by Oliver Ernster.",
+        "meta_description": "CrankTheCode - projects and technical write-ups by Oliver Ernster.",
         "sidebar_categories": _sidebar_categories(),
         "current_q": (request.query_params.get("q") or "").strip(),
         "breadcrumb_items": [
@@ -233,6 +292,29 @@ async def posts_index(
     ]
     ctx = _base_context(request)
     current_q = ctx.get("current_q", "")
+
+    # Some sidebar categories (Automation, Data/ML) are project-focused.
+    # When the user deep-links via the sidebar (`/posts?q=<category query>`),
+    # exclude blog posts from the list.
+    if _should_exclude_blog_posts_for_query(current_q):
+        posts = [
+            p
+            for p in posts
+            if not _is_blog_post_slug_or_tags(
+                slug=str(p.get("slug", "")),
+                tags=[str(t) for t in (p.get("tags") or [])],
+            )
+        ]
+
+    # Per-category exclusions (e.g. remove AxisDB from Tools).
+    excluded_slugs = _excluded_slugs_for_query(current_q)
+    if excluded_slugs:
+        posts = [
+            p
+            for p in posts
+            if str(p.get("slug", "")).strip().lower() not in excluded_slugs
+        ]
+
     category_label = _category_label_for_query(current_q)
     filtered_href = (
         f"/posts?q={quote(current_q, safe='')}" if current_q else "/posts"
@@ -325,7 +407,7 @@ async def battlestation_page(
             "is_homepage": False,
             "page_title": "My battlestation | CrankTheCode",
             "og_title": "My battlestation | CrankTheCode",
-            "og_description": "The Command Battlestation — dev cockpit + 3D printer room.",
+            "og_description": "The Command Battlestation - dev cockpit + 3D printer room.",
             "meta_description": "A look at my Command Battlestation: daily driver workstation + 3D printer room.",
             "back_link_href": "/",
             "back_link_label": "← Back to home",
