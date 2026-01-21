@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}My battlestation | CrankTheCode{% endblock %}
+
+{% block content %}
+<section class="battlestation" aria-label="Command Battlestation">
+  <div class="section-panel section-panel--intro">
+    <h1>🖥️ The Command Battlestation</h1>
+
+    <!-- Main Workstation Image: Centered, Full Display -->
+    <figure class="battlestation-figure" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+      <img
+        class="battlestation-image"
+        src="/static/images/command-battlestation.png"
+        alt="Desk setup with large monitor, laptops and control decks"
+        style="max-width: 100%; height: auto; display: block;"
+        loading="lazy"
+      />
+    </figure>
+
+    <p>Welcome to the cockpit where the chaos gets compiled; and occasionally extruded in molten thermoplastic.</p>
+
+    <p>
+      This is my daily driver: part developer workstation, part hardware museum. Every cable, macro pad and monitor is exactly where it needs to be; mostly because it’s been there so long it’s developed squatter’s rights.
+    </p>
+
+    <p>
+      The main monitor runs enough terminals, consoles and dashboards to make NORAD nervous.  
+      There's more gaming gear, but I’ve surgically removed it using AI.<br />
+      To the left: a MacBook Air, perfect for pretending to be normal.<br />
+      To the right: a Framework 13 running multiple Linux distros, because some problems are best solved with a spartan distro and a passive-aggressive script.
+    </p>
+
+    <p>
+      Front and centre sits the <strong>PCPanel Pro</strong>, lighting up like a Christmas tree on amphetamines; because I enjoy tactile volume control and RGB is cheaper than therapy.  
+      A StreamDeck with hand-labelled macros sits beside it doing everything from launching test pipelines, controlling audio using my <a href="/posts/audiodeck">AudioDeck</a> tool to muting meetings I regret joining.
+    </p>
+
+    <p>
+      An auxiliary 10.1” screen serves as mission control for media, monitoring or doomscrolling when builds fail.  
+      I didn’t plan on becoming a multi-display maximalist... but here we are.
+    </p>
+
+    <hr />
+
+    <h2>Input Devices</h2>
+
+    <p>
+      Input-wise, the setup is unapologetically niche.  
+      I have a small collection of <strong>Finalmouse</strong> devices because, yes, I am that kind of nerd.  
+      The mouse pictured is the <strong>Zeus</strong> model — one of only 2,500 ever released. Light, sculpted and probably worth more than it should be.
+    </p>
+
+    <p>
+      The keyboard is a <strong>DurGod Taurus K310</strong> with Cherry silent red switches — quiet, precise and borderline therapeutic to type on.  
+      But it may soon be demoted: I’ve got a <strong>Finalmouse Centerpiece Pro</strong> on the way.  
+      That model features a transparent keycap design floating above a full dynamic display and is arguably more futuristic than most sci-fi UI mockups.  
+      Yes, it’s ridiculous. Yes, I’m excited. No, I don’t expect it to make me type any better.
+    </p>
+
+    <hr />
+
+    <h2>3D Printing Zone</h2>
+
+    <p>
+      In a separate room lives the <strong>Printer Room</strong>, housing a curated trio of industrial-grade desktop 3D printers.  
+      Each is fed by a meticulously organised filament armory below.  
+      It’s a shrine to heat, motion and calibration agony — but also where entire machines are born, layer by painstaking layer.
+    </p>
+
+    <!-- 3D Printer Image: Below text -->
+    <figure class="battlestation-figure" style="display: flex; justify-content: center; margin: 2rem 0;">
+      <img
+        class="battlestation-image"
+        src="/static/images/3D-printer-setup.png"
+        alt="Printer room shelf with multiple 3D printers and filament storage"
+        style="max-width: 100%; height: auto; display: block;"
+        loading="lazy"
+      />
+    </figure>
+
+    <p><strong>
+      No, I do <u>not</u> print guns.<br />
+      Why is that always the first question?  
+      3D printers like mine use plastics — great for brackets, enclosures and mechanical parts, terrible for anything ballistics-related.<br />
+      If you're genuinely worried about improvised weapons, look at lathe and CNC machine owners instead of the guy printing cable clips and ABS mods.<br />
+      Please stop asking. It's weird, and it says more about you than it does about me.
+    </strong></p>
+
+    <hr />
+
+    <p>
+      This setup has shipped production APIs, 3D-printed entire machines, debugged firmware over serial and hosted at least one panicked git revert at 2AM.  
+      It is a monument to function over form; and somehow still standing.
+    </p>
+
+    <p><em>Yes, I dust it. Occasionally. Don’t @ me.</em></p>
+  </div>
+</section>
+{% endblock %}

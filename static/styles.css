@@ -485,6 +485,45 @@ body.is-homepage .header-cta {
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
 }
 
+/* Battlestation page */
+.battlestation {
+  margin: 0 0 2.5rem;
+}
+
+.battlestation-gallery {
+  margin: 0.75rem auto 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .battlestation-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+.battlestation-figure {
+  margin: 0;
+}
+
+.battlestation-image {
+  display: block;
+  width: 100%;
+  /* Do not crop battlestation images (some are portrait). */
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+.battlestation-caption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(233, 231, 255, 0.75);
+}
+
 /* Ensure the `hidden` attribute always wins (overrides `.search-panel { display: flex; }`). */
 .search-panel[hidden] {
   display: none !important;
@@ -1113,6 +1152,52 @@ a[href=\"/\"]:hover {
   text-align: center;
 }
 
+/* Homepage hero (avatar + headline + subline) */
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.2rem;
+  text-align: left;
+}
+
+.hero__avatar {
+  flex: 0 0 auto;
+}
+
+.hero__avatar-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+.hero__copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero__headline {
+  margin: 0 0 0.65rem;
+  color: rgba(255, 242, 168, 0.92);
+  font-size: 2.05rem;
+  line-height: 1.22;
+}
+
+.hero__tagline {
+  margin: 0 0 0.9rem;
+  color: rgba(233, 231, 255, 0.92);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.hero__subline {
+  margin: 0;
+  color: rgba(233, 231, 255, 0.9);
+}
+
 .section-panel--intro p {
   margin: 0 0 0.9rem;
 }
@@ -1129,6 +1214,24 @@ a[href=\"/\"]:hover {
 .section-panel--intro p:nth-of-type(3) {
   color: rgba(233, 231, 255, 0.84);
   font-style: italic;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.85rem;
+  }
+
+  .hero__avatar-img {
+    width: 88px;
+    height: 88px;
+  }
+
+  .hero__headline {
+    font-size: 1.7rem;
+  }
 }
 
 .post-separator--subtle {

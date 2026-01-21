@@ -36,6 +36,7 @@ async def sitemap_xml(
     _add_url("/")
     _add_url("/posts")
     _add_url("/about")
+    _add_url("/battlestation")
 
     # All posts.
     for post in blog.list_posts():

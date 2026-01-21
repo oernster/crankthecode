@@ -288,6 +288,33 @@ async def help_page(
     return templates.TemplateResponse(request, "help.html", ctx)
 
 
+@router.get("/battlestation", response_class=HTMLResponse)
+async def battlestation_page(
+    request: Request,
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    ctx = _base_context(request)
+    ctx.update(
+        {
+            "is_homepage": False,
+            "page_title": "My battlestation | CrankTheCode",
+            "og_title": "My battlestation | CrankTheCode",
+            "og_description": "The Command Battlestation — dev cockpit + 3D printer room.",
+            "meta_description": "A look at my Command Battlestation: daily driver workstation + 3D printer room.",
+            "back_link_href": "/",
+            "back_link_label": "← Back to home",
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "My battlestation", "href": "/battlestation"},
+            ],
+            "og_image_url": absolute_url(
+                get_site_url(request), "/static/images/command-battlestation.png"
+            ),
+        }
+    )
+    return templates.TemplateResponse(request, "battlestation.html", ctx)
+
+
 @router.get("/posts/{slug}", response_class=HTMLResponse)
 async def read_post(
     request: Request,
