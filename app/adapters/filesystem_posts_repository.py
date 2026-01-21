@@ -32,7 +32,19 @@ class FilesystemPostsRepository(PostsRepository):
 
     @staticmethod
     def _load_file(path: Path) -> MarkdownPost:
-        post = frontmatter.load(path)
+        # Explicitly decode markdown files as UTF-8.
+        #
+        # Rationale: relying on implicit/default encodings can produce mojibake
+        # (e.g. "Whatâ€™s" instead of "What’s") when UTF-8 bytes are decoded as
+        # cp1252/latin-1. This showed up in RSS/HTML output for smart quotes and
+        # emoji. Reading text ourselves ensures consistent Unicode handling.
+        try:
+            raw_text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            # Tolerate UTF-8 BOM if present.
+            raw_text = path.read_text(encoding="utf-8-sig")
+
+        post = frontmatter.loads(raw_text)
         slug = path.stem
 
         title = post.get("title", slug)
