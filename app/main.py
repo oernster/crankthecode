@@ -19,6 +19,7 @@ def create_app() -> FastAPI:
 
     # Static and templates
     fastapi_app.mount("/static", StaticFiles(directory="static"), name="static")
+    fastapi_app.mount("/docs", StaticFiles(directory="docs"), name="docs")
 
     # Templates
     # - auto_reload + cache_size=0 ensures template edits are reflected without restarting the server

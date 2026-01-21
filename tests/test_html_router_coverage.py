@@ -7,7 +7,10 @@ from app.main import create_app
 
 
 def test_category_label_for_query_returns_label_and_none():
-    assert html_module._category_label_for_query("python") == "Python Projects"
+    assert (
+        html_module._category_label_for_query("api|apis|fastapi|django|rest|web")
+        == "🌐 Web APIs"
+    )
     assert html_module._category_label_for_query("") is None
     assert html_module._category_label_for_query("not-a-real-category") is None
 

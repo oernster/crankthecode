@@ -1,7 +1,7 @@
 ---
 title: "January 2026 Blog Update: Tables, Taglines, and Terminal Fakery"
 date: "2026-01-20 11:50"
-tags: ["update", "python", "fastapi", "changelog", "html", "css", "javascript"]
+tags: ["blog", "update", "python", "fastapi", "changelog", "html", "css", "javascript"]
 one_liner: "Search autocomplete now works, the Help button is unhelpful, and every post has just enough recruiter bait."
 ---
 

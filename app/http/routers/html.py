@@ -57,13 +57,39 @@ def _post_blurb_index(blog: BlogService) -> dict[str, str]:
 
 
 def _sidebar_categories() -> list[dict[str, str]]:
+    # Outcome-centric groupings.
+    #
+    # These map to the posts page filter (`/posts?q=...`) which matches against
+    # title + tags (see `static/search.js`). We use `|` for OR queries.
     categories = [
-        ("Python Projects", "python"),
-        ("Django Projects", "django"),
-        ("React Projects", "react"),
-        ("3D Printing", "3d|printing|klipper"),
-        ("MicroPython", "micropython"),
-        ("Machine Learning", "machine learning|computer vision"),
+        (
+            "📝 Blog",
+            "blog",
+        ),
+        (
+            "🧰 Tools",
+            "tool|tools|cli|utility|utilities|launcher|database|db",
+        ),
+        (
+            "🖥️ Desktop Apps",
+            "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|stellody",
+        ),
+        (
+            "🌐 Web APIs",
+            "api|apis|fastapi|django|rest|web",
+        ),
+        (
+            "🤖 Automation",
+            "automation|monitoring|obs|routing|script|ansible|terraform",
+        ),
+        (
+            "🎮 Gaming",
+            "gaming|game|elite|dangerous|frontier|colonization",
+        ),
+        (
+            "🧠 Data / ML",
+            "machine learning|computer vision|ml|data",
+        ),
     ]
     return [
         {

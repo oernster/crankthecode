@@ -1,7 +1,7 @@
 ---
 title: "WP Bots and RSS Weirdness Blog Update"
 date: "2026-01-21 02:20"
-tags: ["update", "rss", "feed", "botnet", "html", "utf8", "encoding"]
+tags: ["blog", "update", "rss", "feed", "botnet", "html", "utf8", "encoding"]
 one_liner: "Fixed RSS encoding and ignored WordPress sniffers. As one does."
 ---
 

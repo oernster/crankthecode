@@ -25,9 +25,15 @@
             <i>I turn vague ideas and overcomplicated specs into functional tools that mostly behave.</i>
           </p>
           <p class="hero__subline">
-            Developer with 28 years of experience across defence, cloud systems, automation, and full-stack apps.
-            I like sharp APIs, robust tooling, and documentation that doesn’t talk down to you.
+            I build projects that usually start with ‘Wouldn’t it be ridiculous if…’ and end with something shippable and somehow useful.
           </p>
+          <p class="hero-subline">
+            Full-stack developer with 28 years of experience building scalable systems, rapid prototypes, and custom APIs using Python, C++, and a few absurd ideas that actually shipped.
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a href="#contact" class="cta-button">📩 Hire Me</a>
+            <a class="cta-button" href="/docs/CV-Oliver.docx" download>📄 Download my CV</a>
+          </div>
         </div>
       </div>
 
@@ -208,25 +214,29 @@
         If you’re here to hire me, collaborate, or just gawk at the DIY chaos - welcome.
         I build functional, overengineered nonsense with just enough polish to pass as professional.
       </p>
-      <p>
-        If you want to work together, debate API design, or swap horror stories about legacy code, 
-        feel free to get in touch:
-        <span class="landing-outro__email">
-          <script type="text/javascript">
-            // Keep the email address out of the static HTML to reduce bot scraping.
-            (function () {
-              const user = "oernster";
-              const domain = "codecrafter.uk";
-              const link = "mai" + "lto:" + user + "@" + domain;
-              document.currentScript.insertAdjacentHTML(
-                "beforebegin",
-                `<a href="${link}">${user}@${domain}</a>`
-              );
-            })();
-          </script>
-          <noscript>Enable JavaScript to reveal the email address.</noscript>
-        </span>
-      </p>
+
+      <section id="contact" aria-label="Contact">
+        <p>Want to talk?</p>
+        <p>
+          If you want to work together, debate API design, or swap horror stories about legacy code,
+          feel free to get in touch:
+          <span class="landing-outro__email">
+            <script type="text/javascript">
+              // Keep the email address out of the static HTML to reduce bot scraping.
+              (function () {
+                const user = "oernster";
+                const domain = "codecrafter.uk";
+                const link = "mai" + "lto:" + user + "@" + domain;
+                document.currentScript.insertAdjacentHTML(
+                  "beforebegin",
+                  `<a href="${link}">${user}@${domain}</a>`
+                );
+              })();
+            </script>
+            <noscript>Enable JavaScript to reveal the email address.</noscript>
+          </span>
+        </p>
+      </section>
     </div>
   </section>
 {% endblock %}

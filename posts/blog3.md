@@ -1,7 +1,7 @@
 ---
 title: "Command Centre Blog Update"
 date: "2026-01-21 01:45"
-tags: ["update", "python", "fastapi", "changelog", "html", "css", "javascript"]
+tags: ["blog", "update", "python", "fastapi", "changelog", "html", "css", "javascript"]
 one_liner: "Added hero me/battlestation sections."
 ---
 

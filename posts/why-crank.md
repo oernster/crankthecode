@@ -1,7 +1,7 @@
 ---
 title: "Why Crank?"
 date: "2026-01-19 01:00"
-tags: ["overengineering", "why"]
+tags: ["blog", "overengineering", "why"]
 one_liner: "Why I build things the hard way: a short note on overengineering, curiosity, and craft."
 blurb: "Motivation"
 image: "/static/images/me-cyborg.png"
