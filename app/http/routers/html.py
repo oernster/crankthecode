@@ -422,7 +422,7 @@ async def battlestation_page(
                 {"label": "My battlestation", "href": "/battlestation"},
             ],
             "og_image_url": absolute_url(
-                get_site_url(request), "/static/images/command-battlestation.png"
+                get_site_url(request), "/static/images/command-battlestation1.jpg"
             ),
         }
     )

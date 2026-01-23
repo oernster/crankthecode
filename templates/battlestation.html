@@ -7,15 +7,37 @@
   <div class="section-panel section-panel--intro">
     <h1>🖥️ The Command Battlestation</h1>
 
-    <!-- Main Workstation Image: Centered, Full Display -->
-    <figure class="battlestation-figure" style="display: flex; justify-content: center; margin-bottom: 2rem;">
-      <img
-        class="battlestation-image"
-        src="/static/images/command-battlestation.png"
-        alt="Desk setup with large monitor, laptops and control decks"
-        style="max-width: 100%; height: auto; display: block;"
-        loading="lazy"
-      />
+    <!-- Workstation images (1–3): Centered, Full Display -->
+    <figure class="battlestation-figure" style="margin-bottom: 2rem;">
+      <div
+        style="display: grid; gap: 1rem; grid-template-columns: 1fr; align-items: start;"
+        aria-label="Command Battlestation photos"
+      >
+        <img
+          class="battlestation-image"
+          src="/static/images/command-battlestation1.jpg"
+          alt="Command battlestation photo 1: desk setup with large monitor, laptops and control decks"
+          style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+          loading="lazy"
+        />
+
+        <div style="display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr));">
+          <img
+            class="battlestation-image"
+            src="/static/images/command-battlestation2.jpg"
+            alt="Command battlestation photo 2"
+            style="max-width: 100%; height: auto; display: block;"
+            loading="lazy"
+          />
+          <img
+            class="battlestation-image"
+            src="/static/images/command-battlestation3.jpg"
+            alt="Command battlestation photo 3"
+            style="max-width: 100%; height: auto; display: block;"
+            loading="lazy"
+          />
+        </div>
+      </div>
     </figure>
 
     <p>Welcome to the cockpit where the chaos gets compiled; and occasionally extruded in molten thermoplastic.</p>
