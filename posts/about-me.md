@@ -10,7 +10,7 @@ Hi, I’m Oliver - a professional software developer, technical tinkerer, and wa
 
 I build real systems with real constraints—for engineers, teams, and that one stakeholder who thinks ‘just add AI’ is a strategy.
 
-For almost 3 decades, I’ve worked across a galaxy of companies (from nimble startups to sprawling bureaucracies) solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence projects, built full-stack cloud-native apps solo, and even dabbled in the *dark arts* of React with... let's call it "dignity."
+For almost 3 decades, I’ve worked with everything from lean startups, to multinational behemoths, solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence projects, built full-stack cloud-native apps solo, and even dabbled in the *dark arts* of React with... let's call it "dignity."
 
 I also happen to have a physics degree, which means I spent several years learning how to model chaotic systems, question reality, and accept that sometimes the laws of nature are simply uncooperative. That mindset seeps into how I build software - with curiosity, rigour, and an instinct for spotting when things are about to go *thermodynamically wrong*.
 
