@@ -8,7 +8,7 @@ one_liner: "A quick intro to who I am and the kind of software projects I like t
 
 Hi, I’m Oliver - a professional software developer, technical tinkerer, and walking version history of Python, C++ and C; as well as more obscure mobile phone conformance testing languages such as TTCN-2.
 
-I build real systems with real constraints—for engineers, teams, and that one stakeholder who thinks 'just add AI' is a strategy.
+I build real systems with real constraints; for engineers, teams, and that one stakeholder who thinks 'just add AI' is a strategy.
 
 For almost 3 decades, I’ve worked with everything from lean startups, to multinational behemoths, solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence projects, built full-stack cloud-native apps solo, ...and even dabbled in the **dark arts** of React with something bordering on dignity.
 
