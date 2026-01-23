@@ -182,10 +182,14 @@
     <nav class="sidebar" aria-label="Categories">
       <h2 class="sidebar-title">Categories</h2>
       <a
-        class="sidebar-link{% if request.url.path == '/posts' and (current_q or '')|length == 0 %} is-active{% endif %}"
-        href="/posts"
+        class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_q or '')|length == 0 and exclude_blog %} is-active{% endif %}"
+        href="/posts?exclude_blog=1"
       >
-        All Posts
+        <span class="sidebar-link__icon" aria-hidden="true">🌀</span>
+        <span class="sidebar-link__text" aria-label="All posts excluding blog posts">
+          <span class="sidebar-link__text-main">All posts</span>
+          <span class="sidebar-link__text-sub">(exc. Blog)</span>
+        </span>
       </a>
       {% for cat in sidebar_categories or [] %}
         <a

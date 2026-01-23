@@ -160,13 +160,6 @@ thumb_image: /static/images/stellody-icon.png
 </div>
 
 ## Screenshots
-
-![Stellody app options and settings screen](/static/images/stellody-options.png)
-
-![Stellody playlist generation results view](/static/images/stellody-playlists.png)
-
-![Stellody supported music formats selection screen](/static/images/stellody-formats.png)
-
 # Rationale
 I wanted to discover new music based on my local 5k track library of FLAC music.  However, I wanted it to be curated to my personal tastes rather than the 
 generic categorisations that Spotify chucks at you.  So this was initially a personal project that I ended up productizing and publishing on the internet.
@@ -201,3 +194,13 @@ When it’s finished, just check Spotify for your new playlists. Not on Spotify?
 Runs locally - your music files never leave your computer. We only create playlists in Spotify.
 
 It runs on Windows, Linux and MacOS.
+
+## Screenshots
+
+![Stellody app main UI](/static/images/stellody.png)
+
+![Stellody app options and settings screen](/static/images/stellody-options.png)
+
+![Stellody playlist generation results view](/static/images/stellody-playlists.png)
+
+![Stellody supported music formats selection screen](/static/images/stellody-formats.png)

@@ -57,7 +57,7 @@ body.is-homepage .header-cta {
 /* Sidebar layout: desktop = left sidebar + content; mobile = sidebar above content */
 .page-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 1.5rem;
   align-items: start;
 }
@@ -84,6 +84,54 @@ body.is-homepage .header-cta {
   padding: 0.45rem 0.6rem;
   border-radius: 12px;
   color: rgba(233, 231, 255, 0.85);
+}
+
+/* Sidebar: allow 2-line labels without awkward justification/wrapping */
+.sidebar-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.sidebar-link__icon {
+  flex: 0 0 auto;
+  width: 1.2em;
+  line-height: 1.2;
+  margin-top: 0.05rem;
+}
+
+.sidebar-link__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sidebar-link__text-main {
+  line-height: 1.25;
+}
+
+.sidebar-link__text-sub {
+  line-height: 1.15;
+  opacity: 0.85;
+}
+
+/* For the special All-posts link, right-align the sub-label so it sits to the
+   right of the main label on the same line. */
+.sidebar-link--all-posts .sidebar-link__text {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
+}
+
+.sidebar-link--all-posts .sidebar-link__text-main,
+.sidebar-link--all-posts .sidebar-link__text-sub {
+  white-space: nowrap;
+}
+
+.sidebar-link--all-posts .sidebar-link__text-sub {
+  font-size: 0.92em;
+  opacity: 0.85;
 }
 
 .sidebar-link:hover {
@@ -163,7 +211,7 @@ body.is-homepage .header-cta {
 .header-layout {
   width: 100%;
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 1.5rem;
   align-items: start;
 }

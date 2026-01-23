@@ -53,15 +53,43 @@ def _extract_cover_image_and_strip(markdown_text: str) -> tuple[str | None, str]
     return None, markdown_text
 
 
-def _strip_image_paragraph(markdown_text: str, image_url: str) -> str:
-    """Remove a standalone image paragraph that points to `image_url`."""
+def _strip_image_paragraph(
+    markdown_text: str,
+    image_url: str,
+    *,
+    head: int | None = None,
+    tail: int | None = None,
+) -> str:
+    """Remove a standalone image paragraph that points to `image_url`.
+
+    By default this removes the first matching paragraph anywhere.
+
+    When `head` and/or `tail` are provided, removal is restricted to paragraphs
+    near the start and/or end of the document. This matches the intended
+    "cover image" use-case where authors typically place the cover at the top
+    or bottom of the post, while still allowing the same image to appear later
+    in the body (e.g. in a screenshots section).
+    """
 
     paragraphs = [p.strip() for p in markdown_text.split("\n\n")]
     paragraphs = [p for p in paragraphs if p]
     if not paragraphs:
         return markdown_text
 
-    for idx, para in enumerate(paragraphs):
+    candidate_indices: list[int]
+    if head is None and tail is None:
+        candidate_indices = list(range(len(paragraphs)))
+    else:
+        n = len(paragraphs)
+        indices: set[int] = set()
+        if head and head > 0:
+            indices.update(range(min(head, n)))
+        if tail and tail > 0:
+            indices.update(range(max(0, n - tail), n))
+        candidate_indices = sorted(indices)
+
+    for idx in candidate_indices:
+        para = paragraphs[idx]
         match = _COVER_IMAGE_PARAGRAPH_RE.match(para)
         if match and match.group(1) == image_url:
             remaining = (paragraphs[:idx] + paragraphs[idx + 1 :])
@@ -82,7 +110,17 @@ class ListPostsUseCase:
             thumb_url = getattr(post, "thumb_image", None)
             markdown_wo_cover = post.content_markdown
             if cover_url:
-                markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, cover_url)
+                # Only strip the cover when the author placed it near the start/end.
+                # This avoids surprising removals when the same image is later used
+                # in the body (e.g. in a screenshots section).
+                markdown_wo_cover = _strip_image_paragraph(
+                    markdown_wo_cover,
+                    cover_url,
+                    # Only strip when the image is very near the start (first or
+                    # second paragraph). This preserves legitimate reuse later
+                    # (e.g. screenshots section).
+                    head=2,
+                )
             else:
                 cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
                     post.content_markdown

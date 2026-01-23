@@ -75,6 +75,37 @@ def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_matching_image
     assert "/static/images/cover.jpg" not in result[0].summary_html
 
 
+def test_list_posts_does_not_strip_cover_image_when_it_only_appears_in_body():
+    """Regression test: don't remove images from legitimate sections (e.g. screenshots)."""
+
+    repo = InMemoryPostsRepository(
+        posts=(
+            MarkdownPost(
+                slug="one",
+                title="One",
+                date="2021-01-01 12:00",
+                tags=(),
+                blurb=None,
+                one_liner=None,
+                image="/static/images/cover.jpg",
+                thumb_image=None,
+                extra_images=(),
+                content_markdown="Intro\n\n## Screenshots\n\n![Main](/static/images/cover.jpg)\n\nMore",
+            ),
+        )
+    )
+    uc = ListPostsUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+
+    result = uc.execute()
+
+    assert len(result) == 1
+    # The post still uses the frontmatter image as its cover...
+    assert result[0].cover_image_url == "/static/images/cover.jpg"
+    # ...but the summary should keep the markdown intact if the image is not in
+    # the "cover" positions (near start). In this case, the first paragraph is just "Intro".
+    assert "/static/images/cover.jpg" not in result[0].summary_html
+
+
 def test_list_posts_prefers_thumb_image_when_provided():
     repo = InMemoryPostsRepository(
         posts=(

@@ -63,32 +63,26 @@ def _sidebar_categories() -> list[dict[str, str]]:
     # title + tags (see `static/search.js`). We use `|` for OR queries.
     # NOTE: Some categories are meant to highlight projects only.
     # For those, we exclude blog-style posts when rendering `/posts?q=<category>`.
+    # NOTE: Keep `Blog` in the sidebar (second item overall), but sort the
+    # remaining categories alphabetically by their visible label.
     categories: list[dict[str, object]] = [
         {"label": "📝 Blog", "query": "blog", "exclude_blog": False, "exclude_slugs": []},
         {
-            "label": "🧰 Tools",
-            "query": "tool|tools|cli|utility|utilities|launcher|database|db",
-            "exclude_blog": False,
-            # AxisDB is intentionally classified under Data / ML (not Tools).
-            "exclude_slugs": ["axisdb"],
+            "label": "🤖 Automation",
+            "query": "automation|monitoring|obs|script|ansible|terraform",
+            "exclude_blog": True,
+            "exclude_slugs": [],
+        },
+        {
+            "label": "🧠 Data / ML",
+            "query": "machine learning|computer vision|ml|data",
+            "exclude_blog": True,
+            "exclude_slugs": [],
         },
         {
             "label": "🖥️ Desktop Apps",
             "query": "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|stellody|trainer",
             "exclude_blog": False,
-            "exclude_slugs": [],
-        },
-        {
-            "label": "🌐 Web APIs",
-            "query": "api|apis|fastapi|django|rest|web",
-            # Project category: keep blog posts in the dedicated Blog section.
-            "exclude_blog": True,
-            "exclude_slugs": [],
-        },
-        {
-            "label": "🤖 Automation",
-            "query": "automation|monitoring|obs|script|ansible|terraform",
-            "exclude_blog": True,
             "exclude_slugs": [],
         },
         {
@@ -98,8 +92,16 @@ def _sidebar_categories() -> list[dict[str, str]]:
             "exclude_slugs": [],
         },
         {
-            "label": "🧠 Data / ML",
-            "query": "machine learning|computer vision|ml|data",
+            "label": "🧰 Tools",
+            "query": "tool|tools|cli|utility|utilities|launcher|database|db",
+            "exclude_blog": False,
+            # AxisDB is intentionally classified under Data / ML (not Tools).
+            "exclude_slugs": ["axisdb"],
+        },
+        {
+            "label": "🌐 Web APIs",
+            "query": "api|apis|fastapi|django|rest|web",
+            # Project category: keep blog posts in the dedicated Blog section.
             "exclude_blog": True,
             "exclude_slugs": [],
         },
@@ -162,6 +164,8 @@ def _is_blog_post_slug_or_tags(slug: str, tags: list[str]) -> bool:
 
 def _base_context(request: Request) -> dict:
     site_url = get_site_url(request)
+    exclude_blog_raw = (request.query_params.get("exclude_blog") or "").strip().lower()
+    exclude_blog = exclude_blog_raw in {"1", "true", "yes", "y", "on"}
     return {
         "request": request,
         "site_url": site_url,
@@ -178,6 +182,7 @@ def _base_context(request: Request) -> dict:
         "meta_description": "CrankTheCode - projects and technical write-ups by Oliver Ernster.",
         "sidebar_categories": _sidebar_categories(),
         "current_q": (request.query_params.get("q") or "").strip(),
+        "exclude_blog": exclude_blog,
         "breadcrumb_items": [
             {"label": "Home", "href": "/"},
         ],
@@ -292,11 +297,12 @@ async def posts_index(
     ]
     ctx = _base_context(request)
     current_q = ctx.get("current_q", "")
+    exclude_blog = bool(ctx.get("exclude_blog"))
 
     # Some sidebar categories (Automation, Data/ML) are project-focused.
     # When the user deep-links via the sidebar (`/posts?q=<category query>`),
     # exclude blog posts from the list.
-    if _should_exclude_blog_posts_for_query(current_q):
+    if exclude_blog or _should_exclude_blog_posts_for_query(current_q):
         posts = [
             p
             for p in posts
