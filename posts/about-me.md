@@ -38,9 +38,8 @@ If you're here to hire me, collaborate, or just gawk at the DIY chaos, welcome a
 | HTML/CSS | 6 to 8 years |
 | React + TypeScript | 2 years |
 
-### Source control tools
 
-Git, TortoiseSVN, GitLab, SVN, TortoiseHg (Mercurial), PVCS, Visual Source Safe, Gerrit, MKS Integrity / MKS Source, ClearCase.
+Git, TortoiseSVN, GitLab, SVN, TortoiseHg (Mercurial)
 
 ### Libraries & build tools
 
@@ -70,3 +69,6 @@ MySQL, PostgreSQL, Redis, MariaDB, SQLite3, CassandraDB, MS SQL Server, CouchDB,
 ### Methodologies
 
 Agile, Extreme Programming, KANBAN, Waterfall.
+
+### Legacy Tools & Source Control
+PVCS, Visual Source Safe, Gerrit, MKS Integrity / MKS Source, ClearCase.
