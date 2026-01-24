@@ -1,13 +1,19 @@
 ---
 title: "EDColonization Assistant"
 date: "2026-01-19 03:40"
-tags: ["elite dangerous", "dashboard", "space sim", "exploration", "in-game tool", "python", "overlay"]
+tags:
+  - "elite dangerous"
+  - "dashboard"
+  - "space sim"
+  - "exploration"
+  - "in-game tool"
+  - "python"
+  - "overlay"
 blurb: "In-game overlay for Elite Dangerous"
 one_liner: "A browser-based in-game overlay for colonization tracking and expedition planning in Elite Dangerous."
-
 image: /static/images/edcolonizationasst.png
 social_image: /static/images/edcolonizationasst.png
-thumb_image: /static/images/edcolonizationasst.png
+thumb_image: /static/images/edcolonizationasst-icon.png
 ---
 
 [EDColonization Assistant](https://github.com/oernster/EDColonizationAssistant) 🛰  
