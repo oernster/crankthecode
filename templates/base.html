@@ -4,16 +4,23 @@
   <meta charset="utf-8">
   <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}CrankTheCode{% endblock %}{% endif %}</title>
 
-  {% if post %}
-    <meta name="description" content="{{ post.blurb or post.one_liner }}">
-  {% elif meta_description %}
+  {# Meta description #}
+  {% if meta_description %}
+    <meta name="description" content="{{ meta_description }}">
+  {% elif post %}
     <meta name="description" content="{{ post.blurb or post.one_liner }}">
   {% elif is_homepage %}
     <meta
       name="description"
       content="Senior engineer building clean, efficient software, writing about systems, tooling and ideas that actually ship."
     >
+  {% else %}
+    <meta
+      name="description"
+      content="CrankTheCode — Software projects, tools, hardware and engineering ideas that ship."
+    >
   {% endif %}
+
   
   {% if canonical_url %}
     <link rel="canonical" href="{{ canonical_url | default(request.url) }}">
