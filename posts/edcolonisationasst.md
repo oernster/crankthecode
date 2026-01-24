@@ -66,7 +66,7 @@ Browser-based tool for managing colonisation tracking and expeditions in *Elite 
 
 ---
 
-> “There’s something satisfying about flipping to a local HUD and seeing a habitable candidate flagged in green. This is the kind of immersion that even the game itself didn’t build in.”
+> “There’s something satisfying about flipping to a local HUD and seeing your shopping list for a station/system go green on completion on reaching a full delivery of a commodity. This is the kind of immersion that even the game itself didn’t build in.”
 
 ## Screenshots
 
