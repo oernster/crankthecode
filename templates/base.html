@@ -275,7 +275,10 @@
       function setTheme(theme) {
         root.classList.remove(THEMES.DARK, THEMES.LIGHT);
         root.classList.add(theme);
-        themeIcon.textContent = theme === THEMES.DARK ? "🌙" : "🌞";
+        // Icon represents the *target* mode (what will happen if you click).
+        // - In dark mode, show sun (switch to light).
+        // - In light mode, show moon (switch to dark).
+        themeIcon.textContent = theme === THEMES.DARK ? "🌞" : "🌙";
 
         try {
           localStorage.setItem("theme", theme);
@@ -286,9 +289,9 @@
 
       // Sync icon with whatever theme bootstrap selected.
       if (root.classList.contains(THEMES.LIGHT)) {
-        themeIcon.textContent = "🌞";
-      } else {
         themeIcon.textContent = "🌙";
+      } else {
+        themeIcon.textContent = "🌞";
       }
 
       themeToggle.addEventListener("click", function () {
