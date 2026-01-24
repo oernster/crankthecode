@@ -35,7 +35,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 | Category              | Capabilities                                                                 |
 |-----------------------|------------------------------------------------------------------------------|
-| **System Tracking**   | - Record system visits<br>- Log planet scans<br>                             |
+| **System Tracking**   | - Record system visits<br>- Log planetary base landings<br>                             |
 | **Browser UI**        | - Lightweight HUD<br>- Browser-based display<br>- Tablet-friendly layout     |
 | **Data Sync**         | - Reads system data from in game journal data<br>- Syncs JSON records        |
 | **Mission Planning**  | - Prioritises targets<br>- Filter by criteria<br>                            |
@@ -46,7 +46,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 - Any modern browser  
 - External screen/tablet recommended for cockpit integration  
-- *Elite Dangerous* PC edition  
+- *Elite Dangerous* PC/linux edition (untested on macOS) 
 
 ## Usage
 
