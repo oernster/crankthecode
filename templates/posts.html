@@ -24,6 +24,8 @@
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🤖</span>
             {% elif post.slug == 'blog5' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🌗</span>
+            {% elif post.slug == 'blog6' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧹</span>
             {% elif post.slug == 'calendifier' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
             {% elif post.slug == 'elevator' %}
@@ -46,11 +48,15 @@
               {% endif %}
             </span>
           </a>
-          <small>{{ post.date }} ~ Tags:
-            {% for tag in post.tags %}
-              <span class="tag">{{ tag }}</span>
-            {% endfor %}
-          </small>
+          <div class="post-meta">
+            <small class="post-date">{{ post.date }}</small>
+            <small class="post-tags">
+              Tags:
+              {% for tag in post.tags %}
+                <span class="tag">{{ tag }}</span>
+              {% endfor %}
+            </small>
+          </div>
           {% if post.one_liner or post.blurb %}
             <div class="post-one-liner">{{ post.one_liner or post.blurb }}</div>
           {% endif %}

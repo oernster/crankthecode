@@ -5,7 +5,7 @@ tags: ["blog", "update", "python", "fastapi", "changelog", "html", "css", "javas
 one_liner: "Search autocomplete now works, the Help button is unhelpful and every post has just enough recruiter bait."
 ---
 
-# Chaos Contained: Tables, Taglines and Terminal Fakery 🧪
+# Chaos Contained: Tables, Taglines and Terminal Fakery
 
 It’s been a busy few days of updates to the blog - the kind of work that’s 70% polish, 20% debugging things that used to work and 10% wondering why I did any of this in the first place.
 

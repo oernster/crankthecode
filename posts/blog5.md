@@ -5,7 +5,7 @@ tags: ["blog", "update", "ui", "ux", "accessibility", "css", "dark-mode"]
 one_liner: "A tour through UI tweaks, CTA wrangling and why stopping matters more than starting."
 ---
 
-# 🎛 UI Polish, CTAs and Knowing When to Stop
+# UI Polish, CTAs and Knowing When to Stop
 
 This week’s commits look chaotic at first glance. UI tweaks. CTA shuffling. Light/dark mode flips. Words rewritten, then rewritten again. Buttons nudged by a few pixels. Icons muted. Then un-muted. Then muted properly.
 

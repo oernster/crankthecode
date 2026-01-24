@@ -190,6 +190,7 @@ def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
         "blog3": "🧠",
         "blog4": "🤖",
         "blog5": "🌗",
+        "blog6": "🧹",
     }
     # Archive always starts with these two seed posts (fixed order),
     # then the actual blog entries in newest-first order.
@@ -249,7 +250,8 @@ def _post_emoji_map() -> dict[str, str]:
 def _base_context(request: Request) -> dict:
     site_url = get_site_url(request)
     exclude_blog_raw = (request.query_params.get("exclude_blog") or "").strip().lower()
-    exclude_blog = exclude_blog_raw in {"1", "true", "yes", "y", "on"}
+    # Default to hiding blog entries from listings unless explicitly included.
+    exclude_blog = True if exclude_blog_raw == "" else exclude_blog_raw in {"1", "true", "yes", "y", "on"}
     return {
         "request": request,
         "site_url": site_url,
@@ -425,7 +427,8 @@ async def posts_index(
     ]
     ctx = _base_context(request)
     current_q = ctx.get("current_q", "")
-    exclude_blog = bool(ctx.get("exclude_blog"))
+    # Always include blog posts when the user is explicitly browsing the Blog category.
+    exclude_blog = bool(ctx.get("exclude_blog")) and (current_q or "").strip().lower() != "blog"
 
     # Some sidebar categories (Automation, Data/ML) are project-focused.
     # When the user deep-links via the sidebar (`/posts?q=<category query>`),

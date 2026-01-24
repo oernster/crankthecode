@@ -5,6 +5,6 @@ tags: ["blog", "launch"]
 one_liner: "A quick welcome and overview of what Crank The Code is and how to navigate the site."
 ---
 
-This is my first post. I wrote it in Markdown. I am unstoppable.
+# This is my first post. I wrote it in Markdown. I am unstoppable.
 
 ![Hello Crank cover](/static/images/me.jpg)

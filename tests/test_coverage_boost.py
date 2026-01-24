@@ -442,6 +442,28 @@ def test_excluded_slugs_blog_query_empty_set_branch_covered():
     assert resp.status_code == 200
 
 
+def test_should_exclude_blog_posts_for_query_covers_all_return_paths():
+    """Covers `_should_exclude_blog_posts_for_query()` True/False branches."""
+
+    from app.http.routers.html import _should_exclude_blog_posts_for_query
+
+    # Empty query.
+    assert _should_exclude_blog_posts_for_query("") is False
+
+    # Non-empty query that doesn't match any category.
+    assert _should_exclude_blog_posts_for_query("nope") is False
+
+    # Category query with exclude_blog=True.
+    assert _should_exclude_blog_posts_for_query(
+        "machine learning|computer vision|ml|data"
+    ) is True
+
+    # Category query with exclude_blog=False.
+    assert _should_exclude_blog_posts_for_query(
+        "gaming|game|elite|dangerous|frontier|colonization"
+    ) is False
+
+
 def test_crank_change_archive_seed_missing_is_tolerated(monkeypatch):
     """Covers the branch where a seed slug is absent from the post list."""
 

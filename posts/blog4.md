@@ -5,7 +5,7 @@ tags: ["blog", "update", "rss", "feed", "botnet", "html", "utf8", "encoding"]
 one_liner: "Fixed RSS encoding and ignored WordPress sniffers. As one does."
 ---
 
-# 🤖 WordPress Bots and Encoding Gremlins
+# WordPress Bots and Encoding Gremlins
 
 ## 1. 🕵️ WordPress Probe Bots, Please Go Touch Grass
 

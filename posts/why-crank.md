@@ -6,8 +6,7 @@ one_liner: "Why I build things the hard way: a short note on overengineering, cu
 blurb: "Motivation"
 image: "/static/images/me-cyborg.png"
 ---
-Everyone asks why.  
-Nobody asks *why not crank*.
+# Everyone asks why.  Nobody asks *why not crank*.
 
 This blog exists because I was tired of bloated platforms, slow render times and markdown parsers that don’t understand me emotionally(!)
 
