@@ -44,7 +44,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 - Any modern browser  
 - External screen/tablet recommended for cockpit integration  
-- *Elite Dangerous* PC/linux edition (untested on macOS) 
+- *Elite Dangerous* PC/linux edition with Horizons+Odyssey/Trailblazer DLC (Note: Untested on macOS) 
 
 ## Usage
 
