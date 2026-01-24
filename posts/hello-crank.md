@@ -1,6 +1,6 @@
 ---
 title: "Hello Crank"
-date: "2026-01-18 12:00"
+date: "2026-01-18 10:11"
 tags: ["blog", "launch"]
 one_liner: "A quick welcome and overview of what Crank The Code is, and how to navigate the site."
 ---

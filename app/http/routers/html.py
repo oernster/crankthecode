@@ -162,6 +162,64 @@ def _is_blog_post_slug_or_tags(slug: str, tags: list[str]) -> bool:
     return "blog" in tags_norm
 
 
+def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
+    """Return Crank Change Archive posts (most recent first).
+
+    This is used to automatically include blog posts (blog1, blog2, ...) without
+    manually updating `templates/index.html` for every new entry.
+
+    Rules:
+    - include any post where the slug starts with `blog` OR it has the `blog` tag.
+    - also include the original archive seed posts.
+    """
+
+    emoji_map: dict[str, str] = {
+        "blog1": "🔍",
+        "blog2": "🧪",
+        "blog3": "🧠",
+        "blog4": "🤖",
+        "blog5": "🌗",
+    }
+    # Archive always starts with these two seed posts (fixed order),
+    # then the actual blog entries in newest-first order.
+    seed_order = ["hello-crank", "why-crank"]
+    seed_set = set(seed_order)
+
+    posts = list(blog.list_posts())
+    by_slug = {p.slug: p for p in posts}
+
+    seed_entries: list[dict[str, str]] = []
+    for slug in seed_order:
+        p = by_slug.get(slug)
+        if not p:
+            continue
+        seed_entries.append(
+            {
+                "slug": p.slug,
+                "title": p.title,
+                "emoji": emoji_map.get(p.slug, ""),
+            }
+        )
+
+    # `blog.list_posts()` is already date-descending; we want newest-first.
+    blog_entries: list[dict[str, str]] = []
+    for p in posts:
+        tags = [str(t) for t in (p.tags or [])]
+        if p.slug in seed_set:
+            continue
+        if not _is_blog_post_slug_or_tags(p.slug, tags):
+            continue
+        blog_entries.append(
+            {
+                "slug": p.slug,
+                "title": p.title,
+                "emoji": emoji_map.get(p.slug, ""),
+            }
+        )
+
+    return seed_entries + blog_entries
+
+
 def _base_context(request: Request) -> dict:
     site_url = get_site_url(request)
     exclude_blog_raw = (request.query_params.get("exclude_blog") or "").strip().lower()
@@ -234,6 +292,7 @@ async def homepage(
             "og_title": "CrankTheCode",
             "og_description": "Projects and technical write-ups by Oliver Ernster.",
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
+            "crank_change_archive_posts": _crank_change_archive_posts(blog),
             "homepage_projects": {
                 "featured": [
                     {"slug": "stellody", "label": "Stellody"},

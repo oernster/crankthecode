@@ -149,62 +149,25 @@
     <hr class="post-separator" aria-hidden="true" />
 
     <div class="section-panel section-panel--launch">
-      <h2 class="section-title section-title--accent">CrankChange Archive</h2>
-      <div class="featured-buttons" aria-label="CrankChange archive posts">
-        <a class="btn-link btn-link--with-thumb" href="/posts/hello-crank">
-          {% set cover = homepage_cover_index.get('hello-crank') %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="Hello Crank" loading="lazy" />
-          {% endif %}
-          <span class="btn-text">Hello Crank</span>
-        </a>
-        <a class="btn-link btn-link--with-thumb" href="/posts/why-crank">
-          {% set cover = homepage_cover_index.get('why-crank') %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="Why Crank" loading="lazy" />
-          {% endif %}
-          <span class="btn-text">Why Crank</span>
-        </a>
-
-        <a class="btn-link btn-link--with-thumb" href="/posts/blog1">
-          {% set cover = homepage_cover_index.get('blog1') %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="Site SEO &amp; Search Updates" loading="lazy" />
-          {% else %}
-            <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-          {% endif %}
-          <span class="btn-text">Site SEO &amp; Search Updates</span>
-        </a>
-
-        <a class="btn-link btn-link--with-thumb" href="/posts/blog2">
-          {% set cover = homepage_cover_index.get('blog2') %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="Chaos Contained: 2026/01/19" loading="lazy" />
-          {% else %}
-            <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧪</span>
-          {% endif %}
-          <span class="btn-text">Chaos Contained: 2026/01/19</span>
-        </a>
-
-        <a class="btn-link btn-link--with-thumb" href="/posts/blog3">
-          {% set cover = homepage_cover_index.get('blog3') %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="Command Centre Update" loading="lazy" />
-          {% else %}
-            <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧠</span>
-          {% endif %}
-          <span class="btn-text">Command Centre Update</span>
-        </a>
-
-        <a class="btn-link btn-link--with-thumb" href="/posts/blog4">
-          {% set cover = homepage_cover_index.get('blog4') %}
-          {% if cover %}
-            <img class="btn-thumb" src="{{ cover }}" alt="WP Bots and RSS Weirdness 2026/01/21" loading="lazy" />
-          {% else %}
-            <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🤖</span>
-          {% endif %}
-          <span class="btn-text">WP Bots and RSS Weirdness 2026/01/21</span>
-        </a>
+      <h2 class="section-title section-title--accent">Crank Change Archive</h2>
+      <div class="featured-buttons" aria-label="Crank Change archive posts">
+        {#
+          Archive entries are computed server-side and passed in as
+          `crank_change_archive_posts`, sorted newest-first.
+        #}
+        {% for p in crank_change_archive_posts or [] %}
+          <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+            {% set cover = homepage_cover_index.get(p.slug) %}
+            {% if cover %}
+              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.title }}" loading="lazy" />
+            {% elif (p.emoji or '')|length > 0 %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
+            {% else %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📝</span>
+            {% endif %}
+            <span class="btn-text">{{ p.title }}</span>
+          </a>
+        {% endfor %}
       </div>
 
       {# CTA moved to the global header (below “Crank The Code”) in base.html #}
