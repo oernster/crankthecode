@@ -35,6 +35,7 @@ number of locales around the world in foreign languages/numbering standards; tha
 A standards-compliant calendar backend. RFC5545? I *hardly* knew her.
 The main app was HARD due to internationalization; this was my first foray into internationalizing an app and I did it 
 for BOTH a browser AND home assistant dashboard cards.
+
 Another really difficult thing for me was not only identifying holidays for locales which aren't British but making them 
 appear correctly on the UI depending on the locale selected.
 However, aside from the aforementioned internationalization support challenges, I really struggled through writing code to support
@@ -188,15 +189,23 @@ On first launch, the application will:
 
 ### 📝 Event Management
 
+
+
 ## 📦 Building & Distribution
 
 Calendifier supports multiple build targets for maximum compatibility across platforms:
+
+
 
 ### 🖥️ Cross-Platform Executable (Nuitka)
 
 Build a single executable file for Windows, macOS and Linux:
 
+
+
 ## ⚙️ Configuration
+
+
 
 ### 🏠 User Data Location
 
@@ -205,6 +214,8 @@ The application stores user data in:
 - **macOS:** `~/.calendar_app/`
 - **Linux:** `~/.calendar_app/`
 
+
+
 ### 📁 Configuration Files
 
 - **`settings.json`** - Application preferences
@@ -212,6 +223,7 @@ The application stores user data in:
 - **`logs/`** - Application logs
 - **`exports/`** - Exported calendar files
 - **`backups/`** - Database backups
+
 
 **Made with ❤️ for the global community**
 

@@ -34,6 +34,7 @@ on a second tablet (I run Samsung Galaxy A9+ tablets).
 # Challenges along the way
 Making it function correctly by reading game journal data was a bit of a hassle.  However, once I understood the structure of the data
 and how it updates the journal files became a little easier to work with.
+
 UI challenges on the website were a little funky for me since I'm more of a backend dev rather than a front end UI designer.
 However, I actually feel that the UI came out rather nicely.
 The UI is fully tested in a web browser, both on a PC and a tablet. 
@@ -44,11 +45,13 @@ The UI is fully tested in a web browser, both on a PC and a tablet.
 - Better carrier data reporting.
 - Boot on launch into system tray option on install/repair.
 - Fleet carrier manifest support.
+
 - Light / dark mode theme in Windows standalone installer.
 - Light / dark mode theme in UI.
 - Auto refresh of UI on journal file updates.
 - Major refactoring operation of codebase, using Object Oriented design, design patterns, SOLID principles.
 - PEP8 compliance.
+
 - Unit test case coverage increased.
 - Multiple instances of the UI prevented by using Mutex / singleton logic.
 - All documentation updated.
@@ -57,6 +60,7 @@ The UI is fully tested in a web browser, both on a PC and a tablet.
 
 # Tested on Windows 11 pro, Ubuntu Questing Quokka.
 # Linux run scripts provided for: (Note: non Debian scripts are untested)
+
 - Arch
 - Debian
 - Fedora

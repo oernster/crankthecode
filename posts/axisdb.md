@@ -62,6 +62,8 @@ print(ro.get(("user1", "orders")))
 </code></pre>
 </div>
 
+
+
 Or additionally define a field index:
 
 <div class="code-block" aria-label="Define a field index">
@@ -87,6 +89,8 @@ db = AxisDB.create("./mydb.json", dimensions=2)
 db.define_field_index("by_customer_id", ("customer_id",))
 </code></pre>
 </div>
+
+
 
 Or perhaps query with an expression:
 
@@ -157,6 +161,8 @@ rows = db.find(prefix=("orders",), where=Field(("customer_id",), "==", "c2"))
   </div>
 </blockquote>
 
+
+
 # AxisDB
 
 **AxisDB** is a tiny embedded document database for Python, designed for simple, reliable storage of JSON documents addressed by **N-dimensional coordinate keys**.
@@ -168,6 +174,8 @@ It is library-first, requires no server and stores all data in a single JSON fil
 
 ---
 
+
+
 ## Key properties
 
 - Library-first design (usable without any server)
@@ -177,6 +185,8 @@ It is library-first, requires no server and stores all data in a single JSON fil
 - Minimal but useful query + indexing support (correctness-first)
 
 ---
+
+
 
 ## Features
 
