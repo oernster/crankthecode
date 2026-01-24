@@ -1497,8 +1497,14 @@ a[href=\"/\"]:hover {
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.35);
+  /* Use an opaque background so the terminal stays truly dark on light pages. */
+  background: #121321;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+
+  /* Force dark console colors even when the site is in light mode. */
+  --code-bg: rgba(255, 255, 255, 0.08);
+  --code-color: #f7f6ff;
+  color: rgba(233, 231, 255, 0.92);
 }
 
 .fake-terminal__title {
@@ -1584,17 +1590,25 @@ a[href=\"/\"]:hover {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
   line-height: 1.55;
+  color: var(--code-color);
 }
 
 /* Copyable code blocks (AxisDB quick start) */
+/* DARK-ONLY COMPONENT: Skip during light mode theming */
 .code-block {
   max-width: var(--content-max);
   margin: 1.25rem auto 2rem;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.35);
+  /* Use an opaque background so the code block stays truly dark on light pages. */
+  background: #121321;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+
+  /* Force dark console colors even when the site is in light mode. */
+  --code-bg: rgba(255, 255, 255, 0.08);
+  --code-color: #f7f6ff;
+  color: rgba(233, 231, 255, 0.92);
 }
 
 .code-block__header {
@@ -1678,6 +1692,7 @@ a[href=\"/\"]:hover {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
   white-space: pre;
+  color: var(--code-color);
 }
 
 /* AxisDB “live feed” terminal: step-reveal + typing (one line at a time) */
