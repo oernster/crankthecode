@@ -26,51 +26,75 @@ I don’t just build things; I debug the laws of unintended consequences.
 
 ---
 
-## Skillset snapshot
+## Skillset Snapshot
 
-### Languages
+<table width="100%">
+  <tr>
+    <td valign="top" width="50%">
+      <strong>Languages</strong><br>
+      Python – 13 yrs<br>
+      C++ – 15 yrs<br>
+      C – 4 yrs<br>
+      JavaScript – 6–7 yrs<br>
+      React + TypeScript – 2 yrs<br>
+      HTML/CSS – 6–8 yrs<br>
+      jQuery – 2–3 yrs
+    </td>
+    <td valign="top" width="50%">
+      <strong>Technologies</strong><br>
+      Django – 6–7 yrs<br>
+      FastAPI – 4–5 yrs<br>
+      Flask – 0.5 yrs<br>
+      Docker – 5 yrs<br>
+      AWS – 3 yrs<br>
+      Apache, NGINX – 5 yrs
+    </td>
+  </tr>
 
-| Technology | Experience |
-|---|---:|
-| Python | 13 years |
-| C | 4 years |
-| C++ | 15 years |
-| JavaScript | 6 to 7 years |
-| jQuery | 2 to 3 years |
-| HTML/CSS | 6 to 8 years |
-| React + TypeScript | 2 years |
+  <tr><td colspan="2"><hr></td></tr>
 
-### Source control
+  <tr>
+    <td valign="top">
+      <strong>Databases</strong><br>
+      MySQL, PostgreSQL, MariaDB, SQLite3<br>
+      MS SQL Server<br>
+      Redis, CouchDB, MongoDB, CassandraDB
+    </td>
+    <td valign="top">
+      <strong>Protocols</strong><br>
+      RESTful APIs, Sockets, TCP/UDP, JSON<br>
+      VoIP/SIP, ISDN/Telephony, RTP, Q.931<br>
+      GSM (2G), RRC (3G), MIKEY-SAKKE
+    </td>
+  </tr>
 
-Git, TortoiseSVN, GitLab, SVN, TortoiseHg (Mercurial)
+  <tr><td colspan="2"><hr></td></tr>
 
-### Libraries & build tools
+  <tr>
+    <td valign="top">
+      <strong>Libraries & Build Tools</strong><br>
+      Qt, PyQt, STL, Boost<br>
+      Bootstrap, Chart.js, Leaflet.js<br>
+      Hudson, Cruise Control, Jenkins
+    </td>
+    <td valign="top">
+      <strong>Source Control</strong><br>
+      Git, GitLab, SVN, TortoiseSVN, TortoiseHg
+    </td>
+  </tr>
 
-Qt, PyQt, STL, Boost, Bootstrap, Chart.js, Leafletjs, Hudson, Cruise Control, Jenkins.
+  <tr><td colspan="2"><hr></td></tr>
 
-### Technologies
-
-| Technology | Experience |
-|---|---:|
-| AWS | 3 years |
-| Django | 6 to 7 years |
-| FastAPI | 4 to 5 years |
-| Flask | 6 months |
-| NGINX | 5 years |
-| Docker | 5 years |
-| Apache | 5 years |
-
-### Protocols
-
-VoIP/SIP, ISDN/Telephony, Q.931, RTP, 2G (GSM), RESTful Web Services, Sockets, JSON, 3G (RRC only), TCP/UDP, MIKEY-SAKKE.
-
-### Databases
-
-MySQL, PostgreSQL, Redis, MariaDB, SQLite3, CassandraDB, MS SQL Server, CouchDB, MongoDB.
-
-### Methodologies
-
-Agile, Extreme Programming, KANBAN, Waterfall.
-
-### Legacy Tools & Source Control
-PVCS, Visual Source Safe, Gerrit, MKS Integrity / MKS Source, ClearCase.
+  <tr>
+    <td valign="top">
+      <strong>Methodologies</strong><br>
+      Agile, Extreme Programming, KANBAN<br>
+      Waterfall
+    </td>
+    <td valign="top">
+      <strong>Legacy Tools & SCM</strong><br>
+      PVCS, ClearCase, Visual SourceSafe<br>
+      Gerrit, MKS Integrity / Source
+    </td>
+  </tr>
+</table>
