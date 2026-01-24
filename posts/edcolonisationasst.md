@@ -5,7 +5,7 @@ tags:
   - "elite dangerous"
   - "dashboard"
   - "space sim"
-  - "exploration"
+  - "colonisation"
   - "in-game tool"
   - "python"
 blurb: "In-game tool for Elite Dangerous"
