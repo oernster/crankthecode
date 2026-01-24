@@ -1429,6 +1429,12 @@ a[href=\"/\"]:hover {
   color: var(--text-muted);
 }
 
+/* On hover, buttons switch to banana-yellow. Ensure the subtext remains readable
+   (dark) in *both* themes instead of staying light/washed out in dark mode. */
+.btn-link:hover .btn-subtext {
+  color: rgba(17, 24, 39, 0.82);
+}
+
 .post-one-liner {
   margin: 5.6px 0 0;
   font-size: 15.2px;
@@ -1483,6 +1489,13 @@ a[href=\"/\"]:hover {
   box-shadow:
     0 14px 30px rgba(139, 179, 255, 0.14),
     var(--hover-accent-shadow);
+}
+
+/* Hover: ensure the primary button label remains readable against banana-yellow.
+   `--cta-fg` is already dark; this makes sure nested `.btn-text` inherits it even
+   if other rules override descendants. */
+.btn-link:hover .btn-text {
+  color: var(--cta-fg);
 }
 
 /* Subtle/primary button variants: keep the original variant color but add a more
