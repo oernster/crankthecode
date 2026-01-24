@@ -171,6 +171,23 @@ body.is-homepage .header-cta {
   margin-right: auto;
 }
 
+/* Read time (post pages only; the element is present globally but stays hidden unless .post-content exists) */
+.read-time-bar {
+  margin: 0 0 0.75rem;
+}
+
+.read-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: var(--panel-bg-subtle);
+  border: 1px solid var(--panel-border);
+  color: var(--text-subtle);
+  font-size: 0.9rem;
+}
+
 /* Sidebar layout: desktop = left sidebar + content; mobile = sidebar above content */
 .page-layout {
   display: grid;

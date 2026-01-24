@@ -5,7 +5,11 @@
 {% block content %}
   <div class="post-heading">
     <h1>{{ post.title }}</h1>
-    <p><small>{{ post.date }} ~ Tags: {{ post.tags | join(", ") }}</small></p>
+    <p>
+      <small>
+        {{ post.date }} ~ Tags: {{ post.tags | join(", ") }}
+      </small>
+    </p>
     {% if post.one_liner or post.blurb %}
       <p class="post-one-liner">{{ post.one_liner or post.blurb }}</p>
     {% endif %}

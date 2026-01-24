@@ -246,6 +246,11 @@
     </nav>
 
     <main id="main" class="page-main">
+      <div class="read-time-bar">
+        <small class="read-time" aria-label="Estimated read time" hidden>
+          🕒 Calculating…
+        </small>
+      </div>
       {% block content %}{% endblock %}
     </main>
   </div>
@@ -268,6 +273,7 @@
   <script src="/static/search.js" defer></script>
   <script src="/static/scroll-top.js" defer></script>
   <script src="/static/copy-code.js" defer></script>
+  <script src="/static/read-time.js" defer></script>
 
   <script>
     (function () {
