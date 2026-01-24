@@ -424,6 +424,37 @@ body.is-homepage .header-cta {
   align-items: center;
 }
 
+/*
+  Header corner icons (theme / home / search / RSS)
+  - Keep them visually quiet until hovered.
+  - On hover, use the same banana-yellow highlight as button hovers.
+*/
+.header-actions .icon-btn,
+.header-actions .rss-link,
+.header-actions .home-favicon-link {
+  opacity: 0.32;
+  transition:
+    opacity 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.header-actions .icon-btn:hover,
+.header-actions .rss-link:hover,
+.header-actions .home-favicon-link:hover {
+  opacity: 1;
+  background: var(--cta-bg-hover);
+  border-color: var(--cta-border-hover);
+  text-shadow: none;
+}
+
+.header-actions .icon-btn:focus-visible,
+.header-actions .rss-link:focus-visible,
+.header-actions .home-favicon-link:focus-visible {
+  opacity: 1;
+}
+
 /* Make search + RSS controls match the favicon (crank icon) size */
 .header-actions .icon-btn,
 .header-actions .rss-link {
@@ -659,6 +690,39 @@ body.is-homepage .header-cta {
   color: var(--icon-fg-hover);
   background: var(--cta-bg-hover);
   text-shadow: none;
+}
+
+/*
+  Header corner icons (theme / home / search / RSS)
+  - Visually quiet until hovered.
+  - On hover, use the same banana-yellow highlight as button hovers.
+  NOTE: This is placed after the generic icon hover rules so it wins.
+*/
+.header-actions .icon-btn,
+.header-actions .rss-link,
+.header-actions .home-favicon-link {
+  opacity: 0.62;
+  transition:
+    opacity 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.header-actions .icon-btn:hover,
+.header-actions .rss-link:hover,
+.header-actions .home-favicon-link:hover {
+  opacity: 1;
+  background: var(--cta-bg-hover);
+  border-color: var(--cta-border-hover);
+  color: var(--cta-fg);
+  text-shadow: none;
+}
+
+.header-actions .icon-btn:focus-visible,
+.header-actions .rss-link:focus-visible,
+.header-actions .home-favicon-link:focus-visible {
+  opacity: 1;
 }
 
 .icon-btn:focus-visible,
