@@ -25,7 +25,7 @@ Search indexing is now in top form with clean previews and discoverable URLs.
 |-------------------------------------------|----------------------------------------------------------|
 | 🌙 Moon icon restored                     | Toggle dark/light mode now displays correctly            |
 | 🧮 Read time flash removed                | “Calculating…” no longer appears on load                |
-| 🧾 Base.html crash resolved               | Safe meta tags even on non~post pages                   |
+| 🧾 Base.html crash resolved               | Safe meta tags even on non-post pages                   |
 | 🧊 About page layout refined              | Skill lists spaced and aligned for improved readability |
 | 🖼 Post images corrected                  | Dual image bug for Stellody and EDColonizationAsst fixed |
 | 🔁 Duplicate entries removed             | 3D Printer Launcher now appears only once               |
@@ -40,7 +40,7 @@ Tools like **Trainer**, **AudioDeck**, **AxisDB** and others received structural
 
 | Before                         | After                                |
 |--------------------------------|--------------------------------------|
-| Long vertical feature lists    | Split into side~by~side columns      |
+| Long vertical feature lists    | Split into side-by-side columns      |
 | Inconsistent section headers   | Normalised under H2 hierarchy        |
 | No visual alignment            | Aligned icons, tags and summaries    |
 
