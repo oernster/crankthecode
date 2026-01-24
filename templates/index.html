@@ -69,8 +69,8 @@
   </section>
 
   <section class="featured-projects" aria-label="Projects">
-    <div class="section-panel section-panel--featured">
-        <h2 class="section-title section-title--accent">Featured Projects...</h2>
+    <section class="section-panel section-panel--featured" aria-labelledby="featured-projects-heading">
+        <h2 id="featured-projects-heading" class="section-title section-title--accent">Featured Projects</h2>
         <div class="featured-buttons" aria-label="Featured project links">
           {% for p in homepage_projects.featured %}
             <a
@@ -105,12 +105,12 @@
           </a>
         {% endfor %}
       </div>
-    </div>
+    </section>
 
     <hr class="post-separator" aria-hidden="true" />
 
-    <div class="section-panel section-panel--backlog">
-      <h2 class="section-title section-title--accent">Backlog of Brilliance!</h2>
+    <section class="section-panel section-panel--backlog" aria-labelledby="backlog-heading">
+      <h2 id="backlog-heading" class="section-title section-title--accent">Backlog of Brilliance!</h2>
       <div class="featured-buttons" aria-label="Backlog project links">
         {% for p in homepage_projects.backlog %}
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
@@ -151,12 +151,12 @@
 
         <a class="btn-link btn-link--all" href="/posts" aria-label="All posts">All</a>
       </div>
-    </div>
+    </section>
 
     <hr class="post-separator" aria-hidden="true" />
 
-    <div class="section-panel section-panel--backlog">
-      <h2 class="section-title section-title--accent">Tooling</h2>
+    <section class="section-panel section-panel--backlog" aria-labelledby="tooling-heading">
+      <h2 id="tooling-heading" class="section-title section-title--accent">Tooling</h2>
       <div class="featured-buttons" aria-label="Tooling links">
         {% for p in homepage_projects.tooling %}
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
@@ -190,12 +190,12 @@
           </a>
         {% endfor %}
       </div>
-    </div>
+    </section>
 
     <hr class="post-separator" aria-hidden="true" />
 
-    <div class="section-panel section-panel--launch">
-      <h2 class="section-title section-title--accent">Crank Change Archive</h2>
+    <section class="section-panel section-panel--launch" aria-labelledby="archive-heading">
+      <h2 id="archive-heading" class="section-title section-title--accent">Crank Change Archive</h2>
       <div class="featured-buttons" aria-label="Crank Change archive posts">
         {#
           Archive entries are computed server-side and passed in as
@@ -217,7 +217,7 @@
       </div>
 
       {# CTA moved to the global header (below “Crank The Code”) in base.html #}
-    </div>
+    </section>
   </section>
 
   <section class="landing-outro" aria-label="Outro">

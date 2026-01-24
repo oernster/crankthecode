@@ -203,6 +203,12 @@ body.is-homepage .header-cta {
   font-size: 14.4px;
 }
 
+/* Ensure the HTML `hidden` attribute always wins over `.read-time { display: … }`.
+   This prevents a visible flash of “Calculating…” before JS sets the final value. */
+.read-time[hidden] {
+  display: none !important;
+}
+
 /* Sidebar layout: desktop = left sidebar + content; mobile = sidebar above content */
 .page-layout {
   display: grid;
