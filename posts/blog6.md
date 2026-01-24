@@ -23,6 +23,8 @@ Search indexing is now in top form with clean previews and discoverable URLs.
 
 | Fix/Polish                                 | Outcome                                                  |
 |-------------------------------------------|----------------------------------------------------------|
+| 🇬🇧 UK British spellings                   | Revised all text throughout site to be UK British       |
+| 🚀 EDColonisationAsst                     | Made full UK British throughout codebase; renamed repo.  No z's just s's! |
 | 🌙 Moon icon restored                     | Toggle dark/light mode now displays correctly            |
 | 🧮 Read time flash removed                | “Calculating…” no longer appears on load                |
 | 🧾 Base.html crash resolved               | Safe meta tags even on non-post pages                   |
