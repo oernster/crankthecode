@@ -29,6 +29,7 @@ Posts cover everything from tool development and API engineering to system-level
 ```bash
 pip install -r requirements.txt
 uvicorn app.main:app --reload
+```
 
 ## Tests (currently 100% coverage)
 
