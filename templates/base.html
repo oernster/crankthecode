@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" class="theme-dark">
 <head>
+  <meta charset="utf-8">
   <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}CrankTheCode{% endblock %}{% endif %}</title>
+
   {% if meta_description %}
     <meta name="description" content="{{ meta_description }}">
+  {% elif is_homepage %}
+    <meta
+      name="description"
+      content="Senior engineer building clean, efficient software, writing about systems, tooling, and ideas that actually ship."
+    >
   {% endif %}
 
   {% if canonical_url %}
