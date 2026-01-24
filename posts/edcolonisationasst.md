@@ -44,23 +44,26 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 - Any modern browser  
 - External screen/tablet recommended for cockpit integration  
-- *Elite Dangerous* PC/linux edition with Horizons+Odyssey/Trailblazer DLC (Note: Untested on macOS) 
+- *Elite Dangerous* PC/linux edition with Horizons+Odyssey/Trailblazer DLC
+- (Note: Untested on macOS) 
 
 ## Usage
 
 1. Go to [Releases](https://github.com/oernster/EDColonisationAsst/releases)  
 2. Install the executable
-3. Open the page localhost:8000/app in your browser (or your IP if on your wifi network from a tablet)
-4. Use keyboard/mouse or touchscreen controls to navigate  
-5. Optionally mount to a cockpit tablet for immersion
+3. Open the page localhost:8000/app in your browser
+4. Use your IP address if you're on your wifi network from a tablet
+5. Use keyboard/mouse or touchscreen controls to navigate  
+6. Optionally mount to a cockpit tablet for immersion
 
 ---
 
 ## Ideal For
 
 - Space exploration nerds  
-- Individual commanders or groups of players (Note: NOT squadrons) contributing toward colonisation goals  
+- Individual commanders or groups of players contributing toward colonisation goals  
 - Long-range missions needing minimal-distraction tools
+- Note: Squadron colonisation efforts are NOT supported since journal files are local by nature. 
 
 ---
 
