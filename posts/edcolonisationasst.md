@@ -18,7 +18,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 ---
 
 [EDColonisation Assistant](https://github.com/oernster/EDColonisationAssistant) 🛰  
-Browser-based tool for managing colonisation tracking and expeditions in *Elite Dangerous*.
+Browser-based tool for managing colonisation tracking and planning in *Elite Dangerous*.
 
 [Releases](https://github.com/oernster/EDColonisationAssistant/releases/)
 
