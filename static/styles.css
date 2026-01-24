@@ -2588,3 +2588,21 @@ a[href=\"/\"]:hover {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
 }
+
+.hotas-list {
+  list-style: disc outside;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  display: block;
+}
+
+.hotas-list li {
+  margin-bottom: 0.5rem;
+}
+
+.hotas-list li::marker {
+  color: #ffcc00;
+  font-size: 1.2em;
+}
