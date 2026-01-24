@@ -63,7 +63,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 - Space exploration nerds  
 - Individual commanders or groups of players contributing toward colonisation goals  
 - Long-range missions needing minimal-distraction tools
-- Note: Squadron colonisation efforts are NOT supported since journal files are local by nature. 
+- Note: Squadron colonisation efforts are NOT supported since journal files are local by nature
 
 ---
 
