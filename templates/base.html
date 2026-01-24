@@ -195,14 +195,9 @@
             (function () {
               const c = window.CTC_CONTACT;
               const el = document.getElementById("header-cta-link");
-              if (!el) {
+              if (!el || !c) {
                 return;
               }
-
-              if (!c) {
-                return;
-              }
-
               el.setAttribute("href", c.link);
             })();
           </script>
@@ -259,6 +254,8 @@
           {{ cat.label }}
         </a>
       {% endfor %}
+
+      <a class="sticky-cta sidebar-sticky-cta" href="/#contact">✉ Work With Me</a>
     </nav>
 
     <main id="main" class="page-main">
@@ -272,10 +269,6 @@
   </div>
 
   <div class="floating-actions" aria-label="Floating actions">
-    <a class="sticky-cta" href="/#contact">
-      ✉ Work With Me
-    </a>
-
     <button
       id="scroll-top"
       class="scroll-top"

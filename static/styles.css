@@ -220,6 +220,17 @@ body.is-homepage .header-cta {
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
   box-shadow: var(--panel-shadow);
+
+  /* Allow a bottom CTA to sit naturally after the menu items. */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar sticky CTA: appears under the left menu items. */
+.sidebar-sticky-cta {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
 }
 
 .sidebar-title {
