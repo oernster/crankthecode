@@ -11,8 +11,10 @@ tags:
   - "overlay"
 blurb: "In-game overlay for Elite Dangerous"
 one_liner: "A browser-based in-game overlay for colonization tracking and expedition planning in Elite Dangerous."
-image: /static/images/edcolonizationasst.png
-social_image: /static/images/edcolonizationasst.png
+# NOTE: Deployed environments are typically case-sensitive.
+# The actual asset filename is `EDColonizationAsst.png`.
+image: /static/images/EDColonizationAsst.png
+social_image: /static/images/EDColonizationAsst.png
 thumb_image: /static/images/edcolonizationasst-icon.png
 ---
 
