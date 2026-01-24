@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import Response
@@ -49,15 +50,43 @@ async def sitemap_xml(
 
 @router.get("/robots.txt", include_in_schema=False)
 async def robots_txt(request: Request):
+    """Serve robots.txt based on `static/robots.txt`, with an environment-aware sitemap URL.
+
+    This keeps `robots.txt` editable as a static asset, while ensuring the sitemap
+    location reflects `SITE_URL` (or the request base URL) in tests and in prod.
+    """
+
     site_url = get_site_url(request)
     sitemap_url = site_url.rstrip("/") + "/sitemap.xml"
-    body = "\n".join(
-        [
-            "User-agent: *",
-            "Allow: /",
-            f"Sitemap: {sitemap_url}",
-            "",
-        ]
-    )
+
+    robots_path = Path("static") / "robots.txt"
+    try:
+        raw = robots_path.read_text(encoding="utf-8")
+    except OSError:
+        raw = "".join(
+            [
+                "User-agent: *\n",
+                "Allow: /\n",
+                f"Sitemap: {sitemap_url}\n",
+            ]
+        )
+
+    # Replace any existing Sitemap line so local/test/prod environments always
+    # point at the correct base URL.
+    out_lines: list[str] = []
+    replaced = False
+    for line in raw.splitlines():
+        if line.strip().lower().startswith("sitemap:"):
+            out_lines.append(f"Sitemap: {sitemap_url}")
+            replaced = True
+        else:
+            out_lines.append(line)
+
+    if not replaced:
+        if out_lines and out_lines[-1].strip():
+            out_lines.append("")
+        out_lines.append(f"Sitemap: {sitemap_url}")
+
+    body = "\n".join(out_lines) + "\n"
     return Response(content=body, media_type="text/plain; charset=utf-8")
 
