@@ -30,7 +30,7 @@ Posts cover everything from tool development and API engineering to system-level
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 
-## Tests
+## Tests (currently 100% coverage)
 
 - pytest -v --cov
 
