@@ -176,23 +176,25 @@ It is library-first, requires no server and stores all data in a single JSON fil
 
 
 
-## Key properties
-
-- Library-first design (usable without any server)
-- Single-file JSON storage
-- Atomic, crash-safe commits via temp-file replace
-- Safe multi-process access (single writer, multiple readers) via file locks
-- Minimal but useful query + indexing support (correctness-first)
-
----
-
-
-
-## Features
-
-- Embedded JSON document database
-- N-dimensional coordinate keys
-- Atomic commit and recovery
-- Key listing (`list`) and multidimensional slicing (`slice`)
-- Basic querying (`find`) with optional persisted field indexes
-- Optional FastAPI wrapper with Swagger (`/docs`) and ReDoc (`/redoc`)
+<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
+   <div style="flex: 1; min-width: 250px;">
+      <h3>Key Properties</h3>
+      <ul>
+         <li>Library-first design</li>
+         <li>Single-file JSON storage</li>
+         <li>Atomic, crash-safe commits</li>
+         <li>Safe multi-process access</li>
+         <li>Minimal query/indexing support</li>
+      </ul>
+   </div>
+   <div style="flex: 1; min-width: 250px;">
+      <h3>Features</h3>
+      <ul>
+         <li>N-dimensional coordinate keys</li>
+         <li>Atomic commit and recovery</li>
+         <li>Multidimensional slicing</li>
+         <li>Query with persisted indexes</li>
+         <li>Optional FastAPI wrapper with Swagger + ReDoc</li>
+      </ul>
+   </div>
+</div>

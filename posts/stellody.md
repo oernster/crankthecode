@@ -173,8 +173,10 @@ Creating an app this large took time and perseverance and a LOT of caffeine and 
 Related artists curated from the musicbrainz API using multiple lookup techniques was NOT straightforward!
 Then creating alphabetically sorted custom curated sub-genre labelled playlists on top of that with sufficient artists 
 in each playlist pool was another fight altogether.
+
 The UI, since I'm not really a UI developer, I'm more of a backend dev, is something of which I'm particularly proud.
 That took a lot of time and effort to curate and make appear like a beautiful professional app.
+
 Then there was the installer with a custom curated UI; I even added light and dark modes to the installer AS WELL as Stellody as a subtle flex!!!
 Then there was licensing so all my hard work can't be stolen by the average noob; I think I got that down pat or at least *I hope so*.
 I think I've priced it reasonably for all license tiers and capabilities; not expensive, not free. 

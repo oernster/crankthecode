@@ -4,124 +4,96 @@ date: "2026-01-19 07:05"
 tags: ["train", "train times", "astronomy", "weather", "routing", "travel", "python"]
 blurb: "Travel tracker"
 one_liner: "A personal dashboard that brings together travel, weather and other daily-use data in one place."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
 image: /static/images/trainer.png
 social_image: /static/images/trainer.png
 thumb_image: /static/images/trainer-icon.png
-
 extra_images:
   - /static/images/trainer2.png
   - /static/images/trainer3.png
   - /static/images/trainer4.png
 ---
-I developed: [Trainer](https://github.com/oernster/Trainer).
-Train Times with Weather Integration & Astronomical Events
 
+I developed: [Trainer](https://github.com/oernster/Trainer).
+
+Train Times with Weather Integration & Astronomical Events  
 [Releases](https://github.com/oernster/Trainer/releases/)
 
 ## Problem → Solution → Impact
 
-**Problem:** Regular travelers (e.g., consultants/trainers) often have messy or inconsistent travel logging.
+**Problem:**  
+Regular travelers (e.g., consultants/trainers) often have messy or inconsistent travel logging.
 
-**Solution:** Trainer Travel Tracker provides a clean interface and backend for routing travel events, timestamps and offers weather to plan.
+**Solution:**  
+Trainer Travel Tracker provides a clean interface and backend for routing travel events, timestamps and offers weather to plan.
 
-**Impact:** Simplifies trip management and streamlines journey tracking.  Also supports astronomy data for fun!
+**Impact:**  
+Simplifies trip management and streamlines journey tracking. Also supports astronomy data for fun!
 
-# Rationale
-I wanted a Train scheduling app that allowed me to look up train times without all the frustrating adverts you see on public sites such 
-as https://www.thetrainline.com
-Then I wanted to know whether to take an umbrella or coat to the station when I was commuting so I added in weather options.
-As a final touch I decided to throw in some astronomical and moon phasing imagery and links since I have a degree in physics and I'm 
-nerdy like that!
+---
 
-# Challenges along the way
-Creating a curated list of all train stops, train lines, underground variants etc. throughout the UK (excluding Northern Ireland) took a 
-lot of time and perseverance.  Finding suitable astronomical sites to be linked was not as straightforward as I desired.
-Weather and moon phasing and UI subtleties turned out to be quite the frustration but I ploughed on through until I got it how I wanted it! 
+## Rationale
+
+I wanted a train scheduling app that let me look up times without the frustrating ads you see on sites like [thetrainline.com](https://www.thetrainline.com).  
+Then I wanted to know if I needed an umbrella or coat ~ so I added weather support.  
+Finally, I tossed in astronomy visuals (moon phase, ISS tracking, etc.) for flair and personal interest ~ I have a degree in physics, after all.
+
+---
+
+## Challenges Along the Way
+
+- Curating every train stop and route (excluding Northern Ireland) was a massive task.
+- Finding reliable astronomy sources was harder than expected.
+- Weather APIs and moon phase integrations added UI complexity ~ but I pushed through until it felt right.
+
+---
 
 ## Overview
-A modern PySide6 desktop application that displays real-time train departure information with integrated weather forecasting and astronomical events. 
-Features include a dark theme, automatic refresh and a clean architecture following SOLID principles and modern design patterns.
+
+A modern **PySide6 desktop app** combining train, weather and astronomy info in a modular, performant and elegant interface.  
+It adheres to **SOLID principles**, modern design patterns and is plugin-friendly.
+
+---
 
 ## Key Features
 
-### Train Information
-- Real-time departures with a 16-hour window
-- Platform numbers, delays, cancellations and operator info
-- Route planning with interchange support
-- Calling points and full service details
-- Smart route filtering
-- Automatic refresh with configurable intervals
+| Train Information                         | Weather Integration                        |
+|-------------------------------------------|---------------------------------------------|
+| Real-time departures (16-hour window)     | Live conditions and 7-day forecast         |
+| Platform data, delays, operator info      | Automatic geolocation via Open-Meteo      |
+| Smart route filtering & interchanges      | Weather warnings, auto-refresh            |
+| Service details with calling points       | No API key required                        |
 
-### Weather Integration
-- Real-time conditions with detailed metrics
-- Seven-day forecast
-- Automatic location detection via Open-Meteo
-- Weather alerts and warnings
-- No API key required
-- Automatic refresh with error handling
+| Astronomy Features                        | User Interface                             |
+|-------------------------------------------|---------------------------------------------|
+| APOD & ISS real-time tracking             | Clean, responsive layout                   |
+| Moon phases & space event calendar        | Light/Dark mode toggle (Ctrl+T)            |
+| Object visibility, educational links      | Custom widgets and keyboard shortcuts      |
 
-### Astronomy Features
-- Astronomy Picture of the Day with metadata
-- ISS real-time tracking
-- Space and astronomical events
-- Seven-day astronomy calendar
-- Moon phases and celestial object visibility
-- Educational resource links
+---
 
-### User Interface
-- Clean, responsive design with accessibility support
-- Light/Dark theme switching
-- Modular manager-based architecture
-- Adaptive layout for different screen sizes
-- Custom widgets for optimal usability
-- Keyboard shortcuts (Ctrl+T for theme, F5 for refresh)
+## Technical Highlights
 
-### Technical Excellence
-- SOLID object-oriented architecture
-- Service-oriented design with clear separation of concerns
-- Design patterns including Factory, Observer, Strategy, Manager
-- Robust error handling with graceful fallbacks
-- Optimized performance via caching and lazy loading
-- Extensible architecture for future plugins
+| Code Quality                              | Performance                                 |
+|-------------------------------------------|---------------------------------------------|
+| SOLID architecture                        | Lazy loading & intelligent caching         |
+| Factory, Strategy, Observer, Manager patterns | Optimized memory & widget pooling     |
+| Strong separation of concerns             | Responsive layout with graceful fallback    |
+
+| Testing & Maintainability                 | Development Notes                           |
+|-------------------------------------------|---------------------------------------------|
+| Modular design with plugin support        | Error recovery with graceful fallback       |
+| Unit/integration tests with docs          | Dependency injection and clean layering     |
+
+---
 
 ## API Integration
 
-### Integrated Services
-- Open-Meteo API
-- Astronomy APIs:
-  - APOD
-  - ISS
-  - NeoWs
-  - EPIC
+| Services                                  | Features                                     |
+|-------------------------------------------|----------------------------------------------|
+| Open-Meteo                                | Backoff + rate limiting                     |
+| NASA APIs: APOD, ISS, NeoWs, EPIC         | Multi-level caching                         |
+|                                           | Request batching & secure key handling      |
 
-### API Features
-- Rate limiting with backoff
-- Multi-level caching and invalidation
-- Robust error recovery
-- Request batching and connection pooling
-- Secure key handling
+---
 
-## Development Features
-
-### Code Quality
-- SOLID design
-- Design patterns throughout
-- Clean architecture separation
-- Dependency injection
-- Detailed error handling
-
-### Performance
-- Lazy loading
-- Widget pooling
-- Intelligent caching
-- Memory-efficient resource management
-- Responsive layouts
-
-### Testing & Maintainability
-- Modular design
-- Unit and integration tests
-- Complete documentation with diagrams
-- Plugin-ready extensibility
+<p align="center"><em>Simple. Efficient. Informative. Built to travel smart.</em></p>

@@ -14,32 +14,60 @@ thumb_image: /static/images/audiodeck1.png
 extra_images:
   - /static/images/audiodeck2.png
 ---
-[Audio Deck](https://github.com/oernster/AudioDeck)  🔊
+
+[Audio Deck](https://github.com/oernster/AudioDeck) 🔊  
 A professional audio device switcher for Windows with Stream Deck integration.
 
 [Releases](https://github.com/oernster/AudioDeck/releases/)
+
+<div style="text-align:center; font-size:1.2em; margin: 1em 0;">
+  Simple. Responsive. Audio routing at your fingertips.
+</div>
+
+---
 
 ## Problem → Solution → Impact
 
 **Problem:** Switching between multiple audio inputs/outputs in hardware or desktop setups is awkward.
 
-**Solution:** Audiodeck is a programmable audio routing manager for streamlining device switching.
+**Solution:** AudioDeck is a programmable audio routing manager for streamlining device switching.
 
 **Impact:** Improves usability in home labs, streaming setups and embedded audio workflows.
 
+---
+
 ## Overview
 
-Audio Deck allows you to switch between customized audio setups instantly. It’s ideal for gamers, remote workers, content creators and Stream Deck users who want fast, reliable control over their audio environment.
+Audio Deck allows you to switch between customized audio setups instantly.  
+It’s ideal for gamers, remote workers, content creators and Stream Deck users who want fast, reliable control over their audio environment.
 
-## Features
+---
 
-- Quick profile switching  
-- Stream Deck integration  
-- Command-line support  
-- Simple configuration through a GUI  
-- Persistent profiles saved locally
+## Audio Deck at a Glance
 
-## Requirements
+<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
 
-- Windows 10 or Windows 11  
-- Elgato Stream Deck (optional)
+<div style="flex: 1; min-width: 250px;">
+  <h3>Features</h3>
+  <ul>
+    <li>Quick profile switching</li>
+    <li>Stream Deck integration</li>
+    <li>Command-line support</li>
+    <li>Simple GUI-based configuration</li>
+    <li>Persistent local profiles</li>
+  </ul>
+</div>
+
+<div style="flex: 1; min-width: 250px;">
+  <h3>Requirements</h3>
+  <ul>
+    <li>Windows 10 or Windows 11</li>
+    <li>Elgato Stream Deck (optional)</li>
+  </ul>
+</div>
+
+</div>
+
+---
+
+Audio Deck brings professional-grade audio switching to your fingertips ~ with or without a Stream Deck.
