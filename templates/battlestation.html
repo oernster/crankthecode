@@ -8,32 +8,29 @@
     <h1>🖥️ The Command Battlestation</h1>
 
     <!-- Workstation images (1–3): Centered, Full Display -->
-    <figure class="battlestation-figure" style="margin-bottom: 2rem;">
+    <figure class="battlestation-figure battlestation-figure--spaced">
       <div
-        style="display: grid; gap: 1rem; grid-template-columns: 1fr; align-items: start;"
+        class="battlestation-photo-grid"
         aria-label="Command Battlestation photos"
       >
         <img
-          class="battlestation-image"
+          class="battlestation-image battlestation-image--centered"
           src="/static/images/command-battlestation1.jpg"
           alt="Command battlestation photo 1: desk setup with large monitor, laptops and control decks"
-          style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
           loading="lazy"
         />
 
-        <div style="display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr));">
+        <div class="battlestation-photo-grid battlestation-photo-grid--two">
           <img
             class="battlestation-image"
             src="/static/images/command-battlestation2.jpg"
             alt="Command battlestation photo 2"
-            style="max-width: 100%; height: auto; display: block;"
             loading="lazy"
           />
           <img
             class="battlestation-image"
             src="/static/images/command-battlestation3.jpg"
             alt="Command battlestation photo 3"
-            style="max-width: 100%; height: auto; display: block;"
             loading="lazy"
           />
         </div>
@@ -123,12 +120,11 @@
     </p>
 
     <!-- 3D Printer Image: Below text -->
-    <figure class="battlestation-figure" style="display: flex; justify-content: center; margin: 2rem 0;">
+    <figure class="battlestation-figure battlestation-figure--printer">
       <img
         class="battlestation-image"
         src="/static/images/3D-printer-setup.png"
         alt="Printer room shelf with multiple 3D printers and filament storage"
-        style="max-width: 100%; height: auto; display: block;"
         loading="lazy"
       />
     </figure>

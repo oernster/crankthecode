@@ -50,6 +50,24 @@
 
     btn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Accessibility: after sending the user to the top, move focus to a
+      // predictable, top-of-page control so keyboard navigation continues from
+      // the start (rather than from whichever link was next in DOM order).
+      //
+      // We prefer the skip link (present on every page). Using a short timeout
+      // allows the smooth scroll to start; focusing immediately also works but
+      // can feel “jumpy” in some browsers.
+      window.setTimeout(() => {
+        const focusTarget =
+          document.getElementById("skip-link") ||
+          document.querySelector(".skip-link") ||
+          document.body;
+
+        if (focusTarget && typeof focusTarget.focus === "function") {
+          focusTarget.focus({ preventScroll: true });
+        }
+      }, 50);
     });
 
     // Listen on both window + document in case any page uses a non-window

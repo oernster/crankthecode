@@ -669,6 +669,31 @@ body.is-homepage .header-cta {
   margin: 0 0 2.5rem;
 }
 
+.battlestation-figure--spaced {
+  margin-bottom: 2rem;
+}
+
+.battlestation-photo-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.battlestation-photo-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.battlestation-image--centered {
+  margin: 0 auto;
+}
+
+.battlestation-figure--printer {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
 .battlestation-gallery {
   margin: 0.75rem auto 1.25rem;
   display: grid;
@@ -883,6 +908,21 @@ a {
   color: var(--link-color);
   text-decoration: none;
   transition: all 0.2s ease-in-out;
+}
+
+/*
+  Global focus ring
+  - Ensures keyboard users always see where focus is.
+  - Use :focus-visible to avoid showing the ring on mouse click.
+*/
+:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* If an element already has a custom focus ring, don't double-ring it. */
+:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+  box-shadow: none;
 }
 
 a:hover {

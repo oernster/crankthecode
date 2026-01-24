@@ -80,7 +80,7 @@
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
 </head>
 <body{% if is_homepage %} class="is-homepage"{% endif %}>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a id="skip-link" class="skip-link" href="#main">Skip to content</a>
 
   <div class="header-layout{% if back_link_href %} header-layout--has-back{% endif %}">
     <div class="header-gutter header-email" aria-label="Email">
@@ -103,9 +103,20 @@
         </div>
 
         <div class="header-actions">
+          <button
+            id="theme-toggle"
+            class="icon-btn theme-toggle"
+            type="button"
+            aria-label="Toggle dark mode"
+            aria-pressed="false"
+          >
+            <span id="theme-icon" class="fade-icon" aria-hidden="true">🌙</span>
+          </button>
+
           <a class="home-favicon-link" href="/" aria-label="Home">
             <img class="home-favicon-icon" src="/favicon.ico" alt="CrankTheCode home" />
           </a>
+
           <button
             class="icon-btn search-toggle"
             type="button"
@@ -114,15 +125,6 @@
             aria-controls="search-panel"
           >
             🔍
-          </button>
-
-          <button
-            id="theme-toggle"
-            class="icon-btn theme-toggle"
-            type="button"
-            aria-label="Toggle dark or light mode"
-          >
-            <span id="theme-icon" class="fade-icon" aria-hidden="true">🌙</span>
           </button>
 
           <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
@@ -164,17 +166,27 @@
 
       <div class="header-cta" aria-label="Contact call to action">
         <span class="header-cta-slot" aria-label="Email me">
+          <a
+            id="header-cta-link"
+            class="header-cta-link"
+            href="#"
+            hidden
+          >
+            Let’s build something ~ email me.
+          </a>
           <script type="text/javascript">
             // Keep the email address out of the static HTML to reduce bot scraping.
-           (function () {
-             const user = "oernster";
-             const domain = "codecrafter.uk";
+            (function () {
+              const user = "oernster";
+              const domain = "codecrafter.uk";
               const link = "mai" + "lto:" + user + "@" + domain;
-              const label = "Let’s build something ~ email me.";
-              document.currentScript.insertAdjacentHTML(
-                "beforebegin",
-                `<a class=\"header-cta-link\" href=\"${link}\">${label}</a>`
-              );
+              const el = document.getElementById("header-cta-link");
+              if (!el) {
+                return;
+              }
+
+              el.setAttribute("href", link);
+              el.removeAttribute("hidden");
             })();
           </script>
           <noscript>Let’s build something ~ email me. (Enable JavaScript to reveal the email link.)</noscript>
@@ -238,6 +250,10 @@
     </main>
   </div>
 
+  <a class="sticky-cta" href="/#contact">
+    ✉ Work With Me
+  </a>
+
   <button
     id="scroll-top"
     class="scroll-top"
@@ -248,10 +264,6 @@
   >
     ⬆️
   </button>
-
-  <a class="sticky-cta" href="/#contact">
-    ✉ Work With Me
-  </a>
 
   <script src="/static/search.js" defer></script>
   <script src="/static/scroll-top.js" defer></script>
@@ -275,6 +287,10 @@
       function setTheme(theme) {
         root.classList.remove(THEMES.DARK, THEMES.LIGHT);
         root.classList.add(theme);
+
+        // Accessibility: expose the toggle state to assistive tech.
+        themeToggle.setAttribute("aria-pressed", theme === THEMES.DARK ? "true" : "false");
+
         // Icon represents the *target* mode (what will happen if you click).
         // - In dark mode, show sun (switch to light).
         // - In light mode, show moon (switch to dark).
@@ -293,6 +309,12 @@
       } else {
         themeIcon.textContent = "🌞";
       }
+
+      // Sync toggle a11y state with the bootstrap-selected theme.
+      themeToggle.setAttribute(
+        "aria-pressed",
+        root.classList.contains(THEMES.DARK) ? "true" : "false"
+      );
 
       themeToggle.addEventListener("click", function () {
         const isDark = root.classList.contains(THEMES.DARK);
