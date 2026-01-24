@@ -21,7 +21,7 @@ The site now includes an unapologetically excessive [**Battlestation**](/battles
 ### 🖥️ New: Command Battlestation Page
 
 - Full HTML writeup of my workspace, with photos.
-- Added descriptions of my hardware collection, input devices, and 3D printing room.
+- Added descriptions of my hardware collection, input devices and 3D printing room.
 - Carefully adjusted snark levels between “harmless sarcasm” and “mildly alarming insight into my psyche.”
 
 **Includes:**

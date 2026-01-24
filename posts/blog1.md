@@ -14,7 +14,7 @@ Main implementation updates to the code were as follows...
 
 ## SEO details
 
-Changes were required but I wanted to avoid altering its visual appearance. These improvements focus on metadata, structured content, and search engine visibility.
+Changes were required but I wanted to avoid altering its visual appearance. These improvements focus on metadata, structured content and search engine visibility.
 
 ---
 

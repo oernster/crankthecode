@@ -71,7 +71,7 @@ def test_html_crank_change_archive_is_auto_generated_and_ordered(monkeypatch):
     posts = (
         _mk_summary(
             slug="blog5",
-            title="UI Polish, CTAs, and the Slow March to Done",
+            title="UI Polish, CTAs and the Slow March to Done",
             date="2026-01-24 06:15",
             tags=("blog",),
         ),
@@ -123,7 +123,7 @@ def test_html_crank_change_archive_is_auto_generated_and_ordered(monkeypatch):
     assert idx_hello < idx_why
 
     # Then newest blog entries should appear before older ones.
-    idx_blog5 = resp.text.index("UI Polish, CTAs, and the Slow March to Done")
+    idx_blog5 = resp.text.index("UI Polish, CTAs and the Slow March to Done")
     idx_blog4 = resp.text.index("WP Bots and RSS Weirdness")
     idx_blog1 = resp.text.index("Site SEO")
     assert idx_why < idx_blog5 < idx_blog4 < idx_blog1
@@ -340,7 +340,7 @@ def test_get_post_usecase_injects_screenshots_dedupes_and_retains_embedded_scree
     assert detail.content_html.count("/static/images/a.png") == 1
     assert detail.content_html.count("/static/images/b.png") == 1
 
-    # No PSI section, but author provided Screenshots section: it should be retained.
+    # No PSI section but author provided Screenshots section: it should be retained.
     md_with_screens = "# Title\n\nIntro\n\n## Screenshots\n\n![x](/static/images/x.png)\n"
     post2 = MarkdownPost(
         slug="demo2",
@@ -448,7 +448,7 @@ def test_crank_change_archive_seed_missing_is_tolerated(monkeypatch):
     posts = (
         _mk_summary(
             slug="blog5",
-            title="UI Polish, CTAs, and the Slow March to Done",
+            title="UI Polish, CTAs and the Slow March to Done",
             date="2026-01-24 06:15",
             tags=("blog",),
         ),

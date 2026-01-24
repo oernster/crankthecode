@@ -1,11 +1,11 @@
 ---
-title: "UI Polish, CTAs, and the Slow March to Done"
+title: "UI Polish, CTAs and the Slow March to Done"
 date: "2026-01-24 06:15"
 tags: ["blog", "update", "ui", "ux", "accessibility", "css", "dark-mode"]
-one_liner: "A tour through UI tweaks, CTA wrangling, and why stopping matters more than starting."
+one_liner: "A tour through UI tweaks, CTA wrangling and why stopping matters more than starting."
 ---
 
-# 🎛 UI Polish, CTAs, and Knowing When to Stop
+# 🎛 UI Polish, CTAs and Knowing When to Stop
 
 This week’s commits look chaotic at first glance. UI tweaks. CTA shuffling. Light/dark mode flips. Words rewritten, then rewritten again. Buttons nudged by a few pixels. Icons muted. Then un-muted. Then muted properly.
 
@@ -29,7 +29,7 @@ UI work isn’t about visual fireworks. It’s about removing friction you didn�
 
 ---
 
-## 2. 📩 CTAs: Visible, But Not Shouting
+## 2. 📩 CTAs: Visible but Not Shouting
 
 A surprising amount of time went into Call To Action placement:
 
@@ -122,7 +122,7 @@ The most important change this week wasn’t a commit.
 
 It was reverting.
 
-After a lot of tweaking, aligning, centring, un-centring, and second-guessing, the homepage went back to its earlier layout ~ because it felt right.
+After a lot of tweaking, aligning, centring, un-centring and second-guessing, the homepage went back to its earlier layout ~ because it felt right.
 
 > If improving something keeps making it worse, stop.
 

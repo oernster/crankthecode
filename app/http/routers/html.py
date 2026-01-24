@@ -64,7 +64,7 @@ def _sidebar_categories() -> list[dict[str, str]]:
     # title + tags (see `static/search.js`). We use `|` for OR queries.
     # NOTE: Some categories are meant to highlight projects only.
     # For those, we exclude blog-style posts when rendering `/posts?q=<category>`.
-    # NOTE: Keep `Blog` in the sidebar (second item overall), but sort the
+    # NOTE: Keep `Blog` in the sidebar (second item overall) but sort the
     # remaining categories alphabetically by their visible label.
     categories: list[dict[str, object]] = [
         {"label": "📝 Blog", "query": "blog", "exclude_blog": False, "exclude_slugs": []},
@@ -231,6 +231,21 @@ def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
     return seed_entries + blog_entries
 
 
+def _post_emoji_map() -> dict[str, str]:
+    """Optional emoji thumbnails for posts without dedicated thumb/cover images."""
+
+    return {
+        # Backlog items (no cover thumbs)
+        "ai-standard": "🤖",
+        "simple-hacking": "🛠️",
+        "niche-tools": "🧰",
+        "bots": "🛎️",
+        "hardware-guides-are-accidental-bios": "🔧",
+        "tiny-tools": "🧩",
+        "the-led-problem-the-virpil-community-had": "💡",
+    }
+
+
 def _base_context(request: Request) -> dict:
     site_url = get_site_url(request)
     exclude_blog_raw = (request.query_params.get("exclude_blog") or "").strip().lower()
@@ -314,13 +329,46 @@ async def homepage(
                     {"slug": "edcolonizationasst", "label": "EDColonizationAsst"},
                 ],
                 "backlog": [
+                    # Pinned intro posts (keep first).
+                    {"slug": "hello-crank", "label": "Hello Crank"},
+                    {"slug": "why-crank", "label": "Why Crank?"},
+
                     {"slug": "3D-printer-launcher", "label": "3D Printer Launcher"},
                     {"slug": "audiodeck", "label": "Audio Deck"},
                     {"slug": "elevator", "label": "Elevator"},
-                    {"slug": "fancy-clock", "label": "Fancy Clock"},
+                    {"slug": "fancy-clock", "label": "Fancy Clock", "emoji": "⏰"},
                     {"slug": "galacticunicorn", "label": "Galactic Unicorn"},
                     {"slug": "numismatism", "label": "Numismatism"},
                     {"slug": "snarkapi", "label": "SnarkAPI"},
+                ],
+                "tooling": [
+                    {
+                        "slug": "the-led-problem-the-virpil-community-had",
+                        "label": "The LED Problem the Virpil Community Had",
+                        "emoji": "💡",
+                    },
+                    {
+                        "slug": "tiny-tools",
+                        "label": "Tiny Tools I Refuse to Live Without",
+                        "emoji": "🧩",
+                    },
+                    {
+                        "slug": "hardware-guides-are-accidental-bios",
+                        "label": "Hardware Guides Are Accidental Biographies",
+                        "emoji": "🔧",
+                    },
+                    {"slug": "bots", "label": "Bots Are Interfaces", "emoji": "🛎️"},
+                    {"slug": "niche-tools", "label": "Niche Tools", "emoji": "🧰"},
+                    {
+                        "slug": "simple-hacking",
+                        "label": "Simple Hacking",
+                        "emoji": "🛠️",
+                    },
+                    {
+                        "slug": "ai-standard",
+                        "label": "On Working with Machines",
+                        "emoji": "🤖",
+                    },
                 ],
             },
             "homepage_cover_index": cover_index,
@@ -350,6 +398,7 @@ async def posts_index(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
+    emoji_map = _post_emoji_map()
     posts = [
         {
             "slug": p.slug,
@@ -360,6 +409,7 @@ async def posts_index(
             "one_liner": getattr(p, "one_liner", None),
             "cover_image_url": p.cover_image_url,
             "thumb_image_url": getattr(p, "thumb_image_url", None),
+            "emoji": emoji_map.get(p.slug, ""),
             # Keep links in summaries clickable.
             "summary_html": p.summary_html,
         }

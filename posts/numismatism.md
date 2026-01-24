@@ -3,7 +3,7 @@ title: "Coin Analysis"
 date: "2026-01-19 06:10"
 tags: ["coin", "coins", "machine learning", "computer vision", "numismatist", "numismatism", "collecting", "python"]
 blurb: "Coin ML Tool"
-one_liner: "Computer-vision and ML experiments for recognising, identifying, and cataloguing coins from images."
+one_liner: "Computer-vision and ML experiments for recognising, identifying and cataloguing coins from images."
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
@@ -79,7 +79,7 @@ This application is designed to analyze images of US cents and identify the year
 
 ## Training Your Own Model
 
-The application comes with a basic model, but you can train your own model using your own dataset:
+The application comes with a basic model but you can train your own model using your own dataset:
 
 1. Collect images of US cents with visible years and mint marks
 2. Place the images in the `data/raw` directory

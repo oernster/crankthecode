@@ -18,7 +18,7 @@ thumb_image: /static/images/snarkapi-icon.png
 
 **Problem:** Building humour or personality into software interfaces is time-consuming and often skipped.
 
-**Solution:** SnarkAPI provides a simple HTTP interface that returns sarcasm-infused messages for use in apps, bots, and chat interfaces.
+**Solution:** SnarkAPI provides a simple HTTP interface that returns sarcasm-infused messages for use in apps, bots and chat interfaces.
 
 **Impact:** Makes it easy to inject wit and attitude into user experiences without hand-coding text logic. [Live at snarkapi.com](https://www.snarkapi.com)
 

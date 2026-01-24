@@ -20,7 +20,7 @@ thumb_image: /static/images/stellody-icon.png
 
 **Solution:** Stellody uses sentiment-aware sequencing and custom logic to generate harmonically coherent playlists with smoother transitions and thematic flow.
 
-**Impact:** Delivers a more immersive listening experience and demonstrates the intersection of music theory, emotional modeling, and automation.
+**Impact:** Delivers a more immersive listening experience and demonstrates the intersection of music theory, emotional modeling and automation.
 
 # Why Stellody? 🌟🎶
 
@@ -100,7 +100,7 @@ thumb_image: /static/images/stellody-icon.png
     <div class="intro-text">
       <p>
         There’s no shortage of so-called “AI playlist generators” online. Most of them offer a mash of buzzwords,
-        vague mood sliders, and surface-level Spotify integration.
+        vague mood sliders and surface-level Spotify integration.
       </p>
       <p>
         Let’s stroll through the actual landscape of <strong>Stellody’s competition</strong> - and why Stellody isn’t just
@@ -111,13 +111,13 @@ thumb_image: /static/images/stellody-icon.png
     <h2>✨ Stellody’s Capabilities</h2>
     <ul class="feature-list">
       <li><strong>Dual Source Support:</strong> Start with either your local music folder or your existing Spotify playlists.</li>
-      <li><strong>Genre Filtering:</strong> Pick exactly which genre families to include - from Metal and Jazz to Pop, Hip Hop, and Ambient.</li>
+      <li><strong>Genre Filtering:</strong> Pick exactly which genre families to include - from Metal and Jazz to Pop, Hip Hop and Ambient.</li>
       <li><strong>Goal Year Range Control:</strong> Specify a target minimum and maximum year. Stellody aims to prioritise that range while keeping playlists diverse.</li>
       <li><strong>Subgenre Awareness:</strong> Stellody understands real music taxonomy - from <em>Cloud Rap</em> to <em>Nu Metal</em> to <em>Baroque Pop</em>.</li>
       <li><strong>Privacy First:</strong> Your files never leave your machine. Stellody runs locally, using Spotify only for playlist creation.</li>
       <li><strong>Spotify + MusicBrainz Integration:</strong> Enriches classification using artist metadata - not guesswork.</li>
-      <li><strong>Cross-Platform:</strong> Available for Windows, macOS, and Linux - with proper installers and versioning.</li>
-      <li><strong>Professional Licensing:</strong> Demo, Standard, and Pro tiers - all built into the app with no online account required.</li>
+      <li><strong>Cross-Platform:</strong> Available for Windows, macOS and Linux - with proper installers and versioning.</li>
+      <li><strong>Professional Licensing:</strong> Demo, Standard and Pro tiers - all built into the app with no online account required.</li>
     </ul>
 
     <h2>💀 The Competitor Roast</h2>
@@ -146,7 +146,7 @@ thumb_image: /static/images/stellody-icon.png
 
     <h2>🏆 Final Summary</h2>
     <blockquote style="color:lightgreen;">
-      <strong>"Most playlist generators:"</strong> Tell users what they vaguely want, hit Spotify’s API, and hope no one notices they’ve heard it all before.<br>
+      <strong>"Most playlist generators:"</strong> Tell users what they vaguely want, hit Spotify’s API and hope no one notices they’ve heard it all before.<br>
       <strong>"Stellody:"</strong> Classifies local music with precision. Builds genre-separated playlists. Keeps data private. Respects taste.
     </blockquote>
 
@@ -183,12 +183,12 @@ I think I've priced it reasonably for all license tiers and capabilities; not ex
 Stellody is a play on words; Stellar and Melody.
 
 Start with a local music folder or your Spotify playlists.
-Stellody analyses your artists, finds similar ones, and works out the genres they belong to.
+Stellody analyses your artists, finds similar ones and works out the genres they belong to.
 Then it generates ready-made playlists directly in Spotify - neatly sorted by genre (works with Spotify Free or Premium).
 
 Spotify playlist mode: your playlists are retrieved automatically - no manual importing.
 
-Deezer support is built, but currently disabled due to Deezer API restrictions.
+Deezer support is built but currently disabled due to Deezer API restrictions.
 When it’s finished, just check Spotify for your new playlists. Not on Spotify? The in-app guide explains how to transfer playlists to other services.
 
 Runs locally - your music files never leave your computer. We only create playlists in Spotify.

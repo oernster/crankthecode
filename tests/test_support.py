@@ -34,7 +34,7 @@ class _PostDetail:
 
 
 def make_fake_blog_service() -> BlogService:
-    # We return an object with the BlogService interface (duck-typing), but also
+    # We return an object with the BlogService interface (duck-typing) but also
     # explicitly annotate the return type as BlogService to align with Depends.
     summaries = (
         _PostSummary(

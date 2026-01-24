@@ -28,7 +28,7 @@ AxisDB is a tiny embedded document database for Python, designed for simple, rel
 
 I've deployed it on PyPi.
 This was a fun project idea I had and I decided to turn into a real thing.
-I explored other embedded JSON stores, but they didn’t enforce atomic writes in a way I needed here.
+I explored other embedded JSON stores but they didn’t enforce atomic writes in a way I needed here.
 
 ## Quick start
 
@@ -161,7 +161,7 @@ rows = db.find(prefix=("orders",), where=Field(("customer_id",), "==", "c2"))
 
 **AxisDB** is a tiny embedded document database for Python, designed for simple, reliable storage of JSON documents addressed by **N-dimensional coordinate keys**.
 
-It is library-first, requires no server, and stores all data in a single JSON file with atomic, crash-safe commits.
+It is library-first, requires no server and stores all data in a single JSON file with atomic, crash-safe commits.
 
 **See also:**
 [USE_CASES.md](https://github.com/oernster/AxisDB/blob/main/USE_CASES.md) - a concise overview of practical applications and patterns enabled by this multidimensional JSON storage model.

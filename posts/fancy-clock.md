@@ -3,7 +3,7 @@ title: "Fancy Clock"
 date: "2026-01-19 04:35"
 tags: ["clock", "fancy", "fun", "internationalization", "skins", "video", "python"]
 blurb: "Desktop clock"
-one_liner: "A customisable desktop clock featuring skins, localisation, and animated/video backgrounds."
+one_liner: "A customisable desktop clock featuring skins, localisation and animated/video backgrounds."
 # Primary (cover) image used by the site header.
 # This will NOT be duplicated in the post body (the renderer strips a matching standalone image).
 image: /static/images/fancy-clock.png
@@ -18,7 +18,7 @@ I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/Fanc
 
 ## Problem → Solution → Impact
 
-**Problem:** Default desktop clocks are boring, inflexible, and lack meaningful utility.
+**Problem:** Default desktop clocks are boring, inflexible and lack meaningful utility.
 
 **Solution:** FancyClock is a customizable desktop clock with additional display options and user-adjustable features.
 

@@ -31,7 +31,7 @@
             Helping engineers go from StackOverflow panic to system-level confidence.
           </p>
           <p class="hero-subline">
-            Full-stack developer with 28 years of experience building scalable systems, rapid prototypes, and custom APIs using Python, C++, and a few absurd ideas that actually shipped.
+            Full-stack developer with 28 years of experience building scalable systems, rapid prototypes and custom APIs using Python, C++ and a few absurd ideas that actually shipped.
           </p>
           <div class="hero-actions" aria-label="Primary actions">
             <a href="#contact" class="cta-button">📩 Hire Me</a>
@@ -70,32 +70,32 @@
 
   <section class="featured-projects" aria-label="Projects">
     <div class="section-panel section-panel--featured">
-      <h2 class="section-title section-title--accent">Featured Projects...</h2>
-      <div class="featured-buttons" aria-label="Featured project links">
-        {% for p in homepage_projects.featured %}
-          <a
-            class="btn-link btn-link--with-thumb{% if loop.first %} btn-link--primary featured-primary{% endif %}"
-            href="/posts/{{ p.slug }}"
-          >
-            {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
-            {% set blurb = homepage_blurb_index.get(p.slug) %}
-            {% if p.slug == 'blog1' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-            {% elif p.slug == 'calendifier' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
-            {% elif p.slug == 'elevator' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
-            {% elif p.slug == 'audiodeck' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
-            {% elif p.slug == 'galacticunicorn' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
-            {% elif p.slug == '3D-printer-launcher' %}
-              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
-            {% elif p.slug == 'fancy-clock' %}
-              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
-            {% elif cover %}
-              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
-            {% endif %}
+        <h2 class="section-title section-title--accent">Featured Projects...</h2>
+        <div class="featured-buttons" aria-label="Featured project links">
+          {% for p in homepage_projects.featured %}
+            <a
+              class="btn-link btn-link--with-thumb{% if loop.first %} btn-link--primary featured-primary{% endif %}"
+              href="/posts/{{ p.slug }}"
+            >
+              {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
+              {% set blurb = homepage_blurb_index.get(p.slug) %}
+              {% if p.slug == 'blog1' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+              {% elif p.slug == 'calendifier' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+              {% elif p.slug == 'elevator' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+              {% elif p.slug == 'audiodeck' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+              {% elif p.slug == 'galacticunicorn' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+              {% elif p.slug == '3D-printer-launcher' %}
+                <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
+              {% elif p.slug == 'fancy-clock' %}
+                <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
+              {% elif cover %}
+                <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
+              {% endif %}
             <span class="btn-text">
               {{ p.label }}
               {% if blurb %}
@@ -116,7 +116,14 @@
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
             {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
             {% set blurb = homepage_blurb_index.get(p.slug) %}
-            {% if p.slug == 'blog1' %}
+            {% if (p.emoji or '')|length > 0 %}
+              <span
+                class="btn-thumb btn-thumb--emoji{% if p.slug in ['bots', 'hardware-guides-are-accidental-bios'] %} btn-thumb--emoji-multi{% endif %}"
+                aria-hidden="true"
+              >
+                {{ p.emoji }}
+              </span>
+            {% elif p.slug == 'blog1' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
             {% elif p.slug == 'calendifier' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
@@ -143,6 +150,45 @@
         {% endfor %}
 
         <a class="btn-link btn-link--all" href="/posts" aria-label="All posts">All</a>
+      </div>
+    </div>
+
+    <hr class="post-separator" aria-hidden="true" />
+
+    <div class="section-panel section-panel--backlog">
+      <h2 class="section-title section-title--accent">Tooling</h2>
+      <div class="featured-buttons" aria-label="Tooling links">
+        {% for p in homepage_projects.tooling %}
+          <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+            {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
+            {% set blurb = homepage_blurb_index.get(p.slug) %}
+            {% if (p.emoji or '')|length > 0 %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
+            {% elif p.slug == 'blog1' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+            {% elif p.slug == 'calendifier' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+            {% elif p.slug == 'elevator' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+            {% elif p.slug == 'audiodeck' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+            {% elif p.slug == 'galacticunicorn' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+            {% elif p.slug == '3D-printer-launcher' %}
+              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
+            {% elif p.slug == 'fancy-clock' %}
+              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
+            {% elif cover %}
+              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
+            {% endif %}
+            <span class="btn-text">
+              {{ p.label }}
+              {% if blurb %}
+                <span class="btn-subtext">{{ blurb }}</span>
+              {% endif %}
+            </span>
+          </a>
+        {% endfor %}
       </div>
     </div>
 

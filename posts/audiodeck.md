@@ -25,11 +25,11 @@ A professional audio device switcher for Windows with Stream Deck integration.
 
 **Solution:** Audiodeck is a programmable audio routing manager for streamlining device switching.
 
-**Impact:** Improves usability in home labs, streaming setups, and embedded audio workflows.
+**Impact:** Improves usability in home labs, streaming setups and embedded audio workflows.
 
 ## Overview
 
-Audio Deck allows you to switch between customized audio setups instantly. It’s ideal for gamers, remote workers, content creators, and Stream Deck users who want fast, reliable control over their audio environment.
+Audio Deck allows you to switch between customized audio setups instantly. It’s ideal for gamers, remote workers, content creators and Stream Deck users who want fast, reliable control over their audio environment.
 
 ## Features
 

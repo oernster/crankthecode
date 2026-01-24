@@ -649,7 +649,7 @@ body.is-homepage .header-cta {
   border: 1px solid var(--icon-surface-border);
 }
 
-/* Home favicon button: top-right, rounded, and 2x the RSS icon size */
+/* Home favicon button: top-right, rounded and 2x the RSS icon size */
 .home-favicon-link {
   display: inline-flex;
   align-items: center;
@@ -1031,13 +1031,13 @@ a {
   - Ensures keyboard users always see where focus is.
   - Use :focus-visible to avoid showing the ring on mouse click.
 */
-:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+:where(a button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
 /* If an element already has a custom focus ring, don't double-ring it. */
-:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+:where(a button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
   box-shadow: none;
 }
 
@@ -1238,7 +1238,7 @@ a[href=\"/\"] {
   color: var(--text-subtle);
 }
 
-/* Center the post title button + tags/meta, but keep body/content left-aligned */
+/* Center the post title button + tags/meta but keep body/content left-aligned */
 .post-heading {
   text-align: center;
 }
@@ -1401,6 +1401,12 @@ a[href=\"/\"]:hover {
   border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
+/* Dual-emoji thumbnails: keep glyphs side-by-side and avoid line wrapping. */
+.btn-thumb--emoji-multi {
+  gap: 2px;
+  white-space: nowrap;
+}
+
 .btn-text {
   display: inline-flex;
   flex-direction: column;
@@ -1473,7 +1479,7 @@ a[href=\"/\"]:hover {
     var(--hover-accent-shadow);
 }
 
-/* Subtle/primary button variants: keep the original variant color, but add a more
+/* Subtle/primary button variants: keep the original variant color but add a more
    obvious hover highlight via the purple accent ring. */
 .btn-link--primary:hover,
 .btn-link--subtle:hover {
@@ -1991,7 +1997,7 @@ html.theme-light .section-title {
 /* AxisDB: keep the fake terminal height CONSTANT.
    The generic step reveal animations use `max-height`, which makes the terminal
    block grow/shrink vertically. For AxisDB, reserve space for all steps from
-   the start, and reveal steps using opacity only (layout stays fixed). */
+   the start and reveal steps using opacity only (layout stays fixed). */
 .fake-terminal--axisdb-install .fake-terminal__body .ft-step,
 .fake-terminal--axisdb-run .fake-terminal__body .ft-step {
   max-height: 60em;
@@ -2103,7 +2109,7 @@ html.theme-light .section-title {
 
 /* AxisDB terminals: cursor should follow the typed text.
    We hide the separate cursor span (which sits at the far right of the reserved
-   width), and instead render an animated cursor inside the typed span.
+   width) and instead render an animated cursor inside the typed span.
    This keeps the terminal height constant AND places the cursor at the current
    reveal boundary. */
 .fake-terminal--axisdb-install .fake-terminal__cursor-wrap,
@@ -2844,7 +2850,7 @@ html.theme-light .section-title {
   outline-offset: 3px;
 }
 
-/* Floating actions: keep them bottom-right, stack them, and control visual order.
+/* Floating actions: keep them bottom-right, stack them and control visual order.
    Requirement: CTA below scroll-to-top without changing DOM order. */
 .floating-actions {
   position: fixed;

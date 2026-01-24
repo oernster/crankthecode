@@ -3,7 +3,7 @@ title: "Trainer"
 date: "2026-01-19 07:05"
 tags: ["train", "train times", "astronomy", "weather", "routing", "travel", "python"]
 blurb: "Travel tracker"
-one_liner: "A personal dashboard that brings together travel, weather, and other daily-use data in one place."
+one_liner: "A personal dashboard that brings together travel, weather and other daily-use data in one place."
 
 # Used by the site as the cover image AND by the RSS feed thumbnail.
 # It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
@@ -43,13 +43,13 @@ Weather and moon phasing and UI subtleties turned out to be quite the frustratio
 
 ## Overview
 A modern PySide6 desktop application that displays real-time train departure information with integrated weather forecasting and astronomical events. 
-Features include a dark theme, automatic refresh, and a clean architecture following SOLID principles and modern design patterns.
+Features include a dark theme, automatic refresh and a clean architecture following SOLID principles and modern design patterns.
 
 ## Key Features
 
 ### Train Information
 - Real-time departures with a 16-hour window
-- Platform numbers, delays, cancellations, and operator info
+- Platform numbers, delays, cancellations and operator info
 - Route planning with interchange support
 - Calling points and full service details
 - Smart route filtering

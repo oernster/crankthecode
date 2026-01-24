@@ -251,7 +251,7 @@ pip install axisdb</code></pre>
             )
 
         elif embedded_screenshots_bodies:
-            # No Problem→Solution→Impact, but the author wrote a Screenshots section.
+            # No Problem→Solution→Impact but the author wrote a Screenshots section.
             # Re-attach it at the end so it isn't lost.
             screenshots_parts = ["## Screenshots"]
             for body in embedded_screenshots_bodies:

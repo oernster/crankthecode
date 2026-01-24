@@ -62,7 +62,7 @@ One huge takeaway I had from this piece of work was that internationalization is
 - 📝 **Comprehensive Event Management** - Create, edit, delete with categories and recurring events
 - 🎨 **Dynamic Theming** - Dark/Light mode with instant switching
 - 📝 **Integrated Notes** - Built-in note-taking functionality
-- 📤📥 **Import/Export** - Support for iCalendar, CSV, and JSON formats
+- 📤📥 **Import/Export** - Support for iCalendar, CSV and JSON formats
 - ⚙️ **Extensive Configuration** - Customizable settings for all preferences
 
 ## 🌍 International Support
@@ -158,7 +158,7 @@ The application automatically detects and displays holidays for 40 countries wit
 
 ## ✨ Home Assistant Features
 - 🎨 **Beautiful Dashboard Cards** - Clock, Calendar, Events, Notes, Settings, Data Management
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
+- 📱 **Responsive Design** - Works on desktop, tablet and mobile
 - 🌐 **Web Access** - Access from anywhere on your network
 - 🔄 **Auto-Updates** - Cards refresh automatically
 - 🎯 **Optimized Layout** - No overlapping, proper spacing
@@ -194,7 +194,7 @@ Calendifier supports multiple build targets for maximum compatibility across pla
 
 ### 🖥️ Cross-Platform Executable (Nuitka)
 
-Build a single executable file for Windows, macOS, and Linux:
+Build a single executable file for Windows, macOS and Linux:
 
 ## ⚙️ Configuration
 

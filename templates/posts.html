@@ -12,7 +12,9 @@
         <div class="post-heading">
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ post.slug }}">
             {% set thumb = post.thumb_image_url or post.cover_image_url %}
-            {% if post.slug == 'blog1' %}
+            {% if (post.emoji or '')|length > 0 %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ post.emoji }}</span>
+            {% elif post.slug == 'blog1' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
             {% elif post.slug == 'blog2' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧪</span>

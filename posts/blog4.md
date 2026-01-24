@@ -29,7 +29,7 @@ You’ll get exactly what you deserve: a cold, empty 404 and a logged timestamp 
 
 Noticed a rogue encoding issue in the RSS feed. Some characters were doing their best impression of glitchy emoji soup - and failing.
 
-The issue? Classic UTF-8 vs misencoded entity tango. Fixed now. The feed’s valid, clean, and no longer cursed.
+The issue? Classic UTF-8 vs misencoded entity tango. Fixed now. The feed’s valid, clean and no longer cursed.
 
 > If you saw strange symbols in your RSS reader: no, you weren’t losing your mind. It was me. Sorry.
 
