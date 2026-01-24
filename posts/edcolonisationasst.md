@@ -59,7 +59,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 ## Ideal For
 
 - Space exploration nerds  
-- Individual commanders or groups of players (Note NOT Squadrons) contributing toward colonisation goals  
+- Individual commanders or groups of players (Note: NOT squadrons) contributing toward colonisation goals  
 - Long-range missions needing minimal-distraction tools
 
 ---
