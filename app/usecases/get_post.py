@@ -258,8 +258,10 @@ pip install axisdb</code></pre>
                 screenshots_parts.append(body.strip())
                 screenshots_parts.append("")
             screenshots_md = "\n".join(screenshots_parts).strip()
-            if screenshots_md:
-                markdown_wo_cover = markdown_wo_cover.strip() + "\n\n" + screenshots_md + "\n"
+            # `screenshots_md` is always non-empty here because the list is seeded
+            # with a heading and `embedded_screenshots_bodies` contains at least
+            # one non-blank body.
+            markdown_wo_cover = markdown_wo_cover.strip() + "\n\n" + screenshots_md + "\n"
 
         html_content = self.renderer.render(markdown_wo_cover)
         return PostDetail(

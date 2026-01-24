@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import cast
 from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, Request
@@ -107,13 +108,23 @@ def _sidebar_categories() -> list[dict[str, str]]:
         },
     ]
 
+    # Site-wide exclusions for the “projects only” view (All posts excluding blog).
+    # About-me is rendered on a dedicated /about page and should not appear in lists.
+    for c in categories:
+        if str(c.get("query", "")) == "blog":
+            continue
+        exclude_slugs = set(cast(list[str], c.get("exclude_slugs") or []))
+        exclude_slugs.add("about-me")
+        c["exclude_slugs"] = sorted(exclude_slugs)
+
     out: list[dict[str, str]] = []
     for c in categories:
         query = str(c["query"])
-        exclude_slugs_raw = c.get("exclude_slugs")
-        exclude_slugs: list[str] = []
-        if isinstance(exclude_slugs_raw, (list, tuple, set)):
-            exclude_slugs = [str(s).strip() for s in exclude_slugs_raw if str(s).strip()]
+        exclude_slugs = [
+            str(s).strip()
+            for s in cast(list[str], c.get("exclude_slugs") or [])
+            if str(s).strip()
+        ]
         exclude_slugs_csv = ",".join(exclude_slugs)
         out.append(
             {
@@ -353,6 +364,14 @@ async def posts_index(
             "summary_html": p.summary_html,
         }
         for p in blog.list_posts()
+    ]
+
+    # “About me” is rendered on a dedicated `/about` page and should not appear
+    # in any post listing (including “All posts (exc. Blog)”).
+    posts = [
+        p
+        for p in posts
+        if str(p.get("slug", "")).strip().lower() not in {"about-me", "about"}
     ]
     ctx = _base_context(request)
     current_q = ctx.get("current_q", "")
