@@ -97,7 +97,7 @@ def _sidebar_categories() -> list[dict[str, str]]:
             "query": "tool|tools|cli|utility|utilities|launcher|database|db",
             "exclude_blog": False,
             # AxisDB is intentionally classified under Data / ML (not Tools).
-            "exclude_slugs": ["axisdb"],
+            "exclude_slugs": ["3D-printer-launcher", "axisdb"],
         },
         {
             "label": "🌐 Web APIs",
