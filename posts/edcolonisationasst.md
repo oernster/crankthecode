@@ -17,9 +17,9 @@ social_image: /static/images/EDColonisationAsst.png
 thumb_image: /static/images/edcolonisationasst-icon.png
 ---
 
-[EDColonisation Assistant](https://github.com/oernster/EDColonisationAssistant) 🛰  
+[EDColonisation Assistant](https://github.com/oernster/EDColonisationAsst) 🛰  
 
-[Releases](https://github.com/oernster/EDColonisationAssistant/releases/)
+[Releases](https://github.com/oernster/EDColonisationAsst/releases/)
 
 ## Problem → Solution → Impact
 
