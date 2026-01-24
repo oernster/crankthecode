@@ -26,6 +26,12 @@ Posts cover everything from tool development and API engineering to system-level
 
 ## Local Development
 
-```bash
+```bash```
 pip install -r requirements.txt
 uvicorn app.main:app --reload
+
+## Tests
+
+- pytest -v --cov
+
+
