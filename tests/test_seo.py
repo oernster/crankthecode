@@ -78,6 +78,75 @@ def test_robots_txt_includes_sitemap_location():
         os.environ.pop("SITE_URL", None)
 
 
+def test_robots_txt_falls_back_when_static_file_missing(monkeypatch):
+    """Cover the `robots.txt` fallback path when `static/robots.txt` can't be read."""
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        # Force `Path.read_text()` to raise so the router uses the fallback body.
+        from pathlib import Path
+
+        def _raise(*args, **kwargs):
+            raise OSError("boom")
+
+        monkeypatch.setattr(Path, "read_text", _raise)
+
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/robots.txt")
+        assert resp.status_code == 200
+        assert "User-agent:" in resp.text
+        assert "Allow:" in resp.text
+        assert "Sitemap: https://example.com/sitemap.xml" in resp.text
+    finally:
+        os.environ.pop("SITE_URL", None)
+
+
+def test_robots_txt_appends_sitemap_when_no_sitemap_line(monkeypatch):
+    """Cover the `not replaced` path: when no Sitemap line exists, we append one."""
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        from pathlib import Path
+
+        monkeypatch.setattr(Path, "read_text", lambda *a, **k: "User-agent: *\nDisallow:\n")
+
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/robots.txt")
+        assert resp.status_code == 200
+        assert "Sitemap: https://example.com/sitemap.xml" in resp.text
+    finally:
+        os.environ.pop("SITE_URL", None)
+
+
+def test_robots_txt_appends_sitemap_without_extra_blank_line(monkeypatch):
+    """Cover the `not replaced` branch where the static file already ends with a blank line."""
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        from pathlib import Path
+
+        # Note the trailing blank line: the last split line is empty, so we should
+        # *not* add an extra blank line before appending the sitemap.
+        monkeypatch.setattr(
+            Path,
+            "read_text",
+            lambda *a, **k: "User-agent: *\nDisallow:\n\n",
+        )
+
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/robots.txt")
+        assert resp.status_code == 200
+        assert "Sitemap: https://example.com/sitemap.xml" in resp.text
+    finally:
+        os.environ.pop("SITE_URL", None)
+
+
 def test_get_site_url_uses_default_when_no_env_and_no_request():
     os.environ.pop("SITE_URL", None)
     assert get_site_url(None).startswith("https://")
