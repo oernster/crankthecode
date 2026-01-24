@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="theme-dark">
 <head>
   <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}CrankTheCode{% endblock %}{% endif %}</title>
   {% if meta_description %}
@@ -53,6 +53,28 @@
     <script type="application/ld+json">{{ jsonld_extra_json | safe }}</script>
   {% endif %}
 
+  {#
+    Theme bootstrap:
+    - Avoids a flash of the default theme by applying the preferred theme class
+      before CSS loads.
+    - Uses localStorage if set; otherwise falls back to OS preference.
+  #}
+  <script>
+    (function () {
+      try {
+        const root = document.documentElement;
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const initialTheme = savedTheme || (prefersDark ? "theme-dark" : "theme-light");
+        root.classList.remove("theme-dark", "theme-light");
+        root.classList.add(initialTheme);
+      } catch (e) {
+        // If localStorage is unavailable, keep the default.
+      }
+    })();
+  </script>
+
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
@@ -93,6 +115,16 @@
           >
             🔍
           </button>
+
+          <button
+            id="theme-toggle"
+            class="icon-btn theme-toggle"
+            type="button"
+            aria-label="Toggle dark or light mode"
+          >
+            <span id="theme-icon" class="fade-icon" aria-hidden="true">🌙</span>
+          </button>
+
           <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
             <img class="rss-icon" src="/static/rss.svg" alt="CrankTheCode RSS" />
           </a>
@@ -224,6 +256,53 @@
   <script src="/static/search.js" defer></script>
   <script src="/static/scroll-top.js" defer></script>
   <script src="/static/copy-code.js" defer></script>
+
+  <script>
+    (function () {
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+      const root = document.documentElement;
+
+      if (!themeToggle || !themeIcon || !root) {
+        return;
+      }
+
+      const THEMES = {
+        DARK: "theme-dark",
+        LIGHT: "theme-light",
+      };
+
+      function setTheme(theme) {
+        root.classList.remove(THEMES.DARK, THEMES.LIGHT);
+        root.classList.add(theme);
+        themeIcon.textContent = theme === THEMES.DARK ? "🌙" : "🌞";
+
+        try {
+          localStorage.setItem("theme", theme);
+        } catch (e) {
+          // Ignore; theme still applies for this session.
+        }
+      }
+
+      // Sync icon with whatever theme bootstrap selected.
+      if (root.classList.contains(THEMES.LIGHT)) {
+        themeIcon.textContent = "🌞";
+      } else {
+        themeIcon.textContent = "🌙";
+      }
+
+      themeToggle.addEventListener("click", function () {
+        const isDark = root.classList.contains(THEMES.DARK);
+        const newTheme = isDark ? THEMES.LIGHT : THEMES.DARK;
+
+        themeIcon.classList.add("fade-out");
+        window.setTimeout(function () {
+          setTheme(newTheme);
+          themeIcon.classList.remove("fade-out");
+        }, 150);
+      });
+    })();
+  </script>
 </body>
 </html>
 
