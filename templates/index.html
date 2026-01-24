@@ -227,12 +227,13 @@
             <script type="text/javascript">
               // Keep the email address out of the static HTML to reduce bot scraping.
               (function () {
-                const user = "oernster";
-                const domain = "codecrafter.uk";
-                const link = "mai" + "lto:" + user + "@" + domain;
+                const c = window.CTC_CONTACT;
+                if (!c) {
+                  return;
+                }
                 document.currentScript.insertAdjacentHTML(
                   "beforebegin",
-                  `<a href="${link}">${user}@${domain}</a>`
+                  `<a href="${c.link}">${c.address}</a>`
                 );
               })();
             </script>

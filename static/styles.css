@@ -4,6 +4,9 @@
   /* Default content width was 840px; widened ~1.5x. */
   --content-max: 1260px;
 
+  /* Brand (must be the same in light/dark). */
+  --brand-mauve: #c7a3c9;
+
   /*
     Theme tokens (dark defaults).
     Light mode overrides live in `.theme-light` below.
@@ -52,6 +55,7 @@
   --cta-border-hover: rgba(255, 242, 168, 0.75);
   --cta-fg: #171827;
 
+  /* Legacy tokens (kept for compatibility with older styles). */
   --sticky-cta-bg: #007acc;
   --sticky-cta-bg-hover: #005fa3;
 
@@ -59,6 +63,11 @@
   --hover-accent-bg: rgba(203, 182, 255, 0.18);
   --hover-accent-border: rgba(203, 182, 255, 0.45);
   --hover-accent-shadow: 0 0 0 3px rgba(203, 182, 255, 0.14);
+
+  /* Buttons / CTAs (explicit contrast across themes). */
+  --primary-btn-bg: #2563eb;
+  --primary-btn-bg-hover: #1e40af;
+  --primary-btn-fg: #ffffff;
 }
 
 .theme-light {
@@ -106,12 +115,18 @@
   --cta-border-hover: rgba(250, 204, 21, 0.75);
   --cta-fg: #111827;
 
+  /* Legacy tokens (kept for compatibility with older styles). */
   --sticky-cta-bg: #2563eb;
   --sticky-cta-bg-hover: #1d4ed8;
 
   --hover-accent-bg: rgba(99, 102, 241, 0.12);
   --hover-accent-border: rgba(99, 102, 241, 0.25);
   --hover-accent-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+
+  /* Keep consistent CTA contrast in light mode too. */
+  --primary-btn-bg: #2563eb;
+  --primary-btn-bg-hover: #1e40af;
+  --primary-btn-fg: #ffffff;
 }
 
 html.theme-dark {
@@ -134,7 +149,7 @@ body {
   color: var(--text-color);
   font-size: 20px;
   line-height: 1.8;
-  padding: 4rem 2rem;
+  padding: 64px 32px;
   margin: 0;
   max-width: var(--content-max);
   margin-left: auto;
@@ -144,19 +159,19 @@ body {
 
 /* Homepage: tighten the header stack so the landing content starts higher. */
 body.is-homepage {
-  padding-top: 2.25rem;
+  padding-top: 36px;
 }
 
 body.is-homepage .header-topbar {
-  margin-bottom: 0.55rem;
+  margin-bottom: 8.8px;
 }
 
 body.is-homepage .site-header {
-  margin-bottom: 1.25rem;
+  margin-bottom: 20px;
 }
 
 body.is-homepage .header-cta {
-  margin: -0.75rem 0 1.25rem;
+  margin: -12px 0 20px;
 }
 
 /* Ensure full-width page layout containers can exceed the content max-width
@@ -173,34 +188,34 @@ body.is-homepage .header-cta {
 
 /* Read time (post pages only; the element is present globally but stays hidden unless .post-content exists) */
 .read-time-bar {
-  margin: 0 0 0.75rem;
+  margin: 0 0 12px;
 }
 
 .read-time {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.35rem 0.6rem;
+  gap: 4.8px;
+  padding: 5.6px 9.6px;
   border-radius: 999px;
   background: var(--panel-bg-subtle);
   border: 1px solid var(--panel-border);
   color: var(--text-subtle);
-  font-size: 0.9rem;
+  font-size: 14.4px;
 }
 
 /* Sidebar layout: desktop = left sidebar + content; mobile = sidebar above content */
 .page-layout {
   display: grid;
   grid-template-columns: 280px 1fr;
-  gap: 1.5rem;
+  gap: 24px;
   align-items: start;
 }
 
 .sidebar {
   position: sticky;
-  top: 1.25rem;
+  top: 20px;
   align-self: start;
-  padding: 1rem;
+  padding: 16px;
   border-radius: 16px;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
@@ -208,30 +223,33 @@ body.is-homepage .header-cta {
 }
 
 .sidebar-title {
-  margin: 0 0 0.75rem;
-  font-size: 1.1rem;
-  color: var(--text-color);
+  margin: 0 0 12px;
+  font-size: 17.6px;
+  color: var(--brand-mauve);
 }
 
 .sidebar-link {
   display: block;
-  padding: 0.45rem 0.6rem;
+  padding: 7.2px 9.6px;
   border-radius: 12px;
   color: var(--text-muted);
+  /* Prevent hover layout shift (Fedora Firefox): keep box metrics identical. */
+  box-sizing: border-box;
+  border: 1px solid transparent;
 }
 
 /* Sidebar: allow 2-line labels without awkward justification/wrapping */
 .sidebar-link {
   display: flex;
   align-items: flex-start;
-  gap: 0.55rem;
+  gap: 8.8px;
 }
 
 .sidebar-link__icon {
   flex: 0 0 auto;
   width: 1.2em;
   line-height: 1.2;
-  margin-top: 0.05rem;
+  margin-top: 0.8px;
 }
 
 .sidebar-link__text {
@@ -254,7 +272,7 @@ body.is-homepage .header-cta {
 .sidebar-link--all-posts .sidebar-link__text {
   flex-direction: row;
   align-items: baseline;
-  gap: 0.4rem;
+  gap: 6.4px;
   flex-wrap: nowrap;
 }
 
@@ -274,7 +292,7 @@ body.is-homepage .header-cta {
     var(--hover-accent-bg),
     rgba(139, 179, 255, 0.10)
   );
-  border: 1px solid var(--hover-accent-border);
+  border-color: var(--hover-accent-border);
   box-shadow: var(--hover-accent-shadow);
   text-shadow: none;
 }
@@ -293,22 +311,22 @@ body.is-homepage .header-cta {
 .skip-link {
   position: absolute;
   left: -9999px;
-  top: 0.75rem;
+  top: 12px;
   background: var(--cta-bg);
   border: 1px solid var(--cta-border);
   color: var(--cta-fg);
-  padding: 0.45rem 0.8rem;
+  padding: 7.2px 12.8px;
   border-radius: 12px;
   z-index: 1000;
 }
 
 .skip-link:focus {
-  left: 0.75rem;
+  left: 12px;
 }
 
 @media (max-width: 860px) {
   body {
-    padding: 2.75rem 1rem;
+    padding: 44px 16px;
   }
 
   .header-layout {
@@ -338,7 +356,7 @@ body.is-homepage .header-cta {
   position: relative;
   width: 100%;
   max-width: var(--content-max);
-  margin: -2.5rem auto 1.5rem;
+  margin: -40px auto 24px;
 }
 
 /* Header layout aligned with the main content column (accounts for the sidebar). */
@@ -346,7 +364,7 @@ body.is-homepage .header-cta {
   width: 100%;
   display: grid;
   grid-template-columns: 280px 1fr;
-  gap: 1.5rem;
+  gap: 24px;
   align-items: start;
 }
 
@@ -358,7 +376,7 @@ body.is-homepage .header-cta {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 0.25rem;
+  padding-top: 4px;
 }
 
 .header-email-link {
@@ -374,8 +392,8 @@ body.is-homepage .header-cta {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .header-about-wrap {
@@ -391,7 +409,7 @@ body.is-homepage .header-cta {
   grid-template-areas:
     "theme home"
     "search rss";
-  gap: 0.5rem;
+  gap: 8px;
   align-items: center;
 }
 
@@ -443,7 +461,7 @@ body.is-homepage .header-cta {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
+  gap: 10.4px;
   flex-wrap: wrap;
 }
 
@@ -451,14 +469,14 @@ body.is-homepage .header-cta {
 .header-top-links {
   display: flex;
   justify-content: center;
-  margin: 0 0 1rem;
+  margin: 0 0 16px;
 }
 
 .top-about-link {
   display: block;
   width: fit-content;
   margin: 0 auto;
-  padding: 0.4rem 1rem;
+  padding: 6.4px 16px;
   border-radius: 999px;
   background: var(--accent-green-bg);
   border: 1px solid var(--accent-green-border);
@@ -481,11 +499,14 @@ body.is-homepage .header-cta {
   padding: 0;
   border-radius: 12px;
   line-height: 0;
+  /* Prevent hover layout shift: reserve border space in the base state. */
+  box-sizing: border-box;
+  border: 1px solid transparent;
 }
 
 .top-favicon-link:hover {
   background: var(--hover-accent-bg);
-  border: 1px solid var(--hover-accent-border);
+  border-color: var(--hover-accent-border);
   box-shadow: var(--hover-accent-shadow);
   text-shadow: none;
 }
@@ -518,8 +539,8 @@ body.is-homepage .header-cta {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 /* On post pages (back link present), align the title row with the email row:
@@ -538,9 +559,9 @@ body.is-homepage .header-cta {
 .site-title {
   margin: 0;
   text-align: center;
-  color: var(--accent-purple);
+  color: var(--brand-mauve);
   font-weight: 700;
-  font-size: 2.4rem;
+  font-size: 38px;
   line-height: 1.15;
 }
 
@@ -654,27 +675,27 @@ body.is-homepage .header-cta {
 .search-panel {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin: -1rem 0 2rem;
+  gap: 12px;
+  margin: -16px 0 32px;
   justify-content: center;
 }
 
 .search-form {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 9.6px;
   width: 100%;
   justify-content: center;
 }
 
 .about-section {
-  margin: 0 0 2.5rem;
-  scroll-margin-top: 1.5rem;
+  margin: 0 0 40px;
+  scroll-margin-top: 24px;
 }
 
 .about-content {
   text-align: left;
-  padding: 1.25rem 1.25rem 0.25rem;
+  padding: 20px 20px 4px;
   border-radius: 16px;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
@@ -683,16 +704,16 @@ body.is-homepage .header-cta {
 
 /* Battlestation page */
 .battlestation {
-  margin: 0 0 2.5rem;
+  margin: 0 0 40px;
 }
 
 .battlestation-figure--spaced {
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .battlestation-photo-grid {
   display: grid;
-  gap: 1rem;
+  gap: 16px;
   grid-template-columns: 1fr;
   align-items: start;
 }
@@ -708,14 +729,14 @@ body.is-homepage .header-cta {
 .battlestation-figure--printer {
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  margin: 32px 0;
 }
 
 .battlestation-gallery {
-  margin: 0.75rem auto 1.25rem;
+  margin: 12px auto 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 16px;
   align-items: start;
 }
 
@@ -740,8 +761,8 @@ body.is-homepage .header-cta {
 }
 
 .battlestation-caption {
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
+  margin-top: 8px;
+  font-size: 14.4px;
   color: var(--text-subtle);
 }
 
@@ -761,7 +782,7 @@ body.is-homepage .header-cta {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + 8px);
   z-index: 10;
   border-radius: 12px;
   border: 1px solid var(--panel-border-strong);
@@ -776,7 +797,7 @@ body.is-homepage .header-cta {
 
 .search-suggestions a {
   display: block;
-  padding: 0.55rem 0.75rem;
+  padding: 8.8px 12px;
   color: var(--text-color);
 }
 
@@ -791,16 +812,16 @@ body.is-homepage .header-cta {
 
 .search-suggestions .search-suggestion-sub {
   display: block;
-  font-size: 0.9rem;
+  font-size: 14.4px;
   color: var(--text-subtle);
-  margin-top: 0.1rem;
+  margin-top: 1.6px;
 }
 
 .search-input {
   flex: 1;
   width: 100%;
-  padding: 0.65rem 0.85rem;
-  padding-right: 2.4rem;
+  padding: 10.4px 13.6px;
+  padding-right: 38.4px;
   border-radius: 12px;
   border: 1px solid var(--input-border);
   background: var(--input-bg);
@@ -809,11 +830,11 @@ body.is-homepage .header-cta {
 
 .search-go {
   height: 42px;
-  padding: 0 0.95rem;
+  padding: 0 15.2px;
   border-radius: 12px;
   border: 1px solid var(--panel-border-strong);
-  background: var(--input-bg);
-  color: var(--text-muted);
+  background: var(--primary-btn-bg);
+  color: var(--primary-btn-fg);
   cursor: pointer;
   font: inherit;
   font-weight: 700;
@@ -821,8 +842,8 @@ body.is-homepage .header-cta {
 }
 
 .search-go:hover {
-  color: var(--text-color);
-  background: var(--panel-bg);
+  color: var(--primary-btn-fg);
+  background: var(--primary-btn-bg-hover);
 }
 
 .search-go:focus-visible {
@@ -843,14 +864,14 @@ body.is-homepage .header-cta {
 .search-close {
   position: absolute;
   top: 50%;
-  right: 0.5rem;
+  right: 8px;
   transform: translateY(-50%);
   width: 30px;
   height: 30px;
   border-radius: 10px;
   border: 1px solid var(--panel-border-strong);
-  background: var(--input-bg);
-  color: var(--text-subtle);
+  background: var(--panel-bg);
+  color: var(--text-color);
   padding: 0;
   line-height: 1;
   cursor: pointer;
@@ -858,7 +879,7 @@ body.is-homepage .header-cta {
 
 .search-close:hover {
   color: var(--text-color);
-  background: var(--panel-bg);
+  background: var(--panel-bg-subtle);
 }
 
 .search-close:focus-visible {
@@ -888,37 +909,37 @@ body.is-homepage .header-cta {
 }
 
 h1, h2, h3 {
-  /* Post/page headings should match the site's pale yellow accent */
-  color: var(--heading-color);
+  /* Major titles must be brand mauve across light/dark. */
+  color: var(--brand-mauve);
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 }
 
 /* Section headers (homepage) */
 .section-title {
   text-align: center;
-  margin: 0 0 1rem;
+  margin: 0 0 16px;
 }
 
 .section-title--accent {
-  /* Match the pale yellow used in the header icons */
-  color: var(--heading-color);
+  /* Keep section titles on-brand. */
+  color: var(--brand-mauve);
 }
 
 h1 {
-  font-size: 2.4rem;
+  font-size: 38px;
 }
 
 h2 {
-  font-size: 1.8rem;
+  font-size: 26px;
 }
 
 h3 {
-  font-size: 1.4rem;
+  font-size: 22px;
 }
 
 p {
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 a {
@@ -949,32 +970,32 @@ a:hover {
 }
 
 ul {
-  padding-left: 1.5rem;
-  margin-bottom: 2rem;
+  padding-left: 24px;
+  margin-bottom: 32px;
 }
 
 small {
   display: block;
-  margin: 0.5rem 0 1rem;
+  margin: 8px 0 16px;
   color: var(--text-subtle);
 }
 
 code {
   background: var(--code-bg);
   color: var(--code-color);
-  padding: 0.25rem 0.5rem;
+  padding: 4px 8px;
   border-radius: 4px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.95rem;
+  font-size: 15.2px;
 }
 
 pre {
   background: var(--input-bg);
-  padding: 1.25rem;
+  padding: 20px;
   border-radius: 8px;
   overflow-x: auto;
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
+  margin-bottom: 32px;
+  font-size: 15.2px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   border: 1px solid var(--panel-border);
 }
@@ -987,7 +1008,7 @@ img {
 /* Center images inside post bodies (markdown-rendered) */
 .post-content img {
   display: block;
-  margin: 1.25rem auto;
+  margin: 20px auto;
   width: 100%;
   max-width: var(--content-max);
 }
@@ -996,7 +1017,7 @@ img {
 .post-content table {
   width: fit-content;
   max-width: 100%;
-  margin: 1.25rem auto 2rem;
+  margin: 20px auto 32px;
   border-collapse: separate;
   border-spacing: 0;
   background: var(--panel-bg-subtle);
@@ -1019,7 +1040,7 @@ img {
 .post-content thead th {
   text-align: left;
   font-weight: 700;
-  padding: 0.65rem 0.85rem;
+  padding: 10.4px 13.6px;
   background: var(--input-bg);
   border-bottom: 1px solid var(--panel-border);
   color: var(--text-color);
@@ -1027,7 +1048,7 @@ img {
 }
 
 .post-content tbody td {
-  padding: 0.6rem 0.85rem;
+  padding: 9.6px 13.6px;
   border-bottom: 1px solid var(--panel-border);
   color: var(--text-muted);
   vertical-align: top;
@@ -1047,7 +1068,7 @@ img {
   width: 22px !important;
   height: 22px !important;
   max-width: 22px !important;
-  margin: 0 0.4rem 0 0 !important;
+  margin: 0 6.4px 0 0 !important;
   vertical-align: -0.2em;
   border-radius: 4px;
 }
@@ -1066,17 +1087,17 @@ img {
   border-radius: 14px;
   border: 0;
   box-shadow: none;
-  margin: 0.5rem auto 1.25rem;
+  margin: 8px auto 20px;
 }
 
 /* Post page: additional images from frontmatter `extra_images` */
 .post-extra-images {
   width: 100%;
   max-width: var(--content-max);
-  margin: 0.5rem auto 2rem;
+  margin: 8px auto 32px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 16px;
   justify-items: center;
   text-align: center;
 }
@@ -1094,10 +1115,10 @@ img {
   display: inline-block;
   background: color-mix(in srgb, var(--link-color) 14%, transparent);
   color: var(--link-color);
-  padding: 0.4rem 0.8rem;
-  margin: 0.3rem 0.5rem 0.3rem 0;
+  padding: 6.4px 12.8px;
+  margin: 4.8px 8px 4.8px 0;
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: 13.6px;
   text-transform: lowercase;
   letter-spacing: 0.02em;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -1112,8 +1133,8 @@ img {
 
 a[href=\"/\"] {
   display: inline-block;
-  margin-bottom: 2rem;
-  font-size: 0.9rem;
+  margin-bottom: 32px;
+  font-size: 14.4px;
   color: var(--text-subtle);
 }
 
@@ -1121,7 +1142,7 @@ a[href=\"/\"] {
 .site-header .back-link {
   display: inline-block;
   margin-bottom: 0;
-  font-size: 0.9rem;
+  font-size: 14.4px;
   color: var(--text-subtle);
 }
 
@@ -1153,13 +1174,13 @@ a[href=\"/\"] {
 }
 
 .axisdb-run-note p {
-  margin: 0 0 0.35rem;
+  margin: 0 0 5.6px;
 }
 
 .axisdb-run-note__url {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 8.8px;
 }
 
 .axisdb-run-note .code-copy--icon {
@@ -1190,7 +1211,7 @@ a[href=\"/\"] {
 /* Ensure the URL is not given extra “inline code pill” padding in this specific note. */
 .axisdb-run-note__url code {
   background: rgba(255, 255, 255, 0.08);
-  padding: 0.15rem 0.45rem;
+  padding: 2.4px 7.2px;
   border-radius: 8px;
 }
 
@@ -1211,7 +1232,7 @@ a[href=\"/\"] {
   height: 3px;
   border: 0;
   background: color-mix(in srgb, var(--accent-green-border) 85%, transparent);
-  margin: 2rem 0;
+  margin: 32px 0;
   border-radius: 999px;
 }
 
@@ -1231,11 +1252,11 @@ a[href=\"/\"]:hover {
   align-items: center;
   justify-content: center;
   min-height: 56px;
-  background: var(--link-color);
-  color: #ffffff;
+  background: var(--primary-btn-bg);
+  color: var(--primary-btn-fg);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  padding: 0.78rem 1.35rem;
+  padding: 12.5px 21.6px;
   font-weight: 700;
   line-height: 1.2;
   box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
@@ -1249,15 +1270,15 @@ a[href=\"/\"]:hover {
 
 /* Homepage “All” button: slightly wider while keeping the same base button styling. */
 .btn-link--all {
-  padding-left: 1.55rem;
-  padding-right: 1.55rem;
+  padding-left: 24.8px;
+  padding-right: 24.8px;
   min-width: 88px;
 }
 
 /* Homepage “All” button: slightly wider while keeping the same base button styling. */
 .btn-link--all {
-  padding-left: 1.55rem;
-  padding-right: 1.55rem;
+  padding-left: 24.8px;
+  padding-right: 24.8px;
   min-width: 88px;
 }
 
@@ -1265,7 +1286,7 @@ a[href=\"/\"]:hover {
 .btn-link--with-thumb {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 12.8px;
 }
 
 .btn-thumb {
@@ -1297,16 +1318,16 @@ a[href=\"/\"]:hover {
 
 .btn-subtext {
   display: block;
-  margin-top: 0.2rem;
-  font-size: 0.85rem;
+  margin-top: 3.2px;
+  font-size: 13.6px;
   font-weight: 400;
   line-height: 1.1;
   color: var(--text-muted);
 }
 
 .post-one-liner {
-  margin: 0.35rem 0 0;
-  font-size: 0.95rem;
+  margin: 5.6px 0 0;
+  font-size: 15.2px;
   line-height: 1.3;
   color: var(--text-muted);
 }
@@ -1317,9 +1338,9 @@ a[href=\"/\"]:hover {
 }
 
 .btn-link--primary {
-  background: color-mix(in srgb, var(--accent-purple) 92%, transparent);
-  border-color: color-mix(in srgb, var(--accent-purple) 55%, transparent);
-  box-shadow: 0 16px 34px color-mix(in srgb, var(--accent-purple) 18%, transparent);
+  background: var(--primary-btn-bg);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.18);
 }
 
 /* Homepage: the wide first featured button (Stellody) should start with the same
@@ -1327,13 +1348,13 @@ a[href=\"/\"]:hover {
    This is intentionally scoped to `.featured-primary` to avoid affecting other
    potential uses of `.btn-link--primary`. */
 .featured-primary.btn-link--primary {
-  background: var(--link-color);
+  background: var(--primary-btn-bg);
   border-color: rgba(255, 255, 255, 0.18);
   box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
 }
 
 .btn-link--primary:hover {
-  background: rgba(214, 198, 255, 1);
+  background: var(--primary-btn-bg-hover);
 }
 
 .btn-link--subtle {
@@ -1352,9 +1373,9 @@ a[href=\"/\"]:hover {
   transform: translateY(-1px);
   /* Default buttons are light blue; on hover, switch to the site's purple accent
      so the state change is obvious (and not “more light blue”). */
-  background: color-mix(in srgb, var(--accent-purple) 92%, transparent);
-  color: #ffffff;
-  border-color: color-mix(in srgb, var(--accent-purple) 65%, transparent);
+  background: var(--primary-btn-bg-hover);
+  color: var(--primary-btn-fg);
+  border-color: rgba(255, 255, 255, 0.22);
   box-shadow:
     0 14px 30px rgba(139, 179, 255, 0.14),
     var(--hover-accent-shadow);
@@ -1376,12 +1397,12 @@ a[href=\"/\"]:hover {
 
 /* Homepage featured project buttons */
 .featured-projects {
-  margin: 0.25rem 0 2.25rem;
+  margin: 4px 0 36px;
 }
 
 /* Landing page intro (homepage) */
 .landing-intro {
-  margin: 0.25rem 0 1.75rem;
+  margin: 4px 0 28px;
 }
 
 .section-panel--intro {
@@ -1393,7 +1414,7 @@ a[href=\"/\"]:hover {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 1.2rem;
+  gap: 19.2px;
   text-align: left;
 }
 
@@ -1416,16 +1437,16 @@ a[href=\"/\"]:hover {
 }
 
 .hero__headline {
-  margin: 0 0 0.65rem;
-  color: var(--heading-color);
-  font-size: 2.05rem;
+  margin: 0 0 10.4px;
+  color: var(--brand-mauve);
+  font-size: 34px;
   line-height: 1.22;
 }
 
 .hero__tagline {
-  margin: 0 0 0.9rem;
+  margin: 0 0 14.4px;
   color: var(--text-color);
-  font-size: 1.05rem;
+  font-size: 16.8px;
   line-height: 1.55;
 }
 
@@ -1439,8 +1460,8 @@ a[href=\"/\"]:hover {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.95rem;
+  gap: 12px;
+  margin-top: 15.2px;
 }
 
 /* CTA button styling (used on homepage hero). */
@@ -1449,21 +1470,21 @@ a[href=\"/\"]:hover {
   align-items: center;
   justify-content: center;
   min-height: 52px;
-  padding: 0.7rem 1.2rem;
+  padding: 11.2px 19.2px;
   border-radius: 999px;
   font-weight: 700;
   line-height: 1.1;
-  background: var(--cta-bg);
-  border: 1px solid var(--cta-border);
-  color: var(--cta-fg);
+  background: var(--primary-btn-bg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--primary-btn-fg);
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
   text-shadow: none;
 }
 
 .cta-button:hover {
-  background: var(--cta-bg-hover);
-  border-color: var(--cta-border-hover);
-  color: var(--cta-fg);
+  background: var(--primary-btn-bg-hover);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--primary-btn-fg);
   transform: translateY(-1px);
   text-shadow: none;
 }
@@ -1474,11 +1495,11 @@ a[href=\"/\"]:hover {
 }
 
 .section-panel--intro p {
-  margin: 0 0 0.9rem;
+  margin: 0 0 14.4px;
 }
 
 .section-panel--intro .landing-bio {
-  margin-bottom: 1.1rem;
+  margin-bottom: 17.6px;
   color: var(--text-muted);
 }
 
@@ -1496,7 +1517,7 @@ a[href=\"/\"]:hover {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.85rem;
+    gap: 13.6px;
   }
 
   .hero__avatar-img {
@@ -1505,38 +1526,48 @@ a[href=\"/\"]:hover {
   }
 
   .hero__headline {
-    font-size: 1.7rem;
+    font-size: 27.2px;
   }
 }
 
 .post-separator--subtle {
   height: 1px;
   background: rgba(255, 255, 255, 0.14);
-  margin: 1.2rem 0 1.1rem;
+  margin: 19.2px 0 17.6px;
 }
 
 .build-with {
-  margin-top: 0.5rem;
-  padding: 0.85rem 1rem;
+  margin-top: 8px;
+  padding: 13.6px 16px;
   border-radius: 16px;
   background: var(--panel-bg-subtle);
   border: 1px solid var(--panel-border);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
+  gap: 16px;
   text-align: left;
 }
 
 .build-with-title {
-  margin: 0 0 0.35rem;
-  font-size: 1.05rem;
-  color: var(--text-color);
+  margin: 0 0 5.6px;
+  font-size: 16.8px;
+  color: var(--brand-mauve);
+}
+
+/* Improve perceived contrast for brand-mauve titles in light mode without
+   changing the actual brand color token. */
+html.theme-light .site-title,
+html.theme-light h1,
+html.theme-light h2,
+html.theme-light h3,
+html.theme-light .section-title {
+  text-shadow: 0 1px 0 rgba(17, 24, 39, 0.25);
 }
 
 .build-with-items {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.98rem;
+  font-size: 15.7px;
   line-height: 1.55;
 }
 
@@ -1550,7 +1581,7 @@ a[href=\"/\"]:hover {
 /* DARK-ONLY COMPONENT: Skip during light mode theming */
 .fake-terminal {
   max-width: var(--content-max);
-  margin: 1.25rem auto 2rem;
+  margin: 20px auto 32px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.10);
@@ -1568,9 +1599,9 @@ a[href=\"/\"]:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.55rem 0.9rem;
-  font-size: 0.9rem;
+  gap: 12px;
+  padding: 8.8px 14.4px;
+  font-size: 14.4px;
   color: rgba(233, 231, 255, 0.78);
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -1622,7 +1653,7 @@ a[href=\"/\"]:hover {
 
 .fake-terminal__body {
   margin: 0;
-  padding: 0.95rem 1.05rem;
+  padding: 15.2px 16.8px;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -1645,7 +1676,7 @@ a[href=\"/\"]:hover {
   padding: 0;
   border-radius: 0;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.95rem;
+  font-size: 15.2px;
   line-height: 1.55;
   color: var(--code-color);
 }
@@ -1654,7 +1685,7 @@ a[href=\"/\"]:hover {
 /* DARK-ONLY COMPONENT: Skip during light mode theming */
 .code-block {
   max-width: var(--content-max);
-  margin: 1.25rem auto 2rem;
+  margin: 20px auto 32px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.10);
@@ -1672,14 +1703,14 @@ a[href=\"/\"]:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.55rem 0.9rem;
+  gap: 16px;
+  padding: 8.8px 14.4px;
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .code-block__label {
-  font-size: 0.9rem;
+  font-size: 14.4px;
   color: rgba(233, 231, 255, 0.78);
 }
 
@@ -1688,10 +1719,10 @@ a[href=\"/\"]:hover {
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.07);
   color: rgba(233, 231, 255, 0.9);
-  padding: 0.3rem 0.55rem;
+  padding: 4.8px 8.8px;
   border-radius: 10px;
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 13.6px;
   cursor: pointer;
 }
 
@@ -1734,7 +1765,7 @@ a[href=\"/\"]:hover {
 
 .code-block__body {
   margin: 0;
-  padding: 0.95rem 1.05rem;
+  padding: 15.2px 16.8px;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -1747,7 +1778,7 @@ a[href=\"/\"]:hover {
   padding: 0;
   border-radius: 0;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.95rem;
+  font-size: 15.2px;
   white-space: pre;
   color: var(--code-color);
 }
@@ -1851,7 +1882,7 @@ a[href=\"/\"]:hover {
   display: block;
   color: rgba(233, 231, 255, 0.82);
   white-space: pre;
-  margin-top: 0.25rem;
+  margin-top: 4px;
   padding-left: 1.8ch;
 }
 
@@ -2627,7 +2658,7 @@ a[href=\"/\"]:hover {
 
 /* Homepage: subtle section panels to improve scan-ability */
 .section-panel {
-  padding: 1.1rem 1.1rem 1.25rem;
+  padding: 17.6px 17.6px 20px;
   border-radius: 20px;
   background: var(--panel-bg-subtle);
   border: 1px solid var(--panel-border);
@@ -2639,7 +2670,7 @@ a[href=\"/\"]:hover {
 }
 
 .header-cta {
-  margin: -1.1rem 0 2rem;
+  margin: -17.6px 0 32px;
   text-align: center;
 }
 
@@ -2649,32 +2680,38 @@ a[href=\"/\"]:hover {
 
 .header-cta-link {
   display: inline-block;
-  padding: 0.55rem 0.9rem;
+  padding: 8.8px 14.4px;
   border-radius: 999px;
-  background: var(--cta-bg);
-  border: 1px solid var(--cta-border);
-  color: var(--cta-fg);
+  background: var(--primary-btn-bg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--primary-btn-fg);
+  box-sizing: border-box;
+  transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 .header-cta-link:hover {
-  background: var(--cta-bg-hover);
-  color: var(--cta-fg);
+  background: var(--primary-btn-bg-hover);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--primary-btn-fg);
   text-shadow: none;
+}
+
+.header-cta-link:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
 }
 
 /* Scroll-to-top button (all pages) */
 .scroll-top {
-  position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
+  position: static;
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  border: 1px solid var(--cta-border);
-  background: var(--cta-bg);
-  color: var(--cta-fg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: var(--primary-btn-bg);
+  color: var(--primary-btn-fg);
+  box-sizing: border-box;
   cursor: pointer;
-  z-index: 999;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2687,22 +2724,21 @@ a[href=\"/\"]:hover {
 /* Sticky “Work With Me” CTA (site-wide).
    Position it bottom-right but ABOVE the scroll-to-top button to avoid overlap. */
 .sticky-cta {
-  position: fixed;
-  right: 1rem;
-  bottom: 4.5rem;
-  background: var(--sticky-cta-bg);
-  color: white;
-  padding: 0.75em 1.25em;
-  font-weight: bold;
-  border-radius: 6px;
+  position: static;
+  background: var(--primary-btn-bg);
+  color: var(--primary-btn-fg);
+  padding: 12px 20px;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
   transition: background 0.3s;
+  box-sizing: border-box;
 }
 
 .sticky-cta:hover {
-  background: var(--sticky-cta-bg-hover);
+  background: var(--primary-btn-bg-hover);
 }
 
 .sticky-cta:focus-visible {
@@ -2710,11 +2746,137 @@ a[href=\"/\"]:hover {
   outline-offset: 3px;
 }
 
-@media (max-width: 860px) {
-  .sticky-cta {
-    right: 1rem;
-    bottom: 4.5rem;
+/* Floating actions: keep them bottom-right, stack them, and control visual order.
+   Requirement: CTA below scroll-to-top without changing DOM order. */
+.floating-actions {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+/* On narrow screens, the sticky CTA becomes a single-color full-width block. */
+@media (max-width: 480px) {
+  /* Ensure fixed floating actions never cover content on very small screens. */
+  body {
+    padding-bottom: 140px;
   }
+
+  .floating-actions {
+    left: 16px;
+    right: 16px;
+    align-items: stretch;
+  }
+
+  .sticky-cta {
+    width: 100%;
+    text-align: center;
+    border-radius: 0;
+  }
+
+  /* Mobile header: prevent button clusters from overflowing the viewport. */
+  .header-actions .icon-btn,
+  .header-actions .rss-link,
+  .home-favicon-link {
+    width: 44px;
+    height: 44px;
+  }
+
+  .header-actions .rss-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-about-wrap {
+    gap: 8px;
+  }
+
+  .top-about-link {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Avoid hover-only affordances on touch devices (where hover is emulated). */
+@media (hover: none) {
+  .sidebar-link:hover,
+  .btn-link:hover,
+  .cta-button:hover,
+  .header-cta-link:hover,
+  .sticky-cta:hover,
+  .scroll-top:hover {
+    transform: none;
+  }
+}
+
+/* Tablet spacing to reduce cramped feel. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body {
+    padding: 56px 24px;
+  }
+
+  .page-layout,
+  .header-layout {
+    gap: 24px;
+  }
+}
+
+/*
+  Responsive overrides (placed late so they win):
+  The header layout rules are defined after the earlier mobile media query, so
+  we repeat the <=860px overrides here to ensure they apply.
+*/
+@media (max-width: 860px) {
+  body {
+    padding: 44px 16px;
+  }
+
+  .header-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .header-gutter {
+    display: none;
+  }
+
+  .header-topbar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .header-actions {
+    justify-self: center;
+  }
+
+  .header-email {
+    justify-content: center;
+  }
+
+  .page-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+}
+
+/* Post meta: enforce date/tags on separate lines. */
+.post-meta {
+  margin-bottom: 16px;
+}
+
+.post-date,
+.post-tags {
+  display: block;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2729,7 +2891,7 @@ a[href=\"/\"]:hover {
 }
 
 .scroll-top:hover {
-  background: var(--cta-bg-hover);
+  background: var(--primary-btn-bg-hover);
 }
 
 .scroll-top:focus-visible {
@@ -2744,7 +2906,7 @@ a[href=\"/\"]:hover {
 }
 
 .featured-projects .section-title {
-  margin-top: 1.25rem;
+  margin-top: 20px;
 }
 
 .featured-projects .section-title:first-child {
@@ -2755,14 +2917,14 @@ a[href=\"/\"]:hover {
   display: flex;
   flex-wrap: wrap;
   /* More breathing room between discrete items */
-  gap: 0.9rem;
+  gap: 14.4px;
   justify-content: center;
   align-items: center;
 }
 
 /* Posts index: treat each post entry like a discrete row/card for easier scanning */
 .posts-index .post-item {
-  padding: 0.9rem 0.9rem 1.1rem;
+  padding: 14.4px 14.4px 17.6px;
   border-radius: 18px;
   background: var(--panel-bg-subtle);
   border: 1px solid var(--panel-border);
@@ -2782,31 +2944,31 @@ a[href=\"/\"]:hover {
 .posts-index .post-separator {
   height: 1px;
   background: rgba(255, 255, 255, 0.12);
-  margin: 1.1rem 0;
+  margin: 17.6px 0;
 }
 
 .featured-primary {
   flex-basis: 100%;
   text-align: center;
   justify-content: center;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 .hotas-list {
   list-style: disc outside;
-  padding-left: 1.5rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  padding-left: 24px;
+  margin-top: 16px;
+  margin-bottom: 32px;
   text-align: left;
   display: block;
 }
 
 .hotas-list li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .hotas-list li::marker {
-  color: var(--heading-color);
+  color: var(--brand-mauve);
   font-size: 1.2em;
 }

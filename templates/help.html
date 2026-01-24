@@ -14,10 +14,6 @@
         assistance, or you clicked this out of curiosity, which honestly makes me more worried.
       </p>
 
-      <p>Here's the truth:</p>
-
-      <p>There is no documentation.</p>
-      <p>There is no guide.</p>
       <p>
         There is only chaos; lovingly handcrafted by someone who enjoys clean APIs and emotional suffering in equal
         measure.
@@ -35,14 +31,19 @@
       <script type="text/javascript">
         // Keep the email address out of the static HTML to reduce bot scraping.
         (function () {
-          const user = "oernster";
-          const domain = "codecrafter.uk";
-          const link = "mai" + "lto:" + user + "@" + domain;
+          const c = window.CTC_CONTACT;
           const el = document.getElementById("masked-email");
           if (!el) {
             return;
           }
-          el.innerHTML = `<a href="${link}">${user}@${domain}</a>`;
+
+          if (!c) {
+            return;
+          }
+
+          // Keep the email address out of the static HTML to reduce bot scraping.
+          // Display remains the normal address; only the source is JS-injected.
+          el.innerHTML = `<a href="${c.link}">${c.address}</a>`;
         })();
       </script>
       <noscript>Enable JavaScript to reveal the email address.</noscript>

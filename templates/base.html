@@ -75,6 +75,21 @@
     })();
   </script>
 
+  {#
+    Contact bootstrap:
+    - Centralizes the site email so all pages use the same value and mailto format.
+    - Kept in JS (not static HTML) to reduce basic scraping.
+  #}
+  <script>
+    window.CTC_CONTACT = (function () {
+      const user = "oernster";
+      const domain = "codecrafter.uk";
+      const address = user + "@" + domain;
+      const link = "mai" + "lto:" + address;
+      return { user, domain, address, link };
+    })();
+  </script>
+
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
@@ -85,11 +100,13 @@
   <div class="header-layout{% if back_link_href %} header-layout--has-back{% endif %}">
     <div class="header-gutter header-email" aria-label="Email">
       <script type="text/javascript">
-        // Slightly annoying but effective
-        const user = "oernster";
-        const domain = "codecrafter.uk";
-        const link = "mai" + "lto:" + user + "@" + domain;
-        document.write(`<a class="header-email-link" href="${link}">${user}@${domain}</a>`);
+        (function () {
+          const c = window.CTC_CONTACT;
+          if (!c) {
+            return;
+          }
+          document.write(`<a class="header-email-link" href="${c.link}">${c.address}</a>`);
+        })();
       </script>
       <noscript>Email visible with JavaScript enabled ~ or reach me via GitHub.</noscript>
     </div>
@@ -99,7 +116,7 @@
         <div class="header-about-wrap">
           <a class="top-about-link" href="/about">About me</a>
           <a class="top-about-link" href="/battlestation">My battlestation</a>
-          <a class="top-about-link" href="/help">Please help!</a>
+          <a class="top-about-link" href="/help">Help!</a>
         </div>
 
         <div class="header-actions">
@@ -177,15 +194,17 @@
           <script type="text/javascript">
             // Keep the email address out of the static HTML to reduce bot scraping.
             (function () {
-              const user = "oernster";
-              const domain = "codecrafter.uk";
-              const link = "mai" + "lto:" + user + "@" + domain;
+              const c = window.CTC_CONTACT;
               const el = document.getElementById("header-cta-link");
               if (!el) {
                 return;
               }
 
-              el.setAttribute("href", link);
+              if (!c) {
+                return;
+              }
+
+              el.setAttribute("href", c.link);
               el.removeAttribute("hidden");
             })();
           </script>
@@ -255,20 +274,22 @@
     </main>
   </div>
 
-  <a class="sticky-cta" href="/#contact">
-    ✉ Work With Me
-  </a>
+  <div class="floating-actions" aria-label="Floating actions">
+    <a class="sticky-cta" href="/#contact">
+      ✉ Work With Me
+    </a>
 
-  <button
-    id="scroll-top"
-    class="scroll-top"
-    type="button"
-    aria-label="Scroll to top"
-    title="Scroll to top"
-    hidden
-  >
-    ⬆️
-  </button>
+    <button
+      id="scroll-top"
+      class="scroll-top"
+      type="button"
+      aria-label="Scroll to top"
+      title="Scroll to top"
+      hidden
+    >
+      ⬆️
+    </button>
+  </div>
 
   <script src="/static/search.js" defer></script>
   <script src="/static/scroll-top.js" defer></script>
