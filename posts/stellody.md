@@ -199,8 +199,6 @@ It runs on Windows, Linux and MacOS.
 
 ## Screenshots
 
-![Stellody app main UI](/static/images/stellody.png)
-
 ![Stellody app options and settings screen](/static/images/stellody-options.png)
 
 ![Stellody playlist generation results view](/static/images/stellody-playlists.png)

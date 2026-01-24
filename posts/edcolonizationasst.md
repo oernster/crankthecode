@@ -69,3 +69,6 @@ Browser-based tool for managing colonization tracking and expeditions in *Elite 
 
 > “There’s something satisfying about flipping to a local HUD and seeing a habitable candidate flagged in green. This is the kind of immersion that even the game itself didn’t build in.”
 
+## Screenshots
+
+![ED Colonization Assistant Carrier UI](/static/images/EDColonizationAsst2.png)
