@@ -162,7 +162,7 @@ thumb_image: /static/images/stellody-icon.png
 ## Screenshots
 # Rationale
 I wanted to discover new music based on my local 5k track library of FLAC music.  However, I wanted it to be curated to my personal tastes rather than the 
-generic categorisations that Spotify chucks at you.  So this was initially a personal project that I ended up productizing and publishing on the internet.
+generic categorisations that Spotify chucks at you.  So this was initially a personal project that I ended up productising and publishing on the internet.
 It is fully featured now and even allows you to use existing playlists you've created rather than your local library to discover new music.
 
 I spent just over a year writing Stellody.

@@ -8,9 +8,8 @@ tags:
   - "exploration"
   - "in-game tool"
   - "python"
-  - "overlay"
-blurb: "In-game overlay for Elite Dangerous"
-one_liner: "A browser-based in-game overlay for colonisation tracking and expedition planning in Elite Dangerous."
+blurb: "In-game tool for Elite Dangerous"
+one_liner: "A browser-based in-game tool for colonisation tracking and planning in Elite Dangerous."
 # NOTE: Deployed environments are typically case-sensitive.
 # The actual asset filename is `EDColonisationAsst.png`.
 image: /static/images/EDColonisationAsst.png
@@ -25,9 +24,9 @@ Browser-based tool for managing colonisation tracking and expeditions in *Elite 
 
 ## Problem → Solution → Impact
 
-**Problem:** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralized, structured tool ~ especially during expeditions or station build-outs.
+**Problem:** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralised, structured tool ~ especially during expeditions or station build-outs.
 
-**Solution:** A browser-based cockpit overlay that tracks infrastructure requirements, build-out progress, system bookmarks and real-time carrier inventory.
+**Solution:** A browser-based cockpit tool that tracks infrastructure requirements, build-out progress, system / station 'shopping lists' and real-time carrier inventory.
 
 **Impact:** Enables commanders to efficiently manage space station construction, resource logistics, and fleet carrier assets ~ streamlining both solo and group colonisation efforts.
 
@@ -38,9 +37,9 @@ Browser-based tool for managing colonisation tracking and expeditions in *Elite 
 | Category              | Capabilities                                                                 |
 |-----------------------|------------------------------------------------------------------------------|
 | **System Tracking**   | - Record system visits<br>- Log planet scans<br>- Flag habitable candidates  |
-| **Overlay UI**        | - Lightweight HUD<br>- Browser-based display<br>- Tablet-friendly layout     |
-| **Data Sync**         | - Import bookmarks<br>- Export system data<br>- Sync JSON records            |
-| **Mission Planning**  | - Prioritize targets<br>- Filter by criteria<br>- View exploration progress  |
+| **Browser UI**        | - Lightweight HUD<br>- Browser-based display<br>- Tablet-friendly layout     |
+| **Data Sync**         | - Reads system data from in game journal data<br>- Syncs JSON records        |
+| **Mission Planning**  | - Prioritises targets<br>- Filter by criteria<br>                            |
 
 ---
 
@@ -63,7 +62,7 @@ Browser-based tool for managing colonisation tracking and expeditions in *Elite 
 
 - Space exploration nerds  
 - Player factions managing colonisation goals  
-- Long-range missions needing minimal-distraction overlays
+- Long-range missions needing minimal-distraction tools
 
 ---
 

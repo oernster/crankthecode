@@ -38,7 +38,7 @@ A professional audio device switcher for Windows with Stream Deck integration.
 
 ## Overview
 
-Audio Deck allows you to switch between customized audio setups instantly.  
+Audio Deck allows you to switch between customised audio setups instantly.  
 It’s ideal for gamers, remote workers, content creators and Stream Deck users who want fast, reliable control over their audio environment.
 
 ---

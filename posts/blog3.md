@@ -26,7 +26,7 @@ The site now includes an unapologetically excessive [**Battlestation**](/battles
 
 **Includes:**
 
-- Rare Finalmouse Zeus (2.5k units worldwide).
+- Rare Finalmouse Achilles (2.5k units worldwide).
 - Durgod Taurus K310 (Cherry silent reds = bliss).
 - PCPanel Pro (RGBs for the soul).
 - Multi-distro Linux chaos via Framework 13.

@@ -26,5 +26,5 @@ thumb_image: /static/images/snarkapi-icon.png
 I wanted to roast IT devs/operators and do it publicly!
 
 # Overview
-Public sarcasm-as-a-service. Yes, it’s real. No, I won’t apologize.
+Public sarcasm-as-a-service. Yes, it’s real. No, I won’t apologise.
 It's a minimal FastAPI service that returns a sarcastic quote with some IT crowd quotes thrown in for good measure.

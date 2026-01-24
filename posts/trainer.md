@@ -76,7 +76,7 @@ It adheres to **SOLID principles**, modern design patterns and is plugin-friendl
 | Code Quality                              | Performance                                 |
 |-------------------------------------------|---------------------------------------------|
 | SOLID architecture                        | Lazy loading & intelligent caching         |
-| Factory, Strategy, Observer, Manager patterns | Optimized memory & widget pooling     |
+| Factory, Strategy, Observer, Manager patterns | Optimised memory & widget pooling     |
 | Strong separation of concerns             | Responsive layout with graceful fallback    |
 
 | Testing & Maintainability                 | Development Notes                           |

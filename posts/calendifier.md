@@ -1,7 +1,7 @@
 ---
 title: "Calendifier"
 date: "2026-01-19 06:35"
-tags: ["calendar", "event", "events", "RFC5545", "notes", "internationalization", "clock", "python"]
+tags: ["calendar", "event", "events", "RFC5545", "notes", "internationalisation", "clock", "python"]
 blurb: "Calendar tool"
 one_liner: "A calendar app with full iCalendar (RFC5545) support and deep internationalisation across languages and locales."
 
@@ -27,18 +27,18 @@ extra_images:
 I wanted a fun project that created a next-gen calendar for both desktop and Home Assistant.
 I then wanted to make it fully featured with an NTP synchronised digital/analogue clock, with full and effective 
 support for eventing.  Then I fancied adding in some additional features so for extra fun and defiance I wrote in 
-functionality for locale specific holidays.  As a final coup de grace, I made it fully internationlized for a large 
+functionality for locale specific holidays.  As a final coup de grace, I made it fully internationlised for a large 
 number of locales around the world in foreign languages/numbering standards; that, by the way, was freaking HARD! 
 
 
 # Challenges along the way
 A standards-compliant calendar backend. RFC5545? I *hardly* knew her.
-The main app was HARD due to internationalization; this was my first foray into internationalizing an app and I did it 
+The main app was HARD due to internationalisation; this was my first foray into internationalising an app and I did it 
 for BOTH a browser AND home assistant dashboard cards.
 
 Another really difficult thing for me was not only identifying holidays for locales which aren't British but making them 
 appear correctly on the UI depending on the locale selected.
-However, aside from the aforementioned internationalization support challenges, I really struggled through writing code to support
+However, aside from the aforementioned internationalisation support challenges, I really struggled through writing code to support
 RFC5545 which is basically the official canonical way to support Eventing in a Calendar application.  I got there in the end though
 and I feel the UI is relatively intuitive for this purpose.
 
@@ -51,20 +51,20 @@ and I feel the UI is relatively intuitive for this purpose.
 1. **🖥️ Desktop Application** - Cross-platform desktop calendar built with Python and PySide6
 2. **🏠 Home Assistant Integration** - Web-based dashboard cards for Home Assistant with beautiful UI
 
-Both versions feature comprehensive internationalization supporting **40 languages** and **40 countries**, making it a truly global calendar solution.
-One huge takeaway I had from this piece of work was that internationalization is an incredibly HARD thing to implement!
+Both versions feature comprehensive internationalisation supporting **40 languages** and **40 countries**, making it a truly global calendar solution.
+One huge takeaway I had from this piece of work was that internationalisation is an incredibly HARD thing to implement!
 
 ### ✨ Key Features
 
 - 📅 **Full Calendar Management** - Monthly view with intuitive navigation
-- 🌍 **40-Language Support** - Complete localization with runtime language switching
+- 🌍 **40-Language Support** - Complete localisation with runtime language switching
 - 🏳️ **40-Country Holiday Support** - Intelligent holiday detection with native translations
-- 🕐 **Real-time Analog Clock** - NTP synchronization for accurate timekeeping
+- 🕐 **Real-time Analog Clock** - NTP synchronisation for accurate timekeeping
 - 📝 **Comprehensive Event Management** - Create, edit, delete with categories and recurring events
 - 🎨 **Dynamic Theming** - Dark/Light mode with instant switching
 - 📝 **Integrated Notes** - Built-in note-taking functionality
 - 📤📥 **Import/Export** - Support for iCalendar, CSV and JSON formats
-- ⚙️ **Extensive Configuration** - Customizable settings for all preferences
+- ⚙️ **Extensive Configuration** - Customisable settings for all preferences
 
 ## 🌍 International Support
 
@@ -162,7 +162,7 @@ The application automatically detects and displays holidays for 40 countries wit
 - 📱 **Responsive Design** - Works on desktop, tablet and mobile
 - 🌐 **Web Access** - Access from anywhere on your network
 - 🔄 **Auto-Updates** - Cards refresh automatically
-- 🎯 **Optimized Layout** - No overlapping, proper spacing
+- 🎯 **Optimised Layout** - No overlapping, proper spacing
 
 ---
 

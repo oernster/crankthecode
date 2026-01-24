@@ -13,7 +13,7 @@ social_image: /static/images/numismatism.png
 ## Problem → Solution → Impact
 
 **Problem:** Few modern computer vision tools exist for identifying collectible coins.  
-**Solution:** This app uses machine learning and CV to recognize years and mint marks.  
+**Solution:** This app uses machine learning and CV to recognise years and mint marks.  
 **Impact:** A working educational prototype for ML use cases in a niche hobby.
 
 ---

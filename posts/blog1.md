@@ -33,7 +33,7 @@ Extract `title` and `excerpt` from post frontmatter:
 
 ## 2. Heading Structure
 
-**Goal:** Use semantic HTML headings (H1–H3) to organize content.
+**Goal:** Use semantic HTML headings (H1–H3) to organise content.
 
 **Implementation:**
 Ensure each post template includes:
@@ -46,7 +46,7 @@ Ensure each post template includes:
 
 ---
 
-## 3. Keyword Optimization
+## 3. Keyword Optimisation
 
 **Goal:** Embed targeted keywords in content naturally, especially in headings and intros.
 
