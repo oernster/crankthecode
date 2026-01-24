@@ -19,8 +19,6 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 [EDColonisation Assistant](https://github.com/oernster/EDColonisationAsst) 🛰  
 
-[Releases](https://github.com/oernster/EDColonisationAsst/releases/)
-
 ## Problem → Solution → Impact
 
 **Problem:** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralised, structured tool ~ especially during station build-outs.
