@@ -24,7 +24,7 @@ Browser-based tool for managing colonisation tracking and expeditions in *Elite 
 
 ## Problem → Solution → Impact
 
-**Problem:** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralised, structured tool ~ especially during expeditions or station build-outs.
+**Problem:** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralised, structured tool ~ especially during station build-outs.
 
 **Solution:** A browser-based cockpit tool that tracks infrastructure requirements, build-out progress, system / station 'shopping lists' and real-time carrier inventory.
 
@@ -66,7 +66,7 @@ Browser-based tool for managing colonisation tracking and expeditions in *Elite 
 
 ---
 
-> “There’s something satisfying about flipping to a local HUD and seeing your shopping list for a station/system go green on reaching full delivery of a commodity. This is the kind of immersion that even the game itself didn’t build in.”
+> “There’s something satisfying about flipping to a local HUD and seeing your shopping list for a station/system construction operation go green on reaching full delivery of a commodity. This is the kind of immersion that even the game itself didn’t build in.”
 
 ## Screenshots
 
