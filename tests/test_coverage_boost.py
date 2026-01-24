@@ -460,7 +460,7 @@ def test_should_exclude_blog_posts_for_query_covers_all_return_paths():
 
     # Category query with exclude_blog=False.
     assert _should_exclude_blog_posts_for_query(
-        "gaming|game|elite|dangerous|frontier|colonization"
+        "gaming|game|elite|dangerous|frontier|colonisation"
     ) is False
 
 

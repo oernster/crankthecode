@@ -88,7 +88,7 @@ def _sidebar_categories() -> list[dict[str, str]]:
         },
         {
             "label": "🎮 Gaming",
-            "query": "gaming|game|elite|dangerous|frontier|colonization",
+            "query": "gaming|game|elite|dangerous|frontier|colonisation",
             "exclude_blog": False,
             "exclude_slugs": [],
         },
@@ -97,7 +97,7 @@ def _sidebar_categories() -> list[dict[str, str]]:
             "query": "tool|tools|cli|utility|utilities|launcher|database|db",
             "exclude_blog": False,
             # AxisDB is intentionally classified under Data / ML (not Tools).
-            "exclude_slugs": ["3D-printer-launcher", "axisdb", "edcolonizationasst"],
+            "exclude_slugs": ["3D-printer-launcher", "axisdb", "edcolonisationasst"],
         },
         {
             "label": "🌐 Web APIs",
@@ -328,7 +328,7 @@ async def homepage(
                     {"slug": "calendifier", "label": "Calendifier"},
                     {"slug": "trainer", "label": "Trainer"},
                     {"slug": "axisdb", "label": "AxisDB"},
-                    {"slug": "edcolonizationasst", "label": "EDColonizationAsst"},
+                    {"slug": "edcolonisationasst", "label": "EDColonisationAsst"},
                 ],
                 "backlog": [
                     # Pinned intro posts (keep first).

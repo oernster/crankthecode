@@ -1,5 +1,5 @@
 ---
-title: "EDColonization Assistant"
+title: "EDColonisation Assistant"
 date: "2026-01-19 03:40"
 tags:
   - "elite dangerous"
@@ -10,26 +10,26 @@ tags:
   - "python"
   - "overlay"
 blurb: "In-game overlay for Elite Dangerous"
-one_liner: "A browser-based in-game overlay for colonization tracking and expedition planning in Elite Dangerous."
+one_liner: "A browser-based in-game overlay for colonisation tracking and expedition planning in Elite Dangerous."
 # NOTE: Deployed environments are typically case-sensitive.
-# The actual asset filename is `EDColonizationAsst.png`.
-image: /static/images/EDColonizationAsst.png
-social_image: /static/images/EDColonizationAsst.png
-thumb_image: /static/images/edcolonizationasst-icon.png
+# The actual asset filename is `EDColonisationAsst.png`.
+image: /static/images/EDColonisationAsst.png
+social_image: /static/images/EDColonisationAsst.png
+thumb_image: /static/images/edcolonisationasst-icon.png
 ---
 
-[EDColonization Assistant](https://github.com/oernster/EDColonizationAssistant) 🛰  
-Browser-based tool for managing colonization tracking and expeditions in *Elite Dangerous*.
+[EDColonisation Assistant](https://github.com/oernster/EDColonisationAssistant) 🛰  
+Browser-based tool for managing colonisation tracking and expeditions in *Elite Dangerous*.
 
-[Releases](https://github.com/oernster/EDColonizationAssistant/releases/)
+[Releases](https://github.com/oernster/EDColonisationAssistant/releases/)
 
 ## Problem → Solution → Impact
 
-**Problem:** Coordinating colonization efforts and managing fleet carriers in *Elite Dangerous* lacks a centralized, structured tool ~ especially during expeditions or station build-outs.
+**Problem:** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralized, structured tool ~ especially during expeditions or station build-outs.
 
 **Solution:** A browser-based cockpit overlay that tracks infrastructure requirements, build-out progress, system bookmarks and real-time carrier inventory.
 
-**Impact:** Enables commanders to efficiently manage space station construction, resource logistics, and fleet carrier assets ~ streamlining both solo and group colonization efforts.
+**Impact:** Enables commanders to efficiently manage space station construction, resource logistics, and fleet carrier assets ~ streamlining both solo and group colonisation efforts.
 
 ---
 
@@ -62,7 +62,7 @@ Browser-based tool for managing colonization tracking and expeditions in *Elite 
 ## Ideal For
 
 - Space exploration nerds  
-- Player factions managing colonization goals  
+- Player factions managing colonisation goals  
 - Long-range missions needing minimal-distraction overlays
 
 ---
@@ -71,4 +71,4 @@ Browser-based tool for managing colonization tracking and expeditions in *Elite 
 
 ## Screenshots
 
-![ED Colonization Assistant Carrier UI](/static/images/EDColonizationAsst2.png)
+![ED Colonisation Assistant Carrier UI](/static/images/EDColonisationAsst2.png)

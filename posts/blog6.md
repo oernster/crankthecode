@@ -27,7 +27,7 @@ Search indexing is now in top form with clean previews and discoverable URLs.
 | 🧮 Read time flash removed                | “Calculating…” no longer appears on load                |
 | 🧾 Base.html crash resolved               | Safe meta tags even on non-post pages                   |
 | 🧊 About page layout refined              | Skill lists spaced and aligned for improved readability |
-| 🖼 Post images corrected                  | Dual image bug for Stellody and EDColonizationAsst fixed |
+| 🖼 Post images corrected                  | Dual image bug for Stellody and EDColonisationAsst fixed |
 | 🔁 Duplicate entries removed             | 3D Printer Launcher now appears only once               |
 
 Typography, alignment and responsiveness continue to improve incrementally.
