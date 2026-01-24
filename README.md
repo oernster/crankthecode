@@ -33,6 +33,7 @@ uvicorn app.main:app --reload
 
 ## Tests (currently 100% coverage)
 
-- pytest -v --cov
-
+```bash
+pytest -v --cov
+```
 
