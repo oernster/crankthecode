@@ -35,7 +35,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 | Category              | Capabilities                                                                 |
 |-----------------------|------------------------------------------------------------------------------|
-| **System Tracking**   | - Record system visits<br>- Log planet scans<br>- Flag habitable candidates  |
+| **System Tracking**   | - Record system visits<br>- Log planet scans<br>                             |
 | **Browser UI**        | - Lightweight HUD<br>- Browser-based display<br>- Tablet-friendly layout     |
 | **Data Sync**         | - Reads system data from in game journal data<br>- Syncs JSON records        |
 | **Mission Planning**  | - Prioritises targets<br>- Filter by criteria<br>                            |
@@ -50,10 +50,11 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 ## Usage
 
-1. Clone or download the repository  
-2. Open the `index.html` in your browser  
-3. Use keyboard/mouse or touchscreen controls to navigate  
-4. Optionally mount to a cockpit tablet for immersion
+1. Go to [Releases](https://github.com/oernster/EDColonisationAsst/releases)  
+2. Install the executable
+3. Open the page localhost:8000/app in your browser (or your IP if on your wifi network from a tablet)
+4. Use keyboard/mouse or touchscreen controls to navigate  
+5. Optionally mount to a cockpit tablet for immersion
 
 ---
 
