@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}CrankTheCode{% endblock %}{% endif %}</title>
 
-  {% if meta_description %}
+  {% if post %}
+    <meta name="description" content="{{ post.blurb or post.one_liner }}">
+  {% elif meta_description %}
     <meta name="description" content="{{ post.blurb or post.one_liner }}">
   {% elif is_homepage %}
     <meta
