@@ -81,6 +81,8 @@
               {% set blurb = homepage_blurb_index.get(p.slug) %}
               {% if p.slug == 'blog1' %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+              {% elif p.slug == 'blog7' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
               {% elif p.slug == 'calendifier' %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
               {% elif p.slug == 'elevator' %}
@@ -123,14 +125,16 @@
               >
                 {{ p.emoji }}
               </span>
-            {% elif p.slug == 'blog1' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-            {% elif p.slug == 'calendifier' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
-            {% elif p.slug == 'elevator' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
-            {% elif p.slug == 'audiodeck' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+              {% elif p.slug == 'blog1' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+              {% elif p.slug == 'blog7' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
+              {% elif p.slug == 'calendifier' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+              {% elif p.slug == 'elevator' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+              {% elif p.slug == 'audiodeck' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
             {% elif p.slug == 'galacticunicorn' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
             {% elif p.slug == '3D-printer-launcher' %}
@@ -164,14 +168,16 @@
             {% set blurb = homepage_blurb_index.get(p.slug) %}
             {% if (p.emoji or '')|length > 0 %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
-            {% elif p.slug == 'blog1' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-            {% elif p.slug == 'calendifier' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
-            {% elif p.slug == 'elevator' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
-            {% elif p.slug == 'audiodeck' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+              {% elif p.slug == 'blog1' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
+              {% elif p.slug == 'blog7' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
+              {% elif p.slug == 'calendifier' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+              {% elif p.slug == 'elevator' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+              {% elif p.slug == 'audiodeck' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
             {% elif p.slug == 'galacticunicorn' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
             {% elif p.slug == '3D-printer-launcher' %}
@@ -206,6 +212,8 @@
             {% set cover = homepage_cover_index.get(p.slug) %}
             {% if cover %}
               <img class="btn-thumb" src="{{ cover }}" alt="{{ p.title }}" loading="lazy" />
+            {% elif p.slug == 'blog7' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
             {% elif (p.emoji or '')|length > 0 %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
             {% else %}

@@ -25,7 +25,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 
 **Solution:** A browser-based cockpit tool that tracks infrastructure requirements, build-out progress, system / station 'shopping lists' and real-time carrier inventory.
 
-**Impact:** Enables commanders to efficiently manage space station construction, resource logistics, and fleet carrier assets ~ streamlining both solo and group colonisation efforts.
+**Impact:** Enables commanders to efficiently manage space station construction, resource logistics and fleet carrier assets ~ streamlining both solo and group colonisation efforts.
 
 ---
 

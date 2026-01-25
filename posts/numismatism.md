@@ -22,7 +22,7 @@ social_image: /static/images/numismatism.png
 
 A couple of friends in the US were manually identifying 1¢ coins under microscopes. This tool streamlines that: a desktop application that recognises years and mint marks on US cents using ML + CV.  
 
-> **Note:** Data availability remains poor, so model accuracy is limited. It's a personal prototype, a fossil of fast coding, and I'm okay with that.
+> **Note:** Data availability remains poor, so model accuracy is limited. It's a personal prototype, a fossil of fast coding and I'm okay with that.
 
 ---
 
