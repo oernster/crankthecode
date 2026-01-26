@@ -2,7 +2,7 @@
 <html lang="en" class="theme-dark">
 <head>
   <meta charset="utf-8">
-  <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}CrankTheCode{% endblock %}{% endif %}</title>
+  <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}Crank The Code{% endblock %}{% endif %}</title>
 
   {# Meta description #}
   {% if meta_description %}
@@ -12,12 +12,12 @@
   {% elif is_homepage %}
     <meta
       name="description"
-      content="Senior engineer building clean, efficient software, writing about systems, tooling and ideas that actually ship."
+      content="Python engineering blog by Oliver Ernster. Senior engineer building clean, efficient software—writing about Python, systems, FastAPI tooling and ideas that actually ship."
     >
   {% else %}
     <meta
       name="description"
-      content="CrankTheCode ~ Software projects, tools, hardware and engineering ideas that ship."
+      content="Crank The Code ~ Software projects, tools, hardware and engineering ideas that ship."
     >
   {% endif %}
 
@@ -39,7 +39,7 @@
     <meta property="og:url" content="{{ canonical_url }}">
   {% endif %}
   <meta property="og:type" content="{{ og_type or 'website' }}">
-  <meta property="og:site_name" content="CrankTheCode">
+  <meta property="og:site_name" content="Crank The Code">
   {% if og_image_url %}
     <meta property="og:image" content="{{ og_image_url }}">
   {% endif %}
@@ -108,7 +108,7 @@
 
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="alternate" type="application/rss+xml" title="CrankTheCode RSS" href="/rss.xml">
+  <link rel="alternate" type="application/rss+xml" title="Crank The Code RSS" href="/rss.xml">
 </head>
 <body{% if is_homepage %} class="is-homepage"{% endif %}>
   <a id="skip-link" class="skip-link" href="#main">Skip to content</a>
@@ -147,7 +147,7 @@
           </button>
 
           <a class="home-favicon-link" href="/" aria-label="Home">
-            <img class="home-favicon-icon" src="/favicon.ico" alt="CrankTheCode home" />
+            <img class="home-favicon-icon" src="/favicon.ico" alt="Crank The Code home" />
           </a>
 
           <button
@@ -161,7 +161,7 @@
           </button>
 
           <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
-            <img class="rss-icon" src="/static/rss.svg" alt="CrankTheCode RSS" />
+            <img class="rss-icon" src="/static/rss.svg" alt="Crank The Code RSS" />
           </a>
         </div>
       </div>

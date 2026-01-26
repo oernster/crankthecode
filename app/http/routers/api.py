@@ -46,7 +46,7 @@ async def get_post_meta(slug: str, blog: BlogService = Depends(get_blog_service)
     og_description = build_meta_description(
         getattr(post, "one_liner", None),
         fallback=getattr(post, "blurb", None),
-        default=f"Read {title} on CrankTheCode.",
+        default=f"Read {title} on Crank The Code.",
     )
     img = post.cover_image_url or "/static/images/me.jpg"
     og_image = absolute_url(site_url, img)

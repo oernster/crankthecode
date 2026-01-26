@@ -257,15 +257,15 @@ def _base_context(request: Request) -> dict:
         "site_url": site_url,
         # Optional override for `<title>` in `base.html`.
         "page_title": None,
-        "site_name": "CrankTheCode",
+        "site_name": "Crank The Code",
         "robots_meta": "index,follow",
         "canonical_url": canonical_url_for_request(request, site_url=site_url),
-        "og_title": "CrankTheCode",
+        "og_title": "Crank The Code",
         "og_description": None,
         "og_type": "website",
         "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
         "jsonld_extra_json": None,
-        "meta_description": "CrankTheCode - projects and technical write-ups by Oliver Ernster.",
+        "meta_description": "Crank The Code - Python engineering blog and technical write-ups by Oliver Ernster.",
         "sidebar_categories": _sidebar_categories(),
         "current_q": (request.query_params.get("q") or "").strip(),
         "exclude_blog": exclude_blog,
@@ -317,8 +317,8 @@ async def homepage(
     ctx.update(
         {
             "is_homepage": True,
-            "og_title": "CrankTheCode",
-            "og_description": "Projects and technical write-ups by Oliver Ernster.",
+            "og_title": "Crank The Code - Python Engineering Blog by Oliver Ernster",
+            "og_description": "Python engineering blog by Oliver Ernster: projects, FastAPI tooling, and technical write-ups.",
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "crank_change_archive_posts": _crank_change_archive_posts(blog),
             "homepage_projects": {
@@ -383,7 +383,7 @@ async def homepage(
     homepage_jsonld = {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "CrankTheCode",
+        "name": "Crank The Code",
         "url": absolute_url(get_site_url(request), "/"),
         "author": {"@type": "Person", "name": "Oliver Ernster"},
     }
@@ -460,10 +460,10 @@ async def posts_index(
         {
             "posts": posts,
             "is_homepage": False,
-            "page_title": "Posts | CrankTheCode",
-            "og_title": "Posts | CrankTheCode",
-            "og_description": "Browse all CrankTheCode posts and project write-ups.",
-            "meta_description": "Browse all CrankTheCode posts and project write-ups.",
+            "page_title": "Posts | Crank The Code",
+            "og_title": "Posts | Crank The Code",
+            "og_description": "Browse all Crank The Code posts and project write-ups.",
+            "meta_description": "Browse all Crank The Code posts and project write-ups.",
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
                 {"label": "Posts", "href": "/posts"},
@@ -493,10 +493,10 @@ async def about_page(
         {
             "about_html": _load_about_html(),
             "is_homepage": False,
-            "page_title": "About me | CrankTheCode",
-            "og_title": "About me | CrankTheCode",
-            "og_description": "About Oliver Ernster and the CrankTheCode blog.",
-            "meta_description": "About Oliver Ernster and the CrankTheCode blog.",
+            "page_title": "About me | Crank The Code",
+            "og_title": "About me | Crank The Code",
+            "og_description": "About Oliver Ernster and the Crank The Code blog.",
+            "meta_description": "About Oliver Ernster and the Crank The Code blog.",
             "back_link_href": "/",
             "back_link_label": "← Back to posts",
             "breadcrumb_items": [
@@ -518,10 +518,10 @@ async def help_page(
         {
             "is_homepage": False,
             "robots_meta": "noindex",
-            "page_title": "Help | CrankTheCode",
-            "og_title": "Help | CrankTheCode",
+            "page_title": "Help | Crank The Code",
+            "og_title": "Help | Crank The Code",
             "og_description": "A deliberately unhelpful help page.",
-            "meta_description": "Help page for CrankTheCode.",
+            "meta_description": "Help page for Crank The Code.",
             "back_link_href": "/",
             "back_link_label": "← Back to home",
             "breadcrumb_items": [
@@ -542,8 +542,8 @@ async def battlestation_page(
     ctx.update(
         {
             "is_homepage": False,
-            "page_title": "My battlestation | CrankTheCode",
-            "og_title": "My battlestation | CrankTheCode",
+            "page_title": "🖥️ The Battlestation That Ships | Crank The Code",
+            "og_title": "🖥️ The Battlestation That Ships | Crank The Code",
             "og_description": "The Command Battlestation - dev cockpit + 3D printer room.",
             "meta_description": "A look at my Command Battlestation: daily driver workstation + 3D printer room.",
             "back_link_href": "/",
@@ -592,7 +592,7 @@ async def read_post(
     description = build_meta_description(
         getattr(detail, "blurb", None),
         fallback=getattr(detail, "one_liner", None),
-        default=f"Read {detail.title} on CrankTheCode.",
+        default=f"Read {detail.title} on Crank The Code.",
     )
 
     # Social previews: one-liner reads better when shared.
@@ -646,7 +646,7 @@ async def read_post(
         {
             "post": post,
             "is_homepage": False,
-            "page_title": f"{og_title} | CrankTheCode",
+            "page_title": f"{og_title} | Crank The Code",
             "canonical_url": canonical,
             "meta_description": description,
             "og_title": og_title,
