@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+from typing import Awaitable, Callable
+
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi import Request
+from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jinja2 import Environment, FileSystemLoader
@@ -16,6 +19,38 @@ def create_app() -> FastAPI:
     """FastAPI application factory."""
 
     fastapi_app = FastAPI()
+
+    # Canonical host + scheme redirects (301)
+    #
+    # Goal:
+    # - http://crankthecode.com        -> https://www.crankthecode.com
+    # - http://www.crankthecode.com   -> https://www.crankthecode.com
+    # - https://crankthecode.com      -> https://www.crankthecode.com
+    #
+    # Note:
+    # - This only works when those hostnames route to this app.
+    # - We bypass local dev hosts so `uvicorn` on 127.0.0.1/localhost behaves normally.
+    CANONICAL_HOST = "www.crankthecode.com"
+
+    @fastapi_app.middleware("http")
+    async def enforce_canonical_host_and_scheme(
+        request: Request,
+        call_next: Callable[[Request], Awaitable[Response]],
+    ) -> Response:
+        hostname = (request.url.hostname or "").lower()
+        if hostname in {"127.0.0.1", "localhost"}:
+            return await call_next(request)
+
+        forwarded_proto = (request.headers.get("x-forwarded-proto") or "").lower()
+        scheme = forwarded_proto or request.url.scheme
+
+        if hostname != CANONICAL_HOST or scheme != "https":
+            path = request.url.path
+            query = request.url.query
+            target = f"https://{CANONICAL_HOST}{path}" + (f"?{query}" if query else "")
+            return RedirectResponse(url=target, status_code=301)
+
+        return await call_next(request)
 
     # Static and templates
     fastapi_app.mount("/static", StaticFiles(directory="static"), name="static")
