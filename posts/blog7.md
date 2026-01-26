@@ -4,8 +4,7 @@ date: "2026-01-25 18:30"
 tags: ["blog", "stellody", "deployment", "flatpak", "refactor", "qt", "release"]
 one_liner: "After a heroic refactor/full triple-platform release, Stellody 4.1.3 is live with improved UI, cleaner code and a lot less screaming."
 ---
-
-[Stellody v4.1.3](https://www.stellody.com) ~ featuring a major refactor, licensing fixes and improved UI across all supported platforms.
+# [Stellody v4.1.3](https://www.stellody.com) ~ featuring a major refactor, licensing fixes and improved UI across all supported platforms.
 
 ---
 
