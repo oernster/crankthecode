@@ -19,7 +19,7 @@ one_liner: "After a heroic refactor/full triple-platform release, Stellody 4.1.3
 
 This was a large, sweeping cleanup ~ months of architectural debt finally reconciled.
 
-> I complied with SOLID, OO design patterns, linted my soul with Black, and followed TDD to the gates of hell; only to find my app broken and my hope fading.
+> I complied with SOLID, OO design patterns, linted my soul with Black and followed TDD to the gates of hell; only to find my app broken and my hope fading.
 
 ---
 
@@ -50,7 +50,7 @@ This was a large, sweeping cleanup ~ months of architectural debt finally reconc
 
 All builds tested, validated and deployed cleanly.
 
-> “Qt finally stopped gaslighting me and started listening. It only took a dozen hacks, five hours, and me yelling at my monitor like a feral raccoon.”
+> “Qt finally stopped gaslighting me and started listening. It only took a dozen hacks, five hours and me yelling at my monitor like a feral raccoon.”
 
 ---
 

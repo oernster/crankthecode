@@ -318,7 +318,7 @@ async def homepage(
         {
             "is_homepage": True,
             "og_title": "Crank The Code - Python Engineering Blog by Oliver Ernster",
-            "og_description": "Python engineering blog by Oliver Ernster: projects, FastAPI tooling, and technical write-ups.",
+            "og_description": "Python engineering blog by Oliver Ernster: projects, FastAPI tooling and technical write-ups.",
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "crank_change_archive_posts": _crank_change_archive_posts(blog),
             "homepage_projects": {

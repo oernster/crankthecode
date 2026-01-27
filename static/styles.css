@@ -1429,7 +1429,7 @@ a[href=\"/\"]:hover {
   color: var(--text-muted);
 }
 
-/* On hover, buttons switch to banana-yellow. Ensure the subtext remains readable
+/* On hover buttons switch to banana-yellow. Ensure the subtext remains readable
    (dark) in *both* themes instead of staying light/washed out in dark mode. */
 .btn-link:hover .btn-subtext {
   color: rgba(17, 24, 39, 0.82);

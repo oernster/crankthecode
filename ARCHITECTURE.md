@@ -240,7 +240,7 @@ flowchart LR
 
 1. Create a new `*.md` in [`posts/`](posts/) with YAML frontmatter.
 2. The slug is the filename stem (e.g. `blog7.md` → `blog7`).
-3. It will automatically appear in `/posts`, RSS, and sitemap.
+3. It will automatically appear in `/posts`, RSS and sitemap.
 
 ### Add a new page
 
