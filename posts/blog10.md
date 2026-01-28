@@ -1,8 +1,9 @@
 ---
-title: "🎧 Rate Limits, Retry Logic and Reality Checks"
+title: "Rate Limits, Retry Logic and Reality Checks"
 date: "2026-01-27 20:30"
 tags: ["blog", "stellody", "ratelimit", "spotify", "backoff", "engineering"]
 one_liner: "Rate limits strike mid-run - retry logic, async persistence and filesystem stalls all collide in a war for reliability."
+emoji: "🎧"
 ---
 
 ## The Elephant in the Room - Rate Limiting

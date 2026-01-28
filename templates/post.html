@@ -4,7 +4,12 @@
 
 {% block content %}
   <div class="post-heading">
-    <h1>{{ post.title }}</h1>
+    <h1>
+      {% if (post.emoji or '')|length > 0 %}
+        <span class="post-title-emoji" aria-hidden="true">{{ post.emoji }}</span>
+      {% endif %}
+      {{ post.title_text or post.title }}
+    </h1>
     <div class="post-meta">
       <small class="post-date">{{ post.date }}</small>
       <small class="post-tags">Tags: {{ post.tags | join(", ") }}</small>

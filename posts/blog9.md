@@ -1,8 +1,9 @@
 ---
-title: "🛠️ HyperNova, Rails, and Rethinking the Voron"
+title: "HyperNova, Rails, and Rethinking the Voron"
 date: "2026-01-27 00:45"
 tags: ["blog", "3D printing", "voron", "hypernova", "engineering", "cartographer"]
 one_liner: "Upgrading the Voron Trident with a HyperNova toolhead, new rails and a precision Cartographer mod."
+emoji: "🛠️"
 ---
 
 # This post walks through my recent Voron Trident overhaul

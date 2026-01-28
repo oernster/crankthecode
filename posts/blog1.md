@@ -4,6 +4,7 @@ date: "2026-01-18 10:55"
 tags: ["python", "fastapi", "seo", "blog", "crankthecode", "html"]
 one_liner: "Blog formally released but this time updated with SEO optimisation!"
 blurb: "Blog update with SEO"
+emoji: "🔍"
 ---
 # This blog is now a *THING!* However, it needed SEO optimisation
 

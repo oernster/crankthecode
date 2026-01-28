@@ -275,4 +275,5 @@ pip install axisdb</code></pre>
             social_image_url=social_url,
             extra_image_urls=extra_urls,
             content_html=html_content,
+            emoji=getattr(post, "emoji", None),
         )

@@ -19,6 +19,8 @@ class MarkdownPost:
     thumb_image: str | None
     extra_images: Sequence[str]
     content_markdown: str
+    # Optional emoji thumbnail (used when no image thumbnail is available).
+    emoji: str | None = None
     # Optional social share image (OpenGraph/Twitter). If omitted, cover image is used.
     social_image: str | None = None
 
@@ -36,6 +38,7 @@ class PostSummary:
     cover_image_url: str | None
     thumb_image_url: str | None
     summary_html: str
+    emoji: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,3 +55,4 @@ class PostDetail:
     extra_image_urls: Sequence[str]
     content_html: str
     social_image_url: str | None = None
+    emoji: str | None = None

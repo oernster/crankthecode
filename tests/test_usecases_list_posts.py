@@ -24,6 +24,7 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="First para\n\nSecond para",
+                emoji=None,
             ),
             MarkdownPost(
                 slug="new",
@@ -36,6 +37,7 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="Hello\n\nMore",
+                emoji=None,
             ),
         )
     )
@@ -62,6 +64,7 @@ def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_matching_image
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="Intro\n\n![Banner](/static/images/cover.jpg)\n\nMore",
+                emoji=None,
             ),
         )
     )
@@ -91,6 +94,7 @@ def test_list_posts_does_not_strip_cover_image_when_it_only_appears_in_body():
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="Intro\n\n## Screenshots\n\n![Main](/static/images/cover.jpg)\n\nMore",
+                emoji=None,
             ),
         )
     )
@@ -120,6 +124,7 @@ def test_list_posts_prefers_thumb_image_when_provided():
                 thumb_image="/static/images/thumb.png",
                 extra_images=(),
                 content_markdown="Intro\n\nMore",
+                emoji=None,
             ),
         )
     )

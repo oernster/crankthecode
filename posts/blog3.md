@@ -3,6 +3,7 @@ title: "Command Centre Update"
 date: "2026-01-21 01:45"
 tags: ["blog", "update", "python", "fastapi", "changelog", "html", "css", "javascript"]
 one_liner: "Added hero me/battlestation sections."
+emoji: "🧠"
 ---
 
 # Command Centre Update

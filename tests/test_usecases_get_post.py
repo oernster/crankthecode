@@ -26,6 +26,7 @@ def test_get_post_renders_html_when_found():
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="# Title",
+                emoji=None,
             ),
         )
     )
@@ -50,6 +51,7 @@ def test_get_post_uses_frontmatter_image_as_cover_and_strips_matching_image_para
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="Intro\n\n![Banner](/static/images/cover.png)\n\nMore text",
+                emoji=None,
             ),
         )
     )
@@ -78,6 +80,7 @@ def test_get_post_does_not_strip_cover_image_when_it_only_appears_in_body():
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="Intro\n\n## Screenshots\n\n![Main](/static/images/cover.png)\n\nMore text",
+                emoji=None,
             ),
         )
     )
@@ -105,6 +108,7 @@ def test_get_post_extracts_first_standalone_image_as_cover_when_no_frontmatter_i
                 thumb_image=None,
                 extra_images=(),
                 content_markdown="![Cover](/static/images/cover.png)\n\nHello",
+                emoji=None,
             ),
         )
     )

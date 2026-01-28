@@ -20,6 +20,7 @@ async def list_posts(blog: BlogService = Depends(get_blog_service)):
             title=p.title,
             date=p.date,
             tags=list(p.tags),
+            emoji=getattr(p, "emoji", None),
             summary_html=p.summary_html,
         )
         for p in posts
@@ -70,6 +71,7 @@ async def get_post(slug: str, blog: BlogService = Depends(get_blog_service)):
         date=post.date,
         tags=list(post.tags),
         cover_image_url=post.cover_image_url,
+        emoji=getattr(post, "emoji", None),
         extra_image_urls=list(getattr(post, "extra_image_urls", [])),
         content_html=post.content_html,
     )

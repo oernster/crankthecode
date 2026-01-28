@@ -26,6 +26,7 @@ def _mk_summary(
         one_liner=None,
         cover_image_url=cover,
         thumb_image_url=thumb,
+        emoji=None,
         summary_html="",
     )
 
@@ -320,6 +321,7 @@ def test_get_post_usecase_injects_screenshots_dedupes_and_retains_embedded_scree
         one_liner="a project",  # makes it a project-like post
         image="/static/images/a.png",
         thumb_image=None,
+        emoji=None,
         social_image=None,
         # Includes an empty-string URL to hit the `if not url: continue` branch,
         # plus a duplicate to hit the de-dupe branch.
@@ -354,6 +356,7 @@ def test_get_post_usecase_injects_screenshots_dedupes_and_retains_embedded_scree
         # the first 2 paragraphs).
         image="/static/images/cover.png",
         thumb_image=None,
+        emoji=None,
         social_image=None,
         extra_images=(),
         content_markdown=md_with_screens,
@@ -400,6 +403,7 @@ def test_get_post_usecase_has_psi_but_no_screenshots_no_changes():
         one_liner=None,
         image=None,
         thumb_image=None,
+        emoji=None,
         social_image=None,
         extra_images=(),
         content_markdown=md_with_psi_no_images,

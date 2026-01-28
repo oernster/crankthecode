@@ -148,6 +148,7 @@ class ListPostsUseCase:
                     one_liner=getattr(post, "one_liner", None),
                     cover_image_url=cover_url,
                     thumb_image_url=thumb_url,
+                    emoji=getattr(post, "emoji", None),
                     summary_html=summary_html,
                 )
             )

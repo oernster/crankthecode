@@ -14,20 +14,6 @@
             {% set thumb = post.thumb_image_url or post.cover_image_url %}
             {% if (post.emoji or '')|length > 0 %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ post.emoji }}</span>
-            {% elif post.slug == 'blog1' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-            {% elif post.slug == 'blog2' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧪</span>
-            {% elif post.slug == 'blog3' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧠</span>
-            {% elif post.slug == 'blog4' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🤖</span>
-            {% elif post.slug == 'blog5' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🌗</span>
-            {% elif post.slug == 'blog6' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧹</span>
-            {% elif post.slug == 'blog7' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
             {% elif post.slug == 'calendifier' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
             {% elif post.slug == 'elevator' %}
@@ -44,7 +30,7 @@
               <img class="btn-thumb" src="{{ thumb }}" alt="{{ post.title }}" loading="lazy" />
             {% endif %}
             <span class="btn-text">
-              {{ post.title }}
+              {{ post.title_text or post.title }}
               {% if post.blurb %}
                 <span class="btn-subtext">{{ post.blurb }}</span>
               {% endif %}

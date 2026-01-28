@@ -17,6 +17,7 @@ class _PostSummary:
     cover_image_url: str | None
     thumb_image_url: str | None
     summary_html: str
+    emoji: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -31,6 +32,7 @@ class _PostDetail:
     extra_image_urls: Sequence[str]
     content_html: str
     social_image_url: str | None = None
+    emoji: str | None = None
 
 
 def make_fake_blog_service() -> BlogService:
@@ -47,6 +49,7 @@ def make_fake_blog_service() -> BlogService:
             cover_image_url="/static/images/hello.png",
             thumb_image_url="/static/images/hello-thumb.png",
             summary_html="<p>Summary</p>",
+            emoji="🧪",
         ),
         _PostSummary(
             slug="no-detail",
@@ -58,6 +61,7 @@ def make_fake_blog_service() -> BlogService:
             cover_image_url=None,
             thumb_image_url=None,
             summary_html="<p>No detail summary</p>",
+            emoji=None,
         ),
     )
     details = {
@@ -72,6 +76,7 @@ def make_fake_blog_service() -> BlogService:
             extra_image_urls=("/static/images/extra.png",),
             content_html='<h1>Hello</h1><img src="/static/images/inline.png" />',
             social_image_url=None,
+            emoji="🧪",
         )
     }
 

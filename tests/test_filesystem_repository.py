@@ -13,6 +13,7 @@ def test_filesystem_repository_reads_frontmatter(tmp_path: Path):
         "title: Hello\n"
         "date: 2024-01-01\n"
         "tags: [python]\n"
+        "emoji: \"🧪\"\n"
         "image: /static/images/hello.png\n"
         "thumb_image: /static/images/hello-thumb.png\n"
         "---\n"
@@ -27,8 +28,34 @@ def test_filesystem_repository_reads_frontmatter(tmp_path: Path):
     assert post.title == "Hello"
     assert post.date == "2024-01-01 12:00"
     assert list(post.tags) == ["python"]
+    assert post.emoji == "🧪"
     assert post.image == "/static/images/hello.png"
     assert post.thumb_image == "/static/images/hello-thumb.png"
+
+
+def test_filesystem_repository_normalizes_string_tags_and_infers_blog_tag_for_blog_slug(
+    tmp_path: Path,
+):
+    # Simulate the common mistake: YAML string instead of list.
+    # Without normalization, iterating it would produce per-character tags.
+    (tmp_path / "blog99.md").write_text(
+        "---\n"
+        "title: Blog\n"
+        "date: 2024-01-01\n"
+        "tags: stellody\n"
+        "---\n"
+        "Body\n",
+        encoding="utf-8",
+    )
+
+    repo = FilesystemPostsRepository(posts_dir=tmp_path)
+    post = repo.get_post("blog99")
+    assert post is not None
+
+    # Normalized tags should include the scalar tag.
+    assert "stellody" in list(post.tags)
+    # And blog slugs should always include the blog tag.
+    assert "blog" in [t.lower() for t in post.tags]
 
 
 def test_filesystem_repository_normalizes_blank_blurb_and_one_liner_to_none(tmp_path: Path):

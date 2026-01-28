@@ -3,6 +3,7 @@ title: "Sitemaps, Side-by-Sides and Satisfying Polish"
 date: "2026-01-24 15:20"
 tags: ["blog", "update", "seo", "layout", "refactor", "tooling"]
 one_liner: "Post-launch refinements including sitemap setup, layout alignment and enhanced polish across tooling and templates."
+emoji: "🧹"
 ---
 # Another productive pass over the site ~ focused on polish, semantics and visibility.
 

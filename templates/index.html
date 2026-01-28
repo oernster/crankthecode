@@ -79,10 +79,9 @@
             >
               {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
               {% set blurb = homepage_blurb_index.get(p.slug) %}
-              {% if p.slug == 'blog1' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-              {% elif p.slug == 'blog7' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
+              {% set emoji = homepage_emoji_index.get(p.slug) or p.emoji %}
+              {% if (emoji or '')|length > 0 %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
               {% elif p.slug == 'calendifier' %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
               {% elif p.slug == 'elevator' %}
@@ -118,6 +117,7 @@
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
             {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
             {% set blurb = homepage_blurb_index.get(p.slug) %}
+            {% set emoji = homepage_emoji_index.get(p.slug) or p.emoji %}
             {% if (p.emoji or '')|length > 0 %}
               <span
                 class="btn-thumb btn-thumb--emoji{% if p.slug in ['bots', 'hardware-guides-are-accidental-bios'] %} btn-thumb--emoji-multi{% endif %}"
@@ -125,10 +125,8 @@
               >
                 {{ p.emoji }}
               </span>
-              {% elif p.slug == 'blog1' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-              {% elif p.slug == 'blog7' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
+              {% elif (emoji or '')|length > 0 %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
               {% elif p.slug == 'calendifier' %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
               {% elif p.slug == 'elevator' %}
@@ -166,12 +164,11 @@
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
             {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
             {% set blurb = homepage_blurb_index.get(p.slug) %}
+            {% set emoji = homepage_emoji_index.get(p.slug) or p.emoji %}
             {% if (p.emoji or '')|length > 0 %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
-              {% elif p.slug == 'blog1' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔍</span>
-              {% elif p.slug == 'blog7' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
+              {% elif (emoji or '')|length > 0 %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
               {% elif p.slug == 'calendifier' %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
               {% elif p.slug == 'elevator' %}
@@ -212,14 +209,12 @@
             {% set cover = homepage_cover_index.get(p.slug) %}
             {% if cover %}
               <img class="btn-thumb" src="{{ cover }}" alt="{{ p.title }}" loading="lazy" />
-            {% elif p.slug == 'blog7' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦾</span>
             {% elif (p.emoji or '')|length > 0 %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
             {% else %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📝</span>
             {% endif %}
-            <span class="btn-text">{{ p.title }}</span>
+            <span class="btn-text">{{ p.title_text or p.title }}</span>
           </a>
         {% endfor %}
       </div>

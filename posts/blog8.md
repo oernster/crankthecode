@@ -1,8 +1,9 @@
 ---
-title: "👹 Stellody v5.0.0 – Playlist Purgatory, Parallel Processing & Progress Bar Penance"
+title: "Stellody v5.0.0 – Playlist Purgatory, Parallel Processing & Progress Bar Penance"
 date: "2026-01-27 00:00"
 tags: ["blog", "stellody", "release", "playlist", "refactor", "bugfix", "music", "qt", "multithreading"]
 one_liner: "v5.0.0 brings actual working playlists, thread-safe speed-ups and a UI that doesn’t break from being clicked too hard."
+emoji: "👹"
 ---
 # **Stellody v5.0.0** is live and critically, now generates real, functional playlists again.
 

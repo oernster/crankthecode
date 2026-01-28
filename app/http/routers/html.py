@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import unicodedata
 from pathlib import Path
 from typing import cast
 from urllib.parse import quote
@@ -55,6 +56,68 @@ def _post_blurb_index(blog: BlogService) -> dict[str, str]:
         if blurb:
             blurbs[p.slug] = blurb
     return blurbs
+
+
+def _split_leading_emoji_from_title(title: str) -> tuple[str | None, str]:
+    """Split a leading emoji from a title.
+
+    We use a heuristic rather than a full emoji grapheme parser.
+
+    Rules:
+    - If the first whitespace-delimited token looks like an emoji (Unicode symbol
+      plus optional variation selector), treat it as the emoji.
+    - Otherwise return (None, title).
+
+    This is used purely for presentation (making the title emoji larger) while
+    ensuring the emoji appears only once.
+    """
+
+    raw = (title or "").strip()
+    if not raw:
+        return None, ""
+
+    token, sep, rest = raw.partition(" ")
+    # Typical emoji tokens are short (1-3 codepoints). Allow a bit more for VS16.
+    if not token or len(token) > 6:
+        return None, raw
+
+    def is_emojiish(ch: str) -> bool:
+        if not ch or ord(ch) < 0x80:
+            return False
+        cat = unicodedata.category(ch)
+        # Most emojis fall under "So" (Symbol, other). Some are followed by
+        # variation selectors (Mn).
+        return cat in {"So", "Sk"}
+
+    has_symbol = any(is_emojiish(c) for c in token)
+    if not has_symbol:
+        return None, raw
+
+    emoji = token
+    title_text = rest.strip() if sep else ""
+    return emoji, title_text or raw
+
+
+def _display_title_parts(*, title: str, emoji: str | None) -> tuple[str, str]:
+    """Return (emoji, title_text) for display without duplication.
+
+    Preference order:
+    1) Explicit frontmatter `emoji` (preferred)
+    2) Leading emoji inside `title` (legacy)
+
+    If we extract a leading emoji from the title, we return the remaining title
+    text so templates can avoid showing the emoji twice.
+    """
+
+    explicit = (emoji or "").strip()
+    if explicit:
+        return explicit, (title or "").strip()
+
+    title_emoji, title_text = _split_leading_emoji_from_title(title)
+    if title_emoji:
+        return title_emoji, title_text
+
+    return "", (title or "").strip()
 
 
 def _sidebar_categories() -> list[dict[str, str]]:
@@ -184,14 +247,6 @@ def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
     - also include the original archive seed posts.
     """
 
-    emoji_map: dict[str, str] = {
-        "blog1": "🔍",
-        "blog2": "🧪",
-        "blog3": "🧠",
-        "blog4": "🤖",
-        "blog5": "🌗",
-        "blog6": "🧹",
-    }
     # Archive always starts with these two seed posts (fixed order),
     # then the actual blog entries in newest-first order.
     seed_order = ["hello-crank", "why-crank"]
@@ -205,11 +260,13 @@ def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
         p = by_slug.get(slug)
         if not p:
             continue
+        emoji, title_text = _display_title_parts(title=p.title, emoji=getattr(p, "emoji", None))
         seed_entries.append(
             {
                 "slug": p.slug,
                 "title": p.title,
-                "emoji": emoji_map.get(p.slug, ""),
+                "title_text": title_text,
+                "emoji": emoji,
             }
         )
 
@@ -221,11 +278,13 @@ def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
             continue
         if not _is_blog_post_slug_or_tags(p.slug, tags):
             continue
+        emoji, title_text = _display_title_parts(title=p.title, emoji=getattr(p, "emoji", None))
         blog_entries.append(
             {
                 "slug": p.slug,
                 "title": p.title,
-                "emoji": emoji_map.get(p.slug, ""),
+                "title_text": title_text,
+                "emoji": emoji,
             }
         )
 
@@ -245,6 +304,17 @@ def _post_emoji_map() -> dict[str, str]:
         "tiny-tools": "🧩",
         "the-led-problem-the-virpil-community-had": "💡",
     }
+
+
+def _post_frontmatter_emoji_index(blog: BlogService) -> dict[str, str]:
+    """Map post slug -> `emoji` declared in markdown frontmatter (if any)."""
+
+    emojis: dict[str, str] = {}
+    for p in blog.list_posts():
+        emoji = (getattr(p, "emoji", None) or "").strip()
+        if emoji:
+            emojis[p.slug] = emoji
+    return emojis
 
 
 def _base_context(request: Request) -> dict:
@@ -314,6 +384,7 @@ async def homepage(
     cover_index = _post_cover_index(blog)
     thumb_index = _post_thumb_index(blog)
     blurb_index = _post_blurb_index(blog)
+    emoji_index = _post_frontmatter_emoji_index(blog)
     ctx.update(
         {
             "is_homepage": True,
@@ -376,6 +447,7 @@ async def homepage(
             "homepage_cover_index": cover_index,
             "homepage_thumb_index": thumb_index,
             "homepage_blurb_index": blurb_index,
+            "homepage_emoji_index": emoji_index,
         }
     )
 
@@ -402,19 +474,28 @@ async def posts_index(
 ):
     emoji_map = _post_emoji_map()
     posts = [
-        {
-            "slug": p.slug,
-            "title": p.title,
-            "date": p.date,
-            "tags": list(p.tags),
-            "blurb": getattr(p, "blurb", None),
-            "one_liner": getattr(p, "one_liner", None),
-            "cover_image_url": p.cover_image_url,
-            "thumb_image_url": getattr(p, "thumb_image_url", None),
-            "emoji": emoji_map.get(p.slug, ""),
-            # Keep links in summaries clickable.
-            "summary_html": p.summary_html,
-        }
+        (lambda _p: (
+            {
+                "slug": _p.slug,
+                "title": _p.title,
+                "title_text": _display_title_parts(
+                    title=_p.title,
+                    emoji=(getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")),
+                )[1],
+                "date": _p.date,
+                "tags": list(_p.tags),
+                "blurb": getattr(_p, "blurb", None),
+                "one_liner": getattr(_p, "one_liner", None),
+                "cover_image_url": _p.cover_image_url,
+                "thumb_image_url": getattr(_p, "thumb_image_url", None),
+                "emoji": _display_title_parts(
+                    title=_p.title,
+                    emoji=(getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")),
+                )[0],
+                # Keep links in summaries clickable.
+                "summary_html": _p.summary_html,
+            }
+        ))(p)
         for p in blog.list_posts()
     ]
 
@@ -572,9 +653,15 @@ async def read_post(
         return HTMLResponse(content="<h1>404 - Post Not Found</h1>", status_code=404)
 
     # Keep template compatibility: templates expect `post.content`.
+    emoji, title_text = _display_title_parts(
+        title=detail.title,
+        emoji=getattr(detail, "emoji", None),
+    )
     post = {
         "slug": detail.slug,
         "title": detail.title,
+        "title_text": title_text,
+        "emoji": emoji,
         "date": detail.date,
         "tags": list(detail.tags),
         "blurb": getattr(detail, "blurb", None),
