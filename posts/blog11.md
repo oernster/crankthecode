@@ -7,7 +7,7 @@ emoji: "🧵"
 ---
 ## ⚙️ Speed & Stability Improvements
 
-* Stellody now maximizes available CPU cores across threads and processes.
+* Stellody now maximises available CPU cores across threads and processes.
 * Global API limits (Spotify and MusicBrainz) are respected across all concurrency layers.
 * Introduced a SQLite-backed coordinator that governs API pacing like a diplomatic bouncer.
 * Coordinated token-bucket strategy with penalty windows now prevents bursty API misfires.
