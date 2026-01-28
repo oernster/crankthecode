@@ -1,4 +1,5 @@
-# CrankTheCode 🧠
+# <img width="48" height="48" alt="favicon-4" src="https://github.com/user-attachments/assets/c7b55ab1-26ee-4d1e-8dd3-39518a0e4b73" /> CrankTheCode
+
 
 A personal blog and portfolio site built to share my development work, technical tools and software experiments  ~  written and designed by me.
 
