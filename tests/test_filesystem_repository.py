@@ -98,6 +98,24 @@ def test_filesystem_repository_handles_none_tags_and_none_extra_images(tmp_path:
     assert list(post.extra_images) == []
 
 
+def test_normalize_tags_covers_edge_branches():
+    # Empty string should normalize to empty.
+    assert FilesystemPostsRepository._normalize_tags("   ") == []
+
+    # Lists can contain None and blank-ish values; those should be skipped.
+    assert FilesystemPostsRepository._normalize_tags([None, " blog ", "", "  "]) == ["blog"]
+
+    # Fallback coercion for non-string and non-sequence values.
+    assert FilesystemPostsRepository._normalize_tags(123) == ["123"]
+
+    class _WhitespaceStr:
+        def __str__(self) -> str:
+            return "   "
+
+    # Fallback coercion with a whitespace-only __str__ should normalize to empty.
+    assert FilesystemPostsRepository._normalize_tags(_WhitespaceStr()) == []
+
+
 def test_normalize_published_at_supports_datetime_date_datetime_string_and_fallbacks():
     # datetime passthrough
     dt = datetime(2024, 1, 2, 3, 4)
