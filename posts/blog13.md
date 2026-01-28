@@ -5,7 +5,7 @@ tags: ["blog", "ai", "development", "engineering", "quality"]
 one_liner: "AI can generate code. It can’t replace software engineering."
 emoji: "✨"
 ---
-## AI Tools, Bad Code and the Case for Review
+# AI Tools, Bad Code and the Case for Review
 
 The rise of AI-assisted development has empowered many newcomers to generate code from prompts alone without deep software engineering knowledge. This ease of creation can be inspiring, although it introduces a growing issue: massive amounts of poorly engineered code are being pushed to the world under the false banner of innovation.
 

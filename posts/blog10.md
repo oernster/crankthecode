@@ -5,8 +5,7 @@ tags: ["blog", "stellody", "ratelimit", "spotify", "backoff", "engineering"]
 one_liner: "Rate limits strike mid-run - retry logic, async persistence and filesystem stalls all collide in a war for reliability."
 emoji: "🎧"
 ---
-
-## The Elephant in the Room - Rate Limiting
+# The Elephant in the Room - Rate Limiting
 
 It finally happened. I left Stellody running overnight - a clean long-form run over my 5,000 track FLAC library to generate a perfect genre and sub-genre playlist set.  
 Woke up to a Spotify 429 rate limit wall. The process had ground to a halt around 45 minutes in - just long enough to give me false hope.

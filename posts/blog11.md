@@ -5,7 +5,7 @@ tags: ["blog", "stellody", "performance", "concurrency", "ui"]
 one_liner: "Concurrency dialed to 11 - thread-safe caching, UI polish and performance that respects rate limits without dragging its feet."
 emoji: "🧵"
 ---
-## Speed & Stability Improvements
+# Speed & Stability Improvements
 
 * Stellody now maximises available CPU cores across threads and processes.
 * Global API limits (Spotify and MusicBrainz) are respected across all concurrency layers.

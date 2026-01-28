@@ -5,7 +5,7 @@ tags: ["blog", "stellody", "refactor", "architecture", "tdd"]
 one_liner: "Before you make code cleaner, make sure it can stop, cancel and shut down correctly every single time."
 emoji: "🧱"
 ---
-## Stellody: Why Lifecycle Comes First
+# Stellody: Why Lifecycle Comes First
 
 I have performed a major refactor of Stellody with one non-negotiable rule: **all behaviour must remain identical**. Same UX, same timing, same threading, same ETA behaviour. This is a refactor for clarity and maintainability, not a redesign.
 
