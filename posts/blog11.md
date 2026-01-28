@@ -56,8 +56,8 @@ emoji: "🧵"
 ## 🔠 UI Fixes and Enhancements
 
 * Completed a full sweep of UI refinements and beautification across Stellody.
-* Standardised button colours: main button uses #3498db blue, others use rich violet.
-* Added hover state with a sky-blue tone for active visual feedback.
+* Standardised button colours to rich violet.
+* Added hover state with a teal colour for active visual feedback.
 * Broom button 🧹 styling and tab ordering fixed.
 * Console output and main button area colours now properly match (no more rogue dark trays).
 * Increased font sizes on help/about pages for legibility.
