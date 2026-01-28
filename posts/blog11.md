@@ -64,9 +64,20 @@ emoji: "🧵"
 * Fixed disappearing label updates, layout glitches and rogue visual artefacts.
 * Removed the pesky intermittent right-side black panel (die in a fire).
 * The Options dialog no longer warns users to save settings when no changes were made.
-* Added in *advanced* dynamically calculated phase numbered ETA and total ETA for progress indication.
 
 *– Death to janky spacing, font clipping and random trays of doom.*
+
+---
+
+## 🧭 *advanced* ETA for progress indication. 
+* Forward-looking ETA that predicts downstream work early instead of resetting at phase boundaries.
+* Metrics-driven, not guessy: real artist and track counts feed the model directly.
+* Phase-aware weighting so the expensive work (track collection) dominates the estimate, not fast tail steps.
+* Stable and trustworthy thanks to smoothing and clamping that prevent jitter or late surprises.
+* Clean architecture: ETA runs off the UI thread and can be reused across workflows.
+* Optional learning via opt-in persistence and debug visibility for safe post-release tuning.
+
+*– Turns out guessing ETAs is easy. Being right takes work.*
 
 ---
 
