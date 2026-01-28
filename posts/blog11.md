@@ -64,7 +64,7 @@ emoji: "🧵"
 * Fixed disappearing label updates, layout glitches and rogue visual artefacts.
 * Removed the pesky intermittent right-side black panel (die in a fire).
 * The Options dialog no longer warns users to save settings when no changes were made.
-* Added in Phase numbered ETA and Total ETA for progress indication.
+* Added in *advanced* dynamically calculated phase numbered ETA and total ETA for progress indication.
 
 *– Death to janky spacing, font clipping and random trays of doom.*
 
