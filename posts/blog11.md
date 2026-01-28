@@ -77,5 +77,8 @@ emoji: "🧵"
 * Recommendations and playlist generation are faster, more stable and more observable.
 * Intermittent API failures are now rare and retryable.
 * UI is consistent, polished and pleasant.
+* Built for Windows, linux and macOS.
+* Deployed here [Stellody](https://www.stellody.com)
+
 
 *– Less chaos. More playlists. Same unrepentant Stellody attitude.*
