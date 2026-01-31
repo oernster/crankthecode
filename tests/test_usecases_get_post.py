@@ -150,7 +150,7 @@ def test_get_post_axisdb_injects_install_terminal_when_has_problem_solution_impa
 
 
 def test_get_post_inserts_author_screenshots_section_when_has_problem_solution_impact_but_no_primary_images():
-    # Covers the branch where we have a PSI section, but no cover/extra images;
+    # Covers the branch where we have a PSI section but no cover/extra images;
     # still includes the author-provided screenshots body.
     repo = InMemoryPostsRepository(
         posts=(

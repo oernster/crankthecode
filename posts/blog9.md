@@ -1,5 +1,5 @@
 ---
-title: "HyperNova, Rails, and Rethinking the Voron"
+title: "HyperNova, Rails and Rethinking the Voron"
 date: "2026-01-27 00:45"
 tags: ["blog", "3D printing", "voron", "hypernova", "engineering", "cartographer"]
 one_liner: "Upgrading the Voron Trident with a HyperNova toolhead, new rails and a precision Cartographer mod."
@@ -71,7 +71,7 @@ As always, this isn’t a stock build. You can check out the current state of my
 
 ## Final Notes
 
-This kind of work scratches a different itch – it’s not about tests or CI pipelines. It’s about alignment, tolerance, and shaving microns off print wobble.
+This kind of work scratches a different itch – it’s not about tests or CI pipelines. It’s about alignment, tolerance and shaving microns off print wobble.
 
 Next post: more software hell. But for now? My extruder sings.
 

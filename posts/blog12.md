@@ -44,7 +44,7 @@ Lifecycle bugs are the worst kind of bugs:
 
 By characterising teardown, cancellation and shutdown behaviour first, every later refactor sits on firm foundations. ETA refactors become straightforward. Progress aggregation becomes predictable. Tests stop flapping.
 
-*- This is boring work, but it is the difference between a refactor that looks good and one that survives real use.*
+*- This is boring work but it is the difference between a refactor that looks good and one that survives real use.*
 
 ---
 

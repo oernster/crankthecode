@@ -1,6 +1,6 @@
 ---
 title: "Escaping the Cursed Realm of GoDaddy Hosting"
-date: "2026-01-31"
+date: "2026-01-31 10:00"
 tags: ["blog", "stellody", "fastapi", "migration", "selfhosted", "seo"]
 one_liner: "Nothing screams 'freedom' like deleting the last line of PHP from your life."
 emoji: "🧹"
@@ -8,52 +8,80 @@ emoji: "🧹"
 
 # Stellody: Escaping the Cursed Realm of GoDaddy Hosting
 
-I’ve finally exorcised the last remaining traces of GoDaddy’s brittle legacy PHP hosting. The Stellody website now runs entirely on a clean self-authored FastAPI codebase - templated, tested and deployed with something resembling dignity.
+I’ve finally exorcised the last remaining traces of GoDaddy’s brittle legacy PHP hosting. The Stellody website now runs entirely on a clean self-authored FastAPI codebase. It is templated tested and deployed with something resembling dignity.
 
-This wasn’t just a tech upgrade - it was a moral victory. No more hand-editing `.php` files in a web FTP panel like it’s 2003. No more dodgy includes. No more “contact form” that randomly fails on Thursdays.
+This wasn’t just a tech upgrade. It was a moral victory.
 
-Now the backend is proper Python, the HTML is rendered intentionally not incidentally and the forms actually deliver mail like they mean it. I don’t pay for a “cPanel experience” that feels like navigating Excel over dial-up.
+No more hand-editing `.php` files in a web FTP panel like it’s 2003. No more cursed includes. No more contact forms that randomly fail on Thursdays for spiritual reasons.
 
-I made something better. For once the stack doesn't fight me back.
+Now the backend is proper Python. HTML is rendered intentionally not incidentally. Forms actually deliver mail like they understand their job.
+
+I no longer pay for a cPanel experience that feels like navigating Excel over dial-up.
+
+For once the stack doesn’t fight me back.
+
+---
 
 ## 📬 Contact Form: Modern Email Without the Drama
 
 In the old setup sending a contact form email was like asking a haunted toaster to fax a sticky note.
 
-Now it’s handled by [Resend](https://resend.com/) - a clean email API that just works. No SMTP servers to misconfigure. No mysteriously vanishing messages. No “sent from phpmailer@yourdomain.com” nonsense.
+Now it’s handled by Resend. It is a modern email API that simply works. No SMTP servers to misconfigure. No mysteriously vanishing messages. No phpmailer shame.
 
-The form sends clean HTML email, with reply-to set properly and the recipient address safely hidden behind a config variable. Just one POST request and it shows up like magic.
+The form submits clean HTML email sets Reply-To correctly and keeps the recipient address hidden behind environment variables. One request and the message actually arrives.
 
-## 🛒 Add to Cart, Add to Sanity
-
-To support license sales, I added a simple cart system. Users can now select either a Standard or Pro license, add it to their cart and review their purchase before checkout. It’s all done using server-side session storage with no client-side JS frameworks getting in the way.
-
-This addition keeps things snappy, minimal and non-annoying. Adding to cart feels immediate and clear and the total is neatly calculated. It looks and works like a real store.
-
-No third-party cart plugins. No Shopify integration disasters. Just FastAPI, sessions and a bit of templating.
-
-## 💳 Checkout with PayPal - Fully Integrated
-
-Once in the cart, the user is shown a hosted PayPal checkout button tied to the selected license. Only one license can be purchased at a time - adding a new one replaces the current selection.
-
-No PayPal email is shown on the site. Everything is session-based and configured via environment variables. Clean, minimal and safe.
-
-A dedicated `/checkout` route now renders a clear post-payment summary page once payment completes - not a placeholder but a working endpoint ready for expansion.
-
-## 🔍 SEO That Doesn’t Suck
-
-With the new architecture in place, it finally made sense to add proper SEO polish:
-
-- Canonical URLs based on `https://stellody.com` (no `www`) to avoid duplicate indexing.
-- Robots meta tags like `noindex,nofollow` applied to `/cart` and `/checkout` to keep transactional pages out of search.
-- Open Graph and Twitter card support including fallback `og:image` previews and handle metadata (`@stellody`).
-- Dynamically generated sitemap containing only crawlable, high-value pages.
-- Proper robots.txt allowing public routes while excluding sensitive ones.
-- Descriptive meta titles and fallback descriptions across all HTML pages.
-- No outdated or spammy `meta keywords` tags in sight.
-
-These upgrades make the site more visible, more indexable and more professional to both search engines and humans.
+The contact page is indexable and included in the sitemap because legitimate businesses should probably be reachable.
 
 ---
 
-This is what building with tools you actually like feels like. It's not just cleaner - it's calmer.
+## 🛒 Add to Cart Add to Sanity
+
+To support license sales I added a deliberately boring cart system.
+
+Users can select a Standard or Pro license add it to their cart and review it before checkout. That’s it. No JavaScript frameworks having emotional episodes. No third-party widgets trying to be clever.
+
+It uses server-side sessions allows one license at a time and behaves predictably. Fast minimal and adult.
+
+---
+
+## 💳 Checkout with PayPal Clean and Contained
+
+Checkout uses PayPal’s hosted payment buttons tied directly to the selected license.
+
+There’s no PayPal email exposed on the site no client-side state hacks and no mystery redirects. The checkout route is intentionally marked noindex nofollow keeping transactional pages out of search results where they don’t belong.
+
+It’s a real endpoint not a decorative placeholder and it’s ready for expansion without leaking into SEO territory.
+
+---
+
+## 📦 Downloads Without Deployment Pain
+
+Installer binaries no longer live in the application repository. They are published separately as versioned release artifacts and served directly from GitHub Releases.
+
+The website exposes stable download URLs which redirect users to the appropriate release asset. This keeps downloads reliable while ensuring the application never touches large binaries during deploy or runtime.
+
+Render builds are now deterministic. Git LFS is no longer part of the deployment story. This was not a workaround. It was a correction.
+
+---
+
+## 🔍 SEO That Is Intentional Not Performative
+
+With the new architecture in place it finally made sense to do SEO properly instead of duct-taping it on afterward.
+
+Canonical URLs are enforced under the primary domain to avoid duplicate indexing. Pages use sensible meta titles and descriptions with a focused update to the homepage to better reflect real search intent.
+
+Open Graph and Twitter metadata are applied consistently with a default preview image that actually explains the product. A real sitemap exists and only includes crawl-worthy pages. Robots rules block transactional routes and those same routes emit noindex nofollow at the page level.
+
+Importantly this was done incrementally. Existing pages were not rewritten for the sake of it. Structure was improved where needed mainly through clearer headings and better signals for search engines.
+
+Search engines now see the site the same way users do. Intentional structured and not trying to outsmart anyone.
+
+---
+
+This is what building with tools you actually like feels like.
+
+Not louder  
+Not trendier  
+Just calmer
+
+*- And yes deleting the last PHP file still felt incredible.*

@@ -7,7 +7,7 @@ emoji: "⚖️"
 ---
 # Stellody: Raising Test Coverage Without Breaking Trust
 
-With the major refactor work complete, I turned to improving unit test coverage. Stellody was already sitting at around 57 percent which is perfectly reasonable for a PySide6 application, but there was clear opportunity to improve confidence without chasing an unrealistic number.  This is not an exciting job but it is necessary to maintain good code quality going forward. 
+With the major refactor work complete, I turned to improving unit test coverage. Stellody was already sitting at around 57 percent which is perfectly reasonable for a PySide6 application but there was clear opportunity to improve confidence without chasing an unrealistic number.  This is not an exciting job but it is necessary to maintain good code quality going forward. 
 I've made some changes to increase confidence meaningfully in the highest-value, most failure-prone logic while keeping tests stable across refactors.
 > Test case coverage is now sitting at an enhanced level of 63%; given that covering PySide6 with unit tests is flaky I feel this is reasonable. 
 

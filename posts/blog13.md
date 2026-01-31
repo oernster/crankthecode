@@ -64,7 +64,7 @@ Sometimes the authors genuinely understand the math. That doesn’t make the *co
 
 ---
 
-## ⚙️ Use AI, But Use It Well
+## ⚙️ Use AI but Use It Well
 
 Let’s be fair: I sometimes use AI tools myself; I find they are good for productivity gains. Agents, LLMs and code copilots are useful. You need to understand the landscape; which tools work well, 
 what their limitations are and how to curate the output you receive.
