@@ -112,7 +112,7 @@ title: Stellody
         vague mood sliders and surface-level Spotify integration.
       </p>
       <p>
-        Let’s stroll through the actual landscape of <strong>Stellody’s competition</strong> - and why Stellody isn’t just
+        Let’s stroll through the actual landscape of <strong>Stellody’s competition</strong> and why Stellody isn’t just
         better. It’s in a <strong>category of its own</strong>.
       </p>
     </div>
@@ -163,7 +163,7 @@ title: Stellody
       Still not convinced?
       <strong><a href="https://www.stellody.com/change-log">See the changelog</a></strong> or explore
       <strong><a href="https://www.stellody.com/">Stellody’s homepage</a></strong> to try it yourself.<br>
-      Built by someone who actually listens - and owns a 5k library of musical tracks.
+      Built by someone who actually listens and owns a 5k library of musical tracks.
     </footer>
   </main>
 </div>
