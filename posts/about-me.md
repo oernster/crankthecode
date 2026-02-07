@@ -76,7 +76,7 @@ I don’t just build things; I debug the laws of unintended consequences.
   <tr>
     <td valign="top">
       <strong>Libraries & Build Tools</strong><br>
-      Qt, PyQt, STL, Boost<br>
+      Qt, PyQt, PySide6, STL, Boost<br>
       Bootstrap, Chart.js, Leaflet.js<br>
       Hudson, Cruise Control, Jenkins
     </td>
