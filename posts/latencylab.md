@@ -21,7 +21,7 @@ social_image: /static/images/latencylab.png
 Latency discussions are dominated by intuition, confidence and post-hoc profiling. By the time real systems can be measured, critical decisions about concurrency, feedback, sequencing and delay have already been made and are difficult to reason about without invasive instrumentation or significant rewrites. Profilers explain *what happened* in a running system but rarely clarify *why the user waited*.
 
 **Solution:**  
-LatencyLab provides a deterministic simulation engine for modelling latency at design time. Instead of attaching to running production code, it executes explicit models of tasks, events, queues, delays and resource contention using reproducible randomness and well-defined scheduling semantics. By running these models many times it produces concrete metrics such as critical paths, queue wait, UI timing and percentiles. This makes sources of delay visible and attributable.
+LatencyLab provides a deterministic simulation engine for modelling latency at design time. Instead of attaching to running production code, it executes explicit models of tasks, events, queues, delays and resource contention using reproducible randomness and well-defined scheduling semantics. By running these models many times, it produces concrete metrics such as critical paths, queue wait, UI timing and percentiles. This makes sources of delay visible and attributable.
 
 A lightweight client UI sits alongside the engine, allowing models to be executed, inspected and compared interactively without turning the tool into an IDE or dashboard framework.
 
@@ -124,6 +124,22 @@ From there the tool evolved in phases. A second execution path was introduced, s
 Model versions describe meaning. Application versions describe tooling. Those concerns do not drift silently into each other.
 
 *Git history is not an oracle. Executable tests are.*
+
+## When Results Stop Being Disposable
+
+As the UI matured, runs stopped being something you glanced at and threw away.
+
+Saving a single panel as a text file was no longer sufficient once runs needed to be compared, revisited and argued about. The UI now saves an entire suite of runs as a single zip file in a location of your choosing. Each run is stored as a `RunNNNN.txt` file containing a small, fixed header including the run id, status, makespan, critical path time and any failure reason, followed by the critical path task sequence. Nothing else is written. There are no auxiliary files to reconcile later.
+
+This changed how the tool was used. Results became artifacts rather than output. They could be inspected offline, diffed, archived or shared without requiring the UI to be present.
+
+## Progression
+
+As the UI took on more responsibility, it also had to be explicit about itself. Help and licence information are now surfaced directly in the interface rather than assumed or implied. The UI has an About view, a UI licence view and a main project licence view so there is no ambiguity about what you are running.
+
+Accessibility issues surfaced again as these features were added. Tab ordering and focus handling were revisited end to end so that the UI remained fully usable without a mouse. This was not polish work. It was a constraint, and it forced the structure of the interface to stay honest.
+
+The UI header now includes a single central emoji icon. It serves no functional purpose beyond signalling that this is a tool for thinking, not a dashboard optimised for reassurance.
 
 ## Determinism Is Not Optional
 
