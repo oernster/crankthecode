@@ -3082,6 +3082,25 @@ html.theme-light .section-title {
   margin: 17.6px 0;
 }
 
+/* Posts index: progressive reveal (More…) */
+.posts-more-sentinel {
+  height: 1px;
+}
+
+.posts-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 0;
+}
+
+.posts-more-btn {
+  min-width: 160px;
+}
+
+.posts-more-btn[hidden] {
+  display: none !important;
+}
+
 .featured-primary {
   flex-basis: 100%;
   text-align: center;

@@ -17,6 +17,11 @@
     const separators = Array.from(document.querySelectorAll(".post-separator"));
     const suggestionsBox = document.getElementById("search-suggestions");
 
+    // Posts index progressive reveal (5 at a time).
+    // Markup lives in `templates/posts.html`.
+    const moreBtn = document.getElementById("posts-more");
+    const moreSentinel = document.getElementById("posts-more-sentinel");
+
     if (!toggleBtn || !panel || !input || !closeBtn) {
       return;
     }
@@ -24,6 +29,11 @@
     let suggestionIndex = null;
 
     const MAX_SUGGESTIONS = 10;
+
+    const PAGE_SIZE = 5;
+    let visibleLimit = PAGE_SIZE;
+    let lastQueryNorm = null;
+    let reachedListEnd = false;
 
     function normalizeQuery(rawQuery) {
       return (rawQuery || "").trim().toLowerCase();
@@ -33,32 +43,66 @@
     const params = new URLSearchParams(window.location.search);
     const initialQuery = (params.get("q") || "").trim();
 
-    function applyFilter(rawQuery) {
+    function updateMoreVisibility({ matchedCount } = {}) {
+      if (!moreBtn) {
+        return;
+      }
+      const hasMore = typeof matchedCount === "number" ? matchedCount > visibleLimit : false;
+      moreBtn.hidden = !(hasMore && reachedListEnd);
+    }
+
+    function applyFilter(rawQuery, { resetLimit = false } = {}) {
       if (items.length === 0) {
         return;
       }
-      const q = normalizeQuery(rawQuery);
-      const terms = q
+
+      const qNorm = normalizeQuery(rawQuery);
+      if (resetLimit || lastQueryNorm === null || qNorm !== lastQueryNorm) {
+        visibleLimit = PAGE_SIZE;
+        lastQueryNorm = qNorm;
+      }
+
+      const terms = qNorm
         .split("|")
         .map((t) => t.trim())
         .filter((t) => t.length > 0);
 
-      const visibleItems = [];
+      // Phase 1: compute matches.
+      const matched = [];
       for (const li of items) {
         const haystack = String(li.dataset.search || "").toLowerCase();
-        let visible = true;
-        if (q.length > 0) {
+        let isMatch = true;
+        if (qNorm.length > 0) {
           // IMPORTANT: Filtering should ONLY match title + tags.
           // `data-search` is populated accordingly in `templates/posts.html`.
-          visible = terms.length === 0 ? true : terms.some((t) => haystack.includes(t));
+          isMatch = terms.length === 0 ? true : terms.some((t) => haystack.includes(t));
         }
-        li.hidden = !visible;
-        if (visible) {
+        if (isMatch) {
+          matched.push(li);
+        }
+      }
+
+      // Phase 2: apply pagination over the matched set.
+      const visibleItems = [];
+      for (let i = 0; i < matched.length; i += 1) {
+        const li = matched[i];
+        const isVisible = i < visibleLimit;
+        li.hidden = !isVisible;
+        if (isVisible) {
           visibleItems.push(li);
         }
       }
 
-      // Keep separators only between visible posts.
+      // Hide non-matching items.
+      // (Do this after the loop above to avoid scanning `items` twice.)
+      const matchedSet = new Set(matched);
+      for (const li of items) {
+        if (!matchedSet.has(li)) {
+          li.hidden = true;
+        }
+      }
+
+      // Keep separators only between *currently visible* posts.
       if (separators.length > 0) {
         for (const hr of separators) {
           hr.hidden = true;
@@ -70,6 +114,8 @@
           }
         }
       }
+
+      updateMoreVisibility({ matchedCount: matched.length });
     }
 
     function openSearch() {
@@ -259,7 +305,7 @@
       panel.hidden = true;
       toggleBtn.setAttribute("aria-expanded", "false");
       input.value = "";
-      applyFilter("");
+      applyFilter("", { resetLimit: true });
       hideAutocomplete();
 
       if (isPostsIndex) {
@@ -337,11 +383,74 @@
       hideAutocomplete();
     });
 
+    function handleMoreClick() {
+      visibleLimit += PAGE_SIZE;
+      reachedListEnd = false;
+      updateMoreVisibility({ matchedCount: Number.POSITIVE_INFINITY });
+      applyFilter(input ? input.value : initialQuery);
+
+      // Keep focus stable (a11y) and avoid the button sticking visible.
+      if (moreBtn) {
+        moreBtn.blur();
+      }
+    }
+
+    if (moreBtn) {
+      moreBtn.addEventListener("click", handleMoreClick);
+    }
+
+    function setupListEndObserver() {
+      if (!moreBtn || !moreSentinel) {
+        return;
+      }
+
+      function setReached(val) {
+        reachedListEnd = Boolean(val);
+        applyFilter(input ? input.value : initialQuery);
+      }
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const entry = Array.isArray(entries) ? entries[0] : null;
+            if (!entry) {
+              return;
+            }
+            setReached(entry.isIntersecting);
+          },
+          {
+            root: null,
+            // Reveal the More… button slightly before the absolute bottom.
+            rootMargin: "0px 0px 160px 0px",
+            threshold: 0,
+          }
+        );
+        observer.observe(moreSentinel);
+        return;
+      }
+
+      // Fallback: approximate with scroll position.
+      function onScroll() {
+        const slack = 180;
+        const atBottom =
+          window.innerHeight + window.scrollY >= document.body.offsetHeight - slack;
+        setReached(atBottom);
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      onScroll();
+    }
+
+    setupListEndObserver();
+
     // Posts index: support deep-links like /posts?q=stellody.
     // When navigating via the sidebar, we want the filtering but we *don't* want
     // to auto-open the search UI or populate the search field.
     if (isPostsIndex && initialQuery.length > 0) {
-      applyFilter(initialQuery);
+      applyFilter(initialQuery, { resetLimit: true });
+    } else if (isPostsIndex) {
+      // Default /posts view should still paginate the server-rendered list.
+      applyFilter("", { resetLimit: true });
     }
   });
 })();

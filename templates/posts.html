@@ -68,5 +68,21 @@
         <hr class="post-separator" />
       {% endif %}
     {% endfor %}
+
+    {#
+      Progressive reveal (client-side): `static/search.js` paginates `.post-item`
+      elements 5-at-a-time and toggles this button when the sentinel is reached.
+    #}
+    <div id="posts-more-sentinel" class="posts-more-sentinel" aria-hidden="true"></div>
+    <div class="posts-more-wrap" aria-label="Load more posts">
+      <button
+        id="posts-more"
+        class="btn-link posts-more-btn"
+        type="button"
+        hidden
+      >
+        More…
+      </button>
+    </div>
   </div>
 {% endblock %}
