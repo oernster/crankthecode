@@ -1,5 +1,5 @@
 ---
-date: 2026-02-07 16:30
+date: 2026-02-07 23:45
 emoji: ⏱️
 image: /static/images/latencylab.png
 one_liner: A small tool was built so arguments about performance could finally be settled by something impolite called reality.
