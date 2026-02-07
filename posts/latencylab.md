@@ -28,6 +28,8 @@ A lightweight client UI sits alongside the engine, allowing models to be execute
 **Impact:**  
 LatencyLab turns performance arguments into inspectable artifacts. It exposes counter-intuitive bottlenecks, often in coordination, feedback or queueing rather than raw execution, makes delay a first-class concept and enables informed design decisions before implementation. Systems do not necessarily become faster but they feel faster for reasons that can be explained, repeated and defended.
 
+*The UI is intentionally literal. It shows what ran, how often it ran and where time accumulated. Percentiles are separated for UI events and overall makespan because they answer different questions. Critical paths are presented as concrete sequences rather than diagrams because naming work matters more than visual polish. If something dominates the output it is because it dominated the model, not because the interface is trying to be helpful.*
+
 ## Rationale
 
 LatencyLab exists because reasoning about latency after the fact is too late.
@@ -93,7 +95,7 @@ Dark and light mode support turned out to be less cosmetic than anticipated. Col
 
 Accessibility was not optional. Keyboard navigation exposed brittle assumptions about tab order and focus management. Fixing those issues forced the UI structure to become simpler and more honest about what could be interacted with and when.
 
-Saving results to disk became necessary once runs stopped being disposable. The ability to persist a suite of run logs changed how the tool was used, shifting it from experimentation to comparison. Once results could be saved, they could be revisited and argued about without rerunning everything.
+Saving results to disk became necessary once runs stopped being disposable and started being compared. The ability to persist a suite of run logs changed how the tool was used, shifting it from experimentation to comparison. Once results could be saved, they could be revisited and argued about without rerunning everything.
 
 None of this was accidental. The UI is deliberately small but it is not incidental. It participates in the same discipline as the engine: explicit state, predictable behaviour and no hidden work.
 
