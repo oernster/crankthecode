@@ -109,6 +109,8 @@ Debounce windows. Backoff timers. Artificial pacing introduced so things feel sm
 
 In LatencyLab delays are explicit. They appear as synthetic nodes in traces. They show up in the critical path when they dominate. They are no longer hiding inside timestamps pretending to be inevitable.
 
+I suspect most systems hide similar delays even if the details differ.
+
 *This is uncomfortable and that is the idea.*
 
 ## Versioning Without Regret
