@@ -8,7 +8,7 @@ emoji: "🧪"
 
 # Chaos Contained: Tables, Taglines and Terminal Fakery
 
-It’s been a busy few days of updates to the blog - the kind of work that’s 70% polish, 20% debugging things that used to work and 10% wondering why I did any of this in the first place.
+It has been a busy few days of updates to the blog. This was the sort of work that is mostly polish mixed with debugging things that used to work and a small amount of questioning earlier life choices.
 
 But here we are. Highlights below.
 
@@ -17,69 +17,71 @@ But here we are. Highlights below.
 ## ✨ Site-wide Enhancements
 
 - **Landing page tables updated**  
-  Reorganised and re‑styled all tech/category/project tables. They now include updated iconography and hover states that actually look like someone cared.
+  All tech category and project tables were reorganised and re-styled. Iconography was updated and hover states were added so the UI now looks intentionally designed rather than accidentally assembled.
 
 - **Call to Action added (finally)**  
-  You’ll now find a polite nudge at the base of the landing page if you’re here to hire me, collaborate, or just stare at the chaos.
+  A clear but restrained call to action now lives at the base of the landing page for anyone looking to hire, collaborate, or simply observe the chaos.
 
 - **About Me updated**  
-  The page now reflects my physics background with exactly the level of smugness you'd expect. Also added a full skillset snapshot - yes, including TTCN‑2, because I refuse to forget it.
+  The page now reflects my physics background with an appropriate level of confidence. A complete skillset snapshot was added including TTCN-2 which I refuse to pretend never happened.
 
 - **Meta tag upgrades for SEO + social**  
-  Every post and image now includes SEO-friendly metadata and social embed previews for Discord, LinkedIn and Twitter. Go ahead - share a post and marvel at how shockingly professional it looks.
+  Every post and image now includes SEO friendly metadata and social embed previews for Discord LinkedIn and Twitter. Sharing a post now looks deliberate and slightly alarming in its professionalism.
 
 ---
 
 ## 🧠 Blog Post Improvements
 
-- **Problem → Solution → Impact** added to all posts  
-  Because recruiters apparently love this format. Now they can find the words “impact,” “problem,” and “solution” without needing to read between the sarcastic lines.
+- **Problem → Solution → Impact added to all posts**  
+  This structure was applied consistently across posts so intent and outcome are visible without having to decode the sarcasm.
 
 - **AxisDB got fake terminals with working copy buttons**  
-  This was weirdly difficult and required multiple sacrifices to the layout gods. But it's done. And it works. And you can click the copy icon like a real hacker.
+  This required more effort than expected and several minor layout sacrifices. The result is interactive terminal output with functional copy buttons that behave like they belong there.
 
 - **Calendifier post cleaned up**  
-  Tables now look presentable enough to survive a meeting with a product manager.
+  Tables were reformatted so they can survive a meeting with a product manager without causing immediate concern.
 
-- **Stellody post improved + competitive roast added**  
-  Some very subtle (read: not subtle) commentary was added on certain online “music engines” that basically just shuffle Spotify playlists and charge you for it.
+- **Stellody post improved with competitive commentary**  
+  Additional commentary was added comparing Stellody with certain online music engines that mostly reshuffle Spotify playlists and invoice you for the privilege.
 
 ---
 
 ## 🔎 Search Autocomplete (yes, seriously)
 
-The autocomplete search now works. Properly. And smoothly. And I only had to fight the frontend, backend, edge cases, weird caching bugs, browser autofill quirks and possibly a minor existential crisis to get it working. But hey - it’s fast now.
+Search autocomplete now works properly and smoothly. Implementing this involved frontend backend edge cases caching issues browser autofill quirks and a brief but meaningful existential crisis.
 
-Try typing “sarcasm” or “json” and be amazed.
+The end result is fast predictable and usable.
+
+Try typing “sarcasm” or “json” and enjoy the illusion of effortlessness.
 
 ---
 
 ## 🆘 Help Button Deployed
 
-There’s now a **Help** button on the landing page. Clicking it takes you to a lovingly unhelpful page that explains, in no uncertain terms, that there is no documentation and there never will be.
+A **Help** button now exists on the landing page. Clicking it leads to a page that explains very clearly that there is no documentation and there never will be.
 
-Bots are warned. Humans are welcome to email me (if they enable JavaScript first).
+Bots are warned. Humans are welcome to email me provided they enable JavaScript first.
 
 ---
 
 ## 🧪 Testing Brag
 
 Unit test coverage has been increased to **100%**.  
-Yes, I wrote tests.  
-Yes, I tested the tests.  
-No, this doesn’t mean the code won’t still betray me in production - but at least now I’ll know *why*.
+Yes I wrote tests.  
+Yes I tested the tests.  
+No this does not mean the code will not still betray me in production but at least now I will know why.
 
 ---
 
 ## That’s All (For Now)
 
-If you’ve made it this far down the update:  
-- You’re either a very determined recruiter  
+If you made it this far down the update:
+- You are either a very determined recruiter  
 - Or my future self checking whether I remembered to write this post  
-- Or a robot sent from the future, in which case: nice try, pal
+- Or a robot sent from the future in which case nice try  
 
-Either way, thanks for reading.
+Either way thanks for reading.
 
-As always, you can explore the chaos, file a bug, or just press random buttons until something interesting happens.
+*-As always you can explore the chaos file a bug or press random buttons until something interesting happens.*
 
 Oliver

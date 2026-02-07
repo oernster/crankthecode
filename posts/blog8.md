@@ -2,89 +2,72 @@
 title: "Stellody v5.0.0 – Playlist Purgatory, Parallel Processing & Progress Bar Penance"
 date: "2026-01-27 00:00"
 tags: ["blog", "stellody", "release", "playlist", "refactor", "bugfix", "music", "qt", "multithreading"]
-one_liner: "v5.0.0 brings actual working playlists, thread-safe speed-ups and a UI that doesn’t break from being clicked too hard."
+one_liner: "v5.0.0 restores real playlists adds thread safe performance gains and ships with a UI that survives heavy clicking."
 emoji: "👹"
 ---
-# **Stellody v5.0.0** is live and critically, now generates real, functional playlists again.
 
-Yes, the UI was beautiful before. The codebase, refactored. The installers, pristine.  
-But the playlists? The actual core purpose of the app?  
-Broken. Absolutely borked.
+# Stellody v5.0.0 is live and critically now generates real functional playlists again.
 
----
+The UI was already polished. The codebase had been refactored. The installers were clean and predictable.  
+Unfortunately the one thing the application actually exists to do had quietly fallen apart.
 
-## 👺 The Playlist Crisis (Resolved)
+Playlists were broken. Completely.
 
-Somewhere deep in the v4.0.0+ evolution, the playlist track pool logic degraded into oblivion. The app began shuffling artists into tiny subgenre pools, filtering out too many matches and producing *either* no playlists *or* large genre-dump lists like “Pop”, “Rock”, “Pop #2”, “Pop #3”... until *nothing* made sense.
-
-That’s been fixed. Now:
-
-- Pools are sized more accurately.
-- Track generation ensures minimum viable playlist lengths.
-- Sub-genre fallbacks use smarter heuristics.
-- Playlist naming follows consistent, ordered logic (starting at `#1`, not `#4`).
-- “Pop #10” no longer appears before “Pop #2”.
-
-This work included multiple regression tests, a rebaseline back to v3.0.0, cherry-picking stable commits forward, deleting broken tags and replaying history into the main branch.
-
-> I didn't just fix bugs. I rewrote history so the bugs never existed in the first place.
+That problem is now fixed properly.
 
 ---
 
-## 🧵 Threading, Speed and Global Sanity
+## 👺 The Playlist Crisis Resolved
 
-To keep things fast but safe:
+Somewhere during the v4.0.0 evolution the playlist track pool logic degraded beyond recognition. Artist pools shrank too aggressively, sub genres filtered themselves into oblivion and the system began producing either empty playlists, or meaningless genre dumps like “Pop,” “Rock,” “Pop #2,” “Pop #3,” until the output stopped making sense entirely.
 
-- Worker threads now run in parallel (using Python’s `ThreadPoolExecutor`),  
-- A **global rate limiter** prevents hammering the Spotify or MusicBrainz APIs.
-- UI remains responsive throughout discovery and generation.
+The fix required more than patching symptoms. Pool sizing was rebuilt so generation produces viable playlist lengths again. Sub genre fallback logic now applies sensible heuristics rather than panicking. Naming follows a strict ordered sequence starting at `#1` so numbering is predictable and stable.
 
-This means faster startup, quicker playlist generationand no accidental bans.
+Under the hood this meant regression testing against v3.0.0 cherry picking known good commits removing broken tags and replaying history forward into main.
 
-> The speed boost is nice. The screaming in my logs is gone. My soul is... slightly cleaner.
+*-I did not just fix bugs. I rewrote history so the bugs never existed in the first place.*
+
+---
+
+## 🧵 Threading Speed and Global Sanity
+
+Once playlists were reliable again performance became the next constraint.
+
+Worker threads now run in parallel using Python’s `ThreadPoolExecutor` with a global rate limiter enforcing sane access to Spotify and MusicBrainz. The result is faster startup quicker generation and a UI that remains responsive throughout discovery.
+
+Just as importantly the application no longer flirts with accidental API bans.
+
+*-The speed boost is welcome. The screaming in my logs is gone. My soul is slightly cleaner.*
 
 ---
 
 ## 🔄 UI Behaviour Fixes
 
-Plenty of small, vital updates:
+A collection of smaller interaction issues were addressed during this release.
 
-| Fix | Outcome |
-|-----|---------|
-| Maximise disabled | The maximise button now does nothing (because it made everything worse). |
-| Console toggle sync | Console button now actually reflects the internal state between sessions. |
-| Stop button | Pressing stop no longer kills the app; it just, well, stops. |
-| Title text styling | The Stellody title and 🎵 emoji now render in proper colours (mauve/dark mode, purple/light). |
-| Genre Focus dialog | Now in two columns, scrolls if too tall and fits on 13” laptops properly. |
+The maximise button was disabled entirely because it consistently made everything worse. The console toggle now correctly reflects internal state across sessions instead of lying. Pressing stop no longer terminates the application but simply stops the active run as intended.
 
-> One bug made the stop button act like “self-destruct.” Another forgot what it did five seconds ago. Fixed.
+The Stellody title and 🎵 emoji now render correctly in both light and dark modes. The Genre Focus dialog was reworked into a two column layout that scrolls cleanly and fits on smaller laptops without feeling cramped.
+
+*-One bug made the stop button behave like self destruct. Another forgot what it did almost immediately. Both are gone.*
 
 ---
 
-## 🧹 Logging & Console Output
+## 🧹 Logging and Console Output
 
-- MusicBrainz and Spotify hash identifiers are now scrubbed from visible logs.
-- Request IDs, UUIDs and other low-level gibberish removed unless you’re debugging.
-- Logging is tighter, clearer and won’t expose anything weird if console output is toggled on.
+Logging was tightened considerably.
 
-> Nobody needs to see “REQID: 93819AD9-BORK-420”. Least of all... me.
+MusicBrainz and Spotify hash identifiers are now scrubbed from visible logs. Request IDs UUIDs and other low level noise are hidden unless debugging is explicitly enabled. Console output remains readable useful and safe when toggled on.
+
+*-Nobody needs to see “REQID: 93819AD9-BORK-420”. Least of all me.*
 
 ---
 
 ## Summary
 
-- ✅ Real playlists again  
-- ✅ UI is fast and no longer self-destructs  
-- ✅ Better threading with safe limits  
-- ✅ Logging won’t blind you  
-- ✅ Version 5.0.0 - live and tagged  
+Stellody v5.0.0 brings the application back to where it should have been all along.  
+Playlists are real again. Performance is faster without being reckless. The UI behaves itself even when pushed.
 
-Stellody is finally back on its feet. It not only looks the part but now actually *does the job it was built for*.  
-More playlists, better structure and a UI that can take a punch.
+*-This release looked minor from the outside. Internally it was a full exorcism.*
 
 [Check it out at stellody.com](https://www.stellody.com)
-
----
-
-> This was one of those releases that looked like a minor patch from the outside - but inside? A total exorcism.
-

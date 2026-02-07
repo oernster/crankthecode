@@ -8,11 +8,11 @@ emoji: "🌗"
 
 # UI Polish, CTAs and Knowing When to Stop
 
-This week’s commits look chaotic at first glance. UI tweaks. CTA shuffling. Light/dark mode flips. Words rewritten, then rewritten again. Buttons nudged by a few pixels. Icons muted. Then un-muted. Then muted properly.
+This week’s commits look chaotic at first glance. UI tweaks. CTA shuffling. Light and dark mode flips. Words rewritten then rewritten again. Buttons nudged by a few pixels. Icons muted then un-muted then muted properly.
 
-From the outside, it probably looks like indecision.
+From the outside it probably looks like indecision.
 
-From the inside, it’s the **boring, necessary work of making something feel right**.
+From the inside it is the boring necessary work of making something feel right.
 
 ---
 
@@ -20,13 +20,13 @@ From the inside, it’s the **boring, necessary work of making something feel ri
 
 Most of the early commits were deceptively small:
 
-- UI layout enhancements
-- Hover colouring tweaks
-- Image positioning adjustments
+- UI layout enhancements  
+- Hover colouring tweaks  
+- Image positioning adjustments  
 
-None of these change functionality. All of them change *how long someone stays on the page*.
+None of these change functionality. All of them change how long someone stays on the page.
 
-UI work isn’t about visual fireworks. It’s about removing friction you didn’t realise was there until it’s gone.
+UI work is not about visual fireworks. It is about removing friction you did not realise was there until it disappears.
 
 ---
 
@@ -34,110 +34,110 @@ UI work isn’t about visual fireworks. It’s about removing friction you didn�
 
 A surprising amount of time went into Call To Action placement:
 
-- Making the CTA always visible
-- Moving it
-- Moving it back
-- Making sure it doesn’t glare unless hovered
+- Making the CTA always visible  
+- Moving it  
+- Moving it back  
+- Ensuring it only draws attention on hover  
 
 The goal was simple:
 
 > Be obvious without being desperate.
 
-If someone wants to work with me, the path should be clear. If they don’t, the site shouldn’t nag them like a newsletter pop-up with abandonment issues.
+If someone wants to work with me the path should be clear. If they do not the site should not nag them like a newsletter pop-up with abandonment issues.
 
 ---
 
-## 3. 🌗 Light/Dark Mode: The Icon Lies (At First)
+## 3. 🌗 Light and Dark Mode: The Icon Lies at First
 
-Light/dark mode support landed properly this week:
+Light and dark mode support landed properly this week:
 
-- Theme persistence
-- OS preference fallback
-- Correct tab order
-- Icons that represent the *target* state, not the current one
+- Theme persistence  
+- OS preference fallback  
+- Correct tab order  
+- Icons that represent the target state rather than the current one  
 
-That last bit matters more than people think.
+That last detail matters more than people expect.
 
-If a button shows a sun, clicking it should take you to light mode, not confirm you’re already there. Tiny detail. Huge usability difference.
+If a button shows a sun clicking it should take you to light mode not confirm you are already there. Tiny detail. Large usability difference.
 
-Also: fake console output stays dark. Because fake terminals in light mode look like crimes.
+Fake console output also stays dark because fake terminals in light mode look like crimes.
 
 ---
 
 ## 4. ⌨ Accessibility Isn’t a Checkbox
 
-A few quiet but important improvements went in:
+Several quiet but important improvements were made:
 
-- Correct tab order
-- Skip-to-content link
-- Read-time estimates added consistently
+- Correct tab order  
+- Skip to content link  
+- Read time estimates added consistently  
 
 None of this required ARIA acrobatics. Just:
 
-- Proper HTML
-- Thinking about keyboards
-- Remembering that not everyone uses a mouse
+- Proper HTML  
+- Thinking about keyboard navigation  
+- Remembering that not everyone uses a mouse  
 
-Accessibility is mostly about *not being clever*.
+Accessibility is mostly about not being clever.
 
 ---
 
 ## 5. 🧠 Content Rewrites: Let the Images Do the Talking
 
-The Battlestation page got a rewrite with one explicit goal:
+The Battlestation page was rewritten with one explicit goal:
 
-> Let the photos carry the weight, not the prose.
+> Let the photos carry the weight not the prose.
 
-The images already show what matters: real hardware, real wear, real decisions. The job of the text was simply to **stop getting in the way**.
+The images already show what matters. Real hardware. Real wear. Real decisions. The job of the text was simply to stop getting in the way.
 
 That meant:
-- Rewriting sections by hand
-- Removing explanatory fluff
-- Tightening language until it matched what you can already see
+- Rewriting sections by hand  
+- Removing explanatory fluff  
+- Tightening language until it matched what was already visible  
 
-No hype. No manufactured excitement. No trying to sell what’s plainly visible.
+No hype. No manufactured excitement. No attempt to sell what is plainly there.
 
-The same approach carried over to the About page: a legacy section added, polish applied, then anything unnecessary stripped back.
+The same approach was applied to the About page. A legacy section was added polish was applied and anything unnecessary was stripped back.
 
-If a sentence doesn’t add context beyond what the images already communicate, it doesn’t belong there.
+If a sentence does not add context beyond what the images already communicate it does not belong.
 
 ---
 
-## 6. 🧭 Meta Descriptions and Other “Finish Line” Work
+## 6. 🧭 Meta Descriptions and Other Finish Line Work
 
-The final commit adds proper meta descriptions to the base and index templates.
+The final commit added proper meta descriptions to the base and index templates.
 
-This is classic end-game work:
-- Nobody notices when it’s done
-- Everyone notices when it’s missing
+This is classic end game work:
+- Nobody notices when it is done  
+- Everyone notices when it is missing  
 
-Search engines get a clear summary. Social previews behave. I control the snippet instead of leaving it to chance.
+Search engines get a clear summary. Social previews behave. I control the snippet rather than leaving it to chance.
 
-That’s not optimisation. That’s hygiene.
+That is not optimisation. That is hygiene.
 
 ---
 
 ## 🧼 The Real Lesson
 
-The most important change this week wasn’t a commit.
+The most important change this week was not a commit.
 
 It was reverting.
 
-After a lot of tweaking, aligning, centring, un-centring and second-guessing, the homepage went back to its earlier layout ~ because it felt right.
+After a lot of tweaking aligning centre-ing uncentre-ing and second guessing the homepage returned to its earlier layout because it felt right.
 
-> If improving something keeps making it worse, stop.
+> If improving something keeps making it worse stop.
 
-That’s not quitting. That’s taste doing its job.
+That is not quitting. That is taste doing its job.
 
 ---
 
 CrankTheCode is now in a good place:
-- The UI is calm
-- The CTAs are clear
-- And nothing is trying too hard
+- The UI is calm  
+- The CTAs are clear  
+- Nothing is trying too hard  
 
-Which means it’s time to do the hardest thing in software:
+Which means it is time to do the hardest thing in software:
 
-**Leave it alone and build something else.**
+*-Leave it alone and build something else.*
 
 Until the next bout of unnecessary polish.

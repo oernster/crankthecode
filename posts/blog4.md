@@ -10,41 +10,44 @@ emoji: "🤖"
 
 ## 1. 🕵️ WordPress Probe Bots, Please Go Touch Grass
 
-Apparently my tiny, static blog has joined the elite club of websites now blessed with **nonstop probing from WordPress scanner bots**. That’s cute.
+At some point my small static blog joined the exclusive club of sites that attract constant probing from WordPress scanner bots. Apparently size and relevance are optional.
 
-Let’s set the record straight:
+Let us be clear:
 
-> This is not a WordPress site. It doesn’t even smell like one.  
-> I don’t use PHP. I handcraft HTML like a person who wants total control and carpal tunnel syndrome.
+> This is not a WordPress site. It does not even smell like one.  
+> I do not use PHP. I handcraft HTML like someone who enjoys control and mild repetitive strain injury.
 
-So if you’re a bot looking for:
+If you are a bot looking for:
 - `/wp-login.php`
 - `/xmlrpc.php`
 - `/wp-admin`
 
-You’ll get exactly what you deserve: a cold, empty 404 and a logged timestamp for my own amusement.
+You will receive exactly what you deserve: a clean 404 and a logged timestamp saved purely for my own amusement.
+
+No blocks were added. Watching them fail quietly is more satisfying.
 
 ---
 
 ## 2. 🧵 RSS Feed Now Less Glitchy, More Readable
 
-Noticed a rogue encoding issue in the RSS feed. Some characters were doing their best impression of glitchy emoji soup - and failing.
+I noticed an encoding issue in the RSS feed where certain characters were rendering as what can only be described as confused emoji soup.
 
-The issue? Classic UTF-8 vs misencoded entity tango. Fixed now. The feed’s valid, clean and no longer cursed.
+The cause was a classic UTF-8 versus misencoded entity problem. This has now been corrected. The feed validates cleanly renders correctly and is no longer cursed.
 
-> If you saw strange symbols in your RSS reader: no, you weren’t losing your mind. It was me. Sorry.
+> If you saw strange symbols in your RSS reader no you were not losing your mind. That one was on me.
 
 ---
 
 ## 🧼 Summary of Fixes
 
-- Cleaned up RSS encoding so your reader stops crying
-- Ignored WordPress bot traffic because blocking them would bring me less joy
-- Confirmed that my logging system continues to be overkill for a personal blog
+- Cleaned up RSS encoding so feeds render correctly across readers
+- Ignored WordPress bot traffic because blocking it would bring me less joy
+- Confirmed once again that my logging setup remains excessive for a personal blog
 
 ---
 
-If you're here expecting CMS drama or cross-site scripting horror stories… you’re going to be deeply disappointed.  
-But if you're here for Python projects, FastAPI abuse, or spicy opinions on build systems, you’re in exactly the right place.
+If you arrived expecting CMS drama or cross site scripting horror stories you are going to be disappointed.
 
-Next update coming soon, assuming I don’t go on a one-man crusade against comment spammers. (Again.)
+*-If you are here for Python projects FastAPI misuse or strong opinions on build systems you are exactly where you should be.*
+
+Next update coming soon assuming I do not go on another solo campaign against comment spammers. Again.

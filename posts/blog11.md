@@ -2,95 +2,84 @@
 title: "Concurrency, Stability and UI Polish for Stellody"
 date: "2026-01-28 12:00"
 tags: ["blog", "stellody", "performance", "concurrency", "ui"]
-one_liner: "Concurrency dialed to 11 - thread-safe caching, UI polish and performance that respects rate limits without dragging its feet."
+one_liner: "Concurrency dialled up with thread safe caching UI polish and performance that respects rate limits without dragging its feet."
 emoji: "🧵"
 ---
+
 # Speed & Stability Improvements
 
-* Stellody now maximises available CPU cores across threads and processes.
-* Global API limits (Spotify and MusicBrainz) are respected across all concurrency layers.
-* Introduced a SQLite-backed coordinator that governs API pacing like a diplomatic bouncer.
-* Coordinated token-bucket strategy with penalty windows now prevents bursty API misfires.
-* Added a diagnostic profiler that logs token wait, DB locks and retry timing.
-* Implemented thread-safe caching and safe shutdown signaling across process boundaries.
+This release focused on pushing Stellody harder without letting it tear itself apart.
 
-*– Because respecting rate limits shouldn’t mean watching paint dry.*
+Concurrency is now scaled aggressively across available CPU cores using a mix of threads and processes while still respecting global API limits imposed by Spotify and MusicBrainz. Rather than relying on best effort backoff a dedicated SQLite backed coordinator now governs API pacing centrally acting as a diplomatic bouncer between the application and external services.
+
+A coordinated token bucket strategy with penalty windows prevents bursty misfires and smooths throughput under load. To make this observable a diagnostic profiler was added that logs token wait times database locks and retry behaviour for post run analysis. Thread safe caching and clean shutdown signalling are now enforced across process boundaries so runs stop when asked and state remains consistent.
+
+*-Because respecting rate limits should not mean watching paint dry.*
 
 ---
 
 ## 🧹 Logging, Tuning and Diagnostics
 
-* The console output can now be logged to a rotating file with timestamped filenames.
-* Console output logging is user-configurable in the Settings | Options dialog.
-* Added 🧹 button to clear console output mid-run (and rotate the log file if enabled).
-* Logging continues even when a run is stopped early.
-* Rate limit profiling output is logged for post-run analysis.
-* Environment variables can now tweak runtime concurrency + retry behaviour for advanced users.
+Logging was expanded to support deeper inspection without overwhelming the UI.
 
-*– Because tuning Stellody should feel like drag racing a racehorse with an API learner’s permit.*
+Console output can now be written to rotating timestamped log files with the behaviour controlled from the Settings Options dialog. Output continues even if a run is stopped early and a dedicated broom button allows console output to be cleared mid run while safely rotating the log file if enabled.
 
----
+Rate limit profiling output is persisted for later analysis and environment variables can be used to tweak concurrency and retry behaviour for advanced tuning without recompiling anything.
 
-## 🧪 Spotify 403(-1) Transport Bug: Eliminated
-
-* Diagnosed a concurrency issue with Spotipy usage across threads.
-* Now each thread gets its own Spotify client + session, eliminating shared-state corruption.
-* Result: No more malformed 403 errors or weird URL fragments mid-request.
-* Step 1 collection is now resilient, clean and achieves higher artist + track resolution.
-
-*– Spotipy now knows how to stay in its lane. Literally.*
+*-Because tuning Stellody should not feel like drag racing a racehorse with an API learner’s permit.*
 
 ---
 
-## 🧵 Thread Safety and Shutdown Behavior
+## 🧪 Spotify 403(-1) Transport Bug Eliminated
 
-* Shutdown is now responsive even under heavy multiprocessing load.
-* No more hangs, orphaned logs or crashy UI flails when aborting a run.
-* Signal propagation to all subprocesses now works cleanly on all platforms.
-* Thread-safe state updates remove post-run UI weirdness and flickers.
+A long standing intermittent failure was traced to shared Spotipy client state being accessed across threads.
 
-*– Ctrl+C now means “stop nicely” not “summon the crash demon.”*
+Each worker thread now owns its own Spotify client and session which eliminates shared state corruption and malformed requests. As a result the mysterious 403 errors with broken URLs have disappeared and initial collection phases achieve higher and more reliable artist and track resolution.
+
+*-Spotipy now knows how to stay in its lane. Literally.*
+
+---
+
+## 🧵 Thread Safety and Shutdown Behaviour
+
+Shutdown behaviour was hardened under heavy multiprocessing load.
+
+Signal propagation now reaches all subprocesses reliably on all platforms. Abort requests are handled cleanly without hanging the UI orphaning logs or leaving zombie workers behind. Thread safe state updates also eliminate post run flicker and inconsistent UI states.
+
+*-Ctrl C now means stop nicely not summon the crash demon.*
 
 ---
 
 ## 🔠 UI Fixes and Enhancements
 
-* Completed a full sweep of UI refinements and beautification across Stellody.
-* Standardised button colours to rich violet.
-* Added hover state with a teal colour for active visual feedback.
-* Broom button 🧹 styling and tab ordering fixed.
-* Console output and main button area colours now properly match (no more rogue dark trays).
-* Increased font sizes on help/about pages for legibility.
-* Fixed disappearing label updates, layout glitches and rogue visual artefacts.
-* Removed the pesky intermittent right-side black panel (die in a fire).
-* The Options dialog no longer warns users to save settings when no changes were made.
+A full sweep of UI refinement was completed alongside the performance work.
 
-*– Death to janky spacing, font clipping and random trays of doom.*
+Button colours were standardised to a rich violet with a clear teal hover state for active feedback. The broom button styling and tab ordering were corrected and console output colours now match the main control area without rogue dark panels appearing unexpectedly.
+
+Font sizes were increased on help and about pages for legibility. Disappearing labels layout glitches and intermittent artefacts were fixed and the long standing right side black panel issue was finally removed. The Options dialog no longer warns users to save settings when nothing has changed.
+
+*-Death to janky spacing font clipping and random trays of doom.*
 
 ---
 
-## 🧭 *advanced* ETA for progress indication. 
-* Forward-looking ETA that predicts downstream work early instead of resetting at phase boundaries.
-* Metrics-driven, not guessy: real artist and track counts feed the model directly.
-* Phase-aware weighting so the expensive work (track collection) dominates the estimate, not fast tail steps.
-* Stable and trustworthy thanks to smoothing and clamping that prevent jitter or late surprises.
-* Clean architecture: ETA runs off the UI thread and can be reused across workflows.
-* Optional learning via opt-in persistence and debug visibility for safe post-release tuning.
+## 🧭 Advanced ETA for Progress Indication
 
-*– Turns out guessing ETAs is easy. Being right takes work.*
+Progress indication was rethought entirely.
+
+Rather than resetting at phase boundaries Stellody now provides a forward looking ETA that predicts downstream work early using real artist and track counts. Phase aware weighting ensures that expensive collection phases dominate the estimate rather than fast tail steps.
+
+Smoothing and clamping prevent jitter and late surprises and the ETA logic runs off the UI thread so it remains reusable across workflows. Optional opt in persistence allows safe post release tuning without impacting normal users.
+
+*-Turns out guessing ETAs is easy. Being right takes work.*
 
 ---
 
 ## ✅ Final Result
 
-🎉 Victory lap activated! Stellody is handling massive artist payloads like a champ - thousands of tracks, dozens of threads and not a single tray of UI shame in sight.
+Stellody is now handling massive payloads with confidence. Thousands of tracks dozens of threads and sustained runs complete without UI embarrassment or mysterious stalls.
 
-* End-to-end runs complete without error.
-* Recommendations and playlist generation are faster, more stable and more observable.
-* Intermittent API failures are now rare and retryable.
-* UI is consistent, polished and pleasant.
-* Built for Windows, linux and macOS.
-* Deployed here [Stellody](https://www.stellody.com)
+End to end runs finish cleanly. Playlist generation is faster more stable and observable. Intermittent API failures are rare and recoverable. The UI is consistent polished and predictable across Windows Linux and macOS.
 
+Deployed here: [Stellody](https://www.stellody.com)
 
-*– Less chaos. More playlists. Same unrepentant Stellody attitude.*
+*-Less chaos. More playlists. Same unrepentant Stellody attitude.*

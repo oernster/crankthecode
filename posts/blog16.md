@@ -1,26 +1,31 @@
 ---
 title: "Stellody Is Now Quietly Harder to Break"
-date: "2026-02-36 18:00"
-tags: ["blog", "stellody", "fastapi", "contact", "dnssec"]
+date: "2026-02-26 18:00"
+tags: ["blog", "stellody", "fastapi", "contact", "dnssec", "security"]
 one_liner: "Quiet changes were made so nothing exciting ever happens again and that is the goal."
 emoji: "🛡️"
 ---
-# How Stellody Learned to Stop Worrying and Ignore the Internet 
 
-Most of the recent work on Stellody is the sort you never notice unless it goes wrong. Which is exactly the point.
+# How Stellody Learned to Stop Worrying and Ignore the Internet
 
-The contact form was rebuilt properly from the ground up. Not cosmetically. Structurally. The result is a form that behaves like an adult service instead of a polite suggestion to spammers.
+Most of the recent work on Stellody is the sort you only notice when it fails. Which is precisely why it exists.
 
-Cloudflare now sits in front of the site doing what it does best which is absorbing nonsense at the edge so the application does not have to. Turnstile is in place and working invisibly. Real users see a simple success state. Bots see a locked door and are politely ignored. No puzzles. No traffic lights. No humiliation rituals.
+The contact form has been rebuilt properly from the ground up. Not cosmetically. Structurally. The result is a service that behaves like an adult system rather than a polite suggestion to spammers that someone might be listening.
 
-On the backend every submission is treated with suspicion. Honeypot fields catch the lazier attempts. Minimum submit times filter out scripts pretending to type. Inputs are normalised capped and stripped of anything that looks like it wants to become an email header. If delivery fails the user is still told everything is fine because advertising your mail infrastructure problems is rarely a good idea.
+Cloudflare now sits in front of the site doing exactly what it is good at. Absorbing nonsense at the edge so the application does not have to. Turnstile is enabled and invisible. Real users see a clean success state. Automated traffic sees a locked door and is quietly ignored. No puzzles. No traffic lights. No performative friction.
 
-Rate limiting exists but stays asleep unless needed. Cloudflare handles the blunt force and the app handles the edge cases. Defence in depth without the theatrics.
+On the backend every submission is treated with suspicion by default. Honeypot fields catch the lazier attempts. Minimum submit times filter out scripts pretending to type. Inputs are normalised, capped and stripped of anything that looks like it wants to escape into an email header.
 
-DNS is now correctly delegated to Cloudflare with DNSSEC enabled. That means responses are signed end to end and tampering becomes someone else’s problem. It took a few screens and a small amount of patience. It was worth it.
+If delivery fails the user is still told everything is fine. Advertising your mail infrastructure problems rarely improves security; or trust.
 
-Nothing here is flashy. There are no dashboards being admired. No badges being collected. Just fewer ways for things to fail and fewer reasons to wake up to surprise email.
+Rate limiting exists but stays dormant unless required. Cloudflare handles the blunt force. The application handles edge cases. Defence in depth without theatrics, or dashboards begging to be admired.
 
-The best outcome is that nobody notices any of this ever again.
+DNS is now fully delegated to Cloudflare with DNSSEC enabled. Responses are signed end to end and tampering becomes someone else’s problem. It required a few screens a small amount of patience and zero heroics.
+
+None of this is flashy. There are no badges to collect and no metrics worth tweeting.
+
+There are simply fewer ways for things to fail and fewer reasons to wake up to surprise email.
+
+The best outcome is that nobody ever notices any of this again.
 
 *-Which would be ideal.*

@@ -5,84 +5,91 @@ tags: ["blog", "update", "seo", "layout", "refactor", "tooling"]
 one_liner: "Post-launch refinements including sitemap setup, layout alignment and enhanced polish across tooling and templates."
 emoji: "🧹"
 ---
-# Another productive pass over the site ~ focused on polish, semantics and visibility.
+
+# Another productive pass over the site focused on polish semantics and visibility.
+
+This update was about tightening loose ends rather than introducing anything new. The site was already functional and coherent but a number of small inconsistencies had accumulated across layout tooling and metadata. None of these were urgent on their own but together they were starting to show.
+
+This pass focused on reducing friction improving clarity and making the site easier to reason about for both users and search engines.
+
+---
 
 ## 🗺 Sitemap & Robots.txt
 
-| Improvement              | Description                                                                 |
-|--------------------------|-----------------------------------------------------------------------------|
-| Sitemap                  | Finalised & submitted via Google Search Console                            |
-| Format                   | Clean XML with no styling clutter                                          |
-| Robots.txt               | Guides crawlers and prevents unwanted indexing (e.g. /static/)             |
-| Crawl readiness          | Pages now have canonical and structured metadata consistently              |
+| Improvement      | Description                                                                 |
+|------------------|-----------------------------------------------------------------------------|
+| Sitemap          | Finalised and submitted via Google Search Console                            |
+| Format           | Clean XML with no styling clutter                                            |
+| Robots.txt       | Guides crawlers and prevents unwanted indexing (e.g. /static/)              |
+| Crawl readiness  | Pages now have canonical and structured metadata consistently                |
 
-Search indexing is now in top form with clean previews and discoverable URLs.
+Search indexing is now in a good place with clean previews predictable URLs and no accidental crawl paths.
 
 ---
 
 ## 🧼 UI Fixes & Cleanups
 
-| Fix/Polish                                 | Outcome                                                  |
-|-------------------------------------------|----------------------------------------------------------|
-| 🇬🇧 UK British spellings                   | Revised all text throughout site to be UK British       |
-| 🚀 EDColonisationAsst                     | Made full UK British throughout codebase; renamed repo.  No z's just s's! |
-| 🌙 Moon icon restored                     | Toggle dark/light mode now displays correctly            |
-| 🧮 Read time flash removed                | “Calculating…” no longer appears on load                |
-| 🧾 Base.html crash resolved               | Safe meta tags even on non-post pages                   |
-| 🧊 About page layout refined              | Skill lists spaced and aligned for improved readability |
-| 🖼 Post images corrected                  | Dual image bug for Stellody and EDColonisationAsst fixed |
-| 🔁 Duplicate entries removed             | 3D Printer Launcher now appears only once               |
+| Fix or Polish                              | Outcome                                                   |
+|-------------------------------------------|-----------------------------------------------------------|
+| UK British spellings                       | Revised all text throughout the site to UK British        |
+| EDColonisationAsst                        | Fully converted to UK British and repository renamed      |
+| Moon icon restored                        | Light and dark mode toggle now displays correctly         |
+| Read time flash removed                   | “Calculating…” no longer appears on load                  |
+| Base.html crash resolved                  | Meta tags now safe even on non-post pages                 |
+| About page layout refined                 | Skill lists spaced and aligned for readability             |
+| Post images corrected                    | Dual image bug fixed for Stellody and EDColonisationAsst  |
+| Duplicate entries removed                | 3D Printer Launcher now appears only once                 |
 
-Typography, alignment and responsiveness continue to improve incrementally.
+Typography alignment and responsiveness continue to improve incrementally. Nothing dramatic just fewer rough edges.
 
 ---
 
 ## 🧰 Tooling Layout Refinement
 
-Tools like **Trainer**, **AudioDeck**, **AxisDB** and others received structural improvements:
+Tools such as **Trainer**, **AudioDeck**, **AxisDB** and others received structural layout improvements:
 
-| Before                         | After                                |
-|--------------------------------|--------------------------------------|
-| Long vertical feature lists    | Split into side-by-side columns      |
-| Inconsistent section headers   | Normalised under H2 hierarchy        |
-| No visual alignment            | Aligned icons, tags and summaries    |
+| Before                      | After                                   |
+|-----------------------------|------------------------------------------|
+| Long vertical feature lists | Split into side by side columns           |
+| Inconsistent headers        | Normalised under H2 hierarchy             |
+| Poor visual alignment       | Icons tags and summaries aligned          |
 
-Tables render better, features are easier to skim and metadata is clearer.
+Tables are easier to scan features are clearer and supporting metadata no longer competes for attention.
 
 ---
 
 ## 🏷 SEO & Semantic Enhancements
 
-| Change                                | Benefit                            |
-|--------------------------------------|------------------------------------|
-| Canonical URLs defaulted to safe `request.url` | Prevents indexing confusion |
-| Added `<h2>` to homepage sections    | Improves screenreader parsing and SEO |
-| Meta descriptions no longer crash    | Safer templating across base.html  |
-| `<meta>` tags now more consistent    | Improves snippet generation        |
+| Change                                         | Benefit                                   |
+|-----------------------------------------------|--------------------------------------------|
+| Canonical URLs default to `request.url`        | Prevents indexing confusion                |
+| Added `<h2>` to homepage sections              | Improves screen reader parsing and SEO     |
+| Meta descriptions no longer crash              | Safer templating across base.html           |
+| Meta tags more consistent                      | More predictable snippet generation        |
 
-Search engines now get consistent signals and users benefit from better link previews.
+Search engines now receive consistent signals and users benefit from cleaner previews when sharing links.
 
 ---
 
 ## 🧪 Miscellaneous Updates
 
-| Area              | Update                                                     |
-|-------------------|------------------------------------------------------------|
-| 📦 `requirements.txt` | Unpinned (no versions), more portable                 |
-| ✅ Tests           | Coverage held at 100%                                     |
-| 🗓 Timeline        | Icon placement fixed                                      |
-| 💬 Posts           | Subtitles and blurbs ensured across all tooling entries   |
+| Area            | Update                                                      |
+|-----------------|-------------------------------------------------------------|
+| requirements.txt| Unpinned versions for improved portability                  |
+| Tests           | Coverage held at 100 percent                                |
+| Timeline        | Icon placement fixed                                        |
+| Posts           | Subtitles and blurbs ensured across tooling entries          |
 
 ---
 
 ## Summary
 
-- UI Polish  
+- UI polish  
 - Layout consistency  
 - Tooling presentation  
 - Crawl readiness  
 - Metadata and accessibility  
 
-CrankTheCode now ships with smoother layout, smarter metadata and a more structured experience for humans and machines alike.
+*-CrankTheCode now ships with a calmer layout smarter metadata and a more structured experience for humans and machines alike.*
 
-🛠 Onwards ~ but elegantly.
+Onwards but elegantly.
