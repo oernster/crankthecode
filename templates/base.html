@@ -12,7 +12,7 @@
   {% elif is_homepage %}
     <meta
       name="description"
-      content="Python engineering blog by Oliver Ernster. Senior engineer building clean, efficient software; writing about Python, systems, FastAPI tooling and ideas that actually ship."
+      content="Python engineering blog by Oliver Ernster. Lead software developer building clean, efficient software; writing about Python, systems, FastAPI tooling and ideas that actually ship."
     >
   {% else %}
     <meta
@@ -256,10 +256,10 @@
         class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_q or '')|length == 0 and exclude_blog %} is-active{% endif %}"
         href="/posts?exclude_blog=1"
       >
-        <span class="sidebar-link__icon" aria-hidden="true">🌀</span>
-        <span class="sidebar-link__text" aria-label="All posts excluding blog posts">
-          <span class="sidebar-link__text-main">All posts</span>
-          <span class="sidebar-link__text-sub">(exc. Blog)</span>
+        <span class="sidebar-link__icon" aria-hidden="true">🧰</span>
+        <span class="sidebar-link__text" aria-label="Projects">
+          <span class="sidebar-link__text-main">Projects</span>
+          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
         </span>
       </a>
       {% for cat in sidebar_categories or [] %}

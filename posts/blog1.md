@@ -1,11 +1,18 @@
 ---
-title: "Site SEO & Search Updates"
-date: "2026-01-18 10:55"
-tags: ["python", "fastapi", "seo", "blog", "crankthecode", "html"]
-one_liner: "Blog formally released but this time updated with SEO optimisation!"
-blurb: "Blog update with SEO"
-emoji: "🔍"
+blurb: Blog update with SEO
+date: 2026-01-18 10:55
+emoji: "\U0001F50D"
+one_liner: Blog formally released but this time updated with SEO optimisation!
+tags:
+- cat:Blog
+- python
+- fastapi
+- seo
+- crankthecode
+- html
+title: Site SEO & Search Updates
 ---
+
 # This blog is now a *THING!* However it needed SEO optimisation
 
 This iteration involved implementing SEO optimisation.

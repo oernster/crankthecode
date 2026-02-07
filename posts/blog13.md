@@ -1,9 +1,14 @@
 ---
-title: "The Illusion of Engineering"
-date: "2026-01-28 18:00"
-tags: ["blog", "ai", "development", "engineering", "quality"]
-one_liner: "AI can generate code but it cannot replace software engineering."
-emoji: "✨"
+date: 2026-01-28 18:00
+emoji: ✨
+one_liner: AI can generate code but it cannot replace software engineering.
+tags:
+- cat:Blog
+- ai
+- development
+- engineering
+- quality
+title: The Illusion of Engineering
 ---
 
 # AI Tools Bad Code and the Case for Review

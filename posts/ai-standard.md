@@ -1,10 +1,16 @@
 ---
-title: "On Working with Machines"
-date: "2026-01-24 11:30"
-tags: ["ai", "tools", "philosophy", "human-computer interaction", "autonomy"]
-blurb: "Working with machines means accepting their limits."
-one_liner: "A short manifesto on how machines respond to inputs, not intentions."
+blurb: Working with machines means accepting their limits.
+date: 2026-01-24 11:30
+one_liner: A short manifesto on how machines respond to inputs, not intentions.
+tags:
+- cat:Tools
+- ai
+- philosophy
+- human-computer interaction
+- autonomy
+title: On Working with Machines
 ---
+
 Understanding machine behavior without mythologising it.
 
 ## Problem → Solution → Impact

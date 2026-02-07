@@ -1,16 +1,25 @@
 ---
-title: "Trainer"
-date: "2026-01-19 07:05"
-tags: ["train", "train times", "astronomy", "weather", "routing", "travel", "python"]
-blurb: "Travel tracker"
-one_liner: "A personal dashboard that brings together travel, weather and other daily-use data in one place."
-image: /static/images/trainer.png
-social_image: /static/images/trainer.png
-thumb_image: /static/images/trainer-icon.png
+blurb: Travel tracker
+date: 2026-01-19 07:05
 extra_images:
-  - /static/images/trainer2.png
-  - /static/images/trainer3.png
-  - /static/images/trainer4.png
+- /static/images/trainer2.png
+- /static/images/trainer3.png
+- /static/images/trainer4.png
+image: /static/images/trainer.png
+one_liner: A personal dashboard that brings together travel, weather and other daily-use
+  data in one place.
+social_image: /static/images/trainer.png
+tags:
+- cat:Desktop Apps
+- train
+- train times
+- astronomy
+- weather
+- routing
+- travel
+- python
+thumb_image: /static/images/trainer-icon.png
+title: Trainer
 ---
 
 I developed: [Trainer](https://github.com/oernster/Trainer).

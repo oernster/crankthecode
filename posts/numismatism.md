@@ -1,11 +1,21 @@
 ---
-title: "Coin Analysis"
-date: "2026-01-19 06:10"
-tags: ["coin", "coins", "machine learning", "computer vision", "numismatist", "numismatism", "collecting", "python"]
-blurb: "Coin ML Tool"
-one_liner: "Computer-vision and ML experiments for recognising, identifying and cataloguing coins from images."
+blurb: Coin ML Tool
+date: 2026-01-19 06:10
 image: /static/images/numismatism.png
+one_liner: Computer-vision and ML experiments for recognising, identifying and cataloguing
+  coins from images.
 social_image: /static/images/numismatism.png
+tags:
+- cat:Data / Ml
+- coin
+- coins
+- machine learning
+- computer vision
+- numismatist
+- numismatism
+- collecting
+- python
+title: Coin Analysis
 ---
 
 [Coin Analysis](https://github.com/oernster/coin-analysis) 🪙

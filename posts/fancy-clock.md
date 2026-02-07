@@ -1,19 +1,26 @@
 ---
-title: "Fancy Clock"
-date: "2026-01-19 04:35"
-tags: ["clock", "fancy", "fun", "internationalisation", "skins", "video", "python"]
-blurb: "Desktop clock"
-one_liner: "A customisable desktop clock featuring skins, localisation and animated/video backgrounds."
-# Primary (cover) image used by the site header.
-# This will NOT be duplicated in the post body (the renderer strips a matching standalone image).
-image: /static/images/fancy-clock.png
-thumb_image: /static/images/fancyclock-icon.png
-social_image: /static/images/fancy-clock.png
-
+blurb: Desktop clock
+date: 2026-01-19 04:35
 extra_images:
-  - /static/images/fancy-clock2.png
-  - /static/images/fancy-clock3.png
+- /static/images/fancy-clock2.png
+- /static/images/fancy-clock3.png
+image: /static/images/fancy-clock.png
+one_liner: A customisable desktop clock featuring skins, localisation and animated/video
+  backgrounds.
+social_image: /static/images/fancy-clock.png
+tags:
+- cat:Desktop Apps
+- clock
+- fancy
+- fun
+- internationalisation
+- skins
+- video
+- python
+thumb_image: /static/images/fancyclock-icon.png
+title: Fancy Clock
 ---
+
 I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/FancyClock)
 
 ## Problem → Solution → Impact

@@ -25,6 +25,36 @@ from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
 
 router = APIRouter()
 
+_CAT_TAG_PREFIX = "cat:"
+_CAT_TAG_BLOG = "cat:blog"
+
+
+def _sidebar_label_with_emoji(label: str) -> str:
+    """Decorate known sidebar category labels with their legacy emoji.
+
+    Category *queries* remain `cat:<Label>`; this is purely display polish.
+
+    NOTE: Labels passed here are already normalized (Title Case) from
+    `_normalize_cat_label()`.
+    """
+
+    key = (label or "").strip().lower()
+    if not key:
+        return label
+
+    # Legacy sidebar labels (pre `cat:` automation).
+    mapping = {
+        "blog": "📝 Blog",
+        "automation": "🤖 Automation",
+        "data / ml": "🧠 Data / ML",
+        "desktop apps": "🖥️ Desktop Apps",
+        "gaming": "🎮 Gaming",
+        "hardware": "🔧 Hardware",
+        "tools": "🧰 Tools",
+        "web apis": "🌐 Web APIs",
+    }
+    return mapping.get(key, label)
+
 
 def _post_cover_index(blog: BlogService) -> dict[str, str]:
     """Map post slug -> cover_image_url (only when present)."""
@@ -120,120 +150,76 @@ def _display_title_parts(*, title: str, emoji: str | None) -> tuple[str, str]:
     return "", (title or "").strip()
 
 
-def _sidebar_categories() -> list[dict[str, str]]:
-    # Outcome-centric groupings.
-    #
-    # These map to the posts page filter (`/posts?q=...`) which matches against
-    # title + tags (see `static/search.js`). We use `|` for OR queries.
-    # NOTE: Some categories are meant to highlight projects only.
-    # For those, we exclude blog-style posts when rendering `/posts?q=<category>`.
-    # NOTE: Keep `Blog` in the sidebar (second item overall) but sort the
-    # remaining categories alphabetically by their visible label.
-    categories: list[dict[str, object]] = [
-        {"label": "📝 Blog", "query": "blog", "exclude_blog": False, "exclude_slugs": []},
-        {
-            "label": "🤖 Automation",
-            "query": "automation|monitoring|obs|script|ansible|terraform",
-            "exclude_blog": True,
-            "exclude_slugs": [],
-        },
-        {
-            "label": "🧠 Data / ML",
-            "query": "machine learning|computer vision|ml|data",
-            "exclude_blog": True,
-            "exclude_slugs": [],
-        },
-        {
-            "label": "🖥️ Desktop Apps",
-            "query": "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|stellody|trainer",
-            "exclude_blog": False,
-            "exclude_slugs": [],
-        },
-        {
-            "label": "🎮 Gaming",
-            "query": "gaming|game|elite|dangerous|frontier|colonisation",
-            "exclude_blog": False,
-            "exclude_slugs": [],
-        },
-        {
-            "label": "🧰 Tools",
-            "query": "tool|tools|cli|utility|utilities|launcher|database|db",
-            "exclude_blog": False,
-            # AxisDB is intentionally classified under Data / ML (not Tools).
-            "exclude_slugs": ["3D-printer-launcher", "axisdb", "edcolonisationasst"],
-        },
-        {
-            "label": "🌐 Web APIs",
-            "query": "api|apis|fastapi|django|rest|web",
-            # Project category: keep blog posts in the dedicated Blog section.
-            "exclude_blog": True,
-            "exclude_slugs": [],
-        },
-    ]
+def _normalize_cat_label(raw_label: str) -> str:
+    """Normalize `cat:` labels for display.
 
-    # Site-wide exclusions for the “projects only” view (All posts excluding blog).
-    # About-me is rendered on a dedicated /about page and should not appear in lists.
-    for c in categories:
-        if str(c.get("query", "")) == "blog":
+    Rules:
+    - collapse whitespace
+    - Title Case
+
+    Note: this intentionally does *not* preserve acronyms (e.g. "APIs" -> "Apis")
+    to match the requested behavior.
+    """
+
+    cleaned = " ".join((raw_label or "").strip().split())
+    return cleaned.title()
+
+
+def _extract_category_queries_from_tags(tags: list[str]) -> set[str]:
+    """Extract normalized `cat:` category queries from a post's tag list."""
+
+    out: set[str] = set()
+    for t in tags or []:
+        raw = (t or "").strip()
+        if not raw:
             continue
-        exclude_slugs = set(cast(list[str], c.get("exclude_slugs") or []))
-        exclude_slugs.add("about-me")
-        c["exclude_slugs"] = sorted(exclude_slugs)
-
-    out: list[dict[str, str]] = []
-    for c in categories:
-        query = str(c["query"])
-        exclude_slugs = [
-            str(s).strip()
-            for s in cast(list[str], c.get("exclude_slugs") or [])
-            if str(s).strip()
-        ]
-        exclude_slugs_csv = ",".join(exclude_slugs)
-        out.append(
-            {
-                "label": str(c["label"]),
-                "query": query,
-                "href": f"/posts?q={quote(query, safe='')}",
-                "exclude_blog": "true" if bool(c.get("exclude_blog")) else "false",
-                "exclude_slugs": exclude_slugs_csv,
-            }
-        )
+        if not raw.lower().startswith(_CAT_TAG_PREFIX):
+            continue
+        tail = raw.split(":", 1)[1].strip()
+        if not tail:
+            # Guard against tags like "cat:".
+            continue
+        label = _normalize_cat_label(tail)
+        out.add(f"cat:{label}".strip())
     return out
 
 
-def _excluded_slugs_for_query(query: str) -> set[str]:
-    """Return excluded slugs for an exact sidebar category query."""
-
-    if not query:
-        return set()
-    for c in _sidebar_categories():
-        if c.get("query") == query:
-            raw = (c.get("exclude_slugs") or "").strip()
-            if not raw:
-                return set()
-            return {s.strip().lower() for s in raw.split(",") if s.strip()}
-    return set()
+def _is_blog_post_by_cat(tags: list[str]) -> bool:
+    return any((t or "").strip().lower() == _CAT_TAG_BLOG for t in (tags or []))
 
 
-def _should_exclude_blog_posts_for_query(query: str) -> bool:
-    """Return True when a sidebar category deep-link should hide blog posts."""
-
-    if not query:
-        return False
-    for c in _sidebar_categories():
-        if c.get("query") == query:
-            return (c.get("exclude_blog") or "false").lower() == "true"
-    return False
+def _posts_href(*, query: str | None, exclude_blog: bool | None) -> str:
+    parts: list[str] = []
+    if query:
+        parts.append(f"q={quote(query, safe='')}")
+    if exclude_blog is not None:
+        parts.append(f"exclude_blog={'1' if exclude_blog else '0'}")
+    return "/posts" + ("?" + "&".join(parts) if parts else "")
 
 
-def _is_blog_post_slug_or_tags(slug: str, tags: list[str]) -> bool:
-    """Heuristic: treat `blog*` slugs or a `blog` tag as a blog post."""
+def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[str, str]]:
+    """Build sidebar categories from explicit `cat:` tags.
 
-    slug_norm = (slug or "").strip().lower()
-    if slug_norm.startswith("blog"):
-        return True
-    tags_norm = [(t or "").strip().lower() for t in (tags or [])]
-    return "blog" in tags_norm
+    Category links always point to `/posts?q=cat:<Label>`.
+    When blog posts are included (`exclude_blog=False`), the category links
+    preserve that choice by including `exclude_blog=0` in the URL.
+    """
+
+    key_to_query: dict[str, str] = {}
+    for p in blog.list_posts():
+        tags = [str(t) for t in (p.tags or [])]
+        for q in _extract_category_queries_from_tags(tags):
+            key = q.lower()
+            key_to_query.setdefault(key, q)
+
+    queries = sorted(key_to_query.values(), key=lambda s: s.lower())
+    out: list[dict[str, str]] = []
+    for q in queries:
+        label = q.split(":", 1)[1].strip() if ":" in q else q
+        label = _sidebar_label_with_emoji(label)
+        href = _posts_href(query=q, exclude_blog=(False if not exclude_blog else None))
+        out.append({"label": label, "query": q, "href": href})
+    return out
 
 
 def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
@@ -276,7 +262,11 @@ def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
         tags = [str(t) for t in (p.tags or [])]
         if p.slug in seed_set:
             continue
-        if not _is_blog_post_slug_or_tags(p.slug, tags):
+        # Archive behavior remains backward compatible: blog entries are still
+        # inferred from `blog*` slugs or a `blog` tag.
+        slug_norm = (p.slug or "").strip().lower()
+        tags_norm = [(t or "").strip().lower() for t in (tags or [])]
+        if not (slug_norm.startswith("blog") or "blog" in tags_norm):
             continue
         emoji, title_text = _display_title_parts(title=p.title, emoji=getattr(p, "emoji", None))
         blog_entries.append(
@@ -321,7 +311,11 @@ def _base_context(request: Request) -> dict:
     site_url = get_site_url(request)
     exclude_blog_raw = (request.query_params.get("exclude_blog") or "").strip().lower()
     # Default to hiding blog entries from listings unless explicitly included.
-    exclude_blog = True if exclude_blog_raw == "" else exclude_blog_raw in {"1", "true", "yes", "y", "on"}
+    exclude_blog = (
+        True
+        if exclude_blog_raw == ""
+        else exclude_blog_raw in {"1", "true", "yes", "y", "on"}
+    )
     return {
         "request": request,
         "site_url": site_url,
@@ -336,7 +330,8 @@ def _base_context(request: Request) -> dict:
         "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
         "jsonld_extra_json": None,
         "meta_description": "Crank The Code - Python engineering blog and technical write-ups by Oliver Ernster.",
-        "sidebar_categories": _sidebar_categories(),
+        # Filled by routes (requires BlogService).
+        "sidebar_categories": [],
         "current_q": (request.query_params.get("q") or "").strip(),
         "exclude_blog": exclude_blog,
         "breadcrumb_items": [
@@ -345,14 +340,38 @@ def _base_context(request: Request) -> dict:
     }
 
 
-def _category_label_for_query(query: str) -> str | None:
-    """Return the friendly sidebar label for an exact category query."""
+def _category_label_for_query(
+    query: str,
+    *,
+    blog: BlogService | None = None,
+    exclude_blog: bool = True,
+) -> str | None:
+    """Return the friendly sidebar label for an exact category query.
 
-    if not query:
+    Backwards-compatible behavior:
+    - When called without `blog`, return the legacy labels for the old hardcoded
+      query strings. This keeps existing tests and call sites stable.
+    """
+
+    raw = (query or "").strip()
+    if not raw:
         return None
-    for c in _sidebar_categories():
-        if c["query"] == query:
-            return c["label"]
+
+    if blog is None:
+        legacy: dict[str, str] = {
+            "blog": "📝 Blog",
+            "automation|monitoring|obs|script|ansible|terraform": "🤖 Automation",
+            "machine learning|computer vision|ml|data": "🧠 Data / ML",
+            "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|stellody|trainer": "🖥️ Desktop Apps",
+            "gaming|game|elite|dangerous|frontier|colonisation": "🎮 Gaming",
+            "tool|tools|cli|utility|utilities|launcher|database|db": "🧰 Tools",
+            "api|apis|fastapi|django|rest|web": "🌐 Web APIs",
+        }
+        return legacy.get(raw)
+
+    for c in _sidebar_categories(blog, exclude_blog=exclude_blog):
+        if (c.get("query") or "").strip().lower() == raw.lower():
+            return c.get("label")
     return None
 
 
@@ -381,6 +400,7 @@ async def homepage(
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
     cover_index = _post_cover_index(blog)
     thumb_index = _post_thumb_index(blog)
     blurb_index = _post_blurb_index(blog)
@@ -507,36 +527,38 @@ async def posts_index(
         if str(p.get("slug", "")).strip().lower() not in {"about-me", "about"}
     ]
     ctx = _base_context(request)
-    current_q = ctx.get("current_q", "")
+    current_q = (ctx.get("current_q", "") or "").strip()
+    exclude_blog = bool(ctx.get("exclude_blog"))
+
+    # Sidebar categories are tag-driven.
+    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=exclude_blog)
+
+    # Default view: projects only (exclude `cat:Blog`) unless explicitly included.
     # Always include blog posts when the user is explicitly browsing the Blog category.
-    exclude_blog = bool(ctx.get("exclude_blog")) and (current_q or "").strip().lower() != "blog"
-
-    # Some sidebar categories (Automation, Data/ML) are project-focused.
-    # When the user deep-links via the sidebar (`/posts?q=<category query>`),
-    # exclude blog posts from the list.
-    if exclude_blog or _should_exclude_blog_posts_for_query(current_q):
+    if exclude_blog and current_q.strip().lower() != _CAT_TAG_BLOG:
         posts = [
             p
             for p in posts
-            if not _is_blog_post_slug_or_tags(
-                slug=str(p.get("slug", "")),
-                tags=[str(t) for t in (p.get("tags") or [])],
-            )
+            if not _is_blog_post_by_cat([str(t) for t in (p.get("tags") or [])])
         ]
 
-    # Per-category exclusions (e.g. remove AxisDB from Tools).
-    excluded_slugs = _excluded_slugs_for_query(current_q)
-    if excluded_slugs:
+    # Deep-links for categories should render server-side filtered HTML (tests and
+    # no-JS users). Only apply when `q` is an exact `cat:` query.
+    if current_q.lower().startswith(_CAT_TAG_PREFIX) and current_q.strip().lower() != _CAT_TAG_PREFIX:
+        q_norm = current_q.strip().lower()
         posts = [
             p
             for p in posts
-            if str(p.get("slug", "")).strip().lower() not in excluded_slugs
+            if any((str(t).strip().lower() == q_norm) for t in (p.get("tags") or []))
         ]
 
-    category_label = _category_label_for_query(current_q)
-    filtered_href = (
-        f"/posts?q={quote(current_q, safe='')}" if current_q else "/posts"
+    category_label = _category_label_for_query(
+        current_q, blog=blog, exclude_blog=exclude_blog
     )
+    filtered_href = _posts_href(query=current_q or None, exclude_blog=None)
+
+    projects_only_href = _posts_href(query=current_q or None, exclude_blog=True)
+    include_blog_href = _posts_href(query=current_q or None, exclude_blog=False)
     ctx.update(
         {
             "posts": posts,
@@ -545,6 +567,9 @@ async def posts_index(
             "og_title": "Posts | Crank The Code",
             "og_description": "Browse all Crank The Code posts and project write-ups.",
             "meta_description": "Browse all Crank The Code posts and project write-ups.",
+            "projects_only_href": projects_only_href,
+            "include_blog_href": include_blog_href,
+            "exclude_blog_effective": exclude_blog and current_q.strip().lower() != _CAT_TAG_BLOG,
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
                 {"label": "Posts", "href": "/posts"},
@@ -567,9 +592,11 @@ async def posts_index(
 @router.get("/about", response_class=HTMLResponse)
 async def about_page(
     request: Request,
+    blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
     ctx.update(
         {
             "about_html": _load_about_html(),
@@ -592,9 +619,11 @@ async def about_page(
 @router.get("/help", response_class=HTMLResponse)
 async def help_page(
     request: Request,
+    blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
     ctx.update(
         {
             "is_homepage": False,
@@ -617,9 +646,11 @@ async def help_page(
 @router.get("/battlestation", response_class=HTMLResponse)
 async def battlestation_page(
     request: Request,
+    blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
     ctx.update(
         {
             "is_homepage": False,
@@ -671,6 +702,7 @@ async def read_post(
         "content": detail.content_html,
     }
     ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
 
     # Post-specific SEO.
     site_url = ctx.get("site_url") or DEFAULT_SITE_URL

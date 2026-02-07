@@ -1,9 +1,15 @@
 ---
-title: "Refactoring Without Regret: Locking Down Lifecycle First"
-date: "2026-01-28 15:30"
-tags: ["blog", "stellody", "refactor", "architecture", "tdd"]
-one_liner: "Before making code cleaner make sure it can stop cancel and shut down correctly every single time."
-emoji: "🧱"
+date: 2026-01-28 15:30
+emoji: "\U0001F9F1"
+one_liner: Before making code cleaner make sure it can stop cancel and shut down correctly
+  every single time.
+tags:
+- cat:Blog
+- stellody
+- refactor
+- architecture
+- tdd
+title: 'Refactoring Without Regret: Locking Down Lifecycle First'
 ---
 
 # Stellody: Why Lifecycle Comes First

@@ -1,15 +1,24 @@
 ---
-title: "Stellody"
-date: "2026-01-19 13:45"
-tags: ["Stellody", "stellar", "melody", "curated", "Sub-Genres", "music", "playlists", "music library", "spotify", "python"]
-blurb: "Music playlists"
-one_liner: "A cross-platform app that analyses your library (or Spotify) and generates genre-sorted playlists."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
+blurb: Music playlists
+date: 2026-01-19 13:45
 image: /static/images/stellody.png
+one_liner: A cross-platform app that analyses your library (or Spotify) and generates
+  genre-sorted playlists.
 social_image: /static/images/stellody.png
+tags:
+- cat:Desktop Apps
+- Stellody
+- stellar
+- melody
+- curated
+- Sub-Genres
+- music
+- playlists
+- music library
+- spotify
+- python
 thumb_image: /static/images/stellody-icon.png
+title: Stellody
 ---
 
 [Stellody live site](https://www.stellody.com)

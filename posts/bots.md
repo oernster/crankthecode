@@ -1,11 +1,20 @@
 ---
-title: "Bots Are Interfaces"
-date: "2026-01-24 11:30"
-tags: ["tools", "bots", "discord", "chatbots", "interface", "sarcasm", "3D printers", "snark3Dprinter-discord-bot"]
-blurb: "Bots are more than code ~ they’re your interface with chaos."
-one_liner: "Musings and mechanics behind the bots that do my bidding."
+blurb: Bots are more than code ~ they’re your interface with chaos.
+date: 2026-01-24 11:30
+one_liner: Musings and mechanics behind the bots that do my bidding.
+tags:
+- cat:Tools
+- bots
+- discord
+- chatbots
+- interface
+- sarcasm
+- 3D printers
+- snark3Dprinter-discord-bot
+title: Bots Are Interfaces
 unlisted: true
 ---
+
 Musings on bots as communication layers, not novelty features.
 
 ## Problem → Solution → Impact
@@ -27,4 +36,3 @@ It's not *just* about notifications. It's about *how* that information reaches y
 This isn't a deep dive into SnarkAPI again (that got its own post). Instead, it's a reflection on how bots let me wrap practical automation with enough personality to make it delightful.
 
 Also, if a bot insults you, you're not allowed to take it personally. That's in the RFC.
-

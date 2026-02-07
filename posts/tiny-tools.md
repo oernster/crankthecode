@@ -1,11 +1,17 @@
 ---
-title: "Tiny Tools I Refuse to Live Without"
-date: "2026-01-24 11:30"
-tags: ["tools", "utilities", "workflow", "quality-of-life"]
-blurb: "Tiny tools with massive impact."
-one_liner: "A short list of the kind of oddball tools I rely on in day-to-day development and tinkering."
+blurb: Tiny tools with massive impact.
+date: 2026-01-24 11:30
 draft: true
+one_liner: A short list of the kind of oddball tools I rely on in day-to-day development
+  and tinkering.
+tags:
+- cat:Tools
+- utilities
+- workflow
+- quality-of-life
+title: Tiny Tools I Refuse to Live Without
 ---
+
 A personal stash of micro-utilities that quietly fix annoyances.
 
 ## Problem → Solution → Impact

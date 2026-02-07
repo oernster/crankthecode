@@ -1,16 +1,23 @@
 ---
-title: "SnarkAPI"
-date: "2026-01-19 06:05"
-tags: ["snark", "sarcasm", "roast", "IT", "software", "rude", "python"]
-blurb: "Sarcasm API"
-one_liner: "A playful API that generates sarcastic, roast-style responses for IT and software scenarios."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
+blurb: Sarcasm API
+date: 2026-01-19 06:05
 image: /static/images/snarkapi-icon.png
+one_liner: A playful API that generates sarcastic, roast-style responses for IT and
+  software scenarios.
 social_image: /static/images/snarkapi-card.png
+tags:
+- cat:Web Apis
+- snark
+- sarcasm
+- roast
+- IT
+- software
+- rude
+- python
 thumb_image: /static/images/snarkapi-icon.png
+title: SnarkAPI
 ---
+
 # Snark-as-a-service API
 [SnarkAPI live site](https://snarkapi.com/)
 

@@ -1,15 +1,21 @@
 ---
-title: "AxisDB"
-date: "2026-01-19 12:38"
-tags: ["python", "database", "db", "multidimensional", "json", "PyPi"]
-blurb: "JSON database"
-one_liner: "An embedded Python database that stores JSON documents with atomic commits and multidimensional keys."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
+blurb: JSON database
+date: 2026-01-19 12:38
 image: /static/images/AxisDB.png
+one_liner: An embedded Python database that stores JSON documents with atomic commits
+  and multidimensional keys.
 social_image: /static/images/axisdb-card.png
+tags:
+- cat:Data / Ml
+- python
+- database
+- db
+- multidimensional
+- json
+- PyPi
+title: AxisDB
 ---
+
 [AxisDB](https://github.com/oernster/AxisDB)  🗃️
 
 ## Problem → Solution → Impact

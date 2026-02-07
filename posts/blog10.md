@@ -1,9 +1,16 @@
 ---
-title: "Rate Limits, Retry Logic and Reality Checks"
-date: "2026-01-27 20:30"
-tags: ["blog", "stellody", "ratelimit", "spotify", "backoff", "engineering"]
-one_liner: "Rate limits strike mid run as retry logic async persistence and filesystem stalls collide in a war for reliability."
-emoji: "🎧"
+date: 2026-01-27 20:30
+emoji: "\U0001F3A7"
+one_liner: Rate limits strike mid run as retry logic async persistence and filesystem
+  stalls collide in a war for reliability.
+tags:
+- cat:Blog
+- stellody
+- ratelimit
+- spotify
+- backoff
+- engineering
+title: Rate Limits, Retry Logic and Reality Checks
 ---
 
 # The Elephant in the Room - Rate Limiting

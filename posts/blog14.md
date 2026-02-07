@@ -1,9 +1,14 @@
 ---
-title: "Raising Test Coverage Without Breaking Trust"
-date: "2026-01-28 19:30"
-tags: ["blog", "stellody", "testing", "refactor", "quality"]
-one_liner: "Higher coverage only matters if the tests survive refactors and real use."
-emoji: "⚖️"
+date: 2026-01-28 19:30
+emoji: ⚖️
+one_liner: Higher coverage only matters if the tests survive refactors and real use.
+tags:
+- cat:Blog
+- stellody
+- testing
+- refactor
+- quality
+title: Raising Test Coverage Without Breaking Trust
 ---
 
 # Stellody: Raising Test Coverage Without Breaking Trust

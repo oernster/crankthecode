@@ -4,6 +4,14 @@
 
 {% block content %}
   <div class="posts-index" aria-label="All posts">
+    <div class="posts-toolbar" aria-label="Post filters">
+      {% if exclude_blog_effective %}
+        <a class="btn-link btn-link--subtle" href="{{ include_blog_href }}">Include Blog</a>
+      {% else %}
+        <a class="btn-link btn-link--subtle" href="{{ projects_only_href }}">Projects only</a>
+      {% endif %}
+    </div>
+
     {% for post in posts %}
       <div
         class="post-item"

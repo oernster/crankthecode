@@ -1,9 +1,17 @@
 ---
-title: "UI Polish, CTAs and the Slow March to Done"
-date: "2026-01-24 06:15"
-tags: ["blog", "update", "ui", "ux", "accessibility", "css", "dark-mode"]
-one_liner: "A tour through UI tweaks, CTA wrangling and why stopping matters more than starting."
-emoji: "🌗"
+date: 2026-01-24 06:15
+emoji: "\U0001F317"
+one_liner: A tour through UI tweaks, CTA wrangling and why stopping matters more than
+  starting.
+tags:
+- cat:Blog
+- update
+- ui
+- ux
+- accessibility
+- css
+- dark-mode
+title: UI Polish, CTAs and the Slow March to Done
 ---
 
 # UI Polish, CTAs and Knowing When to Stop

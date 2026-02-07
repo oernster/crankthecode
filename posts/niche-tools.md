@@ -1,10 +1,15 @@
 ---
-title: "Why I Keep Building Niche Tools"
-date: "2026-01-24 11:30"
-tags: ["tools", "workflow", "philosophy", "solo-dev"]
-blurb: "Because general-purpose tools are rarely personal."
-one_liner: "Tiny tools with weird, specific use cases that somehow keep solving problems."
+blurb: Because general-purpose tools are rarely personal.
+date: 2026-01-24 11:30
+one_liner: Tiny tools with weird, specific use cases that somehow keep solving problems.
+tags:
+- cat:Tools
+- workflow
+- philosophy
+- solo-dev
+title: Why I Keep Building Niche Tools
 ---
+
 One-size-fits-most tools don’t cut it when you live on the edge cases.
 
 ## Problem → Solution → Impact

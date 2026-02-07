@@ -1,15 +1,18 @@
 ---
-title: "Elevator"
-date: "2026-01-19 02:30"
-tags: ["python", "Django", "React", "control panel"]
-blurb: "Elevator control panel"
-one_liner: "A web-based elevator control panel built with Django and React."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
+blurb: Elevator control panel
+date: 2026-01-19 02:30
 image: /static/images/elevator.png
+one_liner: A web-based elevator control panel built with Django and React.
 social_image: /static/images/elevator.png
+tags:
+- cat:Web Apis
+- python
+- Django
+- React
+- control panel
+title: Elevator
 ---
+
 [Elevator](https://github.com/oernster/elevator)  🛗
 
 I knocked up a simple elevator control panel you can run locally as a website.

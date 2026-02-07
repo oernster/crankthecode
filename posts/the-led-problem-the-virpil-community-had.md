@@ -1,9 +1,12 @@
 ---
-title: "The LED Problem the Virpil Community Had"
-date: "2026-01-24 11:30"
 category: Gaming
-tags: ["tools", "hardware", "peripherals"]
+date: 2026-01-24 11:30
+tags:
+- cat:Gaming
+- peripherals
+title: The LED Problem the Virpil Community Had
 ---
+
 Making joystick LEDs actually useful, not just decorative firmware trivia.
 
 This wasn’t just *my* problem.

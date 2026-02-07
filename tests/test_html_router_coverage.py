@@ -73,3 +73,33 @@ def test_read_post_renders_non_project_post_without_date_or_cover_image():
     assert resp.status_code == 200
     assert "<h1>Hello</h1>" in resp.text
 
+
+def test_extract_category_queries_from_tags_skips_empty_and_cat_colon_only():
+    from app.http.routers.html import _extract_category_queries_from_tags
+
+    # Covers:
+    # - empty/whitespace tags
+    # - `cat:` with no label
+    # - normalization (whitespace collapse + Title Case)
+    out = _extract_category_queries_from_tags(
+        [
+            "",
+            "   ",
+            "cat:",
+            "CAT:   ",
+            "cat:  tools  ",
+            "tools",
+        ]
+    )
+    assert out == {"cat:Tools"}
+
+
+def test_sidebar_label_with_emoji_maps_known_labels_and_passes_through_unknowns():
+    from app.http.routers.html import _sidebar_label_with_emoji
+
+    assert _sidebar_label_with_emoji("Tools") == "🧰 Tools"
+    assert _sidebar_label_with_emoji("Hardware") == "🔧 Hardware"
+    assert _sidebar_label_with_emoji("Web Apis") == "🌐 Web APIs"
+    assert _sidebar_label_with_emoji("Unmapped") == "Unmapped"
+    assert _sidebar_label_with_emoji("") == ""
+

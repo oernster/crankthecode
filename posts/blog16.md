@@ -1,9 +1,16 @@
 ---
-title: "Stellody Is Now Quietly Harder to Break"
-date: "2026-02-26 18:00"
-tags: ["blog", "stellody", "fastapi", "contact", "dnssec", "security"]
-one_liner: "Quiet changes were made so nothing exciting ever happens again and that is the goal."
-emoji: "🛡️"
+date: 2026-02-06 18:00
+emoji: "\U0001F6E1️"
+one_liner: Quiet changes were made so nothing exciting ever happens again and that
+  is the goal.
+tags:
+- cat:Blog
+- stellody
+- fastapi
+- contact
+- dnssec
+- security
+title: Stellody Is Now Quietly Harder to Break
 ---
 
 # How Stellody Learned to Stop Worrying and Ignore the Internet

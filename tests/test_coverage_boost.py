@@ -74,19 +74,19 @@ def test_html_crank_change_archive_is_auto_generated_and_ordered(monkeypatch):
             slug="blog5",
             title="UI Polish, CTAs and the Slow March to Done",
             date="2026-01-24 06:15",
-            tags=("blog",),
+            tags=("cat:Blog",),
         ),
         _mk_summary(
             slug="blog4",
             title="WP Bots and RSS Weirdness Blog Update",
             date="2026-01-21 02:20",
-            tags=("blog",),
+            tags=("cat:Blog",),
         ),
         _mk_summary(
             slug="blog1",
             title="Site SEO & Search Updates",
             date="2026-01-19 10:10",
-            tags=("blog",),
+            tags=("cat:Blog",),
         ),
         _mk_summary(
             slug="why-crank",
@@ -176,13 +176,14 @@ def test_posts_index_excludes_axisdb_from_tools_category_view(monkeypatch):
             slug="axisdb",
             title="AxisDB",
             date="2026-01-19 10:00",
-            tags=("db", "tools"),
+            # AxisDB is not tagged as a Tools category post.
+            tags=("db",),
         ),
         _mk_summary(
             slug="stellody",
             title="Stellody",
             date="2026-01-19 13:45",
-            tags=("desktop", "tools"),
+            tags=("desktop", "cat:Tools"),
         ),
     )
 
@@ -199,8 +200,7 @@ def test_posts_index_excludes_axisdb_from_tools_category_view(monkeypatch):
     app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
     client = TestClient(app)
 
-    tools_q = "tool|tools|cli|utility|utilities|launcher|database|db"
-    resp = client.get(f"/posts?q={tools_q}")
+    resp = client.get("/posts?q=cat:Tools")
     assert resp.status_code == 200
     assert "AxisDB" not in resp.text
     assert "Stellody" in resp.text
@@ -441,31 +441,18 @@ def test_excluded_slugs_blog_query_empty_set_branch_covered():
     app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
     client = TestClient(app)
 
-    # Query equals the Blog sidebar category query; it has no excluded_slugs.
-    resp = client.get("/posts?q=blog")
+    resp = client.get("/posts?q=cat:Blog&exclude_blog=0")
     assert resp.status_code == 200
 
 
-def test_should_exclude_blog_posts_for_query_covers_all_return_paths():
-    """Covers `_should_exclude_blog_posts_for_query()` True/False branches."""
+def test_is_blog_post_by_cat_covers_branches():
+    from app.http.routers.html import _is_blog_post_by_cat
 
-    from app.http.routers.html import _should_exclude_blog_posts_for_query
-
-    # Empty query.
-    assert _should_exclude_blog_posts_for_query("") is False
-
-    # Non-empty query that doesn't match any category.
-    assert _should_exclude_blog_posts_for_query("nope") is False
-
-    # Category query with exclude_blog=True.
-    assert _should_exclude_blog_posts_for_query(
-        "machine learning|computer vision|ml|data"
-    ) is True
-
-    # Category query with exclude_blog=False.
-    assert _should_exclude_blog_posts_for_query(
-        "gaming|game|elite|dangerous|frontier|colonisation"
-    ) is False
+    assert _is_blog_post_by_cat([]) is False
+    assert _is_blog_post_by_cat(["x"]) is False
+    assert _is_blog_post_by_cat(["cat:Blog"]) is True
+    assert _is_blog_post_by_cat(["cat:blog"]) is True
+    assert _is_blog_post_by_cat(["CAT:BLOG"]) is True
 
 
 def test_crank_change_archive_seed_missing_is_tolerated(monkeypatch):
@@ -476,7 +463,7 @@ def test_crank_change_archive_seed_missing_is_tolerated(monkeypatch):
             slug="blog5",
             title="UI Polish, CTAs and the Slow March to Done",
             date="2026-01-24 06:15",
-            tags=("blog",),
+            tags=("cat:Blog",),
         ),
         # Intentionally omit `why-crank` from the seed list.
         _mk_summary(

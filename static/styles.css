@@ -1217,7 +1217,8 @@ img {
   margin: 4.8px 8px 4.8px 0;
   border-radius: 999px;
   font-size: 13.6px;
-  text-transform: lowercase;
+  /* Preserve author casing (e.g. `cat:Tools`, `Web APIs`). */
+  text-transform: none;
   letter-spacing: 0.02em;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   border: 1px solid color-mix(in srgb, var(--link-color) 30%, transparent);
@@ -3055,6 +3056,13 @@ html.theme-light .section-title {
   border-radius: 18px;
   background: var(--panel-bg-subtle);
   border: 1px solid var(--panel-border);
+}
+
+/* Posts index: filter/toggle row (Projects only <-> Include Blog) */
+.posts-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 12px;
 }
 
 .posts-index .post-item:hover {

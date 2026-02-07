@@ -1,9 +1,18 @@
 ---
-title: "Tables, Taglines and Terminal Fakery"
-date: "2026-01-20 11:50"
-tags: ["blog", "update", "python", "fastapi", "changelog", "html", "css", "javascript"]
-one_liner: "Search autocomplete now works, the Help button is unhelpful and every post has just enough recruiter bait."
-emoji: "🧪"
+date: 2026-01-20 11:50
+emoji: "\U0001F9EA"
+one_liner: Search autocomplete now works, the Help button is unhelpful and every post
+  has just enough recruiter bait.
+tags:
+- cat:Blog
+- update
+- python
+- fastapi
+- changelog
+- html
+- css
+- javascript
+title: Tables, Taglines and Terminal Fakery
 ---
 
 # Chaos Contained: Tables, Taglines and Terminal Fakery

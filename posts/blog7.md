@@ -1,9 +1,17 @@
 ---
-title: "Refactors & Focus Fights for Stellody 4.1.3"
-date: "2026-01-25 18:30"
-tags: ["blog", "stellody", "deployment", "flatpak", "refactor", "qt", "release"]
-one_liner: "After a major refactor and full triple platform release Stellody 4.1.3 ships with improved UI cleaner code and much less screaming."
-emoji: "🦾"
+date: 2026-01-25 18:30
+emoji: "\U0001F9BE"
+one_liner: After a major refactor and full triple platform release Stellody 4.1.3
+  ships with improved UI cleaner code and much less screaming.
+tags:
+- cat:Blog
+- stellody
+- deployment
+- flatpak
+- refactor
+- qt
+- release
+title: Refactors & Focus Fights for Stellody 4.1.3
 ---
 
 # Stellody v4.1.3 featuring a major refactor licensing fixes and improved UI across all supported platforms.

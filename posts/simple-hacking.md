@@ -1,10 +1,16 @@
 ---
-title: "Simple Hacking"
-date: "2026-01-24 11:30"
-tags: ["tools", "hacking", "philosophy", "reverse-engineering", "systems"]
-blurb: "Tinkering without breaking things. Mostly."
-one_liner: "Hacking as exploration, not destruction."
+blurb: Tinkering without breaking things. Mostly.
+date: 2026-01-24 11:30
+one_liner: Hacking as exploration, not destruction.
+tags:
+- cat:Tools
+- hacking
+- philosophy
+- reverse-engineering
+- systems
+title: Simple Hacking
 ---
+
 Curiosity-driven system exploration without setting off alarms.
 
 ## Problem → Solution → Impact

@@ -1,9 +1,17 @@
 ---
-title: "Command Centre Update"
-date: "2026-01-21 01:45"
-tags: ["blog", "update", "python", "fastapi", "changelog", "html", "css", "javascript"]
-one_liner: "Added hero and battlestation sections."
-emoji: "🧠"
+date: 2026-01-21 01:45
+emoji: "\U0001F9E0"
+one_liner: Added hero and battlestation sections.
+tags:
+- cat:Blog
+- update
+- python
+- fastapi
+- changelog
+- html
+- css
+- javascript
+title: Command Centre Update
 ---
 
 # Command Centre Update

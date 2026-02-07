@@ -1,9 +1,15 @@
 ---
-title: "Concurrency, Stability and UI Polish for Stellody"
-date: "2026-01-28 12:00"
-tags: ["blog", "stellody", "performance", "concurrency", "ui"]
-one_liner: "Concurrency dialled up with thread safe caching UI polish and performance that respects rate limits without dragging its feet."
-emoji: "🧵"
+date: 2026-01-28 12:00
+emoji: "\U0001F9F5"
+one_liner: Concurrency dialled up with thread safe caching UI polish and performance
+  that respects rate limits without dragging its feet.
+tags:
+- cat:Blog
+- stellody
+- performance
+- concurrency
+- ui
+title: Concurrency, Stability and UI Polish for Stellody
 ---
 
 # Speed & Stability Improvements

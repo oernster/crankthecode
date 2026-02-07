@@ -1,18 +1,25 @@
 ---
-title: "Calendifier"
-date: "2026-01-19 06:35"
-tags: ["calendar", "event", "events", "RFC5545", "notes", "internationalisation", "clock", "python"]
-blurb: "Calendar tool"
-one_liner: "A calendar app with full iCalendar (RFC5545) support and deep internationalisation across languages and locales."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
-image: /static/images/calendifier.png
-social_image: /static/images/calendifier.png
-
+blurb: Calendar tool
+date: 2026-01-19 06:35
 extra_images:
-  - /static/images/calendifier-ha.png
+- /static/images/calendifier-ha.png
+image: /static/images/calendifier.png
+one_liner: A calendar app with full iCalendar (RFC5545) support and deep internationalisation
+  across languages and locales.
+social_image: /static/images/calendifier.png
+tags:
+- cat:Desktop Apps
+- calendar
+- event
+- events
+- RFC5545
+- notes
+- internationalisation
+- clock
+- python
+title: Calendifier
 ---
+
 # Calendifier  📅
 
 ## Problem → Solution → Impact

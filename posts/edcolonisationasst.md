@@ -1,20 +1,20 @@
 ---
-title: "EDColonisation Assistant"
-date: "2026-01-24 18:35"
-tags:
-  - "elite dangerous"
-  - "dashboard"
-  - "space sim"
-  - "colonisation"
-  - "in-game tool"
-  - "python"
-blurb: "In-game tool for Elite Dangerous"
-one_liner: "A browser-based in-game tool for colonisation tracking and planning in Elite Dangerous."
-# NOTE: Deployed environments are typically case-sensitive.
-# The actual asset filename is `EDColonisationAsst.png`.
+blurb: In-game tool for Elite Dangerous
+date: 2026-01-24 18:35
 image: /static/images/EDColonisationAsst.png
+one_liner: A browser-based in-game tool for colonisation tracking and planning in
+  Elite Dangerous.
 social_image: /static/images/EDColonisationAsst.png
+tags:
+- cat:Gaming
+- elite dangerous
+- dashboard
+- space sim
+- colonisation
+- in-game tool
+- python
 thumb_image: /static/images/edcolonisationasst-icon.png
+title: EDColonisation Assistant
 ---
 
 [EDColonisation Assistant](https://github.com/oernster/EDColonisationAsst) 🛰  

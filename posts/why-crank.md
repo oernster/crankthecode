@@ -1,11 +1,16 @@
 ---
-title: "Why Crank?"
-date: "2026-01-18 10:40"
-tags: ["blog", "overengineering", "why"]
-one_liner: "Why I build things the hard way: a short note on overengineering, curiosity and craft."
-blurb: "Motivation"
-image: "/static/images/me-cyborg.png"
+blurb: Motivation
+date: 2026-01-18 10:40
+image: /static/images/me-cyborg.png
+one_liner: 'Why I build things the hard way: a short note on overengineering, curiosity
+  and craft.'
+tags:
+- cat:Blog
+- overengineering
+- why
+title: Why Crank?
 ---
+
 # Everyone asks why?  Nobody asks *why not crank?*
 
 This blog exists because I was tired of bloated platforms, slow render times and markdown parsers that don’t understand me emotionally(!)

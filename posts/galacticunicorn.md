@@ -1,15 +1,17 @@
 ---
-title: "Galactic Unicorn Timer"
-date: "2026-01-19 06:45"
-tags: ["GalacticUnicorn", "MicroPython"]
-blurb: "MicroPython LED"
-one_liner: "MicroPython experiments on the Galactic Unicorn LED matrix, exploring visuals and device control."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
+blurb: MicroPython LED
+date: 2026-01-19 06:45
 image: /static/images/galacticunicorn.png
+one_liner: MicroPython experiments on the Galactic Unicorn LED matrix, exploring visuals
+  and device control.
 social_image: /static/images/galacticunicorn.png
+tags:
+- cat:Hardware
+- GalacticUnicorn
+- MicroPython
+title: Galactic Unicorn Timer
 ---
+
 [GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn)  🦄
 
 ## Problem → Solution → Impact

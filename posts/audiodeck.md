@@ -1,18 +1,24 @@
 ---
-title: "Audio Deck"
-date: "2026-01-19 06:50"
-tags: ["audio", "switch", "windows", "streamdeck", "standalone app", "console", "elgato", "python"]
-blurb: "Audio switcher"
-one_liner: "A Windows utility for quickly switching audio devices and routes with a StreamDeck-style workflow."
-
-# Used by the site as the cover image AND by the RSS feed thumbnail.
-# It will NOT be duplicated in the post body (the renderer strips a matching standalone image paragraph).
-image: /static/images/audiodeck1.png
-social_image: /static/images/audiodeck1.png
-thumb_image: /static/images/audiodeck1.png
-
+blurb: Audio switcher
+date: 2026-01-19 06:50
 extra_images:
-  - /static/images/audiodeck2.png
+- /static/images/audiodeck2.png
+image: /static/images/audiodeck1.png
+one_liner: A Windows utility for quickly switching audio devices and routes with a
+  StreamDeck-style workflow.
+social_image: /static/images/audiodeck1.png
+tags:
+- cat:Desktop Apps
+- audio
+- switch
+- windows
+- streamdeck
+- standalone app
+- console
+- elgato
+- python
+thumb_image: /static/images/audiodeck1.png
+title: Audio Deck
 ---
 
 [Audio Deck](https://github.com/oernster/AudioDeck) 🔊  

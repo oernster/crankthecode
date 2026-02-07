@@ -1,9 +1,15 @@
 ---
-title: "Escaping the Cursed Realm of GoDaddy Hosting"
-date: "2026-01-31 10:00"
-tags: ["blog", "stellody", "fastapi", "migration", "selfhosted", "seo"]
-one_liner: "Nothing screams freedom like deleting the last line of PHP from your life."
-emoji: "🧹"
+date: 2026-01-31 10:00
+emoji: "\U0001F9F9"
+one_liner: Nothing screams freedom like deleting the last line of PHP from your life.
+tags:
+- cat:Blog
+- stellody
+- fastapi
+- migration
+- selfhosted
+- seo
+title: Escaping the Cursed Realm of GoDaddy Hosting
 ---
 
 # Stellody: Escaping the Cursed Realm of GoDaddy Hosting

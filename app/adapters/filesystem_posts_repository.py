@@ -98,12 +98,12 @@ class FilesystemPostsRepository(PostsRepository):
 
         tags = FilesystemPostsRepository._normalize_tags(tags_raw)
 
-        # Safety net: blog posts should always be discoverable in `/posts?q=blog`.
+        # Safety net: blog posts should always be discoverable in `/posts?q=cat:Blog`.
         # The posts index uses client-side filtering against `title + tags`.
         if slug.lower().startswith("blog"):
             tags_lower = {t.strip().lower() for t in tags}
-            if "blog" not in tags_lower:
-                tags = ["blog", *tags]
+            if "cat:blog" not in tags_lower:
+                tags = ["cat:Blog", *tags]
 
         if extra_images_raw is None:
             extra_images_raw = []
