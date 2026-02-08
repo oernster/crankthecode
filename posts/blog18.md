@@ -1,5 +1,5 @@
 ---
-date: 2026-02-08 22:10
+date: 2026-02-07 16:30
 emoji: 📊
 one_liner: What happened when I stopped arguing with intuition and ran the model one hundred thousand times.
 tags:
