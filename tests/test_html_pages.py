@@ -13,6 +13,7 @@ def test_homepage_renders():
 
     assert resp.status_code == 200
     assert "Featured Projects" in resp.text
+    assert "docs/CV-Oliver.pdf" in resp.text
 
 
 def test_posts_index_renders_and_supports_query_filter():
