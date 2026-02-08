@@ -1,6 +1,6 @@
 ---
 date: 2026-01-18 07:35
-one_liner: A quick intro to who I am and the kind of software projects I like to build.
+one_liner: A quick intro to how I think about software, systems and leadership.
 tags:
 - about
 - me
@@ -9,95 +9,33 @@ title: About Me
 
 # About me
 
-Hi, I’m Oliver - a professional software developer, technical tinkerer and walking version history of Python, C++ and C; as well as more obscure mobile phone conformance testing languages such as TTCN-2.
+Hi, I’m Oliver. I’m a CTO-level technical and engineering leader who specialises in reducing organisational and technical risk by deciding early and clearly.
 
-I build real systems with real constraints; for engineers, teams and that one stakeholder who thinks 'just add AI' is a strategy.
+I have extensive experience working across defence, telecoms, fintech and startup environments, often in situations where systems are complex, constraints are real and ambiguity is unavoidable. Over time, my focus has shifted from implementation to technical direction, governance and decision-making, while staying close enough to the ground to keep judgement honest.
 
-For almost 3 decades, I’ve worked with everything from lean startups, to multinational behemoths, solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence projects, built full-stack cloud-native apps solo, ...and even dabbled in the **dark arts** of React with something bordering on dignity.
+I still build real systems with real constraints, for engineers, teams and the occasional stakeholder who believes “just add AI” is a strategy.
 
-I also happen to have a physics degree, which means I spent several years learning how to model chaotic systems, question reality and accept that sometimes the laws of nature are simply uncooperative. That mindset seeps into how I build software - with curiosity, rigour and an instinct for spotting when things are about to go *thermodynamically wrong*.
+Across my career I’ve worked with everything from lean startups to multinational behemoths, solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence programmes, delivered full-stack cloud-native platforms solo and, at various points, dabbled in the dark arts of React with something approaching dignity.
 
-But when I'm not neck-deep in Python, C, C++, AWS Terraform scripts, FastAPI endpoints, or navigating the emotional rollercoaster that is Django migrations, I’m probably elbow-deep in plastic shavings building another 3D printer. Yes, I built six of them. Yes, they’re *probably* faster than yours.
+I also happen to have a physics degree, which means I spent several years learning how to model chaotic systems, question assumptions and accept that uncertainty is not a failure mode. That mindset shapes how I approach software, with curiosity, rigour and an instinct for spotting when systems are about to go thermodynamically wrong.
 
-My GitHub is a pile of weird, wonderful, occasionally useful code experiments - some were hard work, some were curiosity and one was even “I wonder if I can make a train departure board talk to a weather API just because I can.” Spoiler: I can.
+Outside of work, I keep my hands dirty by building and rebuilding systems from first principles, including designing and assembling multiple generations of 3D printers. That mix of hardware, electronics, firmware and software is a useful reminder that systems tend to fail at boundaries rather than in isolation.
 
-I built this blog (yes, from scratch) to share the stuff I crank out - half portfolio, half playground, fully geeky.
+My GitHub is a collection of experiments, tools and the occasional “I wonder if this is possible” moment. Some of it is practical, some of it is exploratory and some of it exists purely because curiosity won.
 
-If you're here to hire me, collaborate, or just gawk at the DIY chaos, welcome aboard. If you’re a robot sent from the future to judge my code… same.
+I built this site from scratch as a place to think in public, part portfolio, part notebook and part playground. If you’re here to hire me, collaborate or simply browse the results of a long-running fascination with complex systems, you’re very welcome. If you’re a robot sent from the future to judge my code, that’s fine too.
 
-I don’t just build things; I debug the laws of unintended consequences.
+*I don’t just build software; I debug the unintended consequences.*
 
 ---
 
-## Skillset Snapshot
+## Technical scope and foundations
 
-<table width="100%">
-  <tr>
-    <td valign="top" width="50%">
-      <strong>Languages</strong><br>
-      Python – 13 yrs<br>
-      C++ – 15 yrs<br>
-      C – 4 yrs<br>
-      JavaScript – 6–7 yrs<br>
-      React + TypeScript – 2 yrs<br>
-      HTML/CSS – 6–8 yrs<br>
-      jQuery – 2–3 yrs
-    </td>
-    <td valign="top" width="50%">
-      <strong>Technologies</strong><br>
-      Django – 6–7 yrs<br>
-      FastAPI – 4–5 yrs<br>
-      Flask – 0.5 yrs<br>
-      Docker – 5 yrs<br>
-      AWS – 3 yrs<br>
-      Apache, NGINX – 5 yrs
-    </td>
-  </tr>
+**Leadership and system design**  
+Technical direction and architectural decision-making, performance and latency analysis, platform modernisation, technical governance in regulated and high-risk environments.
 
-  <tr><td colspan="2"><hr></td></tr>
+**Platforms and foundations**  
+Python, JavaScript, TypeScript, SQL/NoSQL, cloud-native backend systems, RESTful APIs, automation, AWS, Linux, containers and infrastructure as code.
 
-  <tr>
-    <td valign="top">
-      <strong>Databases</strong><br>
-      MySQL, PostgreSQL, MariaDB, SQLite3<br>
-      MS SQL Server<br>
-      Redis, CouchDB, MongoDB, CassandraDB
-    </td>
-    <td valign="top">
-      <strong>Protocols</strong><br>
-      RESTful APIs, Sockets, TCP/UDP, JSON<br>
-      VoIP/SIP, ISDN/Telephony, RTP, Q.931<br>
-      GSM (2G), RRC (3G), MIKEY-SAKKE
-    </td>
-  </tr>
-
-  <tr><td colspan="2"><hr></td></tr>
-
-  <tr>
-    <td valign="top">
-      <strong>Libraries & Build Tools</strong><br>
-      Qt, PyQt, PySide6, STL, Boost<br>
-      Bootstrap, Chart.js, Leaflet.js<br>
-      Hudson, Cruise Control, Jenkins
-    </td>
-    <td valign="top">
-      <strong>Source Control</strong><br>
-      Git, GitLab, SVN, TortoiseSVN, TortoiseHg
-    </td>
-  </tr>
-
-  <tr><td colspan="2"><hr></td></tr>
-
-  <tr>
-    <td valign="top">
-      <strong>Methodologies</strong><br>
-      Agile, Extreme Programming, KANBAN<br>
-      Waterfall
-    </td>
-    <td valign="top">
-      <strong>Legacy Tools & SCM</strong><br>
-      PVCS, ClearCase, Visual SourceSafe<br>
-      Gerrit, MKS Integrity / Source
-    </td>
-  </tr>
-</table>
+**Background and depth**  
+Long-term experience across C++, C and lower-level systems, databases, networking protocols and distributed systems, with extensive exposure to legacy platforms and real-world modernisation constraints.
