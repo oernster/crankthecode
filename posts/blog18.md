@@ -37,7 +37,7 @@ The screenshot attached to the original LatencyLab tools post shows the result o
 
 What is interesting is not how extreme the numbers became. It is how little they moved.
 
-The makespan distribution tightened rather than drifting. Percentiles shifted slightly, as they should, but no new shape emerged. There was no second hump, no hidden regime and no dramatic tail explosion waiting to be discovered by sampling harder.
+The makespan distribution tightened rather than drifting. Percentiles shifted slightly, as they should but no new shape emerged. There was no second hump, no hidden regime and no dramatic tail explosion waiting to be discovered by sampling harder.
 
 The critical path frequencies tell the more important story.
 
