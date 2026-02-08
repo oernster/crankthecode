@@ -92,7 +92,7 @@ They are usually wrong.
 
 Repeated progress updates, delayed slightly to feel smooth, compete for a single UI thread. They look harmless. They feel responsive. They quietly extend the critical path and delay the one thing the user actually wanted.
 
-LatencyLab makes this visible. The model runs thousands of times. The critical path names the work. The percentiles show how often the UI thread is busy doing the wrong thing.
+LatencyLab makes this visible. The model runs thousands of times, and at scale the same dominant behaviours become clearer, not noisier. The critical path names the work. The percentiles show how often the UI thread is busy doing the wrong thing.
 
 *There is no argument to win. The output speaks for itself.*
 
