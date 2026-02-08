@@ -15,7 +15,7 @@ I have extensive experience working across defence, telecoms, fintech and startu
 
 I still build real systems with real constraints, for engineers, teams and the occasional stakeholder who believes “just add AI” is a strategy.
 
-Across my career I’ve worked with everything from lean startups to multinational behemoths, solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence programmes, delivered full-stack cloud-native platforms solo and, at various points, dabbled in the dark arts of React with something approaching dignity.
+Across my career I’ve worked with everything from lean startups to multinational behemoths, solving problems ranging from “how do we modernise a legacy PHP monolith without losing our minds” to “can we please stop the satellite from spying on itself.” I’ve led teams of 17 on mission-critical defence programmes, delivered full-stack cloud-native platforms solo and at various points, dabbled in the dark arts of React with something approaching dignity.
 
 I also happen to have a physics degree, which means I spent several years learning how to model chaotic systems, question assumptions and accept that uncertainty is not a failure mode. That mindset shapes how I approach software, with curiosity, rigour and an instinct for spotting when systems are about to go thermodynamically wrong.
 
