@@ -237,63 +237,28 @@ def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[s
     return out
 
 
-def _crank_change_archive_posts(blog: BlogService) -> list[dict[str, str]]:
-    """Return Crank Change Archive posts (most recent first).
+def _homepage_leadership_items(blog: BlogService) -> list[dict[str, str]]:
+    """Homepage Leadership section entries.
 
-    This is used to automatically include blog posts (blog1, blog2, ...) without
-    manually updating `templates/index.html` for every new entry.
+    The homepage displays leadership posts as a small menu under Featured Projects.
+    We keep this list explicit (lead1..lead9) so ordering is stable and does not
+    depend on tag parsing or filesystem ordering.
 
     Rules:
-    - include any post where the slug starts with `blog` OR it has the `blog` tag.
-    - also include the original archive seed posts.
+    - include lead9..lead1 (newest-first for the series)
+    - label is the post title from frontmatter
     """
 
-    # Archive always starts with these two seed posts (fixed order),
-    # then the actual blog entries in newest-first order.
-    seed_order = ["hello-crank", "why-crank"]
-    seed_set = set(seed_order)
+    series_slugs = [f"lead{i}" for i in range(9, 0, -1)]
+    by_slug = {p.slug: p for p in blog.list_posts()}
 
-    posts = list(blog.list_posts())
-    by_slug = {p.slug: p for p in posts}
-
-    seed_entries: list[dict[str, str]] = []
-    for slug in seed_order:
+    out: list[dict[str, str]] = []
+    for slug in series_slugs:
         p = by_slug.get(slug)
         if not p:
             continue
-        emoji, title_text = _display_title_parts(title=p.title, emoji=getattr(p, "emoji", None))
-        seed_entries.append(
-            {
-                "slug": p.slug,
-                "title": p.title,
-                "title_text": title_text,
-                "emoji": emoji,
-            }
-        )
-
-    # `blog.list_posts()` is already date-descending; we want newest-first.
-    blog_entries: list[dict[str, str]] = []
-    for p in posts:
-        tags = [str(t) for t in (p.tags or [])]
-        if p.slug in seed_set:
-            continue
-        # Archive behavior remains backward compatible: blog entries are still
-        # inferred from `blog*` slugs or a `blog` tag.
-        slug_norm = (p.slug or "").strip().lower()
-        tags_norm = [(t or "").strip().lower() for t in (tags or [])]
-        if not (slug_norm.startswith("blog") or "blog" in tags_norm):
-            continue
-        emoji, title_text = _display_title_parts(title=p.title, emoji=getattr(p, "emoji", None))
-        blog_entries.append(
-            {
-                "slug": p.slug,
-                "title": p.title,
-                "title_text": title_text,
-                "emoji": emoji,
-            }
-        )
-
-    return seed_entries + blog_entries
+        out.append({"slug": p.slug, "label": p.title})
+    return out
 
 
 def _post_emoji_map() -> dict[str, str]:
@@ -426,7 +391,6 @@ async def homepage(
             "og_title": "Crank The Code - Python Engineering Blog by Oliver Ernster",
             "og_description": "Python engineering blog by Oliver Ernster: projects, FastAPI tooling and technical write-ups.",
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
-            "crank_change_archive_posts": _crank_change_archive_posts(blog),
             "homepage_projects": {
                 "featured": [
                     {"slug": "stellody", "label": "Stellody"},
@@ -436,6 +400,7 @@ async def homepage(
                     {"slug": "axisdb", "label": "AxisDB"},
                     {"slug": "edcolonisationasst", "label": "EDColonisationAsst"},
                 ],
+                "leadership": _homepage_leadership_items(blog),
                 "backlog": [
                     # Pinned intro posts (keep first).
                     {"slug": "hello-crank", "label": "Hello Crank"},

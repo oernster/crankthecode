@@ -65,39 +65,26 @@ def test_filesystem_posts_repository_load_file_falls_back_to_utf8_sig(monkeypatc
     assert post.date == "2026-01-01 12:00"
 
 
-def test_html_crank_change_archive_is_auto_generated_and_ordered(monkeypatch):
-    """Covers the auto-archive list and ordering logic."""
+def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
+    """Homepage should render the Leadership menu and keep it newest-first."""
 
-    # Blog posts: newest first (blog.list_posts() already returns date-desc)
     posts = (
         _mk_summary(
-            slug="blog5",
-            title="UI Polish, CTAs and the Slow March to Done",
-            date="2026-01-24 06:15",
-            tags=("cat:Blog",),
+            slug="lead9",
+            title="Leadership Nine",
+            date="2026-02-09 10:10",
+            tags=("cat:Leadership",),
         ),
         _mk_summary(
-            slug="blog4",
-            title="WP Bots and RSS Weirdness Blog Update",
-            date="2026-01-21 02:20",
-            tags=("cat:Blog",),
-        ),
-        _mk_summary(
-            slug="blog1",
-            title="Site SEO & Search Updates",
-            date="2026-01-19 10:10",
-            tags=("cat:Blog",),
+            slug="lead1",
+            title="Leadership One",
+            date="2026-02-07 10:10",
+            tags=("cat:Leadership",),
         ),
         _mk_summary(
             slug="why-crank",
             title="Why Crank?",
             date="2026-01-18 11:00",
-            tags=("post",),
-        ),
-        _mk_summary(
-            slug="hello-crank",
-            title="Hello Crank",
-            date="2026-01-17 11:00",
             tags=("post",),
         ),
     )
@@ -117,17 +104,12 @@ def test_html_crank_change_archive_is_auto_generated_and_ordered(monkeypatch):
 
     resp = client.get("/")
     assert resp.status_code == 200
+    assert "Leadership" in resp.text
 
-    # Archive seed items should be first (fixed order).
-    idx_hello = resp.text.index("Hello Crank")
-    idx_why = resp.text.index("Why Crank")
-    assert idx_hello < idx_why
-
-    # Then newest blog entries should appear before older ones.
-    idx_blog5 = resp.text.index("UI Polish, CTAs and the Slow March to Done")
-    idx_blog4 = resp.text.index("WP Bots and RSS Weirdness")
-    idx_blog1 = resp.text.index("Site SEO")
-    assert idx_why < idx_blog5 < idx_blog4 < idx_blog1
+    # Ensure the series is ordered lead9 -> lead1 (newest-first for the series).
+    idx_lead9 = resp.text.index("Leadership Nine")
+    idx_lead1 = resp.text.index("Leadership One")
+    assert idx_lead9 < idx_lead1
 
 
 def test_posts_index_excludes_about_me_from_all_lists(monkeypatch):
@@ -455,17 +437,11 @@ def test_is_blog_post_by_cat_covers_branches():
     assert _is_blog_post_by_cat(["CAT:BLOG"]) is True
 
 
-def test_crank_change_archive_seed_missing_is_tolerated(monkeypatch):
-    """Covers the branch where a seed slug is absent from the post list."""
+def test_homepage_leadership_missing_posts_is_tolerated(monkeypatch):
+    """Leadership section is derived from lead slugs; missing slugs must not break the homepage."""
 
     posts = (
-        _mk_summary(
-            slug="blog5",
-            title="UI Polish, CTAs and the Slow March to Done",
-            date="2026-01-24 06:15",
-            tags=("cat:Blog",),
-        ),
-        # Intentionally omit `why-crank` from the seed list.
+        # Intentionally provide no lead posts.
         _mk_summary(
             slug="hello-crank",
             title="Hello Crank",
@@ -490,4 +466,93 @@ def test_crank_change_archive_seed_missing_is_tolerated(monkeypatch):
     resp = client.get("/")
     assert resp.status_code == 200
     assert "Hello Crank" in resp.text
+
+
+def test_posts_index_category_title_empty_is_tolerated(monkeypatch):
+    """Covers the `cat_text == ''` branch when computing category SEO titles."""
+
+    posts = (
+        _mk_summary(
+            slug="lead1",
+            title="Leadership One",
+            date="2026-02-07 10:10",
+            tags=("cat:Leadership",),
+        ),
+    )
+
+    class FakeBlog:
+        def list_posts(self):
+            return posts
+
+        def get_post(self, slug: str):
+            return None
+
+    from app.http.deps import get_blog_service
+    from app.http.routers import html as html_router
+
+    # Force `cat_display` to become empty after `.strip()` so the code exercises
+    # the `if cat_text:` false branch.
+    monkeypatch.setattr(html_router, "_category_label_for_query", lambda *a, **k: " ")
+
+    app = create_app()
+    app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
+    client = TestClient(app)
+
+    resp = client.get("/posts?q=cat:Leadership")
+    assert resp.status_code == 200
+
+
+def test_get_post_includes_author_screenshots_section_when_has_psi(monkeypatch):
+    """Covers the branch that re-attaches author-provided Screenshots under PSI."""
+
+    from app.usecases.get_post import GetPostUseCase
+
+    md = (
+        "---\n"
+        "title: 'Demo'\n"
+        "date: '2026-02-01'\n"
+        "tags: ['x']\n"
+        "---\n\n"
+        "# Demo\n\n"
+        "## Problem -> Solution -> Impact\n\n"
+        "Some content.\n\n"
+        "## Screenshots\n\n"
+        "![shot](/static/images/me.jpg)\n\n"
+        "More screenshots text.\n\n"
+        "## Next\n\n"
+        "Tail.\n"
+    )
+
+    post = MarkdownPost(
+        slug="demo",
+        title="Demo",
+        date="2026-02-01 12:00",
+        tags=("x",),
+        blurb=None,
+        one_liner=None,
+        image=None,
+        thumb_image=None,
+        extra_images=(),
+        content_markdown=md,
+        emoji=None,
+        social_image=None,
+    )
+
+    class FakeRepo:
+        def get_post(self, slug: str):
+            assert slug == "demo"
+            return post
+
+    class IdentityRenderer:
+        def render(self, markdown_text: str) -> str:
+            # For coverage tests we can treat markdown as the final output.
+            return markdown_text
+
+    uc = GetPostUseCase(repo=FakeRepo(), renderer=IdentityRenderer())
+    detail = uc.execute("demo")
+    assert detail is not None
+
+    # The section should still exist after processing.
+    assert "## Screenshots" in detail.content_html
+    assert "More screenshots text." in detail.content_html
 

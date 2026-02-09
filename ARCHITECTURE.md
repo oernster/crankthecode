@@ -45,10 +45,11 @@ flowchart TD
 
 ## Entry points
 
-- Primary app factory: [`create_app()`](app/main.py:15)
-  - Mounts [`/static`](app/main.py:21) and [`/docs`](app/main.py:22)
-  - Configures Jinja with auto-reload: [`Environment(...)`](app/main.py:27)
-  - Registers routers: [`include_router(...)`](app/main.py:39)
+- Primary app factory: [`create_app()`](app/main.py:18)
+  - Enforces canonical host + HTTPS via middleware: [`enforce_canonical_host_and_scheme()`](app/main.py:36)
+  - Mounts [`/static`](app/main.py:56) and [`/docs`](app/main.py:57)
+  - Configures Jinja with auto-reload and no template cache: [`Environment(...)`](app/main.py:62)
+  - Registers routers: [`include_router(...)`](app/main.py:74)
 
 - Deployment shim: [`main.py`](main.py)
   - Exists because Render runs [`uvicorn main:app`](main.py:3) per [`render.yaml`](render.yaml:1)
@@ -69,13 +70,15 @@ flowchart TD
   - Date formatting for structured data: [`to_iso_date()`](app/http/seo.py:76)
 
 - HTML routes (server-rendered pages): [`router`](app/http/routers/html.py:25)
-  - Homepage: [`homepage()`](app/http/routers/html.py:307)
-  - Posts index + filtering: [`posts_index()`](app/http/routers/html.py:397)
-  - Post detail: [`read_post()`](app/http/routers/html.py:563)
-  - Additional pages: [`about_page()`](app/http/routers/html.py:486), [`help_page()`](app/http/routers/html.py:511), [`battlestation_page()`](app/http/routers/html.py:536)
-  - Builds a shared page context for templates: [`_base_context()`](app/http/routers/html.py:250)
-  - Computes sidebar categories (drives `/posts?q=...`): [`_sidebar_categories()`](app/http/routers/html.py:60)
-  - Auto-builds the homepage blog archive section: [`_crank_change_archive_posts()`](app/http/routers/html.py:176)
+  - Homepage: [`homepage()`](app/http/routers/html.py:376)
+    - Builds `homepage_projects` (Featured Projects, Leadership content, Backlog, Tooling)
+    - Leadership menu items are computed by stable slug order via [`_homepage_leadership_items()`](app/http/routers/html.py:240)
+  - Posts index + filtering: [`posts_index()`](app/http/routers/html.py:469)
+  - Post detail: [`read_post()`](app/http/routers/html.py:673)
+  - Additional pages: [`about_page()`](app/http/routers/html.py:590), [`help_page()`](app/http/routers/html.py:617), [`battlestation_page()`](app/http/routers/html.py:644)
+  - Builds a shared page context for templates: [`_base_context()`](app/http/routers/html.py:290)
+  - Computes sidebar categories from explicit `cat:` tags (drives `/posts?q=cat:<Label>`): [`_sidebar_categories()`](app/http/routers/html.py:215)
+  - Blog filtering on index pages is driven by the `cat:Blog` tag check: [`_is_blog_post_by_cat()`](app/http/routers/html.py:202)
 
 - API routes (JSON): [`router`](app/http/routers/api.py:11)
   - List posts: [`list_posts()`](app/http/routers/api.py:14)
@@ -139,26 +142,31 @@ flowchart TD
 
 ### Flow: homepage HTML
 
-1. Request hits FastAPI app: [`create_app()`](app/main.py:15)
-2. HTML router handles `/`: [`homepage()`](app/http/routers/html.py:307)
+1. Request hits FastAPI app: [`create_app()`](app/main.py:18)
+2. HTML router handles `/`: [`homepage()`](app/http/routers/html.py:376)
 3. Blog service is injected: [`get_blog_service()`](app/http/deps.py:25)
 4. `homepage()` computes:
-   - Cover/thumb/blurb indexes: [`_post_cover_index()`](app/http/routers/html.py:28), [`_post_thumb_index()`](app/http/routers/html.py:38), [`_post_blurb_index()`](app/http/routers/html.py:49)
-   - Crank Change Archive entries: [`_crank_change_archive_posts()`](app/http/routers/html.py:176)
-5. Response renders via Jinja templates stored in app state: [`request.app.state.templates`](app/http/deps.py:34)
+   - Shared request context (canonical URL, defaults, query state): [`_base_context()`](app/http/routers/html.py:290)
+   - Sidebar categories: [`_sidebar_categories()`](app/http/routers/html.py:215)
+   - Cover/thumb/blurb indexes for homepage buttons: [`_post_cover_index()`](app/http/routers/html.py:74), [`_post_thumb_index()`](app/http/routers/html.py:84), [`_post_blurb_index()`](app/http/routers/html.py:95)
+   - Frontmatter emoji index used by the Leadership content menu: [`_post_frontmatter_emoji_index()`](app/http/routers/html.py:279)
+   - Leadership content items (lead9 → lead1): [`_homepage_leadership_items()`](app/http/routers/html.py:240)
+5. Response renders via Jinja templates: [`get_templates()`](app/http/deps.py:34)
 
 ### Flow: posts index HTML
 
-1. `/posts` hits [`posts_index()`](app/http/routers/html.py:397)
+1. `/posts` hits [`posts_index()`](app/http/routers/html.py:469)
 2. Fetch summaries: [`blog.list_posts()`](app/services/blog_service.py:18) → [`ListPostsUseCase.execute()`](app/usecases/list_posts.py:106)
 3. Router applies query/category logic:
-   - Blog exclusion heuristic: [`_is_blog_post_slug_or_tags()`](app/http/routers/html.py:166)
-   - Category deep links + exclusions: [`_should_exclude_blog_posts_for_query()`](app/http/routers/html.py:155), [`_excluded_slugs_for_query()`](app/http/routers/html.py:141)
+   - Default behaviour is “projects only” (exclude posts tagged `cat:Blog`) unless the user explicitly includes blog entries (`exclude_blog=0`).
+   - Category deep-links: when `q` is an exact `cat:<Label>` query, filter posts by exact tag.
+   - Blog posts are always included when browsing `q=cat:Blog`.
+   - Blog membership is the `cat:Blog` tag check: [`_is_blog_post_by_cat()`](app/http/routers/html.py:202)
 4. Template renders list: [`templates/posts.html`](templates/posts.html)
 
 ### Flow: post detail HTML
 
-1. `/posts/{slug}` hits [`read_post()`](app/http/routers/html.py:563)
+1. `/posts/{slug}` hits [`read_post()`](app/http/routers/html.py:673)
 2. Load post detail: [`blog.get_post()`](app/services/blog_service.py:21) → [`GetPostUseCase.execute()`](app/usecases/get_post.py:148)
 3. Router builds SEO metadata:
    - Canonical: [`canonical_url_for_request()`](app/http/seo.py:42)
@@ -212,6 +220,7 @@ flowchart LR
 
 - Templates are stored in [`templates/`](templates/)
   - Home: [`templates/index.html`](templates/index.html)
+    - The homepage panels are rendered in template order. As of now, `Leadership content` appears above `Featured Projects`: [`templates/index.html`](templates/index.html:71)
   - Posts list: [`templates/posts.html`](templates/posts.html)
   - Post detail: [`templates/post.html`](templates/post.html)
   - Shared layout: [`templates/base.html`](templates/base.html)
@@ -232,7 +241,7 @@ flowchart LR
 
 - Performance and caching:
   - Repo + renderer are cached with `lru_cache` to avoid rebuilding for every request: [`_posts_repo()`](app/http/deps.py:15)
-  - Templates are configured with auto-reload in dev-style usage: [`auto_reload=True`](app/main.py:30)
+  - Templates are configured with auto-reload and no cache (dev-friendly): [`auto_reload=True`](app/main.py:65), [`cache_size=0`](app/main.py:66)
 
 ## Extending the system
 

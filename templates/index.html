@@ -69,6 +69,25 @@
   </section>
 
   <section class="featured-projects" aria-label="Projects">
+    <section class="section-panel section-panel--backlog" aria-labelledby="leadership-heading">
+      <h2 id="leadership-heading" class="section-title section-title--accent">Leadership content</h2>
+      <div class="featured-buttons" aria-label="Leadership content links">
+        {% for p in homepage_projects.leadership %}
+          <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+            {% set emoji = homepage_emoji_index.get(p.slug) %}
+            {% if (emoji or '')|length > 0 %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
+            {% else %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">♟️</span>
+            {% endif %}
+            <span class="btn-text">{{ p.label }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <hr class="post-separator" aria-hidden="true" />
+
     <section class="section-panel section-panel--featured" aria-labelledby="featured-projects-heading">
         <h2 id="featured-projects-heading" class="section-title section-title--accent">Featured Projects</h2>
         <div class="featured-buttons" aria-label="Featured project links">
@@ -193,33 +212,6 @@
           </a>
         {% endfor %}
       </div>
-    </section>
-
-    <hr class="post-separator" aria-hidden="true" />
-
-    <section class="section-panel section-panel--launch" aria-labelledby="archive-heading">
-      <h2 id="archive-heading" class="section-title section-title--accent">Crank Change Archive</h2>
-      <div class="featured-buttons" aria-label="Crank Change archive posts">
-        {#
-          Archive entries are computed server-side and passed in as
-          `crank_change_archive_posts`, sorted newest-first.
-        #}
-        {% for p in crank_change_archive_posts or [] %}
-          <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
-            {% set cover = homepage_cover_index.get(p.slug) %}
-            {% if cover %}
-              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.title }}" loading="lazy" />
-            {% elif (p.emoji or '')|length > 0 %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
-            {% else %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📝</span>
-            {% endif %}
-            <span class="btn-text">{{ p.title_text or p.title }}</span>
-          </a>
-        {% endfor %}
-      </div>
-
-      {# CTA moved to the global header (below “Crank The Code”) in base.html #}
     </section>
   </section>
 

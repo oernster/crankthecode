@@ -35,6 +35,7 @@ uvicorn app.main:app --reload
 ## Tests (currently 100% coverage)
 
 ```bash
-pytest -v --cov
+python -m coverage run -m pytest -q
+python -m coverage report -m
 ```
 
