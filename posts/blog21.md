@@ -81,13 +81,13 @@ At the same time, fully democratic decision making does not scale well in most o
 
 ### Authority must be permeable
 
-Effective organisations sit somewhere between these extremes. Authority exists, but it is not impermeable.
+Effective organisations sit somewhere between these extremes. Authority exists but it is not impermeable.
 
 *Formal leaders provide direction and accountability, while influence is allowed to flow to those with relevant knowledge and situational understanding. Decisions can be challenged, clarified or bypassed when necessary, without undermining responsibility.*
 
 ### Meritocratic influence reduces latency
 
-This balance is difficult to maintain, particularly in smaller organisations, but it matters.
+This balance is difficult to maintain, particularly in smaller organisations but it matters.
 
 *Where meritocratic influence is encouraged and informal leadership is recognised, decisions tend to be made earlier and with greater clarity. Where authority is hoarded or insulated, decision latency grows and products inherit that delay.*
 
