@@ -75,6 +75,6 @@ As with most of my projects this is not a stock build. The current state of the 
 
 This kind of work scratches a different itch. It is not about tests CI pipelines or abstractions. It is about alignment tolerance and shaving microns off print wobble.
 
-*-Next post will probably involve more software induced suffering. But for now the extruder sings.*
+*-Next post will probably involve more software induced suffering. However,  for now the extruder sings.*
 
 🛠️ Onwards.

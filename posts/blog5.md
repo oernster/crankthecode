@@ -16,7 +16,7 @@ title: UI Polish, CTAs and the Slow March to Done
 
 # UI Polish, CTAs and Knowing When to Stop
 
-This week’s commits look chaotic at first glance. UI tweaks. CTA shuffling. Light and dark mode flips. Words rewritten then rewritten again. Buttons nudged by a few pixels. Icons muted then un-muted then muted properly.
+This week’s commits look chaotic at first glance. UI tweaks. CTA shuffling. Light and dark mode flips. Words rewritten then rewritten again. However, tons nudged by a few pixels. Icons muted then un-muted then muted properly.
 
 From the outside it probably looks like indecision.
 
