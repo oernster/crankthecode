@@ -11,7 +11,7 @@ title: When leadership is a by-product
 social_image: /static/images/latencylab.png
 ---
 
-# When leadership is a by-product
+# When leadership is not the goal
 
 I am not interested in producing more leaders.
 
