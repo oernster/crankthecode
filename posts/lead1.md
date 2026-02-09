@@ -3,7 +3,7 @@ date: 2026-02-07 16:30
 emoji: 📊
 one_liner: What happened when I stopped arguing with intuition and ran the model one hundred thousand times.
 tags:
-- cat:Blog
+- cat:Leadership
 - latency
 - simulation
 - architecture

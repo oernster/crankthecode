@@ -41,6 +41,31 @@ def test_post_page_includes_meta_description_canonical_and_jsonld():
         os.environ.pop("SITE_URL", None)
 
 
+def test_category_page_sets_distinct_title_and_meta_description_for_leadership():
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/posts?q=cat:Leadership")
+        assert resp.status_code == 200
+
+        html = resp.text
+        assert "<title>Leadership | Posts | Crank The Code</title>" in html
+        assert (
+            '<meta name="description" content="Browse posts in Leadership on Crank The Code."'
+            in html
+        )
+
+        # Canonical should preserve the category query.
+        assert (
+            '<link rel="canonical" href="https://example.com/posts?q=cat:Leadership"'
+            in html
+        )
+    finally:
+        os.environ.pop("SITE_URL", None)
+
+
 def test_sitemap_lists_main_pages_and_posts():
     os.environ["SITE_URL"] = "https://example.com"
     try:

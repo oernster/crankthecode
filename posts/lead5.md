@@ -3,8 +3,7 @@ date: 2026-02-09 17:30
 emoji: ♜
 one_liner: Some organisational problems cannot be solved from inside the hierarchy that created them.
 tags:
-- cat:Blog
-- leadership
+- cat:Leadership
 - organisations
 - decision-making
 - authority

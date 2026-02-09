@@ -7,7 +7,7 @@ from typing import cast
 from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from app.http.deps import get_blog_service, get_templates
@@ -50,10 +50,25 @@ def _sidebar_label_with_emoji(label: str) -> str:
         "desktop apps": "🖥️ Desktop Apps",
         "gaming": "🎮 Gaming",
         "hardware": "🔧 Hardware",
+        "leadership": "♟️ Leadership",
         "tools": "🧰 Tools",
         "web apis": "🌐 Web APIs",
     }
     return mapping.get(key, label)
+
+
+# Legacy permalink redirects.
+#
+# These support older inbound links after posts were moved/renamed.
+_LEGACY_POST_REDIRECTS: dict[str, str] = {
+    # Leadership series previously published as blog entries.
+    "blog18": "lead1",
+    "blog19": "lead2",
+    "blog20": "lead3",
+    "blog21": "lead4",
+    "blog22": "lead5",
+    "blog23": "lead6",
+}
 
 
 def _post_cover_index(blog: BlogService) -> dict[str, str]:
@@ -555,6 +570,24 @@ async def posts_index(
     category_label = _category_label_for_query(
         current_q, blog=blog, exclude_blog=exclude_blog
     )
+
+    # SEO: category deep-links should have distinct titles/descriptions.
+    # Only apply when `q` is an exact `cat:` query (not free-text search).
+    page_title = "Posts | Crank The Code"
+    og_title = "Posts | Crank The Code"
+    og_description = "Browse all Crank The Code posts and project write-ups."
+    meta_description = "Browse all Crank The Code posts and project write-ups."
+    if current_q.lower().startswith(_CAT_TAG_PREFIX) and current_q.strip().lower() != _CAT_TAG_PREFIX:
+        cat_display = (category_label or current_q).strip()
+        # Category labels may be emoji-prefixed (e.g. "♟️ Leadership").
+        _, cat_text = _split_leading_emoji_from_title(cat_display)
+        cat_text = (cat_text or cat_display).strip()
+        if cat_text:
+            page_title = f"{cat_text} | Posts | Crank The Code"
+            og_title = page_title
+            og_description = f"Browse posts in {cat_text} on Crank The Code."
+            meta_description = og_description
+
     filtered_href = _posts_href(query=current_q or None, exclude_blog=None)
 
     projects_only_href = _posts_href(query=current_q or None, exclude_blog=True)
@@ -563,10 +596,10 @@ async def posts_index(
         {
             "posts": posts,
             "is_homepage": False,
-            "page_title": "Posts | Crank The Code",
-            "og_title": "Posts | Crank The Code",
-            "og_description": "Browse all Crank The Code posts and project write-ups.",
-            "meta_description": "Browse all Crank The Code posts and project write-ups.",
+            "page_title": page_title,
+            "og_title": og_title,
+            "og_description": og_description,
+            "meta_description": meta_description,
             "projects_only_href": projects_only_href,
             "include_blog_href": include_blog_href,
             "exclude_blog_effective": exclude_blog and current_q.strip().lower() != _CAT_TAG_BLOG,
@@ -679,6 +712,12 @@ async def read_post(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
+    # Permanent redirects for legacy slugs.
+    slug_norm = (slug or "").strip().lower()
+    target = _LEGACY_POST_REDIRECTS.get(slug_norm)
+    if target:
+        return RedirectResponse(url=f"/posts/{target}", status_code=301)
+
     detail = blog.get_post(slug)
     if detail is None:
         return HTMLResponse(content="<h1>404 - Post Not Found</h1>", status_code=404)

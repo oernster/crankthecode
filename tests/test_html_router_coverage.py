@@ -99,7 +99,26 @@ def test_sidebar_label_with_emoji_maps_known_labels_and_passes_through_unknowns(
 
     assert _sidebar_label_with_emoji("Tools") == "🧰 Tools"
     assert _sidebar_label_with_emoji("Hardware") == "🔧 Hardware"
+    assert _sidebar_label_with_emoji("Leadership") == "♟️ Leadership"
     assert _sidebar_label_with_emoji("Web Apis") == "🌐 Web APIs"
     assert _sidebar_label_with_emoji("Unmapped") == "Unmapped"
     assert _sidebar_label_with_emoji("") == ""
+
+
+def test_legacy_leadership_blog_posts_redirect_to_leadership_slugs():
+    app = create_app()
+    client = TestClient(app, base_url="http://localhost")
+
+    redirects = {
+        "/posts/blog18": "/posts/lead1",
+        "/posts/blog19": "/posts/lead2",
+        "/posts/blog20": "/posts/lead3",
+        "/posts/blog21": "/posts/lead4",
+        "/posts/blog22": "/posts/lead5",
+        "/posts/blog23": "/posts/lead6",
+    }
+    for src, dst in redirects.items():
+        resp = client.get(src, follow_redirects=False)
+        assert resp.status_code == 301
+        assert resp.headers["location"] == dst
 
