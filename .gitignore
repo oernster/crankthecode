@@ -212,3 +212,4 @@ __marimo__/
 # Useful but ignorable
 make_all_scripts.py
 ALL_PYTHON_SOURCES.txt
+generate_scripts.py
