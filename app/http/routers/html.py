@@ -57,18 +57,7 @@ def _sidebar_label_with_emoji(label: str) -> str:
     return mapping.get(key, label)
 
 
-# Legacy permalink redirects.
-#
-# These support older inbound links after posts were moved/renamed.
-_LEGACY_POST_REDIRECTS: dict[str, str] = {
-    # Leadership series previously published as blog entries.
-    "blog18": "lead1",
-    "blog19": "lead2",
-    "blog20": "lead3",
-    "blog21": "lead4",
-    "blog22": "lead5",
-    "blog23": "lead6",
-}
+_LEGACY_POST_REDIRECTS: dict[str, str] = {}
 
 
 def _post_cover_index(blog: BlogService) -> dict[str, str]:
@@ -583,7 +572,14 @@ async def posts_index(
             ],
         }
     )
-    return templates.TemplateResponse(request, "posts.html", ctx)
+
+    resp = templates.TemplateResponse(request, "posts.html", ctx)
+    # Dev-only safety: clear browser HTTP cache to avoid sticky cached redirects
+    # while iterating on legacy slug behavior.
+    hostname = (request.url.hostname or "").strip().lower()
+    if hostname in {"127.0.0.1", "localhost"}:
+        resp.headers["Clear-Site-Data"] = '"cache"'
+    return resp
 
 
 @router.get("/about", response_class=HTMLResponse)
@@ -676,13 +672,11 @@ async def read_post(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
-    # Permanent redirects for legacy slugs.
-    slug_norm = (slug or "").strip().lower()
-    target = _LEGACY_POST_REDIRECTS.get(slug_norm)
-    if target:
-        return RedirectResponse(url=f"/posts/{target}", status_code=301)
+    slug_raw = (slug or "").strip()
+    slug_norm = slug_raw.lower()
 
-    detail = blog.get_post(slug)
+    detail = blog.get_post(slug_raw)
+
     if detail is None:
         return HTMLResponse(content="<h1>404 - Post Not Found</h1>", status_code=404)
 
@@ -785,4 +779,11 @@ async def read_post(
             ],
         }
     )
-    return templates.TemplateResponse(request, "post.html", ctx)
+
+    resp = templates.TemplateResponse(request, "post.html", ctx)
+    # Dev-only safety: clear browser HTTP cache to avoid sticky cached redirects
+    # while iterating on legacy slug behavior.
+    hostname = (request.url.hostname or "").strip().lower()
+    if hostname in {"127.0.0.1", "localhost"}:
+        resp.headers["Clear-Site-Data"] = '"cache"'
+    return resp

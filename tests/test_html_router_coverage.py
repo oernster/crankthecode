@@ -109,16 +109,27 @@ def test_legacy_leadership_blog_posts_redirect_to_leadership_slugs():
     app = create_app()
     client = TestClient(app, base_url="http://localhost")
 
-    redirects = {
-        "/posts/blog18": "/posts/lead1",
-        "/posts/blog19": "/posts/lead2",
-        "/posts/blog20": "/posts/lead3",
-        "/posts/blog21": "/posts/lead4",
-        "/posts/blog22": "/posts/lead5",
-        "/posts/blog23": "/posts/lead6",
-    }
-    for src, dst in redirects.items():
-        resp = client.get(src, follow_redirects=False)
-        assert resp.status_code == 301
-        assert resp.headers["location"] == dst
+    # Legacy redirects have been removed; ensure blog18 is served normally.
+    resp = client.get("/posts/blog18", follow_redirects=False)
+    assert resp.status_code == 200
+    assert "When consensus becomes the goal" in resp.text
+
+
+def test_dev_site_clears_cache_header_on_localhost_responses():
+    """Cover dev-only Clear-Site-Data header.
+
+    This is only emitted for 127.0.0.1/localhost to prevent sticky cached
+    redirects during local iteration.
+    """
+
+    app = create_app()
+    client = TestClient(app, base_url="http://127.0.0.1:8003")
+
+    resp = client.get("/posts")
+    assert resp.status_code == 200
+    assert resp.headers.get("Clear-Site-Data") == '"cache"'
+
+    resp = client.get("/posts/blog18")
+    assert resp.status_code == 200
+    assert resp.headers.get("Clear-Site-Data") == '"cache"'
 
