@@ -1,5 +1,5 @@
 ---
-date: 2026-02-13 09:00
+date: 2026-02-11 05:00
 emoji: 🕳️
 one_liner: Some organisations need certainty before they can tolerate discovery.
 tags:
@@ -74,11 +74,11 @@ If certainty cannot yet be provided, the ambiguity collapses into judgement abou
 
 In early or thin organisations, titles often reflect sequence rather than scope.
 
-Authority may exist in name, but not necessarily where uncertainty lives.
+Authority may exist in name but not necessarily where uncertainty lives.
 
 This creates gaps in expectation-setting, problem framing and translation between discovery and delivery. Work that requires patience is interpreted through lenses designed for execution.
 
-*The organisation appears to have technical leadership, but lacks a place for uncertainty to safely reside.*
+*The organisation appears to have technical leadership but lacks a place for uncertainty to safely reside.*
 
 ## Why non-delivery becomes the only conclusion
 
