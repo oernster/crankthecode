@@ -70,9 +70,9 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
 
     posts = (
         _mk_summary(
-            slug="lead9",
-            title="Leadership Nine",
-            date="2026-02-09 10:10",
+            slug="lead10",
+            title="Leadership Ten",
+            date="2026-02-10 10:10",
             tags=("cat:Leadership",),
         ),
         _mk_summary(
@@ -80,6 +80,12 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
             title="Leadership One",
             date="2026-02-07 10:10",
             tags=("cat:Leadership",),
+        ),
+        _mk_summary(
+            slug="not-lead",
+            title="Not Leadership",
+            date="2026-02-09 09:00",
+            tags=("cat:Tools",),
         ),
         _mk_summary(
             slug="why-crank",
@@ -104,12 +110,15 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
 
     resp = client.get("/")
     assert resp.status_code == 200
-    assert "Leadership" in resp.text
+    assert "Leadership content" in resp.text
 
     # Ensure the series is ordered lead9 -> lead1 (newest-first for the series).
-    idx_lead9 = resp.text.index("Leadership Nine")
+    idx_lead10 = resp.text.index("Leadership Ten")
     idx_lead1 = resp.text.index("Leadership One")
-    assert idx_lead9 < idx_lead1
+    assert idx_lead10 < idx_lead1
+
+    # Non-leadership posts should not show up in the Leadership content section.
+    assert "Not Leadership" not in resp.text
 
 
 def test_posts_index_excludes_about_me_from_all_lists(monkeypatch):
@@ -468,6 +477,37 @@ def test_homepage_leadership_missing_posts_is_tolerated(monkeypatch):
     assert "Hello Crank" in resp.text
 
 
+def test_homepage_leadership_empty_renders_empty_state(monkeypatch):
+    """When there are no `cat:Leadership` posts, the homepage should render safely."""
+
+    posts = (
+        _mk_summary(
+            slug="hello-crank",
+            title="Hello Crank",
+            date="2026-01-17 11:00",
+            tags=("post",),
+        ),
+    )
+
+    class FakeBlog:
+        def list_posts(self):
+            return posts
+
+        def get_post(self, slug: str):
+            return None
+
+    from app.http.deps import get_blog_service
+
+    app = create_app()
+    app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
+    client = TestClient(app)
+
+    resp = client.get("/")
+    assert resp.status_code == 200
+    assert "Leadership content" in resp.text
+    assert "No leadership posts yet." in resp.text
+
+
 def test_posts_index_category_title_empty_is_tolerated(monkeypatch):
     """Covers the `cat_text == ''` branch when computing category SEO titles."""
 
@@ -539,6 +579,9 @@ def test_get_post_includes_author_screenshots_section_when_has_psi(monkeypatch):
     )
 
     class FakeRepo:
+        def list_posts(self):
+            return ()
+
         def get_post(self, slug: str):
             assert slug == "demo"
             return post

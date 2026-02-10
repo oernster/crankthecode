@@ -238,27 +238,26 @@ def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[s
 
 
 def _homepage_leadership_items(blog: BlogService) -> list[dict[str, str]]:
-    """Homepage Leadership section entries.
+    """Homepage Leadership content entries.
 
-    The homepage displays leadership posts as a small menu under Featured Projects.
-    We keep this list explicit (lead1..lead9) so ordering is stable and does not
-    depend on tag parsing or filesystem ordering.
+    This section must auto-surface leadership posts without any hardcoded slug
+    list. We derive it directly from the post metadata:
 
-    Rules:
-    - include lead9..lead1 (newest-first for the series)
-    - label is the post title from frontmatter
+    - include any post with an *exact* `cat:Leadership` tag (case-insensitive)
+    - keep the ordering consistent with `blog.list_posts()` (newest-first)
+    - label is the post title
     """
 
-    series_slugs = [f"lead{i}" for i in range(9, 0, -1)]
-    by_slug = {p.slug: p for p in blog.list_posts()}
-
-    out: list[dict[str, str]] = []
-    for slug in series_slugs:
-        p = by_slug.get(slug)
-        if not p:
+    items: list[dict[str, str]] = []
+    for p in blog.list_posts():
+        tags_norm = [(str(t) or "").strip().lower() for t in (p.tags or [])]
+        if "cat:leadership" not in tags_norm:
             continue
-        out.append({"slug": p.slug, "label": p.title})
-    return out
+        items.append({"slug": p.slug, "label": p.title, "date": str(p.date or "")})
+
+    # Sort newest-first by the stored `YYYY-MM-DD HH:MM` string format.
+    items.sort(key=lambda i: i.get("date", ""), reverse=True)
+    return [{"slug": i["slug"], "label": i["label"]} for i in items]
 
 
 def _post_emoji_map() -> dict[str, str]:

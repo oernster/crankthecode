@@ -72,7 +72,7 @@ flowchart TD
 - HTML routes (server-rendered pages): [`router`](app/http/routers/html.py:25)
   - Homepage: [`homepage()`](app/http/routers/html.py:376)
     - Builds `homepage_projects` (Featured Projects, Leadership content, Backlog, Tooling)
-    - Leadership menu items are computed by stable slug order via [`_homepage_leadership_items()`](app/http/routers/html.py:240)
+    - Leadership content is auto-surfaced from posts tagged `cat:Leadership` (case-insensitive) via [`_homepage_leadership_items()`](app/http/routers/html.py:240)
   - Posts index + filtering: [`posts_index()`](app/http/routers/html.py:469)
   - Post detail: [`read_post()`](app/http/routers/html.py:673)
   - Additional pages: [`about_page()`](app/http/routers/html.py:590), [`help_page()`](app/http/routers/html.py:617), [`battlestation_page()`](app/http/routers/html.py:644)
@@ -150,7 +150,7 @@ flowchart TD
    - Sidebar categories: [`_sidebar_categories()`](app/http/routers/html.py:215)
    - Cover/thumb/blurb indexes for homepage buttons: [`_post_cover_index()`](app/http/routers/html.py:74), [`_post_thumb_index()`](app/http/routers/html.py:84), [`_post_blurb_index()`](app/http/routers/html.py:95)
    - Frontmatter emoji index used by the Leadership content menu: [`_post_frontmatter_emoji_index()`](app/http/routers/html.py:279)
-   - Leadership content items (lead9 → lead1): [`_homepage_leadership_items()`](app/http/routers/html.py:240)
+   - Leadership content items (auto from `cat:Leadership`, newest-first): [`_homepage_leadership_items()`](app/http/routers/html.py:240)
 5. Response renders via Jinja templates: [`get_templates()`](app/http/deps.py:34)
 
 ### Flow: posts index HTML
