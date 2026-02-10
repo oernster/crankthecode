@@ -17,6 +17,7 @@ from app.http.seo import (
     build_meta_description,
     canonical_url_for_request,
     get_site_url,
+    to_iso_datetime,
     to_iso_date,
 )
 from app.services.blog_service import BlogService
@@ -746,17 +747,52 @@ async def read_post(
         )
 
     published_iso = to_iso_date(detail.date)
+    published_dt = to_iso_datetime(detail.date)
+
     jsonld: dict[str, object] = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": detail.title,
         "author": {"@type": "Person", "name": "Oliver Ernster"},
         "mainEntityOfPage": canonical,
+        "url": canonical,
+        "description": description,
     }
     if published_iso:
         jsonld["datePublished"] = published_iso
+        # We don't currently track modified time; use published as a stable fallback.
+        jsonld["dateModified"] = published_iso
     if detail.cover_image_url:
         jsonld["image"] = [absolute_url(site_url, detail.cover_image_url)]
+
+    tags = [str(t).strip() for t in (detail.tags or []) if str(t).strip()]
+    if tags:
+        jsonld["keywords"] = ", ".join(tags)
+
+    breadcrumb_jsonld = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": absolute_url(site_url, "/"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Posts",
+                "item": absolute_url(site_url, "/posts"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": detail.title,
+                "item": canonical,
+            },
+        ],
+    }
 
     ctx.update(
         {
@@ -769,7 +805,13 @@ async def read_post(
             "og_description": og_description,
             "og_type": "article",
             "og_image_url": og_image,
+            "og_image_alt": detail.title,
             "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
+            "jsonld_extra_json": json.dumps(
+                breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
+            ),
+            "article_published_time": published_dt,
+            "article_modified_time": published_dt,
             "back_link_href": "/posts",
             "back_link_label": "← Back to posts",
             "breadcrumb_items": [

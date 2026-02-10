@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import os
 import re
+import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from fastapi.testclient import TestClient
 
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
-from app.http.seo import build_meta_description, get_site_url, to_iso_date
+from app.http.seo import build_meta_description, get_site_url, to_iso_date, to_iso_datetime
 from app.main import create_app
 
 
@@ -193,5 +194,66 @@ def test_to_iso_date_parses_supported_formats_and_returns_none_for_invalid():
     assert to_iso_date("2026-01-20") == "2026-01-20"
     assert to_iso_date("") is None
     assert to_iso_date("not-a-date") is None
+
+
+def test_to_iso_datetime_parses_supported_formats_and_returns_none_for_invalid():
+    assert to_iso_datetime("2026-01-20 10:10") == "2026-01-20T10:10:00"
+    assert to_iso_datetime("2026-01-20") == "2026-01-20T12:00:00"
+    assert to_iso_datetime("") is None
+    assert to_iso_datetime("not-a-date") is None
+
+
+def test_all_posts_have_required_seo_meta_and_valid_jsonld():
+    """Regression net: ensure every `/posts/{slug}` page is SEO-complete.
+
+    This intentionally does *not* enforce canonical query stripping (by request).
+    """
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        app = create_app()
+        client = TestClient(app)
+
+        repo = FilesystemPostsRepository(posts_dir=Path("posts"))
+        slugs = sorted([p.slug for p in repo.list_posts()])
+        assert slugs, "Expected at least one post in /posts"
+
+        for slug in slugs:
+            resp = client.get(f"/posts/{slug}")
+            assert resp.status_code == 200, slug
+            html = resp.text
+
+            # Canonical must exist and be stable.
+            assert html.count('rel="canonical"') == 1, slug
+            assert f'https://example.com/posts/{slug}' in html, slug
+
+            # Description must exist and be non-empty.
+            m = re.search(r'<meta\s+name="description"\s+content="([^"]+)"\s*/?>', html)
+            assert m, slug
+            desc = m.group(1).strip()
+            assert desc, slug
+            assert len(desc) <= 160, slug
+
+            # OpenGraph/Twitter essentials.
+            assert 'property="og:title"' in html, slug
+            assert 'property="og:description"' in html, slug
+            assert 'property="og:image"' in html, slug
+            assert 'name="twitter:card"' in html, slug
+
+            # JSON-LD must be present and parseable.
+            blocks = re.findall(
+                r'<script\s+type="application/ld\+json">(.*?)</script>',
+                html,
+                flags=re.S,
+            )
+            assert blocks, slug
+            parsed = []
+            for raw in blocks:
+                parsed.append(json.loads(raw))
+
+            # Post pages must include BlogPosting.
+            assert any(obj.get("@type") == "BlogPosting" for obj in parsed if isinstance(obj, dict)), slug
+    finally:
+        os.environ.pop("SITE_URL", None)
 
 

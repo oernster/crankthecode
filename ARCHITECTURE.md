@@ -66,15 +66,16 @@ flowchart TD
 - SEO utilities:
   - Canonical base URL resolution with env override: [`get_site_url()`](app/http/seo.py:17) using `SITE_URL`
   - Canonical URL builder: [`canonical_url_for_request()`](app/http/seo.py:42)
-  - Meta description normalization: [`build_meta_description()`](app/http/seo.py:54)
-  - Date formatting for structured data: [`to_iso_date()`](app/http/seo.py:76)
+- Meta description normalization: [`build_meta_description()`](app/http/seo.py:54)
+- Date formatting for structured data: [`to_iso_date()`](app/http/seo.py:76)
+  - Datetime formatting for OpenGraph article meta: [`to_iso_datetime()`](app/http/seo.py:97)
 
 - HTML routes (server-rendered pages): [`router`](app/http/routers/html.py:25)
   - Homepage: [`homepage()`](app/http/routers/html.py:376)
     - Builds `homepage_projects` (Featured Projects, Leadership content, Backlog, Tooling)
     - Leadership content is auto-surfaced from posts tagged `cat:Leadership` (case-insensitive) via [`_homepage_leadership_items()`](app/http/routers/html.py:240)
   - Posts index + filtering: [`posts_index()`](app/http/routers/html.py:469)
-  - Post detail: [`read_post()`](app/http/routers/html.py:673)
+- Post detail: [`read_post()`](app/http/routers/html.py:673)
   - Additional pages: [`about_page()`](app/http/routers/html.py:590), [`help_page()`](app/http/routers/html.py:617), [`battlestation_page()`](app/http/routers/html.py:644)
   - Builds a shared page context for templates: [`_base_context()`](app/http/routers/html.py:290)
   - Computes sidebar categories from explicit `cat:` tags (drives `/posts?q=cat:<Label>`): [`_sidebar_categories()`](app/http/routers/html.py:215)
@@ -172,6 +173,10 @@ flowchart TD
    - Canonical: [`canonical_url_for_request()`](app/http/seo.py:42)
    - Meta description: [`build_meta_description()`](app/http/seo.py:54)
    - Structured data date: [`to_iso_date()`](app/http/seo.py:76)
+   - OpenGraph article timestamps: [`to_iso_datetime()`](app/http/seo.py:97)
+   - JSON-LD emitted:
+     - `BlogPosting` + `BreadcrumbList` via the two JSON-LD slots in [`templates/base.html`](templates/base.html:64)
+   - Future-post guardrail: SEO completeness is enforced by [`test_all_posts_have_required_seo_meta_and_valid_jsonld()`](tests/test_seo.py:206) which iterates all slugs from [`FilesystemPostsRepository.list_posts()`](app/adapters/filesystem_posts_repository.py:21)
 4. Template renders post: [`templates/post.html`](templates/post.html)
 
 ### Flow: RSS

@@ -93,3 +93,31 @@ def to_iso_date(value: str) -> str | None:
             continue
     return None
 
+
+def to_iso_datetime(value: str) -> str | None:
+    """Parse known post date formats into an ISO-8601 datetime string.
+
+    Supported inputs:
+    - "YYYY-MM-DD HH:MM" (current post storage)
+    - "YYYY-MM-DD" (assumed 12:00)
+
+    Returns a naive ISO datetime like "2026-01-20T10:10:00".
+    """
+
+    raw = (value or "").strip()
+    if not raw:
+        return None
+
+    for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d"):
+        try:
+            dt = datetime.strptime(raw, fmt)
+            if fmt == "%Y-%m-%d":
+                dt = dt.replace(hour=12, minute=0, second=0, microsecond=0)
+            else:
+                dt = dt.replace(second=0, microsecond=0)
+            return dt.isoformat()
+        except ValueError:
+            continue
+
+    return None
+
