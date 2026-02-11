@@ -4,6 +4,7 @@ emoji: 📊
 one_liner: What happened when I stopped arguing with intuition and ran the model one hundred thousand times.
 tags:
 - cat:Leadership
+- layer:decision-systems
 - latency
 - simulation
 - architecture

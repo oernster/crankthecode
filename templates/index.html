@@ -82,16 +82,23 @@
       <h2 id="leadership-heading" class="section-title section-title--accent">Leadership content</h2>
       <div class="featured-buttons" aria-label="Leadership content links">
         {% if homepage_projects.leadership and (homepage_projects.leadership|length) > 0 %}
-          {% for p in homepage_projects.leadership %}
-            <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
-              {% set emoji = homepage_emoji_index.get(p.slug) %}
-              {% if (emoji or '')|length > 0 %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
-              {% else %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">♟️</span>
-              {% endif %}
-              <span class="btn-text">{{ p.label }}</span>
-            </a>
+          {% for g in homepage_projects.leadership %}
+            <div class="featured-group" aria-label="Leadership layer group">
+              <h3 class="featured-group-title">{{ g.label }}</h3>
+              <div class="featured-group-items">
+                {% for p in g.posts %}
+                  <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+                    {% set emoji = homepage_emoji_index.get(p.slug) %}
+                    {% if (emoji or '')|length > 0 %}
+                      <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
+                    {% else %}
+                      <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">♟️</span>
+                    {% endif %}
+                    <span class="btn-text">{{ p.label }}</span>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
           {% endfor %}
         {% else %}
           <div class="empty-state" aria-label="No leadership posts yet">

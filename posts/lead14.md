@@ -4,6 +4,7 @@ emoji: 🪫
 one_liner: Some roles exist to disappear once the system stabilises.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - organisations
 - roles
 - authority

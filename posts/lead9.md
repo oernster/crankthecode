@@ -4,6 +4,7 @@ emoji: ♛
 one_liner: When organisations cannot tolerate risk, they often relocate it instead.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - authority
 - decision-making
 - organisations

@@ -320,6 +320,41 @@ body.is-homepage .header-cta {
   color: var(--text-color);
 }
 
+/* Nested sidebar layers (subcategory links) */
+.sidebar-link--layer {
+  padding-left: 22px;
+  font-size: 0.96em;
+  opacity: 0.95;
+}
+
+.sidebar-layer-bullet {
+  flex: 0 0 auto;
+  width: 1.2em;
+  color: var(--text-muted);
+}
+
+.sidebar-layer-text {
+  min-width: 0;
+}
+
+/* Homepage: leadership layer grouping */
+.featured-group {
+  width: 100%;
+  margin: 8px 0 12px;
+}
+
+.featured-group-title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.featured-group-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .sidebar-link:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;

@@ -276,11 +276,22 @@
       </a>
       {% for cat in sidebar_categories or [] %}
         <a
-          class="sidebar-link{% if (current_q or '')|lower == (cat.query or '')|lower %} is-active{% endif %}"
+          class="sidebar-link{% if (current_cat or '')|lower == (cat.cat or '')|lower and (current_layer or '')|length == 0 %} is-active{% endif %}"
           href="{{ cat.href }}"
         >
           {{ cat.label }}
         </a>
+        {% if cat.layers and (cat.layers|length) > 0 %}
+          {% for layer in cat.layers %}
+            <a
+              class="sidebar-link sidebar-link--layer{% if (current_cat or '')|lower == (cat.cat or '')|lower and (current_layer or '')|lower == (layer.layer or '')|lower %} is-active{% endif %}"
+              href="{{ layer.href }}"
+            >
+              <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+              <span class="sidebar-layer-text">{{ layer.label }}</span>
+            </a>
+          {% endfor %}
+        {% endif %}
       {% endfor %}
 
       <a class="sticky-cta sidebar-sticky-cta" href="/#contact">✉ Work With Me</a>

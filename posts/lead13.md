@@ -4,6 +4,7 @@ emoji: 🗂️
 one_liner: Exposure to requirements is not the same as authority over them.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - requirements
 - authority
 - organisations

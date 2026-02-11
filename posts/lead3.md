@@ -4,6 +4,7 @@ emoji: 🧠
 one_liner: Performance problems begin with product decisions and organisational behaviour long before code exists.
 tags:
 - cat:Leadership
+- layer:decision-systems
 - architecture
 - performance
 - latency

@@ -39,3 +39,24 @@ python -m coverage run -m pytest -q
 python -m coverage report -m
 ```
 
+---
+
+## Post tagging conventions
+
+Posts use YAML frontmatter with a `tags` list.
+
+- Primary category: `cat:<Label>`
+  - Example: `cat:Leadership`
+  - This powers the sidebar Categories menu.
+- Subcategory (layer): `layer:<slug>`
+  - Example: `layer:decision-systems`
+  - Layers are rendered as nested items under their parent category in the sidebar.
+  - On `/posts`, layer filtering is AND-ed with the category.
+
+Deep-links:
+
+- Category: `/posts?cat=Leadership`
+- Category + layer: `/posts?cat=Leadership&layer=decision-systems`
+
+Legacy category deep-links using `q=cat:<Label>` continue to work.
+

@@ -4,6 +4,7 @@ emoji: ♝
 one_liner: Some of the most expensive organisational failures never produce a metric.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - organisations
 - decision-making
 - authority

@@ -4,6 +4,7 @@ emoji: 📐
 one_liner: If the CTO is making too many decisions the operating model is leaking authority.
 tags:
 - cat:leadership
+- layer:cto-operating-model
 - decision-making
 - authority
 - operating-model

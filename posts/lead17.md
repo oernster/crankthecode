@@ -4,6 +4,7 @@ emoji: 🧮
 one_liner: Decision authority should be designed around decision type not job title.
 tags:
 - cat:leadership
+- layer:cto-operating-model
 - decision-making
 - authority
 - operating-model

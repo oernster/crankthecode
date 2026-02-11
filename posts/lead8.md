@@ -4,6 +4,7 @@ emoji: ♚
 one_liner: Leadership that has to be encouraged is usually compensating for something else.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - organisations
 - authority
 - systems

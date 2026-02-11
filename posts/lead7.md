@@ -4,6 +4,7 @@ emoji: ♞
 one_liner: Competence often hides the very problems organisations need to see.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - organisations
 - authority
 - decision-making

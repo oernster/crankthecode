@@ -4,6 +4,7 @@ emoji: 🧯
 one_liner: Programme management often carries accountability without decision authority.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - authority
 - accountability
 - organisations

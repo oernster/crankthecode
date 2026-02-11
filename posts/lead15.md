@@ -4,6 +4,7 @@ emoji: 🧭
 one_liner: When authority is aligned, the CTO role collapses into a small number of quiet functions.
 tags:
 - cat:Leadership
+- layer:cto-operating-model
 - CTO
 - authority
 - systems

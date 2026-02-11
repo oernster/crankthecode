@@ -4,6 +4,7 @@ emoji: ⌛
 one_liner: Slow decisions shape slow systems long before runtime behaviour is discussed.
 tags:
 - cat:Leadership
+- layer:decision-systems
 - performance
 - latency
 - organisations

@@ -4,6 +4,7 @@ emoji: ♜
 one_liner: Some organisational problems cannot be solved from inside the hierarchy that created them.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - organisations
 - decision-making
 - authority

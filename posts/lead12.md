@@ -4,6 +4,7 @@ emoji: 🕳️
 one_liner: Some organisations need certainty before they can tolerate discovery.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - organisations
 - delivery
 - uncertainty

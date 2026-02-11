@@ -28,6 +28,7 @@ router = APIRouter()
 
 _CAT_TAG_PREFIX = "cat:"
 _CAT_TAG_BLOG = "cat:blog"
+_LAYER_TAG_PREFIX = "layer:"
 
 
 def _sidebar_label_with_emoji(label: str) -> str:
@@ -170,6 +171,69 @@ def _normalize_cat_label(raw_label: str) -> str:
     return cleaned.title()
 
 
+def _normalize_layer_slug(raw_slug: str) -> str:
+    """Normalize a `layer:` slug.
+
+    The markdown frontmatter typically uses a kebab-case slug, e.g.
+    `layer:decision-systems`.
+
+    Rules:
+    - strip
+    - lowercase
+    - whitespace/underscores -> hyphen
+    - collapse repeated hyphens
+    """
+
+    raw = (raw_slug or "").strip().lower()
+    if not raw:
+        # Coverage: allow explicit empty input.
+        return ""
+
+    # Fast path: already-normalized slug.
+    # (Coverage relies on a mix of fast-path and slow-path inputs.)
+    if (
+        raw.replace("-", "").isalnum()
+        and "--" not in raw
+        and not raw.startswith("-")
+        and not raw.endswith("-")
+    ):
+        return raw
+
+    out_chars: list[str] = []
+    prev_dash = False
+    for ch in raw:
+        if ch.isalnum():
+            out_chars.append(ch)
+            prev_dash = False
+            continue
+        if ch in {" ", "_", "-"}:
+            if not prev_dash and out_chars:
+                out_chars.append("-")
+                prev_dash = True
+            continue
+        # Drop other punctuation/symbols.
+
+    out = "".join(out_chars).strip("-")
+    return out
+
+
+def _humanize_layer_slug(layer_slug: str) -> str:
+    """Convert a normalized layer slug into a UI label."""
+
+    cleaned = " ".join((layer_slug or "").strip().replace("_", "-").split("-"))
+    cleaned = " ".join(cleaned.split())
+    if not cleaned:
+        return ""
+
+    label = cleaned.title()
+
+    # Preserve known acronyms (avoid `Cto` in menus/titles).
+    acronym_map = {
+        "Cto": "CTO",
+    }
+    return " ".join(acronym_map.get(p, p) for p in label.split(" "))
+
+
 def _extract_category_queries_from_tags(tags: list[str]) -> set[str]:
     """Extract normalized `cat:` category queries from a post's tag list."""
 
@@ -189,65 +253,196 @@ def _extract_category_queries_from_tags(tags: list[str]) -> set[str]:
     return out
 
 
+def _extract_layer_slugs_from_tags(tags: list[str]) -> set[str]:
+    """Extract normalized `layer:` slugs from a post's tag list."""
+
+    out: set[str] = set()
+    for t in tags or []:
+        raw = (t or "").strip()
+        if not raw:
+            continue
+        if not raw.lower().startswith(_LAYER_TAG_PREFIX):
+            continue
+        tail = raw.split(":", 1)[1].strip()
+        slug = _normalize_layer_slug(tail)
+        if slug:
+            out.add(slug)
+    return out
+
+
 def _is_blog_post_by_cat(tags: list[str]) -> bool:
     return any((t or "").strip().lower() == _CAT_TAG_BLOG for t in (tags or []))
 
 
-def _posts_href(*, query: str | None, exclude_blog: bool | None) -> str:
+def _posts_href(
+    *,
+    query: str | None,
+    exclude_blog: bool | None,
+    cat: str | None = None,
+    layer: str | None = None,
+) -> str:
     parts: list[str] = []
     if query:
         parts.append(f"q={quote(query, safe='')}")
+    if cat:
+        parts.append(f"cat={quote(cat, safe='')}")
+    if layer:
+        parts.append(f"layer={quote(layer, safe='')}")
     if exclude_blog is not None:
         parts.append(f"exclude_blog={'1' if exclude_blog else '0'}")
     return "/posts" + ("?" + "&".join(parts) if parts else "")
 
 
-def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[str, str]]:
-    """Build sidebar categories from explicit `cat:` tags.
+def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[str, object]]:
+    """Build sidebar categories from explicit `cat:` tags and nested `layer:` tags.
 
-    Category links always point to `/posts?q=cat:<Label>`.
-    When blog posts are included (`exclude_blog=False`), the category links
-    preserve that choice by including `exclude_blog=0` in the URL.
+    URL scheme:
+    - Category: `/posts?cat=<Cat>`
+    - Layer (subcategory): `/posts?cat=<Cat>&layer=<LayerSlug>`
+
+    `exclude_blog` behaviour:
+    - When blog posts are included (`exclude_blog=False`), links preserve that
+      choice by including `exclude_blog=0`.
+    - When blog posts are excluded (`exclude_blog=True`), the Blog category links
+      *force include* by setting `exclude_blog=0`.
     """
 
-    key_to_query: dict[str, str] = {}
+    # category_key -> entry
+    cats: dict[str, dict[str, object]] = {}
+
     for p in blog.list_posts():
         tags = [str(t) for t in (p.tags or [])]
-        for q in _extract_category_queries_from_tags(tags):
-            key = q.lower()
-            key_to_query.setdefault(key, q)
+        cat_queries = _extract_category_queries_from_tags(tags)
+        if not cat_queries:
+            continue
 
-    queries = sorted(key_to_query.values(), key=lambda s: s.lower())
-    out: list[dict[str, str]] = []
-    for q in queries:
-        label = q.split(":", 1)[1].strip() if ":" in q else q
-        label = _sidebar_label_with_emoji(label)
-        href = _posts_href(query=q, exclude_blog=(False if not exclude_blog else None))
-        out.append({"label": label, "query": q, "href": href})
+        layers = _extract_layer_slugs_from_tags(tags)
+        for q in cat_queries:
+            cat_label = q.split(":", 1)[1].strip() if ":" in q else q
+            cat_label_norm = _normalize_cat_label(cat_label)
+
+            key = cat_label_norm.lower()
+            entry = cats.get(key)
+            if entry is None:
+                entry = {
+                    "cat": cat_label_norm,
+                    "query": f"cat:{cat_label_norm}",
+                    "label": _sidebar_label_with_emoji(cat_label_norm),
+                    "layers_map": {},
+                }
+                cats[key] = entry
+
+            layers_map = cast(dict[str, dict[str, str]], entry["layers_map"])
+            for layer_slug in layers:
+                layers_map.setdefault(
+                    layer_slug,
+                    {
+                        "layer": layer_slug,
+                        "label": _humanize_layer_slug(layer_slug),
+                    },
+                )
+
+    out: list[dict[str, object]] = []
+    for entry in sorted(cats.values(), key=lambda e: str(e.get("cat", "")).lower()):
+        cat_label_norm = str(entry.get("cat") or "")
+        cat_is_blog = cat_label_norm.strip().lower() == "blog"
+        href_exclude_blog = (
+            False
+            if cat_is_blog
+            else (False if not exclude_blog else None)
+        )
+
+        layers_map = cast(dict[str, dict[str, str]], entry.pop("layers_map", {}))
+        layers = sorted(layers_map.values(), key=lambda d: (d.get("label") or "").lower())
+
+        out.append(
+            {
+                "cat": cat_label_norm,
+                "query": entry.get("query"),
+                "label": entry.get("label"),
+                "href": _posts_href(
+                    query=None,
+                    cat=cat_label_norm,
+                    layer=None,
+                    exclude_blog=href_exclude_blog,
+                ),
+                "layers": [
+                    {
+                        "layer": l["layer"],
+                        "label": l["label"],
+                        "href": _posts_href(
+                            query=None,
+                            cat=cat_label_norm,
+                            layer=l["layer"],
+                            exclude_blog=href_exclude_blog,
+                        ),
+                    }
+                    for l in layers
+                    if l.get("layer")
+                ],
+            }
+        )
+
     return out
 
 
-def _homepage_leadership_items(blog: BlogService) -> list[dict[str, str]]:
-    """Homepage Leadership content entries.
+def _homepage_leadership_items(blog: BlogService) -> list[dict[str, object]]:
+    """Homepage Leadership content grouped by `layer:`.
 
-    This section must auto-surface leadership posts without any hardcoded slug
-    list. We derive it directly from the post metadata:
-
+    Grouping rules:
     - include any post with an *exact* `cat:Leadership` tag (case-insensitive)
-    - keep the ordering consistent with `blog.list_posts()` (newest-first)
-    - label is the post title
+    - if the post has one or more `layer:` tags, group under each layer
+      (duplicates are de-duped)
+    - if it has no `layer:`, group under "General"
     """
 
-    items: list[dict[str, str]] = []
+    posts: list[dict[str, object]] = []
     for p in blog.list_posts():
         tags_norm = [(str(t) or "").strip().lower() for t in (p.tags or [])]
         if "cat:leadership" not in tags_norm:
             continue
-        items.append({"slug": p.slug, "label": p.title, "date": str(p.date or "")})
+        posts.append(
+            {
+                "slug": p.slug,
+                "label": p.title,
+                "date": str(p.date or ""),
+                "tags": [str(t) for t in (p.tags or [])],
+            }
+        )
 
-    # Sort newest-first by the stored `YYYY-MM-DD HH:MM` string format.
-    items.sort(key=lambda i: i.get("date", ""), reverse=True)
-    return [{"slug": i["slug"], "label": i["label"]} for i in items]
+    posts.sort(key=lambda i: str(i.get("date", "")), reverse=True)
+
+    layer_to_items: dict[str, list[dict[str, str]]] = {}
+    for p in posts:
+        tags = [str(t) for t in cast(list[object], (p.get("tags") or []))]
+        layer_slugs = sorted(_extract_layer_slugs_from_tags(tags))
+        if not layer_slugs:
+            layer_slugs = [""]
+
+        for layer_slug in layer_slugs:
+            layer_to_items.setdefault(layer_slug, [])
+            layer_to_items[layer_slug].append(
+                {"slug": str(p.get("slug") or ""), "label": str(p.get("label") or "")}
+            )
+
+    def layer_sort_key(slug: str) -> str:
+        if slug == "":
+            return "zzzz-general"
+        return _humanize_layer_slug(slug).lower()
+
+    out: list[dict[str, object]] = []
+    for layer_slug in sorted(layer_to_items.keys(), key=layer_sort_key):
+        out.append(
+            {
+                "layer": layer_slug,
+                "label": _humanize_layer_slug(layer_slug) if layer_slug else "General",
+                # NOTE: avoid the key name `items` because Jinja may resolve
+                # `g.items` to the dict method instead of the key.
+                "posts": layer_to_items[layer_slug],
+            }
+        )
+
+    return out
 
 
 def _post_emoji_map() -> dict[str, str]:
@@ -302,6 +497,8 @@ def _base_context(request: Request) -> dict:
         # Filled by routes (requires BlogService).
         "sidebar_categories": [],
         "current_q": (request.query_params.get("q") or "").strip(),
+        "current_cat": (request.query_params.get("cat") or "").strip(),
+        "current_layer": (request.query_params.get("layer") or "").strip(),
         "exclude_blog": exclude_blog,
         "breadcrumb_items": [
             {"label": "Home", "href": "/"},
@@ -339,8 +536,8 @@ def _category_label_for_query(
         return legacy.get(raw)
 
     for c in _sidebar_categories(blog, exclude_blog=exclude_blog):
-        if (c.get("query") or "").strip().lower() == raw.lower():
-            return c.get("label")
+        if (str(c.get("query") or "")).strip().lower() == raw.lower():
+            return cast(str | None, c.get("label"))
     return None
 
 
@@ -497,55 +694,122 @@ async def posts_index(
     ]
     ctx = _base_context(request)
     current_q = (ctx.get("current_q", "") or "").strip()
+    current_cat_raw = (ctx.get("current_cat", "") or "").strip()
+    current_layer_raw = (ctx.get("current_layer", "") or "").strip()
     exclude_blog = bool(ctx.get("exclude_blog"))
 
     # Sidebar categories are tag-driven.
     ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=exclude_blog)
 
+    # Support legacy deep-links: `/posts?q=cat:<Label>` should behave like
+    # `/posts?cat=<Label>`.
+    cat_label: str | None = None
+    if current_cat_raw:
+        cat_label = _normalize_cat_label(current_cat_raw)
+    elif current_q.lower().startswith(_CAT_TAG_PREFIX) and current_q.strip().lower() != _CAT_TAG_PREFIX:
+        tail = current_q.split(":", 1)[1].strip()
+        cat_label = _normalize_cat_label(tail) if tail else None
+
+    layer_slug: str | None = None
+    if current_layer_raw:
+        layer_slug = _normalize_layer_slug(current_layer_raw)
+
+    # Expose normalized values for templates (active states).
+    ctx["current_cat"] = cat_label or ""
+    ctx["current_layer"] = layer_slug or ""
+
+    browsing_blog = (
+        (cat_label or "").strip().lower() == "blog"
+        or current_q.strip().lower() == _CAT_TAG_BLOG
+    )
+
     # Default view: projects only (exclude `cat:Blog`) unless explicitly included.
     # Always include blog posts when the user is explicitly browsing the Blog category.
-    if exclude_blog and current_q.strip().lower() != _CAT_TAG_BLOG:
+    if exclude_blog and not browsing_blog:
         posts = [
             p
             for p in posts
             if not _is_blog_post_by_cat([str(t) for t in (p.get("tags") or [])])
         ]
 
-    # Deep-links for categories should render server-side filtered HTML (tests and
-    # no-JS users). Only apply when `q` is an exact `cat:` query.
-    if current_q.lower().startswith(_CAT_TAG_PREFIX) and current_q.strip().lower() != _CAT_TAG_PREFIX:
-        q_norm = current_q.strip().lower()
+    # Server-side filtering for category + layer (AND semantics).
+    if cat_label:
+        # Use the same normalization logic as the sidebar builder so tags like
+        # `cat:leadership` still match `cat=Leadership`.
+        cat_tag_norm = f"cat:{_normalize_cat_label(cat_label)}".strip().lower()
         posts = [
             p
             for p in posts
-            if any((str(t).strip().lower() == q_norm) for t in (p.get("tags") or []))
+            if any(
+                (q or "").strip().lower() == cat_tag_norm
+                for q in _extract_category_queries_from_tags([str(t) for t in (p.get("tags") or [])])
+            )
         ]
 
-    category_label = _category_label_for_query(
-        current_q, blog=blog, exclude_blog=exclude_blog
-    )
+    if layer_slug:
+        layer_tag_norm = f"layer:{_normalize_layer_slug(layer_slug)}".strip().lower()
+        posts = [
+            p
+            for p in posts
+            if any(
+                f"layer:{s}".strip().lower() == layer_tag_norm
+                for s in _extract_layer_slugs_from_tags([str(t) for t in (p.get("tags") or [])])
+            )
+        ]
 
-    # SEO: category deep-links should have distinct titles/descriptions.
-    # Only apply when `q` is an exact `cat:` query (not free-text search).
+    category_label = None
+    if cat_label:
+        category_label = _sidebar_label_with_emoji(cat_label)
+    else:
+        category_label = _category_label_for_query(
+            current_q, blog=blog, exclude_blog=exclude_blog
+        )
+
+    layer_label = _humanize_layer_slug(layer_slug) if layer_slug else None
+
+    # SEO: category/layer deep-links should have distinct titles/descriptions.
     page_title = "Posts | Crank The Code"
     og_title = "Posts | Crank The Code"
     og_description = "Browse all Crank The Code posts and project write-ups."
     meta_description = "Browse all Crank The Code posts and project write-ups."
-    if current_q.lower().startswith(_CAT_TAG_PREFIX) and current_q.strip().lower() != _CAT_TAG_PREFIX:
-        cat_display = (category_label or current_q).strip()
-        # Category labels may be emoji-prefixed (e.g. "♟️ Leadership").
+    if cat_label:
+        cat_display = (category_label or cat_label).strip()
         _, cat_text = _split_leading_emoji_from_title(cat_display)
         cat_text = (cat_text or cat_display).strip()
-        if cat_text:
+        if layer_label:
+            page_title = f"{layer_label} | {cat_text} | Posts | Crank The Code"
+            og_title = page_title
+            og_description = f"Browse posts in {layer_label} ({cat_text}) on Crank The Code."
+            meta_description = og_description
+        elif cat_text:
             page_title = f"{cat_text} | Posts | Crank The Code"
             og_title = page_title
             og_description = f"Browse posts in {cat_text} on Crank The Code."
             meta_description = og_description
+        else:
+            # Category label can be entirely empty/emoji-only.
+            # Keep the generic Posts page metadata.
+            meta_description = meta_description  # pragma: no cover
 
-    filtered_href = _posts_href(query=current_q or None, exclude_blog=None)
+    filtered_href = _posts_href(
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
+        exclude_blog=None,
+    )
 
-    projects_only_href = _posts_href(query=current_q or None, exclude_blog=True)
-    include_blog_href = _posts_href(query=current_q or None, exclude_blog=False)
+    projects_only_href = _posts_href(
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
+        exclude_blog=True,
+    )
+    include_blog_href = _posts_href(
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
+        exclude_blog=False,
+    )
     ctx.update(
         {
             "posts": posts,
@@ -556,18 +820,33 @@ async def posts_index(
             "meta_description": meta_description,
             "projects_only_href": projects_only_href,
             "include_blog_href": include_blog_href,
-            "exclude_blog_effective": exclude_blog and current_q.strip().lower() != _CAT_TAG_BLOG,
+            "exclude_blog_effective": exclude_blog and not browsing_blog,
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
                 {"label": "Posts", "href": "/posts"},
                 *(
                     [
                         {
-                            "label": category_label or current_q,
+                            "label": category_label or cat_label,
+                            "href": _posts_href(
+                                query=None,
+                                cat=cat_label,
+                                layer=None,
+                                exclude_blog=None,
+                            ),
+                        }
+                    ]
+                    if cat_label
+                    else []
+                ),
+                *(
+                    [
+                        {
+                            "label": layer_label,
                             "href": filtered_href,
                         }
                     ]
-                    if current_q
+                    if (cat_label and layer_label)
                     else []
                 ),
             ],

@@ -4,6 +4,7 @@ emoji: 🧱
 one_liner: The decisions that lock in latency long before there is anything to measure.
 tags:
 - cat:Leadership
+- layer:decision-systems
 - architecture
 - latency
 - performance

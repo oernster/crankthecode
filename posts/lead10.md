@@ -4,6 +4,7 @@ emoji: 🧶
 one_liner: Delegation fails when responsibility travels further than definition.
 tags:
 - cat:Leadership
+- layer:organisational-structure
 - authority
 - delegation
 - organisations
