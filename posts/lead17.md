@@ -1,5 +1,5 @@
 ---
-date: 2026-02-15 08:00
+date: 2026-02-11 21:00
 emoji: 🧮
 one_liner: Decision authority should be designed around decision type not job title.
 tags:
