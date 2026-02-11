@@ -71,15 +71,20 @@ flowchart TD
   - Datetime formatting for OpenGraph article meta: [`to_iso_datetime()`](app/http/seo.py:97)
 
 - HTML routes (server-rendered pages): [`router`](app/http/routers/html.py:25)
-  - Homepage: [`homepage()`](app/http/routers/html.py:376)
+  - Homepage: [`homepage()`](app/http/routers/html.py:562)
     - Builds `homepage_projects` (Featured Projects, Leadership content, Backlog, Tooling)
-    - Leadership content is auto-surfaced from posts tagged `cat:Leadership` (case-insensitive) via [`_homepage_leadership_items()`](app/http/routers/html.py:240)
-  - Posts index + filtering: [`posts_index()`](app/http/routers/html.py:469)
-- Post detail: [`read_post()`](app/http/routers/html.py:673)
-  - Additional pages: [`about_page()`](app/http/routers/html.py:590), [`help_page()`](app/http/routers/html.py:617), [`battlestation_page()`](app/http/routers/html.py:644)
-  - Builds a shared page context for templates: [`_base_context()`](app/http/routers/html.py:290)
-  - Computes sidebar categories from explicit `cat:` tags (drives `/posts?q=cat:<Label>`): [`_sidebar_categories()`](app/http/routers/html.py:215)
-  - Blog filtering on index pages is driven by the `cat:Blog` tag check: [`_is_blog_post_by_cat()`](app/http/routers/html.py:202)
+    - Leadership content is grouped by `layer:` (subcategories) under `cat:Leadership` via [`_homepage_leadership_items()`](app/http/routers/html.py:388)
+  - Posts index + filtering: [`posts_index()`](app/http/routers/html.py:655)
+    - Supports deep-links:
+      - Category: `/posts?cat=<Cat>`
+      - Category + layer: `/posts?cat=<Cat>&layer=<LayerSlug>` (AND semantics)
+      - Legacy: `/posts?q=cat:<Label>` still works
+  - Post detail: [`read_post()`](app/http/routers/html.py:949)
+  - Additional pages: [`about_page()`](app/http/routers/html.py:783), [`help_page()`](app/http/routers/html.py:810), [`battlestation_page()`](app/http/routers/html.py:837)
+  - Builds a shared page context for templates: [`_base_context()`](app/http/routers/html.py:473)
+  - Computes sidebar categories from explicit `cat:` tags and nested `layer:` tags: [`_sidebar_categories()`](app/http/routers/html.py:296)
+  - Layer labels are humanised (and preserve acronyms like `CTO`) via [`_humanize_layer_slug()`](app/http/routers/html.py:220)
+  - Blog filtering on index pages is driven by the `cat:Blog` tag check: [`_is_blog_post_by_cat()`](app/http/routers/html.py:272)
 
 - API routes (JSON): [`router`](app/http/routers/api.py:11)
   - List posts: [`list_posts()`](app/http/routers/api.py:14)
@@ -144,30 +149,33 @@ flowchart TD
 ### Flow: homepage HTML
 
 1. Request hits FastAPI app: [`create_app()`](app/main.py:18)
-2. HTML router handles `/`: [`homepage()`](app/http/routers/html.py:376)
+2. HTML router handles `/`: [`homepage()`](app/http/routers/html.py:562)
 3. Blog service is injected: [`get_blog_service()`](app/http/deps.py:25)
 4. `homepage()` computes:
-   - Shared request context (canonical URL, defaults, query state): [`_base_context()`](app/http/routers/html.py:290)
-   - Sidebar categories: [`_sidebar_categories()`](app/http/routers/html.py:215)
+   - Shared request context (canonical URL, defaults, query state): [`_base_context()`](app/http/routers/html.py:473)
+   - Sidebar categories: [`_sidebar_categories()`](app/http/routers/html.py:296)
    - Cover/thumb/blurb indexes for homepage buttons: [`_post_cover_index()`](app/http/routers/html.py:74), [`_post_thumb_index()`](app/http/routers/html.py:84), [`_post_blurb_index()`](app/http/routers/html.py:95)
-   - Frontmatter emoji index used by the Leadership content menu: [`_post_frontmatter_emoji_index()`](app/http/routers/html.py:279)
-   - Leadership content items (auto from `cat:Leadership`, newest-first): [`_homepage_leadership_items()`](app/http/routers/html.py:240)
+   - Frontmatter emoji index used by the Leadership content menu: [`_post_frontmatter_emoji_index()`](app/http/routers/html.py:463)
+   - Leadership content groups (auto from `cat:Leadership`, grouped by `layer:`): [`_homepage_leadership_items()`](app/http/routers/html.py:388)
 5. Response renders via Jinja templates: [`get_templates()`](app/http/deps.py:34)
 
 ### Flow: posts index HTML
 
-1. `/posts` hits [`posts_index()`](app/http/routers/html.py:469)
+1. `/posts` hits [`posts_index()`](app/http/routers/html.py:655)
 2. Fetch summaries: [`blog.list_posts()`](app/services/blog_service.py:18) → [`ListPostsUseCase.execute()`](app/usecases/list_posts.py:106)
 3. Router applies query/category logic:
    - Default behaviour is “projects only” (exclude posts tagged `cat:Blog`) unless the user explicitly includes blog entries (`exclude_blog=0`).
-   - Category deep-links: when `q` is an exact `cat:<Label>` query, filter posts by exact tag.
+   - Category deep-links:
+     - `/posts?cat=<Cat>` filters by exact `cat:` tag.
+     - `/posts?cat=<Cat>&layer=<LayerSlug>` filters by `cat:` AND `layer:`.
+     - Legacy `/posts?q=cat:<Label>` continues to work.
    - Blog posts are always included when browsing `q=cat:Blog`.
-   - Blog membership is the `cat:Blog` tag check: [`_is_blog_post_by_cat()`](app/http/routers/html.py:202)
+   - Blog membership is the `cat:Blog` tag check: [`_is_blog_post_by_cat()`](app/http/routers/html.py:272)
 4. Template renders list: [`templates/posts.html`](templates/posts.html)
 
 ### Flow: post detail HTML
 
-1. `/posts/{slug}` hits [`read_post()`](app/http/routers/html.py:673)
+1. `/posts/{slug}` hits [`read_post()`](app/http/routers/html.py:949)
 2. Load post detail: [`blog.get_post()`](app/services/blog_service.py:21) → [`GetPostUseCase.execute()`](app/usecases/get_post.py:148)
 3. Router builds SEO metadata:
    - Canonical: [`canonical_url_for_request()`](app/http/seo.py:42)
