@@ -82,6 +82,30 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
             summary_html="",
             emoji=None,
         ),
+        PostSummary(
+            slug="b",
+            title="B",
+            date="2026-02-01 12:00",
+            tags=("cat:Blog",),
+            blurb=None,
+            one_liner=None,
+            cover_image_url=None,
+            thumb_image_url=None,
+            summary_html="",
+            emoji=None,
+        ),
+        PostSummary(
+            slug="c",
+            title="C",
+            date="2026-02-01 12:00",
+            tags=("cat:Tools",),
+            blurb=None,
+            one_liner=None,
+            cover_image_url=None,
+            thumb_image_url=None,
+            summary_html="",
+            emoji=None,
+        ),
     )
 
     class FakeBlog:
@@ -99,6 +123,19 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
 
     resp = client.get("/posts")
     assert resp.status_code == 200
+
+    # Decision Architecture (cat:Leadership) should be pinned to the top of the
+    # category list.
+    leadership_pos = resp.text.find("cat=Leadership")
+    blog_pos = resp.text.find("cat=Blog")
+    tools_pos = resp.text.find("cat=Tools")
+    assert leadership_pos != -1
+    assert blog_pos != -1
+    assert tools_pos != -1
+    assert leadership_pos < blog_pos < tools_pos
+
+    # The fixed "All" link should appear below categories.
+    assert resp.text.find("cat=Tools") < resp.text.find('aria-label="All"')
 
     # Category link.
     assert "cat=Leadership" in resp.text

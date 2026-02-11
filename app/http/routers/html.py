@@ -342,8 +342,21 @@ def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[s
                     },
                 )
 
+    def category_sort_key(entry: dict[str, object]) -> tuple[int, str]:
+        """Sort categories for the sidebar.
+
+        Requirements:
+        - Pin Decision Architecture (internally `cat:Leadership`) to the top.
+        - Sort everything else alphabetically.
+        """
+
+        cat_label = str(entry.get("cat", "")).strip()
+        cat_norm = cat_label.lower()
+        is_decision_architecture = cat_norm == "leadership"
+        return (0 if is_decision_architecture else 1, cat_norm)
+
     out: list[dict[str, object]] = []
-    for entry in sorted(cats.values(), key=lambda e: str(e.get("cat", "")).lower()):
+    for entry in sorted(cats.values(), key=category_sort_key):
         cat_label_norm = str(entry.get("cat") or "")
         cat_is_blog = cat_label_norm.strip().lower() == "blog"
         href_exclude_blog = (

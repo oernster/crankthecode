@@ -264,16 +264,6 @@
   <div class="page-layout">
     <nav class="sidebar" aria-label="Categories">
       <h2 class="sidebar-title">Categories</h2>
-      <a
-        class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_q or '')|length == 0 and exclude_blog %} is-active{% endif %}"
-        href="/posts?exclude_blog=1"
-      >
-        <span class="sidebar-link__icon" aria-hidden="true">🧰</span>
-        <span class="sidebar-link__text" aria-label="Projects">
-          <span class="sidebar-link__text-main">Projects</span>
-          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
-        </span>
-      </a>
       {% for cat in sidebar_categories or [] %}
         <a
           class="sidebar-link{% if (current_cat or '')|lower == (cat.cat or '')|lower and (current_layer or '')|length == 0 %} is-active{% endif %}"
@@ -293,6 +283,17 @@
           {% endfor %}
         {% endif %}
       {% endfor %}
+
+      <a
+        class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_q or '')|length == 0 and exclude_blog %} is-active{% endif %}"
+        href="/posts?exclude_blog=1"
+      >
+        <span class="sidebar-link__icon" aria-hidden="true">🧰</span>
+        <span class="sidebar-link__text" aria-label="All">
+          <span class="sidebar-link__text-main">All</span>
+          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
+        </span>
+      </a>
 
       <a class="sticky-cta sidebar-sticky-cta" href="/#contact">✉ Work With Me</a>
     </nav>
