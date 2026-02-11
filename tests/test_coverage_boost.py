@@ -110,7 +110,7 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
 
     resp = client.get("/")
     assert resp.status_code == 200
-    assert "Leadership content" in resp.text
+    assert "Decision Architecture" in resp.text
 
     # Ensure the series is ordered lead9 -> lead1 (newest-first for the series).
     idx_lead10 = resp.text.index("Leadership Ten")
@@ -504,7 +504,7 @@ def test_homepage_leadership_empty_renders_empty_state(monkeypatch):
 
     resp = client.get("/")
     assert resp.status_code == 200
-    assert "Leadership content" in resp.text
+    assert "Decision Architecture" in resp.text
     assert "No leadership posts yet." in resp.text
 
 

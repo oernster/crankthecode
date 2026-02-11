@@ -52,9 +52,9 @@ def test_category_page_sets_distinct_title_and_meta_description_for_leadership()
         assert resp.status_code == 200
 
         html = resp.text
-        assert "<title>Leadership | Posts | Crank The Code</title>" in html
+        assert "<title>Decision Architecture | Posts | Crank The Code</title>" in html
         assert (
-            '<meta name="description" content="Browse posts in Leadership on Crank The Code."'
+            '<meta name="description" content="Browse posts in Decision Architecture on Crank The Code."'
             in html
         )
 

@@ -52,7 +52,7 @@ def _sidebar_label_with_emoji(label: str) -> str:
         "desktop apps": "🖥️ Desktop Apps",
         "gaming": "🎮 Gaming",
         "hardware": "🔧 Hardware",
-        "leadership": "♟️ Leadership",
+        "leadership": "♟️ Decision Architecture",
         "tools": "🧰 Tools",
         "web apis": "🌐 Web APIs",
     }
