@@ -92,4 +92,4 @@ This is what building with tools you actually like feels like.
 > Not trendier  
 > Just calmer
 
-*-And yes deleting the last PHP file still felt incredible.*
+*-Yes, deleting the last PHP file still felt incredible.*

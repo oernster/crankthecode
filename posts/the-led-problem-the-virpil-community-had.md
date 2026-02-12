@@ -32,6 +32,6 @@ That kind of feedback matters more than stars or downloads.
 It confirmed something I’ve learned repeatedly:  
 niche problems often aren’t *rare*  ~  they’re just under‑discussed.
 
-And sometimes the most valuable contribution is connecting dots everyone else already has.
+Sometimes the most valuable contribution is connecting dots everyone else already has.
 
 <a href="https://github.com/oernster/joystickgremlin-vpcleds" target="_blank" rel="noopener noreferrer">joystickgremlin-vpcleds</a>

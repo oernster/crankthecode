@@ -14,7 +14,7 @@ title: When consensus becomes the goal
 
 Consensus is usually presented as a virtue.
 
-It is framed as maturity, collaboration, and shared ownership. It is often positioned as the safest way to progress when decisions are difficult.
+It is framed as maturity, collaboration and shared ownership. It is often positioned as the safest way to progress when decisions are difficult.
 
 However, in many organisations, consensus is not a goal. It is a symptom.
 
@@ -24,7 +24,7 @@ However, in many organisations, consensus is not a goal. It is a symptom.
 
 Consensus building is common in gated environments.
 
-Steering groups, senior stakeholder meetings, and phase reviews often frame progress as something that must be agreed collectively before moving on.
+Steering groups, senior stakeholder meetings and phase reviews often frame progress as something that must be agreed collectively before moving on.
 
 The language is careful. Alignment is emphasised. Disagreement is softened.
 
@@ -36,7 +36,7 @@ Who is allowed to decide.
 
 ## The cost of consensus
 
-Consensus slows decisions not because people disagree, but because responsibility is diffused.
+Consensus slows decisions not because people disagree but because responsibility is diffused.
 
 Each participant becomes partially accountable and fully cautious. Risk is spread thinly enough that no one can be blamed and no one can act.
 
@@ -68,7 +68,7 @@ The system appears calm while pressure accumulates.
 
 There are cases where consensus is appropriate.
 
-Values, direction, and irreversible choices with long time horizons often benefit from broad agreement.
+Values, direction and irreversible choices with long time horizons often benefit from broad agreement.
 
 The difference is that in those cases, consensus is deliberate and bounded.
 

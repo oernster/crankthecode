@@ -36,6 +36,6 @@ Restraint is the difference between learning and breaking things.
 Most of the time, the goal isn’t access.
 It’s comprehension.
 
-And comprehension scales.
+Comprehension scales.
 
 [View the related repo](https://github.com/oernster/hacking)

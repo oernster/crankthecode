@@ -54,7 +54,7 @@ def test_filesystem_repository_normalizes_string_tags_and_infers_blog_tag_for_bl
 
     # Normalized tags should include the scalar tag.
     assert "stellody" in list(post.tags)
-    # And blog slugs should always include the blog category tag.
+    # Blog slugs should always include the blog category tag.
     assert "cat:blog" in [t.lower() for t in post.tags]
 
 

@@ -131,7 +131,7 @@ def test_posts_index_seo_branch_handles_empty_category_text_gracefully():
     app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
     client = TestClient(app)
 
-    # Force `cat_label` truthy, but with whitespace so cat_text becomes empty
+    # Force `cat_label` truthy but with whitespace so cat_text becomes empty
     # after the emoji/title split.
     resp = client.get("/posts", params={"cat": "   "})
     assert resp.status_code == 200

@@ -32,7 +32,7 @@ They just:
 
 That’s the contract.
 
-And the better we respect that contract, the better we build with them, automate with them and coexist with them.
+The better we respect that contract, the better we build with them, automate with them and coexist with them.
 
 Whether it’s AI models, APIs, firmware, or even your 3D printer’s startup gcode ~ it’s all just rules. No emotion. No second-guessing.
 

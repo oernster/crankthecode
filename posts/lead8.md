@@ -60,7 +60,7 @@ This approach does not produce leadership pipelines, development tracks or high 
 
 It does not reward charisma or ambition. It does not teach people how to influence without authority.
 
-It assumes that if leadership is required, the structure is incomplete. And if leadership must be continuously encouraged, something else has already failed.
+It assumes that if leadership is required, the structure is incomplete. If leadership must be continuously encouraged, something else has already failed.
 
 ## In practice
 

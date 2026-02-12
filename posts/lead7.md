@@ -87,4 +87,4 @@ The problem arises when competence becomes a substitute for structure.
 
 When progress depends on who is capable enough to compensate, the system is no longer designed. It is merely being carried.
 
-And systems that rely on being carried eventually fail in ways no individual can prevent.
+Systems that rely on being carried eventually fail in ways no individual can prevent.
