@@ -124,7 +124,7 @@ The CTO is not there to absorb all decisions.
 
 The CTO is there to design where authority sits.
 
-And to refuse on behalf of others when responsibility is assigned without mandate.
+To refuse on behalf of others when responsibility is assigned without mandate.
 
 This refusal is not obstruction.
 
