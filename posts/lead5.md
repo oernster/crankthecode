@@ -99,7 +99,7 @@ When it fails, the signals are equally clear. Authority remains symbolic. Decisi
 
 Not every organisation needs this kind of intervention.
 
-But when decision latency becomes systemic, adding more structure rarely helps. What is required is a deliberate redesign of authority, responsibility and decision flow.
+However, when decision latency becomes systemic, adding more structure rarely helps. What is required is a deliberate redesign of authority, responsibility and decision flow.
 
 That work does not belong in the middle of the hierarchy. It operates at its boundaries.
 

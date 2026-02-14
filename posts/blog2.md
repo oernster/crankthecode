@@ -19,7 +19,7 @@ title: Tables, Taglines and Terminal Fakery
 
 It has been a busy few days of updates to the blog. This was the sort of work that is mostly polish mixed with debugging things that used to work and a small amount of questioning earlier life choices.
 
-But here we are. Highlights below.
+However, here we are. Highlights below.
 
 ---
 

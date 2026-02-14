@@ -41,7 +41,7 @@ The shape of the problem is not yet known. Constraints emerge late. Early approa
 
 This is real work.
 
-But it does not always produce signals an organisation recognises as progress.
+However, it does not always produce signals an organisation recognises as progress.
 
 Learning is quiet. It leaves few artefacts. It rarely fits neatly into plans or milestones.
 

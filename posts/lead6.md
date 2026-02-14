@@ -54,7 +54,7 @@ Decisions become socially risky. Authority is ambiguous. Responsibility exists w
 
 The organisation remains calm. There are no incidents. Delivery continues. Meetings are polite.
 
-But initiative drains away.
+However, initiative drains away.
 
 This phase is rarely noticed because nothing is visibly wrong. It is only later when progress slows or opportunities are missed that concern emerges.
 

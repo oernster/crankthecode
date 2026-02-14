@@ -72,7 +72,7 @@ They move between teams. They chase future-critical work. They adapt repeatedly 
 
 This works for a time.
 
-But continuous alignment carries a cost. The effort to remain essential never fully repays itself and eventually exhausts the individual.
+However, continuous alignment carries a cost. The effort to remain essential never fully repays itself and eventually exhausts the individual.
 
 *What appears to be resilience is often unrecognised depletion.*
 

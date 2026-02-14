@@ -27,7 +27,7 @@ Highly competent people reduce friction. They notice ambiguity early. They compe
 
 This is valuable in the short term. It keeps systems running. It prevents visible failure.
 
-But it also insulates the organisation from its own weaknesses.
+However, it also insulates the organisation from its own weaknesses.
 
 When capable individuals absorb uncertainty, structural problems remain hidden. Leadership never feels pressure to change decision paths or authority boundaries because the outcomes appear acceptable.
 
