@@ -68,6 +68,13 @@
   --primary-btn-bg: #2563eb;
   --primary-btn-bg-hover: #1e40af;
   --primary-btn-fg: #ffffff;
+
+  /*
+    Global sizing for button-like components.
+    0.75 => ~75% of previous size (font + height).
+    NOTE: `.scroll-top` is intentionally excluded from this scaling.
+  */
+  --btn-scale: 0.75;
 }
 
 .theme-light {
@@ -499,21 +506,21 @@ body.is-homepage .header-cta {
 /* Make search + RSS controls match the favicon (crank icon) size */
 .header-actions .icon-btn,
 .header-actions .rss-link {
-  width: 52px;
-  height: 52px;
+  width: calc(52px * var(--btn-scale));
+  height: calc(52px * var(--btn-scale));
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
 .header-actions .icon-btn {
-  font-size: 24px;
+  font-size: calc(24px * var(--btn-scale));
   line-height: 1;
 }
 
 .header-actions .rss-icon {
-  width: 32px;
-  height: 32px;
+  width: calc(32px * var(--btn-scale));
+  height: calc(32px * var(--btn-scale));
 }
 
 .header-actions .home-favicon-link {
@@ -536,8 +543,8 @@ body.is-homepage .header-cta {
 .header-home-link {
   position: static;
   transform: none;
-  width: 64px;
-  height: 64px;
+  width: calc(64px * var(--btn-scale));
+  height: calc(64px * var(--btn-scale));
 }
 
 .header-about-wrap {
@@ -577,8 +584,8 @@ body.is-homepage .header-cta {
   align-items: center;
   justify-content: center;
   /* Keep the icon's right edge aligned with the right edge of the header icons */
-  width: 64px;
-  height: 64px;
+  width: calc(64px * var(--btn-scale));
+  height: calc(64px * var(--btn-scale));
   padding: 0;
   border-radius: 12px;
   line-height: 0;
@@ -600,8 +607,8 @@ body.is-homepage .header-cta {
 }
 
 .top-favicon-icon {
-  width: 64px;
-  height: 64px;
+  width: calc(64px * var(--btn-scale));
+  height: calc(64px * var(--btn-scale));
   display: block;
   border-radius: 12px;
 }
@@ -681,9 +688,9 @@ body.is-homepage .header-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: calc(40px * var(--btn-scale));
+  height: calc(40px * var(--btn-scale));
+  border-radius: calc(10px * var(--btn-scale));
 /* Pale yellow background, red icon (foreground) */
   color: var(--icon-fg);
   background: var(--icon-surface-bg);
@@ -695,9 +702,9 @@ body.is-homepage .header-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: calc(52px * var(--btn-scale));
+  height: calc(52px * var(--btn-scale));
+  border-radius: calc(14px * var(--btn-scale));
   background: var(--icon-surface-bg);
   border: 1px solid var(--icon-surface-border);
 }
@@ -712,8 +719,8 @@ body.is-homepage .header-cta {
 }
 
 .home-favicon-icon {
-  width: 52px;
-  height: 52px;
+  width: calc(52px * var(--btn-scale));
+  height: calc(52px * var(--btn-scale));
   display: block;
   border-radius: 14px;
 }
@@ -722,7 +729,7 @@ body.is-homepage .header-cta {
   padding: 0;
   cursor: pointer;
   font: inherit;
-  font-size: 18px;
+  font-size: calc(18px * var(--btn-scale));
   line-height: 1;
 }
 
@@ -783,8 +790,8 @@ body.is-homepage .header-cta {
 }
 
 .rss-icon {
-  width: 26px;
-  height: 26px;
+  width: calc(26px * var(--btn-scale));
+  height: calc(26px * var(--btn-scale));
   display: block;
 }
 
@@ -945,14 +952,15 @@ body.is-homepage .header-cta {
 }
 
 .search-go {
-  height: 42px;
-  padding: 0 15.2px;
-  border-radius: 12px;
+  height: calc(42px * var(--btn-scale));
+  padding: 0 calc(15.2px * var(--btn-scale));
+  border-radius: calc(12px * var(--btn-scale));
   border: 1px solid var(--panel-border-strong);
   background: var(--primary-btn-bg);
   color: var(--primary-btn-fg);
   cursor: pointer;
   font: inherit;
+  font-size: calc(1em * var(--btn-scale));
   font-weight: 700;
   line-height: 1;
 }
@@ -985,9 +993,9 @@ body.is-homepage .header-cta {
   top: 50%;
   right: 8px;
   transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
+  width: calc(30px * var(--btn-scale));
+  height: calc(30px * var(--btn-scale));
+  border-radius: calc(10px * var(--btn-scale));
   border: 1px solid var(--panel-border-strong);
   background: var(--panel-bg);
   color: var(--text-color);
@@ -1318,8 +1326,8 @@ a[href=\"/\"] {
 }
 
 .axisdb-run-note .code-copy--icon {
-  width: 42px;
-  height: 32px;
+  width: calc(42px * var(--btn-scale));
+  height: calc(32px * var(--btn-scale));
   padding: 0;
   border-radius: 999px;
   display: inline-flex;
@@ -1328,8 +1336,8 @@ a[href=\"/\"] {
 }
 
 .axisdb-run-note .code-copy__icon {
-  width: 18px;
-  height: 18px;
+  width: calc(18px * var(--btn-scale));
+  height: calc(18px * var(--btn-scale));
   fill: rgba(233, 231, 255, 0.88);
 }
 
@@ -1385,13 +1393,14 @@ a[href=\"/\"]:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 56px;
+  min-height: calc(56px * var(--btn-scale));
   background: var(--primary-btn-bg);
   color: var(--primary-btn-fg);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  padding: 12.5px 21.6px;
+  padding: calc(12.5px * var(--btn-scale)) calc(21.6px * var(--btn-scale));
   font-weight: 700;
+  font-size: calc(1em * var(--btn-scale));
   line-height: 1.2;
   box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
   transition:
@@ -1404,29 +1413,29 @@ a[href=\"/\"]:hover {
 
 /* Homepage “All” button: slightly wider while keeping the same base button styling. */
 .btn-link--all {
-  padding-left: 24.8px;
-  padding-right: 24.8px;
-  min-width: 88px;
+  padding-left: calc(24.8px * var(--btn-scale));
+  padding-right: calc(24.8px * var(--btn-scale));
+  min-width: calc(88px * var(--btn-scale));
 }
 
 /* Homepage “All” button: slightly wider while keeping the same base button styling. */
 .btn-link--all {
-  padding-left: 24.8px;
-  padding-right: 24.8px;
-  min-width: 88px;
+  padding-left: calc(24.8px * var(--btn-scale));
+  padding-right: calc(24.8px * var(--btn-scale));
+  min-width: calc(88px * var(--btn-scale));
 }
 
 /* Button links with tiny thumbnails */
 .btn-link--with-thumb {
   display: inline-flex;
   align-items: center;
-  gap: 12.8px;
+  gap: calc(12.8px * var(--btn-scale));
 }
 
 .btn-thumb {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: calc(56px * var(--btn-scale));
+  height: calc(56px * var(--btn-scale));
+  border-radius: calc(12px * var(--btn-scale));
   object-fit: cover;
   flex: 0 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -1437,7 +1446,7 @@ a[href=\"/\"]:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 38px;
+  font-size: calc(38px * var(--btn-scale));
   line-height: 1;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -1445,7 +1454,7 @@ a[href=\"/\"]:hover {
 
 /* Dual-emoji thumbnails: keep glyphs side-by-side and avoid line wrapping. */
 .btn-thumb--emoji-multi {
-  gap: 2px;
+  gap: calc(2px * var(--btn-scale));
   white-space: nowrap;
 }
 
@@ -1458,8 +1467,8 @@ a[href=\"/\"]:hover {
 
 .btn-subtext {
   display: block;
-  margin-top: 3.2px;
-  font-size: 13.6px;
+  margin-top: calc(3.2px * var(--btn-scale));
+  font-size: calc(13.6px * var(--btn-scale));
   font-weight: 400;
   line-height: 1.1;
   color: var(--text-muted);
@@ -1622,10 +1631,11 @@ a[href=\"/\"]:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 52px;
-  padding: 11.2px 19.2px;
+  min-height: calc(52px * var(--btn-scale));
+  padding: calc(11.2px * var(--btn-scale)) calc(19.2px * var(--btn-scale));
   border-radius: 999px;
   font-weight: 700;
+  font-size: calc(1em * var(--btn-scale));
   line-height: 1.1;
   background: var(--primary-btn-bg);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -1785,8 +1795,8 @@ html.theme-light .section-title {
 }
 
 .fake-terminal__title .code-copy--icon {
-  width: 42px;
-  height: 32px;
+  width: calc(42px * var(--btn-scale));
+  height: calc(32px * var(--btn-scale));
   padding: 0;
   border-radius: 999px;
   display: inline-flex;
@@ -1795,8 +1805,8 @@ html.theme-light .section-title {
 }
 
 .fake-terminal__title .code-copy__icon {
-  width: 18px;
-  height: 18px;
+  width: calc(18px * var(--btn-scale));
+  height: calc(18px * var(--btn-scale));
   fill: rgba(233, 231, 255, 0.88);
 }
 
@@ -1873,17 +1883,17 @@ html.theme-light .section-title {
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.07);
   color: rgba(233, 231, 255, 0.9);
-  padding: 4.8px 8.8px;
-  border-radius: 10px;
+  padding: calc(4.8px * var(--btn-scale)) calc(8.8px * var(--btn-scale));
+  border-radius: calc(10px * var(--btn-scale));
   font: inherit;
-  font-size: 13.6px;
+  font-size: calc(13.6px * var(--btn-scale));
   cursor: pointer;
 }
 
 /* Icon-only copy button (used across AxisDB) */
 .code-copy--icon {
-  width: 42px;
-  height: 32px;
+  width: calc(42px * var(--btn-scale));
+  height: calc(32px * var(--btn-scale));
   padding: 0;
   border-radius: 999px;
   display: inline-flex;
@@ -1892,8 +1902,8 @@ html.theme-light .section-title {
 }
 
 .code-copy__icon {
-  width: 18px;
-  height: 18px;
+  width: calc(18px * var(--btn-scale));
+  height: calc(18px * var(--btn-scale));
   fill: rgba(233, 231, 255, 0.88);
 }
 
@@ -2834,12 +2844,13 @@ html.theme-light .section-title {
 
 .header-cta-link {
   display: inline-block;
-  padding: 8.8px 14.4px;
+  padding: calc(8.8px * var(--btn-scale)) calc(14.4px * var(--btn-scale));
   border-radius: 999px;
   background: var(--primary-btn-bg);
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: var(--primary-btn-fg);
   box-sizing: border-box;
+  font-size: calc(1em * var(--btn-scale));
   transition: background 0.18s ease, border-color 0.18s ease;
 }
 
@@ -2882,12 +2893,13 @@ html.theme-light .section-title {
   position: static;
   background: var(--primary-btn-bg);
   color: var(--primary-btn-fg);
-  padding: 12px 20px;
+  padding: calc(12px * var(--btn-scale)) calc(20px * var(--btn-scale));
   font-weight: 700;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: calc(1em * var(--btn-scale));
   transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
   box-sizing: border-box;
 }
