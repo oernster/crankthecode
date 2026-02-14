@@ -3173,3 +3173,15 @@ html.theme-light .section-title {
   color: var(--brand-mauve);
   font-size: 1.2em;
 }
+
+.open-source-note {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin: 1.5rem 0;
+}
+
+.open-source-note a {
+  text-decoration: none;
+  font-weight: 500;
+}
