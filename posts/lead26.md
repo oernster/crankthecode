@@ -21,7 +21,7 @@ Revenue closed.
 
 Acceleration improves these numbers.
 
-But acceleration alone does not guarantee compounding.
+However, acceleration alone does not guarantee compounding.
 
 *Compounding requires stability of direction.*
 
@@ -104,7 +104,7 @@ Technical experiments.
 
 Healthy systems expand at the edge.
 
-But exploration must be structurally contained.
+However, exploration must be structurally contained.
 
 Experiments should not repeatedly dissolve core architectural direction.  
 Option generation should not reopen settled authority surfaces.  
