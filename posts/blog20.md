@@ -15,7 +15,7 @@ tags:
 ---
 # Trainer 5.0.3 – Architecture Locked In
 
-Trainer 5.0.3 is now live. macOS dmg. Windows build. Linux. Flatpak. All working.
+[Trainer 5.0.3 is now live](https://github.com/oernster/Trainer/releases/tag/v5.0.3). macOS dmg. Windows build. Flatpak. All working.
 
 This release was not about features. It was about structure.
 
