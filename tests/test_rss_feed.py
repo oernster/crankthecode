@@ -155,3 +155,10 @@ def test_rss_items_include_content_encoded_html_with_leading_img_for_feed_thumbn
     finally:
         os.environ.pop("SITE_URL", None)
 
+
+def test_rss_helpers_is_leadership_post_handles_non_iterable_tags_for_coverage():
+    from app.http.routers.rss import _is_leadership_post
+
+    # Non-iterable should be treated as a single tag value.
+    assert _is_leadership_post(123) is False
+

@@ -84,6 +84,28 @@ def _first_image_src(html: str) -> str | None:
     return match.group(1)
 
 
+def _pick_item_image_src(*, detail, summary_html: str) -> str | None:
+    """Pick an image to use as an RSS item thumbnail.
+
+    Priority:
+    1) Cover image (frontmatter `image:`)
+    2) First inline image from the *detail* HTML body
+    3) First inline image from the *summary* HTML (used by list_posts)
+
+    This makes the RSS feed resilient when the 20 newest posts are text-only but
+    older posts do contain images.
+    """
+
+    if detail is None:
+        return _first_image_src(summary_html)
+
+    return (
+        (getattr(detail, "cover_image_url", None) or None)
+        or _first_image_src(getattr(detail, "content_html", "") or "")
+        or _first_image_src(summary_html)
+    )
+
+
 def _absolute_url(base_url: str, url: str) -> str:
     if url.startswith("http://") or url.startswith("https://"):
         return url
@@ -105,12 +127,31 @@ def _guess_image_mime(url: str) -> str | None:
     return None
 
 
+def _is_leadership_post(tags: object) -> bool:
+    """Return True if a post should be excluded from the RSS feed.
+
+    The RSS feed is intended for blog-style updates, not the Leadership/"Decision
+    Architecture" content stream.
+    """
+
+    raw_tags = tags or []
+    try:
+        iterable = list(raw_tags)
+    except TypeError:
+        iterable = [raw_tags]
+
+    for tag in iterable:
+        if str(tag).strip().lower() == "cat:leadership":
+            return True
+    return False
+
+
 @router.get("/rss.xml", include_in_schema=False)
 async def rss_feed(
     request: Request,
     blog: BlogService = Depends(get_blog_service),
 ):
-    posts = list(blog.list_posts())
+    posts = [p for p in blog.list_posts() if not _is_leadership_post(getattr(p, "tags", []))]
     posts = posts[:20]
 
     base_url = _site_url(request)
@@ -142,19 +183,18 @@ async def rss_feed(
         img_url: str | None = None
         mime: str | None = None
 
-        if detail is not None:
-            img_src = detail.cover_image_url or _first_image_src(detail.content_html)
-            if img_src:
-                img_url = _absolute_url(base_url, img_src)
-                mime = _guess_image_mime(img_url)
+        img_src = _pick_item_image_src(detail=detail, summary_html=post.summary_html)
+        if img_src:
+            img_url = _absolute_url(base_url, img_src)
+            mime = _guess_image_mime(img_url)
 
-                # Feedly can be picky: it sometimes only sees thumbnails if they
-                # appear early in the <item>.
-                ET.SubElement(
-                    item,
-                    f"{{{_MEDIA_NS}}}thumbnail",
-                    {"url": img_url},
-                )
+            # Feedly can be picky: it sometimes only sees thumbnails if they
+            # appear early in the <item>.
+            ET.SubElement(
+                item,
+                f"{{{_MEDIA_NS}}}thumbnail",
+                {"url": img_url},
+            )
 
         # Feed readers key off <guid> for de-duplication and caching. If you need
         # them to reprocess existing entries, bump `_FEED_ITEM_GUID_VERSION`.

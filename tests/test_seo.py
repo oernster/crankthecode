@@ -30,6 +30,8 @@ def test_post_page_includes_meta_description_canonical_and_jsonld():
         assert resp.status_code == 200
 
         html = resp.text
+        # Primary cover image should always render directly under the title.
+        assert '<img class="post-cover"' in html
         assert f'<link rel="canonical" href="https://example.com/posts/trainer"' in html
         assert f'<meta name="description" content="{expected}"' in html
 

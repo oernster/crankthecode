@@ -120,6 +120,38 @@ def _insert_screenshots_after_problem_solution_impact(
     return markdown_text.strip() + "\n\n" + screenshots_markdown + "\n"
 
 
+def _axisdb_install_prompt_markdown() -> str:
+    """AxisDB: HTML block injected after the Problem→Solution→Impact section."""
+
+    return """<div class=\"fake-terminal fake-terminal--axisdb-install\" aria-label=\"Install AxisDB\">
+  <div class=\"fake-terminal__title\">
+    <span>bash</span>
+    <button
+      class=\"code-copy code-copy--icon\"
+      type=\"button\"
+      data-copy-target=\"axisdb-install-commands\"
+      aria-label=\"Copy install commands\"
+      title=\"Copy install commands\"
+    >
+      <svg class=\"code-copy__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\">
+        <path
+          d=\"M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1Zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9v14Z\"
+        />
+      </svg>
+    </button>
+  </div>
+  <pre class=\"fake-terminal__body\"><code><span class=\"ft-step ft-step--1\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--1\">python3 -m venv venv</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--1\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
+<span class=\"ft-step ft-step--2\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--2\">source venv/bin/activate</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--2\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
+<span class=\"ft-step ft-step--3\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--3\">pip install --upgrade pip</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--3\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
+<span class=\"ft-step ft-step--4\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--4\">pip install axisdb</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--4\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span></code></pre>
+
+  <pre class=\"visually-hidden\"><code id=\"axisdb-install-commands\">python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install axisdb</code></pre>
+</div>"""
+
+
 def _has_problem_solution_impact_section(markdown_text: str) -> bool:
     """Return True if markdown contains a Problem→Solution→Impact heading."""
 
@@ -153,115 +185,76 @@ class GetPostUseCase:
         cover_url = getattr(post, "image", None)
         social_url = getattr(post, "social_image", None)
         extra_urls = tuple(getattr(post, "extra_images", ()))
+
+        # Start from raw markdown.
         markdown_wo_cover = post.content_markdown
+
+        # 1) Strip explicit cover image paragraph (if present) *near the start*.
         if cover_url:
-            # Only strip the cover when the author placed it near the start/end.
-            # This avoids removing a legitimately embedded image later in the body
-            # (e.g. a screenshot that matches the cover image).
             markdown_wo_cover = _strip_image_paragraph(
                 markdown_wo_cover,
                 cover_url,
-                # Only strip when the image is very near the start (first or
-                # second paragraph). This preserves legitimate reuse later
-                # (e.g. screenshots section).
                 head=2,
             )
-        else:
-            cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
-                post.content_markdown
-            )
 
-        # `extra_images` are meant to be rendered in a controlled, consistent place.
-        # If the author embedded them as standalone image paragraphs, strip them to
-        # avoid duplication.
-        for extra_url in extra_urls:
-            markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, extra_url)
-
-        # Collect any author-provided screenshots section so we can reposition it.
+        # 2) Extract author-provided Screenshots section *before* cover extraction.
+        # This prevents an image inside "## Screenshots" from being mis-detected as
+        # the cover when `image:` is not set in frontmatter.
         markdown_wo_cover, embedded_screenshots_bodies = _extract_markdown_sections(
             markdown_wo_cover,
             title="Screenshots",
         )
 
-        has_psi = _has_problem_solution_impact_section(markdown_wo_cover)
-
-        # Only auto-inject the "primary screenshots" (cover + extra_images) when the
-        # post actually has a Problem→Solution→Impact section. For posts without it,
-        # we avoid changing the author's intended image layout.
-        if has_psi:
-            screenshot_urls: list[str] = []
-            seen: set[str] = set()
-            for url in (cover_url, *extra_urls):
-                if not url:
-                    continue
-                if url in seen:
-                    continue
-                seen.add(url)
-                screenshot_urls.append(url)
-
-            screenshots_parts: list[str] = []
-
-            # AxisDB: show the install prompt immediately after Problem→Solution→Impact,
-            # and *above* the screenshots gallery.
-            if (post.slug or "").strip().lower() == "axisdb":
-                screenshots_parts.append(
-                    """<div class=\"fake-terminal fake-terminal--axisdb-install\" aria-label=\"Install AxisDB\">
-  <div class=\"fake-terminal__title\">
-    <span>bash</span>
-    <button
-      class=\"code-copy code-copy--icon\"
-      type=\"button\"
-      data-copy-target=\"axisdb-install-commands\"
-      aria-label=\"Copy install commands\"
-      title=\"Copy install commands\"
-    >
-      <svg class=\"code-copy__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\">
-        <path
-          d=\"M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1Zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9v14Z\"
-        />
-      </svg>
-    </button>
-  </div>
-  <pre class=\"fake-terminal__body\"><code><span class=\"ft-step ft-step--1\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--1\">python3 -m venv venv</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--1\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
-<span class=\"ft-step ft-step--2\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--2\">source venv/bin/activate</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--2\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
-<span class=\"ft-step ft-step--3\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--3\">pip install --upgrade pip</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--3\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
-<span class=\"ft-step ft-step--4\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--4\">pip install axisdb</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--4\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span></code></pre>
-
-  <pre class=\"visually-hidden\"><code id=\"axisdb-install-commands\">python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install axisdb</code></pre>
-</div>"""
-                )
-                screenshots_parts.append("")
-
-            if screenshot_urls or embedded_screenshots_bodies:
-                screenshots_parts.append("## Screenshots")
-                for url in screenshot_urls:
-                    screenshots_parts.append(f"![{post.title}]({url})")
-                    screenshots_parts.append("")
-                for body in embedded_screenshots_bodies:
-                    screenshots_parts.append(body.strip())
-                    screenshots_parts.append("")
-
-            screenshots_md = "\n".join(screenshots_parts).strip()
-            markdown_wo_cover = _insert_screenshots_after_problem_solution_impact(
-                markdown_wo_cover,
-                screenshots_markdown=screenshots_md,
+        # 3) If no explicit cover image, derive it from the remaining markdown.
+        if not cover_url:
+            cover_url, markdown_wo_cover = _extract_cover_image_and_strip(
+                markdown_wo_cover
             )
 
-        elif embedded_screenshots_bodies:
-            # No Problem→Solution→Impact but the author wrote a Screenshots section.
-            # Re-attach it at the end so it isn't lost.
-            screenshots_parts = ["## Screenshots"]
+        # 4) `extra_images` are rendered in a controlled place.
+        # If the author embedded them as standalone image paragraphs, strip them to
+        # avoid duplication.
+        for extra_url in extra_urls:
+            markdown_wo_cover = _strip_image_paragraph(markdown_wo_cover, extra_url)
+
+        has_psi = _has_problem_solution_impact_section(markdown_wo_cover)
+
+        # AxisDB flourish: inject the install prompt immediately after PSI.
+        # (This is intentionally independent of the screenshots placement.)
+        if has_psi and (post.slug or "").strip().lower() == "axisdb":
+            markdown_wo_cover = _insert_screenshots_after_problem_solution_impact(
+                markdown_wo_cover,
+                screenshots_markdown=_axisdb_install_prompt_markdown(),
+            )
+
+        # Always render `extra_images` in a controlled place: append a Screenshots
+        # section at the end (plus any author-provided Screenshots section bodies).
+        screenshot_urls: list[str] = []
+        seen: set[str] = set()
+        for url in extra_urls:
+            if not url:
+                continue
+            if url in seen:
+                continue
+            seen.add(url)
+            screenshot_urls.append(url)
+
+        screenshots_parts: list[str] = []
+        if screenshot_urls or embedded_screenshots_bodies:
+            screenshots_parts.append("## Screenshots")
+            for url in screenshot_urls:
+                screenshots_parts.append(f"![{post.title}]({url})")
+                screenshots_parts.append("")
             for body in embedded_screenshots_bodies:
                 screenshots_parts.append(body.strip())
                 screenshots_parts.append("")
-            screenshots_md = "\n".join(screenshots_parts).strip()
-            # `screenshots_md` is always non-empty here because the list is seeded
-            # with a heading and `embedded_screenshots_bodies` contains at least
-            # one non-blank body.
-            markdown_wo_cover = markdown_wo_cover.strip() + "\n\n" + screenshots_md + "\n"
+
+        screenshots_md = "\n".join(screenshots_parts).strip()
+        if screenshots_md:
+            if markdown_wo_cover.strip():
+                markdown_wo_cover = markdown_wo_cover.strip() + "\n\n" + screenshots_md + "\n"
+            else:
+                markdown_wo_cover = screenshots_md + "\n"
 
         html_content = self.renderer.render(markdown_wo_cover)
         return PostDetail(

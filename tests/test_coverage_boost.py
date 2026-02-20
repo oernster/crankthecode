@@ -599,3 +599,43 @@ def test_get_post_includes_author_screenshots_section_when_has_psi(monkeypatch):
     assert "## Screenshots" in detail.content_html
     assert "More screenshots text." in detail.content_html
 
+
+def test_get_post_usecase_appends_screenshots_when_body_markdown_is_empty_covers_else_branch():
+    """Cover the branch where the post body is empty but screenshots exist.
+
+    This hits the `else: markdown_wo_cover = screenshots_md + "\n"` path.
+    """
+
+    from app.usecases.get_post import GetPostUseCase
+
+    class IdentityRenderer:
+        def render(self, markdown_text: str) -> str:
+            return markdown_text
+
+    class FakeRepo:
+        def get_post(self, slug: str):
+            assert slug == "demo"
+            return MarkdownPost(
+                slug="demo",
+                title="Demo",
+                date="2026-02-01 12:00",
+                tags=("x",),
+                blurb=None,
+                one_liner=None,
+                image=None,
+                thumb_image=None,
+                extra_images=("/static/images/one.png",),
+                content_markdown="",  # empty body
+                emoji=None,
+                social_image=None,
+            )
+
+        def list_posts(self):
+            return ()
+
+    uc = GetPostUseCase(repo=FakeRepo(), renderer=IdentityRenderer())
+    detail = uc.execute("demo")
+    assert detail is not None
+    assert detail.content_html.startswith("## Screenshots")
+    assert "/static/images/one.png" in detail.content_html
+

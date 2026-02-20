@@ -19,6 +19,12 @@
     {% endif %}
   </div>
 
+  {% if post.cover_image_url %}
+    <a class="post-cover-link" href="{{ post.cover_image_url }}" aria-label="Open full-size image: {{ post.title }}">
+      <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="eager" />
+    </a>
+  {% endif %}
+
   {# Per-post flourish: AxisDB install prompt above the cover image #}
   {# NOTE: AxisDB install prompt is injected server-side immediately after the
      Problem -> Solution -> Impact section (see get_post use-case). #}
