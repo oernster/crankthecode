@@ -92,10 +92,12 @@ flowchart TD
   - Lightweight OpenGraph meta endpoint: [`get_post_meta()`](app/http/routers/api.py:29)
   - Response schemas: [`PostSummaryResponse`](app/http/schemas.py:8), [`PostDetailResponse`](app/http/schemas.py:16)
 
-- RSS feed: [`rss_feed()`](app/http/routers/rss.py:109)
+- RSS feed: [`rss_feed()`](app/http/routers/rss.py:149)
   - Renders RSS 2.0 via `xml.etree.ElementTree`
   - Computes RFC 822 dates from stored `YYYY-MM-DD HH:MM`: [`_rfc822_date()`](app/http/routers/rss.py:62)
+  - Filters out Leadership/Decision Architecture items (`cat:Leadership`) so the RSS stream represents blog-style updates.
   - Includes Media RSS thumbnails (Feedly-friendly) and `content:encoded`
+  - Picks a thumbnail image via [`_pick_item_image_src()`](app/http/routers/rss.py:87)
 
 - Sitemap + robots: [`sitemap_xml()`](app/http/routers/sitemap.py:17), [`robots_txt()`](app/http/routers/sitemap.py:51)
   - `robots.txt` is sourced from [`static/robots.txt`](static/robots.txt) but the Sitemap line is rewritten per environment
@@ -115,11 +117,15 @@ flowchart TD
   - Sorts by `date` descending (string sort): [`sorted(..., key=lambda p: p.date, reverse=True)`](app/usecases/list_posts.py:156)
 
 - Get post and produce full HTML: [`GetPostUseCase.execute()`](app/usecases/get_post.py:148)
-  - Similar cover and extra image stripping logic
-  - Reorders or injects a Screenshots section around a `Problem → Solution → Impact` section when present:
-    - Detect: [`_has_problem_solution_impact_section()`](app/usecases/get_post.py:123)
-    - Extract embedded screenshots: [`_extract_markdown_sections()`](app/usecases/get_post.py:17)
-    - Insert: [`_insert_screenshots_after_problem_solution_impact()`](app/usecases/get_post.py:69)
+  - Cover image rules:
+    - Prefer explicit frontmatter `image:` as the cover.
+    - If `image:` is missing, derive the cover from the first standalone image paragraph.
+    - Before any cover derivation, the use case extracts an author-provided `## Screenshots` section so images inside that section are not accidentally treated as the cover: [`_extract_markdown_sections()`](app/usecases/get_post.py:17).
+  - Screenshots rules:
+    - `extra_images` from frontmatter are always rendered by appending a `## Screenshots` section at the end of the post.
+    - If the author also wrote a `## Screenshots` section, its bodies are preserved and merged into the final `## Screenshots` section.
+  - Per-post flourish:
+    - AxisDB injects an install prompt immediately after the `Problem → Solution → Impact` section (when present) via [`_insert_screenshots_after_problem_solution_impact()`](app/usecases/get_post.py:69).
   - Produces a [`PostDetail`](app/domain/models.py:41)
 
 ### `app/ports` (interfaces)
@@ -186,15 +192,17 @@ flowchart TD
      - `BlogPosting` + `BreadcrumbList` via the two JSON-LD slots in [`templates/base.html`](templates/base.html:64)
    - Future-post guardrail: SEO completeness is enforced by [`test_all_posts_have_required_seo_meta_and_valid_jsonld()`](tests/test_seo.py:206) which iterates all slugs from [`FilesystemPostsRepository.list_posts()`](app/adapters/filesystem_posts_repository.py:21)
 4. Template renders post: [`templates/post.html`](templates/post.html)
+   - The primary/cover image is rendered directly under the title block when `post.cover_image_url` is present: [`templates/post.html`](templates/post.html)
 
 ### Flow: RSS
 
-1. `/rss.xml` hits [`rss_feed()`](app/http/routers/rss.py:109)
-2. Takes the latest 20 posts: [`posts = posts[:20]`](app/http/routers/rss.py:114)
+1. `/rss.xml` hits [`rss_feed()`](app/http/routers/rss.py:149)
+2. Filters out Leadership/Decision Architecture posts (`cat:Leadership`) and then takes the latest 20.
 3. For each item it:
    - Uses summary HTML for `<description>`
-   - Optionally loads full detail to find an image + full content
-   - Emits media thumbnails early for compatibility
+   - Loads full detail when available to provide `content:encoded`
+   - Picks an item image in priority order (cover → first detail `<img>` → first summary `<img>`) via [`_pick_item_image_src()`](app/http/routers/rss.py:87)
+   - Emits Media RSS thumbnails early in the `<item>` for reader compatibility
 
 ### Flow: sitemap and robots
 
@@ -217,8 +225,10 @@ flowchart LR
   SUM1 --> REND1[render markdown to html]
   REND1 --> PS[PostSummary]
 
-  GUC --> COV2[strip cover and extras]
-  GUC --> SEC[reorder screenshots section]
+  GUC --> SEC[extract author Screenshots section]
+  SEC --> COV2[derive cover from remaining markdown if needed]
+  COV2 --> STRIP[strip embedded extra_images]
+  STRIP --> XIMG[append extra_images as Screenshots]
   SEC --> REND2[render markdown to html]
   REND2 --> PD[PostDetail]
 ```
@@ -227,6 +237,8 @@ flowchart LR
 
 - Posts must start with a frontmatter delimiter line `---`.
 - Metadata (common): `title`, `date`, `tags`, plus optional `blurb`, `one_liner`, `image`, `thumb_image`, `social_image`, `extra_images`.
+  - `image`: the post’s primary/cover image; rendered under the title on the post detail page.
+  - `extra_images`: additional images; appended as a `## Screenshots` section at the end of the post.
 - The repository normalizes the `date` field into a consistent string format for sorting and display: [`_normalize_published_at()`](app/adapters/filesystem_posts_repository.py:93)
 
 ## Templates and static assets
