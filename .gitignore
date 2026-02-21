@@ -214,3 +214,7 @@ make_all_scripts.py
 ALL_PYTHON_SOURCES.txt
 ALL_SOURCES.txt
 generate_scripts.py
+progress.md
+features.json
+
+
