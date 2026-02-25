@@ -99,6 +99,7 @@ def test_sidebar_label_with_emoji_maps_known_labels_and_passes_through_unknowns(
 
     assert _sidebar_label_with_emoji("Tools") == "🧰 Tools"
     assert _sidebar_label_with_emoji("Hardware") == "🔧 Hardware"
+    assert _sidebar_label_with_emoji("Governance") == "🏛️ Governance"
     assert _sidebar_label_with_emoji("Leadership") == "♟️ Decision Architecture"
     assert _sidebar_label_with_emoji("Web Apis") == "🌐 Web APIs"
     assert _sidebar_label_with_emoji("Unmapped") == "Unmapped"

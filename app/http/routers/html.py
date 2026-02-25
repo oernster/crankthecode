@@ -51,6 +51,7 @@ def _sidebar_label_with_emoji(label: str) -> str:
         "data / ml": "🧠 Data / ML",
         "desktop apps": "🖥️ Desktop Apps",
         "gaming": "🎮 Gaming",
+        "governance": "🏛️ Governance",
         "hardware": "🔧 Hardware",
         "leadership": "♟️ Decision Architecture",
         "tools": "🧰 Tools",
