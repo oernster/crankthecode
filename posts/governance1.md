@@ -1,13 +1,17 @@
 ---
 date: 2026-02-25 21:30
 emoji: 🌳
-one_liner: Democratic systems fracture when legitimacy and competence drift apart.
+one_liner: A structural alternative to two-party democracy designed to preserve legitimacy while improving competence.
 tags:
 - cat:governance
 - institutional-design
 - resilience
 - decision-architecture
 - democracy
+- democratic-reform
+- institutional-reform
+- referendum-design
+- two-party-system
 title: Resilient Democracy
 ---
 
@@ -20,6 +24,8 @@ Minority protection matters.
 Legitimacy matters.  
 
 Those gains are not trivial.
+
+This is a proposal to reform democracy without abandoning it. It addresses two party oscillation as well as referendum fracture and institutional capture while preserving citizen sovereignty.
 
 ## Pressure is increasing
 
@@ -189,6 +195,10 @@ Parties remain.
 Monopoly control fades over time.
 
 Stability increases without shock.
+
+## What this proposes
+
+Resilient Democracy is a governance framework proposal and a structural alternative to two party dominance. It outlines a reform path for referendum design and institutional accountability while preserving democratic legitimacy and state strength.
 
 ## The core principle
 
