@@ -767,12 +767,15 @@ async def posts_index(
         for p in blog.list_posts()
     ]
 
-    # “About me” is rendered on a dedicated `/about` page and should not appear
-    # in any post listing (including “All posts (exc. Blog)”).
+    # Special pages:
+    # - “About me” is rendered on a dedicated `/about` page
+    # - “Start Here” is promoted via the header buttons
+    # These should not appear in any post listing (including “All posts (exc. Blog)”).
+    hidden_slugs = {"about-me", "about", "start-here"}
     posts = [
         p
         for p in posts
-        if str(p.get("slug", "")).strip().lower() not in {"about-me", "about"}
+        if str(p.get("slug", "")).strip().lower() not in hidden_slugs
     ]
     ctx = _base_context(request)
     current_q = (ctx.get("current_q", "") or "").strip()

@@ -87,7 +87,11 @@ def test_sitemap_lists_main_pages_and_posts():
         assert "https://example.com/" in locs
         assert "https://example.com/posts" in locs
         assert "https://example.com/about" in locs
+        assert "https://example.com/posts/start-here" in locs
         assert "https://example.com/posts/trainer" in locs
+
+        # Special pages should not be listed as regular posts.
+        assert "https://example.com/posts/about-me" not in locs
     finally:
         os.environ.pop("SITE_URL", None)
 

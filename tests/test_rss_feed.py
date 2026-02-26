@@ -79,6 +79,30 @@ def test_rss_items_have_expected_fields_and_absolute_links():
         os.environ.pop("SITE_URL", None)
 
 
+def test_rss_feed_excludes_special_pages():
+    """Special nav pages should not appear as feed items."""
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/rss.xml")
+        assert resp.status_code == 200
+
+        root = ET.fromstring(resp.text)
+        channel = root.find("channel")
+        assert channel is not None
+
+        items = channel.findall("item")
+        links = [_get_text(i, "link") for i in items]
+
+        assert not any((l or "").endswith("/posts/about-me") for l in links)
+        assert not any((l or "").endswith("/posts/start-here") for l in links)
+    finally:
+        os.environ.pop("SITE_URL", None)
+
+
 def test_rss_items_include_media_image_when_post_contains_img_tag():
     os.environ["SITE_URL"] = "https://example.com"
     try:

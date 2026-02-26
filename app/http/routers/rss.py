@@ -146,12 +146,27 @@ def _is_leadership_post(tags: object) -> bool:
     return False
 
 
+def _is_hidden_special_post(slug: object) -> bool:
+    """Return True if a post should be excluded from the RSS feed.
+
+    Some markdown files are used as site pages/nav destinations rather than
+    content streams.
+    """
+
+    return str(slug or "").strip().lower() in {"about-me", "start-here"}
+
+
 @router.get("/rss.xml", include_in_schema=False)
 async def rss_feed(
     request: Request,
     blog: BlogService = Depends(get_blog_service),
 ):
-    posts = [p for p in blog.list_posts() if not _is_leadership_post(getattr(p, "tags", []))]
+    posts = [
+        p
+        for p in blog.list_posts()
+        if not _is_leadership_post(getattr(p, "tags", []))
+        and not _is_hidden_special_post(getattr(p, "slug", ""))
+    ]
     posts = posts[:20]
 
     base_url = _site_url(request)

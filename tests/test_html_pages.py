@@ -16,6 +16,8 @@ def test_homepage_renders():
     assert resp.status_code == 200
     assert "Featured Projects" in resp.text
     assert "docs/CV-Oliver.pdf" in resp.text
+    assert "🗺️ Start Here" in resp.text
+    assert 'href="/posts/start-here"' in resp.text
 
 
 def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld():
