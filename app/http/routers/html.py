@@ -621,19 +621,25 @@ async def homepage(
     thumb_index = _post_thumb_index(blog)
     blurb_index = _post_blurb_index(blog)
     emoji_index = _post_frontmatter_emoji_index(blog)
+
+    homepage_meta = {
+        "is_homepage": True,
+        "page_title": "Oliver Ernster - Senior Python Developer & Decision Systems Technologist",
+        "og_title": "Oliver Ernster | Crank The Code",
+        "og_description": (
+            "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
+            "writing about decision systems, authority alignment and backend architecture."
+        ),
+        "meta_description": (
+            "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
+            "writing about decision systems, authority alignment and backend architecture."
+        ),
+    }
+
     ctx.update(
         {
-            "is_homepage": True,
-            "page_title": "Oliver Ernster - Senior Python Developer & Decision Systems Technologist",
-            "og_title": "Oliver Ernster | Crank The Code",
-            "og_description": (
-                "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
-                "writing about decision systems, authority alignment and backend architecture."
-            ),
-            "meta_description": (
-                "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
-                "writing about decision systems, authority alignment and backend architecture."
-            ),
+            # NOTE: Homepage meta is applied at the end of this route to prevent
+            # accidental overrides.
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "homepage_projects": {
                 "featured": [
@@ -695,11 +701,35 @@ async def homepage(
         }
     )
 
-    # Entity SEO: explicit Person schema for Oliver Ernster.
-    homepage_jsonld = _person_jsonld_oliver_ernster(site_url=get_site_url(request))
-    ctx["jsonld_extra_json"] = json.dumps(
+    # Entity SEO: WebSite -> Person graph linking.
+    # Keep homepage structured data stable and explicitly linked via @id.
+    site_url = get_site_url(request)
+    home = absolute_url(site_url, "/")
+    person_jsonld = _person_jsonld_oliver_ernster(site_url=site_url)
+
+    homepage_jsonld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": f"{home}#website",
+                "name": "Crank The Code",
+                "url": home,
+                "author": {"@id": f"{home}#oliver-ernster"},
+            },
+            person_jsonld,
+        ],
+    }
+    ctx["jsonld_json"] = json.dumps(
         homepage_jsonld, ensure_ascii=False, separators=(",", ":")
     )
+    # Ensure we only emit a single JSON-LD script block on the homepage.
+    ctx["jsonld_extra_json"] = None
+
+    # Critical requirement: the homepage must always prioritize Oliver Ernster
+    # in title and OG metadata and must not fall back to the generic site-wide
+    # defaults from `_base_context()`.
+    ctx.update(homepage_meta)
 
     return templates.TemplateResponse(request, "index.html", ctx)
 
