@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import datetime as dt
 import json
 import unicodedata
 from pathlib import Path
@@ -497,6 +498,7 @@ def _base_context(request: Request) -> dict:
     return {
         "request": request,
         "site_url": site_url,
+        "current_year": dt.datetime.now(dt.timezone.utc).year,
         # Optional override for `<title>` in `base.html`.
         "page_title": None,
         "site_name": "Crank The Code",
@@ -516,6 +518,40 @@ def _base_context(request: Request) -> dict:
         "exclude_blog": exclude_blog,
         "breadcrumb_items": [
             {"label": "Home", "href": "/"},
+        ],
+    }
+
+
+def _person_jsonld_oliver_ernster(*, site_url: str) -> dict[str, object]:
+    """Primary `Person` entity for Oliver Ernster.
+
+    This is used on both the homepage and the About page to strengthen the
+    entity association between the person and the domain.
+    """
+
+    home = absolute_url(site_url, "/")
+    return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": f"{home}#oliver-ernster",
+        "name": "Oliver Ernster",
+        "url": home,
+        "jobTitle": "Senior Python Developer",
+        "description": (
+            "Senior Python Developer and CTO-level technologist focused on decision "
+            "systems, authority alignment and backend architecture."
+        ),
+        "sameAs": [
+            "https://github.com/oernster",
+        ],
+        "knowsAbout": [
+            "Python",
+            "FastAPI",
+            "AWS",
+            "Decision Systems",
+            "Backend Architecture",
+            "Authority Alignment",
+            "Organisational Design",
         ],
     }
 
@@ -588,8 +624,16 @@ async def homepage(
     ctx.update(
         {
             "is_homepage": True,
-            "og_title": "Crank The Code - Python Engineering Blog by Oliver Ernster",
-            "og_description": "Python engineering blog by Oliver Ernster: projects, FastAPI tooling and technical write-ups.",
+            "page_title": "Oliver Ernster - Senior Python Developer & Decision Systems Technologist",
+            "og_title": "Oliver Ernster | Crank The Code",
+            "og_description": (
+                "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
+                "writing about decision systems, authority alignment and backend architecture."
+            ),
+            "meta_description": (
+                "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
+                "writing about decision systems, authority alignment and backend architecture."
+            ),
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "homepage_projects": {
                 "featured": [
@@ -651,14 +695,8 @@ async def homepage(
         }
     )
 
-    # Bonus SEO sauce: SoftwareApplication schema (site-level, for rich previews/search).
-    homepage_jsonld = {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Crank The Code",
-        "url": absolute_url(get_site_url(request), "/"),
-        "author": {"@type": "Person", "name": "Oliver Ernster"},
-    }
+    # Entity SEO: explicit Person schema for Oliver Ernster.
+    homepage_jsonld = _person_jsonld_oliver_ernster(site_url=get_site_url(request))
     ctx["jsonld_extra_json"] = json.dumps(
         homepage_jsonld, ensure_ascii=False, separators=(",", ":")
     )
@@ -888,10 +926,10 @@ async def about_page(
         {
             "about_html": _load_about_html(),
             "is_homepage": False,
-            "page_title": "About me | Crank The Code",
-            "og_title": "About me | Crank The Code",
-            "og_description": "About Oliver Ernster and the Crank The Code blog.",
-            "meta_description": "About Oliver Ernster and the Crank The Code blog.",
+            "page_title": "About Oliver Ernster | Senior Python Developer",
+            "og_title": "About Oliver Ernster",
+            "og_description": "About Oliver Ernster, Senior Python Developer and CTO-level technologist.",
+            "meta_description": "About Oliver Ernster, Senior Python Developer and CTO-level technologist.",
             "back_link_href": "/",
             "back_link_label": "← Back to posts",
             "breadcrumb_items": [
@@ -899,6 +937,11 @@ async def about_page(
                 {"label": "About", "href": "/about"},
             ],
         }
+    )
+
+    about_jsonld = _person_jsonld_oliver_ernster(site_url=get_site_url(request))
+    ctx["jsonld_extra_json"] = json.dumps(
+        about_jsonld, ensure_ascii=False, separators=(",", ":")
     )
     return templates.TemplateResponse(request, "about.html", ctx)
 

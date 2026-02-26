@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Crank The Code - Python Engineering Blog by Oliver Ernster{% endblock %}
+{#
+  Title is controlled server-side via `page_title` for entity SEO.
+  Keeping this block empty avoids accidental divergence.
+#}
+{% block title %}{% endblock %}
 
 {% block content %}
   <section class="landing-intro" aria-label="Intro">

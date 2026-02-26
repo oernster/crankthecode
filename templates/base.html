@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if page_title %}{{ page_title }}{% else %}{% block title %}Crank The Code{% endblock %}{% endif %}</title>
+  <title>{{ page_title or site_name }}</title>
 
   {# Meta description #}
   {% if meta_description %}
@@ -306,6 +306,12 @@
       </div>
       {% block content %}{% endblock %}
     </main>
+  </div>
+
+  <div class="site-footer" aria-label="Footer">
+    <small style="color: var(--text-muted);">
+      © {{ current_year }} Oliver Ernster - Senior Python Developer
+    </small>
   </div>
 
   <div class="floating-actions" aria-label="Floating actions">

@@ -13,7 +13,7 @@ tags:
   - architecture
   - tdd
 ---
-# Trainer 5.0.3 – Architecture Locked In
+# Trainer 5.0.3 - Architecture Locked In
 
 [Trainer 5.0.3 is now live](https://github.com/oernster/Trainer/releases/tag/v5.0.3). macOS dmg. Windows build. Flatpak. All working.
 

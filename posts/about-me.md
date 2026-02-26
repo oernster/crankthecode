@@ -12,6 +12,8 @@ title: About Me
 
 ## Role and focus
 
+I am Oliver Ernster, a Senior Python Developer based in the United Kingdom.
+
 Hi, I’m Oliver. I’m a CTO-level technical leader focused on reducing organisational and technical risk through earlier, clearer decisions.
 
 I work at the intersection of architecture, product ambition and organisational structure. Most systemic failure is not caused by poor code. It is caused by unclear authority, delayed decisions and trade-offs that no one is explicitly accountable for. My role is to design those decision surfaces before they fracture delivery.

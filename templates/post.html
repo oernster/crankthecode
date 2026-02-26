@@ -12,6 +12,9 @@
     </h1>
     <div class="post-meta">
       <small class="post-date">{{ post.date }}</small>
+      <small class="post-author">
+        By <a href="/about" rel="author">Oliver Ernster</a>
+      </small>
       <small class="post-tags">Tags: {{ post.tags | join(", ") }}</small>
     </div>
     {% if post.one_liner or post.blurb %}

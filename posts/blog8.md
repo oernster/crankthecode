@@ -13,7 +13,7 @@ tags:
 - music
 - qt
 - multithreading
-title: Stellody v5.0.0 – Playlist Purgatory, Parallel Processing & Progress Bar Penance
+title: Stellody v5.0.0 - Playlist Purgatory, Parallel Processing & Progress Bar Penance
 ---
 
 # Stellody v5.0.0 is live and critically now generates real functional playlists again.
