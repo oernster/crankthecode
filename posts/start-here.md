@@ -5,9 +5,9 @@ emoji: 🗺️
 one_liner: A guide to navigating the ideas and systems explored on Crank The Code.
 ---
 
-## Crank The Code explores structural thinking across organisations, software and governance.
+Crank The Code explores structural thinking across organisations, software and governance.
 
-### If you are new, this page maps the territory.
+If you are new, this page maps the territory.
 
 The essays and projects here are not separate threads. They are different surfaces of the same question:
 
@@ -40,8 +40,7 @@ Growth increases option space.
 Ambiguity reopens trade-offs.  
 Coordination cost replaces code complexity as the primary bottleneck.
 
-You can explore this further in the Decision Systems essays:  
-/posts?cat=Decision-Systems
+You can explore this further in the Decision Systems essays: [/posts?cat=Decision-Systems](/posts?cat=Decision-Systems)
 
 *Decision systems determine whether learning survives contact with scale.*
 
