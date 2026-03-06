@@ -16,8 +16,21 @@ def test_homepage_renders():
     assert resp.status_code == 200
     assert "Featured Projects" in resp.text
     assert "docs/CV-Oliver.pdf" in resp.text
+    assert 'href="/docs/Decision-Architecture.epub"' in resp.text
+    assert "Download eBook" in resp.text
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
+
+
+def test_docs_epub_is_served():
+    """The eBook should be directly downloadable like the CV (via `/docs`)."""
+
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/docs/Decision-Architecture.epub")
+    assert resp.status_code == 200
+    assert len(resp.content) > 0
 
 
 def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld():

@@ -1662,6 +1662,33 @@ a[href=\"/\"]:hover {
   margin: 0 0 14.4px;
 }
 
+/* Homepage: section heading row (e.g. Decision Architecture title + download button). */
+.section-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* Ensure headings in a row don't introduce extra top spacing. */
+.section-heading-row .section-title {
+  margin: 0;
+}
+
+/* Make the eBook button slightly more compact than the hero CTAs. */
+.cta-button--compact {
+  min-height: calc(44px * var(--btn-scale));
+  padding: calc(9.6px * var(--btn-scale)) calc(16px * var(--btn-scale));
+}
+
+@media (max-width: 680px) {
+  .section-heading-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .section-panel--intro .landing-bio {
   margin-bottom: 17.6px;
   color: var(--text-muted);

@@ -17,6 +17,9 @@ class BuildOrchestrator:
     section_priority: dict[str, int]
 
     def build(self) -> None:
+        # Ensure the public output directory exists (served from `/docs`).
+        self.paths.output_file.parent.mkdir(parents=True, exist_ok=True)
+
         posts_repo = FilesystemBookPostsRepository(posts_dir=self.paths.posts_dir)
         organizer = SectionOrganizer(section_priority=self.section_priority)
         assembler = MarkdownAssembler(paths=self.paths)

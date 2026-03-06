@@ -29,12 +29,15 @@ class BookPaths:
     @classmethod
     def from_repo_root(cls, repo_root: Path) -> "BookPaths":
         book_dir = repo_root / "book"
+        docs_dir = repo_root / "docs"
         return cls(
             repo_root=repo_root,
             posts_dir=repo_root / "posts",
             book_dir=book_dir,
             about_file=book_dir / "about-me-book.md",
-            output_file=book_dir / "Decision-Architecture.epub",
+            # Public artifact: served by FastAPI StaticFiles mounted at `/docs`.
+            # This avoids exposing the whole `book/` directory.
+            output_file=docs_dir / "Decision-Architecture.epub",
             temp_combined=book_dir / "_combined_book.md",
             css_file=book_dir / "_book_style.css",
             metadata_file=book_dir / "_metadata.yaml",
