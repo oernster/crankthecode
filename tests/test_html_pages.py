@@ -14,6 +14,7 @@ def test_homepage_renders():
     resp = client.get("/")
 
     assert resp.status_code == 200
+    assert "Things I build with" not in resp.text
     assert "Featured Projects" in resp.text
     assert "docs/CV-Oliver.pdf" in resp.text
     assert 'href="/docs/Decision-Architecture.epub"' in resp.text
@@ -92,6 +93,7 @@ def test_about_page_renders():
     resp = client.get("/about")
 
     assert resp.status_code == 200
+    assert "Things I build with" in resp.text
 
 
 def test_help_page_renders_and_is_noindex_and_masks_email():

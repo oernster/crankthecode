@@ -66,3 +66,15 @@ Legacy modernisation under real operational constraints.
 
 Long-term exposure to lower-level systems, networking, databases and performance-sensitive environments.  
 Experience across startup and multinational contexts where delivery, risk and commercial reality intersect.
+
+---
+
+## Things I build with
+
+| Category | Tools |
+| --- | --- |
+| Backend | Python, FastAPI, Django, Flask |
+| Frontend | React, TypeScript, HTML/CSS |
+| Tools | Docker, Ansible, Terraform, Git |
+| Operating systems | Linux, macOS, Windows |
+| Hardware | Klipper, MicroPython, Voron / other 3D printers |

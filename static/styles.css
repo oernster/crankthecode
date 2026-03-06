@@ -1155,7 +1155,8 @@ img {
 }
 
 /* Markdown tables (used in posts like Calendifier). */
-.post-content table {
+.post-content table,
+.about-content table {
   width: fit-content;
   max-width: 100%;
   margin: 20px auto 32px;
@@ -1171,14 +1172,16 @@ img {
 
 /* Keep long tables usable on smaller screens. */
 @media (max-width: 860px) {
-  .post-content table {
+  .post-content table,
+  .about-content table {
     display: block;
     width: 100%;
     overflow-x: auto;
   }
 }
 
-.post-content thead th {
+.post-content thead th,
+.about-content thead th {
   text-align: left;
   font-weight: 700;
   padding: 10.4px 13.6px;
@@ -1188,18 +1191,21 @@ img {
   white-space: nowrap;
 }
 
-.post-content tbody td {
+.post-content tbody td,
+.about-content tbody td {
   padding: 9.6px 13.6px;
   border-bottom: 1px solid var(--panel-border);
   color: var(--text-muted);
   vertical-align: top;
 }
 
-.post-content tbody tr:nth-child(2n) td {
+.post-content tbody tr:nth-child(2n) td,
+.about-content tbody tr:nth-child(2n) td {
   background: var(--panel-bg-subtle);
 }
 
-.post-content tbody tr:last-child td {
+.post-content tbody tr:last-child td,
+.about-content tbody tr:last-child td {
   border-bottom: 0;
 }
 
