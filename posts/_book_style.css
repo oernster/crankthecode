@@ -1,0 +1,48 @@
+body {
+    font-family: serif;
+    line-height: 1.55;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+h1 {
+    page-break-before: always;
+    font-size: 1.8em;
+    margin-top: 1.6em;
+}
+
+h2 {
+    margin-top: 1.2em;
+}
+
+p {
+    margin-top: 0.6em;
+}
+
+blockquote {
+    margin-left: 1em;
+    font-style: italic;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #777;
+    padding: 4px;
+}
+
+/* Kindle TOC fix: remove ordered list numbering entirely */
+
+nav[epub|type~="toc"] ol {
+    list-style: none !important;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+nav[epub|type~="toc"] li {
+    list-style: none !important;
+    margin-left: 0;
+    padding-left: 0;
+}

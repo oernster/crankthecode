@@ -40,7 +40,7 @@ I continue to build real systems under real constraints. Working across hardware
 
 ## Why this site exists
 
-This site is where I think in public about authority, decision design and structural clarity. It is not a collection of opinions. 
+This site, [CrankTheCode](https://www.crankthecode.com), is where I think in public about authority, decision design and structural clarity. It is not a collection of opinions. 
 It is an exploration of how technical organisations scale without losing coherence.
 
 *I do not just build software. I design the conditions under which it can be built well.*
