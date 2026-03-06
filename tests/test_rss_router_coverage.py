@@ -10,7 +10,7 @@ from app.main import create_app
 
 
 def test_rss_helpers_cover_edge_cases():
-    # Covers the ValueError/continue path in [`rss._rfc822_date()`](app/http/routers/rss.py:62)
+    # Covers the ValueError/continue path in `rss._rfc822_date()`.
     assert rss_module._rfc822_date("not-a-date") == "not-a-date"
 
     assert rss_module._first_image_src("<p>No images</p>") is None
@@ -19,7 +19,9 @@ def test_rss_helpers_cover_edge_cases():
         == "/static/x.png"
     )
 
-    assert rss_module._absolute_url("https://example.com/", "https://a/b") == "https://a/b"
+    assert (
+        rss_module._absolute_url("https://example.com/", "https://a/b") == "https://a/b"
+    )
     assert (
         rss_module._absolute_url("https://example.com/", "/path")
         == "https://example.com/path"
@@ -69,7 +71,7 @@ def test_rss_feed_covers_detail_none_and_mime_none_and_mime_present_branches():
 
     class _FakeBlog:
         def list_posts(self):
-            # - `with-detail-mime`: cover image .png -> mime present -> enclosure branch.
+            # - `with-detail-mime`: cover image .png -> mime present -> enclosure.
             # - `with-detail-no-mime`: cover image unknown ext -> mime None.
             # - `no-detail`: `get_post` returns None -> description+continue branch.
             return (
@@ -139,4 +141,3 @@ def test_rss_feed_covers_detail_none_and_mime_none_and_mime_present_branches():
     # The no-detail item should not include content:encoded (we continue early).
     no_detail_item = next(i for i in items if _link_endswith(i, "no-detail"))
     assert no_detail_item.find(f"{{{content_ns}}}encoded") is None
-

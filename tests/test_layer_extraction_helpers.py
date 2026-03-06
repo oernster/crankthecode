@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from app.http.routers.html import _extract_category_queries_from_tags
-from app.http.routers.html import _extract_layer_slugs_from_tags
+from app.domain.tags import extract_layer_slugs_from_tags
+from app.domain.tags import primary_layer_slug_from_tags
 from app.http.routers.html import _category_label_for_query
+from app.http.routers.html import _extract_category_queries_from_tags
 
 
 def test_extract_layer_slugs_normalizes_and_ignores_invalid_entries():
@@ -16,15 +17,15 @@ def test_extract_layer_slugs_normalizes_and_ignores_invalid_entries():
         "layer:decision-systems",
     ]
 
-    slugs = _extract_layer_slugs_from_tags(tags)
+    slugs = extract_layer_slugs_from_tags(tags)
     assert "decision-systems" in slugs
 
 
 def test_humanize_layer_slug_preserves_cto_acronym():
-    from app.http.routers.html import _humanize_layer_slug
+    from app.domain.tags import humanize_layer_slug
 
-    assert _humanize_layer_slug("cto-operating-model") == "CTO Operating Model"
-    assert _humanize_layer_slug("") == ""
+    assert humanize_layer_slug("cto-operating-model") == "CTO Operating Model"
+    assert humanize_layer_slug("") == ""
 
 
 def test_extract_category_queries_ignores_empty_cat_label():
@@ -136,3 +137,14 @@ def test_posts_index_seo_branch_handles_empty_category_text_gracefully():
     resp = client.get("/posts", params={"cat": "   "})
     assert resp.status_code == 200
 
+
+def test_primary_layer_slug_from_tags_prefers_first_valid_layer_and_preserves_order():
+    assert primary_layer_slug_from_tags([]) is None
+    assert primary_layer_slug_from_tags(["x", "cat:Tools"]) is None
+
+    # Ignores empty strings and `layer:` tags with empty values.
+    tags = ["", "  ", "layer:", "layer:   ", "layer:Decision__Systems!!", "layer:cto"]
+    assert primary_layer_slug_from_tags(tags) == "decision-systems"
+
+    # Preserves the first `layer:` occurrence order.
+    assert primary_layer_slug_from_tags(["layer:alpha", "layer:beta"]) == "alpha"

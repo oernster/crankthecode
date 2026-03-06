@@ -31,4 +31,3 @@ def test_canonical_redirect_middleware_preserves_path_and_query_on_redirect():
     resp = client.get("/posts?q=python", follow_redirects=False)
     assert resp.status_code == 301
     assert resp.headers["location"] == "https://www.crankthecode.com/posts?q=python"
-

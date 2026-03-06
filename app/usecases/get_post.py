@@ -4,12 +4,15 @@ from dataclasses import dataclass
 
 import re
 
-from app.usecases.list_posts import _extract_cover_image_and_strip, _strip_image_paragraph
+from app.usecases.list_posts import (
+    _extract_cover_image_and_strip,
+    _strip_image_paragraph,
+)
 
 from app.domain.models import PostDetail
 from app.ports.markdown_renderer import MarkdownRenderer
 from app.ports.posts_repository import PostsRepository
-
+from app.usecases.snippets.axisdb import axisdb_install_prompt_markdown
 
 _HEADING_RE = re.compile(r"^\s*(?P<hashes>#{1,6})\s+(?P<title>.*?)\s*$")
 
@@ -71,7 +74,7 @@ def _insert_screenshots_after_problem_solution_impact(
     *,
     screenshots_markdown: str,
 ) -> str:
-    """Insert `screenshots_markdown` immediately after the Problem→Solution→Impact section.
+    """Insert `screenshots_markdown` after the Problem→Solution→Impact section.
 
     If the section isn't found, fall back to appending at the end.
     """
@@ -113,7 +116,13 @@ def _insert_screenshots_after_problem_solution_impact(
             i += 1
 
         insert_at = i
-        new_lines = lines[:insert_at] + [""] + screenshots_markdown.splitlines() + [""] + lines[insert_at:]
+        new_lines = (
+            lines[:insert_at]
+            + [""]
+            + screenshots_markdown.splitlines()
+            + [""]
+            + lines[insert_at:]
+        )
         return "\n".join(new_lines).strip() + "\n"
 
     # Fallback: append.
@@ -123,33 +132,7 @@ def _insert_screenshots_after_problem_solution_impact(
 def _axisdb_install_prompt_markdown() -> str:
     """AxisDB: HTML block injected after the Problem→Solution→Impact section."""
 
-    return """<div class=\"fake-terminal fake-terminal--axisdb-install\" aria-label=\"Install AxisDB\">
-  <div class=\"fake-terminal__title\">
-    <span>bash</span>
-    <button
-      class=\"code-copy code-copy--icon\"
-      type=\"button\"
-      data-copy-target=\"axisdb-install-commands\"
-      aria-label=\"Copy install commands\"
-      title=\"Copy install commands\"
-    >
-      <svg class=\"code-copy__icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\">
-        <path
-          d=\"M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1Zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9v14Z\"
-        />
-      </svg>
-    </button>
-  </div>
-  <pre class=\"fake-terminal__body\"><code><span class=\"ft-step ft-step--1\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--1\">python3 -m venv venv</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--1\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
-<span class=\"ft-step ft-step--2\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--2\">source venv/bin/activate</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--2\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
-<span class=\"ft-step ft-step--3\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--3\">pip install --upgrade pip</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--3\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span>
-<span class=\"ft-step ft-step--4\"><span class=\"fake-terminal__prompt\">user@linux:~$ </span><span class=\"fake-terminal__typed fake-terminal__typed--4\">pip install axisdb</span><span class=\"fake-terminal__cursor-wrap fake-terminal__cursor-wrap--4\" aria-hidden=\"true\"><span class=\"fake-terminal__cursor\"></span></span></span></code></pre>
-
-  <pre class=\"visually-hidden\"><code id=\"axisdb-install-commands\">python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install axisdb</code></pre>
-</div>"""
+    return axisdb_install_prompt_markdown()
 
 
 def _has_problem_solution_impact_section(markdown_text: str) -> bool:
@@ -252,7 +235,9 @@ class GetPostUseCase:
         screenshots_md = "\n".join(screenshots_parts).strip()
         if screenshots_md:
             if markdown_wo_cover.strip():
-                markdown_wo_cover = markdown_wo_cover.strip() + "\n\n" + screenshots_md + "\n"
+                markdown_wo_cover = (
+                    markdown_wo_cover.strip() + "\n\n" + screenshots_md + "\n"
+                )
             else:
                 markdown_wo_cover = screenshots_md + "\n"
 

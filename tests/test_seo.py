@@ -9,7 +9,12 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
-from app.http.seo import build_meta_description, get_site_url, to_iso_date, to_iso_datetime
+from app.http.seo import (
+    build_meta_description,
+    get_site_url,
+    to_iso_date,
+    to_iso_datetime,
+)
 from app.main import create_app
 
 
@@ -32,7 +37,7 @@ def test_post_page_includes_meta_description_canonical_and_jsonld():
         html = resp.text
         # Primary cover image should always render directly under the title.
         assert '<img class="post-cover"' in html
-        assert f'<link rel="canonical" href="https://example.com/posts/trainer"' in html
+        assert '<link rel="canonical" href="https://example.com/posts/trainer"' in html
         assert f'<meta name="description" content="{expected}"' in html
 
         # JSON-LD should be present and identify the post.
@@ -55,10 +60,11 @@ def test_category_page_sets_distinct_title_and_meta_description_for_leadership()
 
         html = resp.text
         assert "<title>Decision Architecture | Posts | Crank The Code</title>" in html
-        assert (
-            '<meta name="description" content="Browse posts in Decision Architecture on Crank The Code."'
-            in html
+        expected_meta = (
+            '<meta name="description" content="Browse posts in Decision Architecture '
+            'on Crank The Code."'
         )
+        assert expected_meta in html
 
         # Canonical should preserve the category query.
         assert (
@@ -142,7 +148,9 @@ def test_robots_txt_appends_sitemap_when_no_sitemap_line(monkeypatch):
     try:
         from pathlib import Path
 
-        monkeypatch.setattr(Path, "read_text", lambda *a, **k: "User-agent: *\nDisallow:\n")
+        monkeypatch.setattr(
+            Path, "read_text", lambda *a, **k: "User-agent: *\nDisallow:\n"
+        )
 
         app = create_app()
         client = TestClient(app)
@@ -155,7 +163,10 @@ def test_robots_txt_appends_sitemap_when_no_sitemap_line(monkeypatch):
 
 
 def test_robots_txt_appends_sitemap_without_extra_blank_line(monkeypatch):
-    """Cover the `not replaced` branch where the static file already ends with a blank line."""
+    """Cover the `not replaced` branch.
+
+    This covers the case where the static file already ends with a blank line.
+    """
 
     os.environ["SITE_URL"] = "https://example.com"
     try:
@@ -231,7 +242,7 @@ def test_all_posts_have_required_seo_meta_and_valid_jsonld():
 
             # Canonical must exist and be stable.
             assert html.count('rel="canonical"') == 1, slug
-            assert f'https://example.com/posts/{slug}' in html, slug
+            assert f"https://example.com/posts/{slug}" in html, slug
 
             # Description must exist and be non-empty.
             m = re.search(r'<meta\s+name="description"\s+content="([^"]+)"\s*/?>', html)
@@ -258,8 +269,10 @@ def test_all_posts_have_required_seo_meta_and_valid_jsonld():
                 parsed.append(json.loads(raw))
 
             # Post pages must include BlogPosting.
-            assert any(obj.get("@type") == "BlogPosting" for obj in parsed if isinstance(obj, dict)), slug
+            assert any(
+                obj.get("@type") == "BlogPosting"
+                for obj in parsed
+                if isinstance(obj, dict)
+            ), slug
     finally:
         os.environ.pop("SITE_URL", None)
-
-

@@ -7,7 +7,6 @@ from urllib.parse import urljoin
 
 from fastapi import Request
 
-
 DEFAULT_SITE_URL = "https://www.crankthecode.com/"
 
 
@@ -120,4 +119,3 @@ def to_iso_datetime(value: str) -> str | None:
             continue
 
     return None
-

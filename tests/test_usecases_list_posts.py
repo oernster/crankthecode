@@ -50,7 +50,7 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
     assert "Hello" in result[0].summary_html
 
 
-def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_matching_image_paragraph():
+def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_image_paragraph():
     repo = InMemoryPostsRepository(
         posts=(
             MarkdownPost(
@@ -63,7 +63,9 @@ def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_matching_image
                 image="/static/images/cover.jpg",
                 thumb_image=None,
                 extra_images=(),
-                content_markdown="Intro\n\n![Banner](/static/images/cover.jpg)\n\nMore",
+                content_markdown=(
+                    "Intro\n\n" "![Banner](/static/images/cover.jpg)\n\n" "More"
+                ),
                 emoji=None,
             ),
         )
@@ -79,7 +81,10 @@ def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_matching_image
 
 
 def test_list_posts_does_not_strip_cover_image_when_it_only_appears_in_body():
-    """Regression test: don't remove images from legitimate sections (e.g. screenshots)."""
+    """Regression test.
+
+    Don't remove images from legitimate sections (e.g. screenshots).
+    """
 
     repo = InMemoryPostsRepository(
         posts=(
@@ -93,7 +98,12 @@ def test_list_posts_does_not_strip_cover_image_when_it_only_appears_in_body():
                 image="/static/images/cover.jpg",
                 thumb_image=None,
                 extra_images=(),
-                content_markdown="Intro\n\n## Screenshots\n\n![Main](/static/images/cover.jpg)\n\nMore",
+                content_markdown=(
+                    "Intro\n\n"
+                    "## Screenshots\n\n"
+                    "![Main](/static/images/cover.jpg)\n\n"
+                    "More"
+                ),
                 emoji=None,
             ),
         )
@@ -106,7 +116,8 @@ def test_list_posts_does_not_strip_cover_image_when_it_only_appears_in_body():
     # The post still uses the frontmatter image as its cover...
     assert result[0].cover_image_url == "/static/images/cover.jpg"
     # ...but the summary should keep the markdown intact if the image is not in
-    # the "cover" positions (near start). In this case, the first paragraph is just "Intro".
+    # the "cover" positions (near start). In this case, the first paragraph is
+    # just "Intro".
     assert "/static/images/cover.jpg" not in result[0].summary_html
 
 

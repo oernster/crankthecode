@@ -61,7 +61,9 @@ def test_posts_index_supports_cat_and_layer_params_and_filters_with_and_semantic
     app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
     client = TestClient(app)
 
-    resp = client.get("/posts", params={"cat": "Leadership", "layer": "decision-systems"})
+    resp = client.get(
+        "/posts", params={"cat": "Leadership", "layer": "decision-systems"}
+    )
     assert resp.status_code == 200
     assert 'href="/posts/a"' in resp.text
     assert 'href="/posts/b"' not in resp.text
@@ -228,4 +230,3 @@ def test_legacy_q_cat_deeplink_still_filters_posts():
     assert resp.status_code == 200
     assert 'href="/posts/a"' in resp.text
     assert 'href="/posts/b"' not in resp.text
-

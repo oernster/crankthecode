@@ -1,0 +1,90 @@
+body {
+    font-family: serif;
+    line-height: 1.55;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+h1 {
+    page-break-before: always;
+    font-size: 1.8em;
+    margin-top: 1.6em;
+}
+
+h2 {
+    margin-top: 1.2em;
+}
+
+p {
+    margin-top: 0.6em;
+}
+
+blockquote {
+    margin-left: 1em;
+    font-style: italic;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #777;
+    padding: 4px;
+}
+
+/* Kindle TOC fix:
+   Kindle often ignores the namespace selector version:
+   nav[epub|type~="toc"] ol { ... }
+   So target the actual nav id/class Pandoc emits.
+*/
+
+nav#toc ol,
+nav#toc ol.toc,
+nav#toc li,
+nav[role="doc-toc"] ol,
+nav[role="doc-toc"] ol.toc,
+nav[role="doc-toc"] li {
+    list-style-type: none !important;
+    list-style: none !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* Keep nested TOC entries indented, but without visible list numbers */
+nav#toc li li,
+nav[role="doc-toc"] li li {
+    margin-left: 1.2em !important;
+}
+
+/* Defensive: some readers add markers via pseudo-elements */
+nav#toc li::marker,
+nav[role="doc-toc"] li::marker,
+nav#toc ol.toc > li::marker,
+nav#toc ol.toc ol > li::marker,
+nav[role="doc-toc"] ol.toc > li::marker,
+nav[role="doc-toc"] ol.toc ol > li::marker {
+    content: "" !important;
+}
+
+/* Keep Pandoc-generated section numbers visible */
+.section-header-number {
+    display: inline !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-align: left !important;
+    word-spacing: normal !important;
+    letter-spacing: normal !important;
+    hyphens: none !important;
+}
+
+nav#toc a,
+nav[role="doc-toc"] a,
+nav#toc li,
+nav[role="doc-toc"] li {
+    text-align: left !important;
+    word-spacing: normal !important;
+    letter-spacing: normal !important;
+    hyphens: none !important;
+}

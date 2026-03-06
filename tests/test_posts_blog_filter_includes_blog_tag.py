@@ -49,4 +49,4 @@ def test_posts_blog_view_has_cat_blog_in_data_search(tmp_path: Path):
 
     assert "Some Blog Post" in resp.text
     # Ensure `cat:Blog` makes it into the `data-search` attribute.
-    assert "data-search=\"some blog post cat:blog" in resp.text.lower()
+    assert 'data-search="some blog post cat:blog' in resp.text.lower()

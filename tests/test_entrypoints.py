@@ -28,4 +28,3 @@ def test_root_main_module_can_run_as_script_without_starting_server(monkeypatch)
     monkeypatch.setitem(sys.modules, "uvicorn", fake_uvicorn)
 
     runpy.run_module("main", run_name="__main__")
-

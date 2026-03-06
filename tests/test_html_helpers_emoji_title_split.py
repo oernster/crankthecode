@@ -29,4 +29,3 @@ def test_display_title_parts_prefers_explicit_frontmatter_emoji_and_strips_title
 def test_display_title_parts_falls_back_to_title_emoji_when_no_explicit_emoji():
     assert _display_title_parts(title="🧠 Brain", emoji=None) == ("🧠", "Brain")
     assert _display_title_parts(title="Plain", emoji=None) == ("", "Plain")
-

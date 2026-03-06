@@ -10,7 +10,6 @@ from app.http.deps import get_blog_service
 from app.http.seo import get_site_url, to_iso_date
 from app.services.blog_service import BlogService
 
-
 router = APIRouter(tags=["seo"])
 
 
@@ -53,7 +52,9 @@ async def sitemap_xml(
 
 @router.get("/robots.txt", include_in_schema=False)
 async def robots_txt(request: Request):
-    """Serve robots.txt based on `static/robots.txt`, with an environment-aware sitemap URL.
+    """Serve robots.txt based on `static/robots.txt`.
+
+    Inject an environment-aware sitemap URL.
 
     This keeps `robots.txt` editable as a static asset, while ensuring the sitemap
     location reflects `SITE_URL` (or the request base URL) in tests and in prod.
@@ -92,4 +93,3 @@ async def robots_txt(request: Request):
 
     body = "\n".join(out_lines) + "\n"
     return Response(content=body, media_type="text/plain; charset=utf-8")
-

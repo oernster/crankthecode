@@ -13,7 +13,7 @@ def test_filesystem_repository_reads_frontmatter(tmp_path: Path):
         "title: Hello\n"
         "date: 2024-01-01\n"
         "tags: [python]\n"
-        "emoji: \"🧪\"\n"
+        'emoji: "🧪"\n'
         "image: /static/images/hello.png\n"
         "thumb_image: /static/images/hello-thumb.png\n"
         "---\n"
@@ -58,14 +58,16 @@ def test_filesystem_repository_normalizes_string_tags_and_infers_blog_tag_for_bl
     assert "cat:blog" in [t.lower() for t in post.tags]
 
 
-def test_filesystem_repository_normalizes_blank_blurb_and_one_liner_to_none(tmp_path: Path):
+def test_filesystem_repository_normalizes_blank_blurb_and_one_liner_to_none(
+    tmp_path: Path,
+):
     (tmp_path / "hello.md").write_text(
         "---\n"
         "title: Hello\n"
         "date: 2024-01-01 00:00\n"
         "tags: []\n"
-        "blurb: \"   \"\n"
-        "one_liner: \"\"\n"
+        'blurb: "   "\n'
+        'one_liner: ""\n'
         "---\n"
         "Body\n",
         encoding="utf-8",
@@ -103,7 +105,9 @@ def test_normalize_tags_covers_edge_branches():
     assert FilesystemPostsRepository._normalize_tags("   ") == []
 
     # Lists can contain None and blank-ish values; those should be skipped.
-    assert FilesystemPostsRepository._normalize_tags([None, " blog ", "", "  "]) == ["blog"]
+    assert FilesystemPostsRepository._normalize_tags([None, " blog ", "", "  "]) == [
+        "blog"
+    ]
 
     # Fallback coercion for non-string and non-sequence values.
     assert FilesystemPostsRepository._normalize_tags(123) == ["123"]
@@ -138,7 +142,9 @@ def test_normalize_published_at_supports_datetime_date_datetime_string_and_fallb
     )
 
     # invalid string -> ValueError fallback to string coercion
-    assert FilesystemPostsRepository._normalize_published_at("not-a-date") == "not-a-date"
+    assert (
+        FilesystemPostsRepository._normalize_published_at("not-a-date") == "not-a-date"
+    )
 
     # unknown type -> sentinel default
     assert (

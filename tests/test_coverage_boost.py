@@ -228,7 +228,9 @@ def test_get_post_helper_functions_cover_empty_and_fallback_paths():
 
     # Empty screenshots: no changes.
     assert (
-        _insert_screenshots_after_problem_solution_impact("abc", screenshots_markdown="")
+        _insert_screenshots_after_problem_solution_impact(
+            "abc", screenshots_markdown=""
+        )
         == "abc"
     )
 
@@ -257,7 +259,9 @@ def test_insert_screenshots_inserts_after_problem_solution_impact_heading():
         "More\n"
     )
     screenshots = "## Screenshots\n\n![x](/static/images/x.png)"
-    out = _insert_screenshots_after_problem_solution_impact(md, screenshots_markdown=screenshots)
+    out = _insert_screenshots_after_problem_solution_impact(
+        md, screenshots_markdown=screenshots
+    )
 
     # Should be inserted before the next heading.
     assert out.index("## Screenshots") < out.index("## Next")
@@ -269,18 +273,15 @@ def test_insert_screenshots_when_problem_solution_impact_is_last_section():
 
     from app.usecases.get_post import _insert_screenshots_after_problem_solution_impact
 
-    md = (
-        "## Problem -> Solution -> Impact\n"
-        "\n"
-        "Some content\n"
-        "More content\n"
-    )
+    md = "## Problem -> Solution -> Impact\n" "\n" "Some content\n" "More content\n"
     screenshots = "## Screenshots\n\n![x](/static/images/x.png)"
-    out = _insert_screenshots_after_problem_solution_impact(md, screenshots_markdown=screenshots)
+    out = _insert_screenshots_after_problem_solution_impact(
+        md, screenshots_markdown=screenshots
+    )
     assert out.strip().endswith("/static/images/x.png)")
 
 
-def test_get_post_usecase_injects_screenshots_dedupes_and_retains_embedded_screenshots():
+def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():
     from app.usecases.get_post import GetPostUseCase
 
     class IdentityRenderer:
@@ -298,10 +299,7 @@ def test_get_post_usecase_injects_screenshots_dedupes_and_retains_embedded_scree
             return self._post if slug == self._post.slug else None
 
     md_with_psi = (
-        "## Problem -> Solution -> Impact\n\n"
-        "Some content\n\n"
-        "## Next\n\n"
-        "More\n"
+        "## Problem -> Solution -> Impact\n\n" "Some content\n\n" "## Next\n\n" "More\n"
     )
     post = MarkdownPost(
         slug="demo",
@@ -334,7 +332,9 @@ def test_get_post_usecase_injects_screenshots_dedupes_and_retains_embedded_scree
     assert detail.content_html.count("/static/images/b.png") == 1
 
     # No PSI section but author provided Screenshots section: it should be retained.
-    md_with_screens = "# Title\n\nIntro\n\n## Screenshots\n\n![x](/static/images/x.png)\n"
+    md_with_screens = (
+        "# Title\n\nIntro\n\n## Screenshots\n\n![x](/static/images/x.png)\n"
+    )
     post2 = MarkdownPost(
         slug="demo2",
         title="Demo2",
@@ -360,7 +360,10 @@ def test_get_post_usecase_injects_screenshots_dedupes_and_retains_embedded_scree
 
 
 def test_get_post_usecase_has_psi_but_no_screenshots_no_changes():
-    """Covers the `has_psi` path where there are zero screenshot URLs and no embedded screenshots."""
+    """Covers the `has_psi` path.
+
+    There are zero screenshot URLs and no embedded screenshots.
+    """
 
     from app.usecases.get_post import GetPostUseCase
 
@@ -447,7 +450,10 @@ def test_is_blog_post_by_cat_covers_branches():
 
 
 def test_homepage_leadership_missing_posts_is_tolerated(monkeypatch):
-    """Leadership section is derived from lead slugs; missing slugs must not break the homepage."""
+    """Leadership section is derived from lead slugs.
+
+    Missing slugs must not break the homepage.
+    """
 
     posts = (
         # Intentionally provide no lead posts.
@@ -600,7 +606,7 @@ def test_get_post_includes_author_screenshots_section_when_has_psi(monkeypatch):
     assert "More screenshots text." in detail.content_html
 
 
-def test_get_post_usecase_appends_screenshots_when_body_markdown_is_empty_covers_else_branch():
+def test_get_post_appends_screenshots_when_body_markdown_empty_covers_else_branch():
     """Cover the branch where the post body is empty but screenshots exist.
 
     This hits the `else: markdown_wo_cover = screenshots_md + "\n"` path.
@@ -638,4 +644,3 @@ def test_get_post_usecase_appends_screenshots_when_body_markdown_is_empty_covers
     assert detail is not None
     assert detail.content_html.startswith("## Screenshots")
     assert "/static/images/one.png" in detail.content_html
-

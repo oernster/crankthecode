@@ -20,9 +20,8 @@ def _extract_summary_markdown(markdown_text: str) -> str:
     return parts[0].strip()
 
 
-_COVER_IMAGE_PARAGRAPH_RE = re.compile(
-    r"^!\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)\s*$"
-)
+_COVER_IMAGE_PARAGRAPH_RE = re.compile(r"^!\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)\s*$")
+
 
 def _extract_cover_image_and_strip(markdown_text: str) -> tuple[str | None, str]:
     """Extract a cover image and remove it from the rendered markdown.
@@ -47,7 +46,7 @@ def _extract_cover_image_and_strip(markdown_text: str) -> tuple[str | None, str]
         match = _COVER_IMAGE_PARAGRAPH_RE.match(para)
         if match:
             cover_url = match.group(1)
-            remaining = (paragraphs[:idx] + paragraphs[idx + 1 :])
+            remaining = paragraphs[:idx] + paragraphs[idx + 1 :]
             return cover_url, "\n\n".join(remaining).strip()
 
     return None, markdown_text
@@ -92,7 +91,7 @@ def _strip_image_paragraph(
         para = paragraphs[idx]
         match = _COVER_IMAGE_PARAGRAPH_RE.match(para)
         if match and match.group(1) == image_url:
-            remaining = (paragraphs[:idx] + paragraphs[idx + 1 :])
+            remaining = paragraphs[:idx] + paragraphs[idx + 1 :]
             return "\n\n".join(remaining).strip()
 
     return markdown_text

@@ -51,4 +51,3 @@ def test_api_get_post_meta_builds_og_fields_and_404_for_unknown():
     missing = client.get("/api/posts/does-not-exist/meta")
     assert missing.status_code == 404
     assert missing.json()["detail"] == "Post not found"
-

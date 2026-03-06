@@ -133,4 +133,3 @@ def test_dev_site_clears_cache_header_on_localhost_responses():
     resp = client.get("/posts/blog18")
     assert resp.status_code == 200
     assert resp.headers.get("Clear-Site-Data") == '"cache"'
-

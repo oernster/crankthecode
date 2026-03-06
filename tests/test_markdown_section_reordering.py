@@ -70,4 +70,3 @@ Some text.
     remaining, bodies = _extract_markdown_sections(md, title="Screenshots")
     assert "SCREENSHOTS" not in remaining
     assert len(bodies) == 1
-

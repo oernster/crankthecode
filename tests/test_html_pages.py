@@ -28,9 +28,7 @@ def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld
     assert resp.status_code == 200
 
     # Title and OG title must begin with Oliver Ernster (avoid generic fallbacks).
-    assert (
-        "<title>Oliver Ernster - Senior Python Developer" in resp.text
-    ), resp.text
+    assert "<title>Oliver Ernster - Senior Python Developer" in resp.text, resp.text
     assert (
         '<meta property="og:title" content="Oliver Ernster | Crank The Code">'
         in resp.text
@@ -56,7 +54,9 @@ def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld
     assert person is not None
 
     assert person.get("@id") == "https://www.crankthecode.com/#oliver-ernster"
-    assert website.get("author") == {"@id": "https://www.crankthecode.com/#oliver-ernster"}
+    assert website.get("author") == {
+        "@id": "https://www.crankthecode.com/#oliver-ernster"
+    }
 
 
 def test_posts_index_renders_and_supports_query_filter():
@@ -103,4 +103,3 @@ def test_unknown_post_returns_404_html():
 
     assert resp.status_code == 404
     assert "Post Not Found" in resp.text
-

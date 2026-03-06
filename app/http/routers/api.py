@@ -42,7 +42,9 @@ async def get_post_meta(slug: str, blog: BlogService = Depends(get_blog_service)
     site_url = get_site_url(None)
     canonical = absolute_url(site_url, f"/posts/{post.slug}")
     title = post.title
-    subtitle = (getattr(post, "one_liner", None) or getattr(post, "blurb", None) or "").strip()
+    subtitle = (
+        getattr(post, "one_liner", None) or getattr(post, "blurb", None) or ""
+    ).strip()
     og_title = f"{title} - {subtitle}" if subtitle else title
     og_description = build_meta_description(
         getattr(post, "one_liner", None),

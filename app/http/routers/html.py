@@ -8,7 +8,7 @@ from typing import cast
 from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from app.http.deps import get_blog_service, get_templates
@@ -24,6 +24,9 @@ from app.http.seo import (
 from app.services.blog_service import BlogService
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
+from app.domain.tags import extract_layer_slugs_from_tags
+from app.domain.tags import humanize_layer_slug
+from app.domain.tags import normalize_layer_slug
 
 router = APIRouter()
 
@@ -173,67 +176,22 @@ def _normalize_cat_label(raw_label: str) -> str:
     return cleaned.title()
 
 
-def _normalize_layer_slug(raw_slug: str) -> str:
-    """Normalize a `layer:` slug.
+def _humanize_layer_slug(layer_slug: str) -> str:
+    """Backwards-compatible wrapper.
 
-    The markdown frontmatter typically uses a kebab-case slug, e.g.
-    `layer:decision-systems`.
-
-    Rules:
-    - strip
-    - lowercase
-    - whitespace/underscores -> hyphen
-    - collapse repeated hyphens
+    Prefer [`humanize_layer_slug()`](app/domain/tags.py:1).
     """
 
-    raw = (raw_slug or "").strip().lower()
-    if not raw:
-        # Coverage: allow explicit empty input.
-        return ""
-
-    # Fast path: already-normalized slug.
-    # (Coverage relies on a mix of fast-path and slow-path inputs.)
-    if (
-        raw.replace("-", "").isalnum()
-        and "--" not in raw
-        and not raw.startswith("-")
-        and not raw.endswith("-")
-    ):
-        return raw
-
-    out_chars: list[str] = []
-    prev_dash = False
-    for ch in raw:
-        if ch.isalnum():
-            out_chars.append(ch)
-            prev_dash = False
-            continue
-        if ch in {" ", "_", "-"}:
-            if not prev_dash and out_chars:
-                out_chars.append("-")
-                prev_dash = True
-            continue
-        # Drop other punctuation/symbols.
-
-    out = "".join(out_chars).strip("-")
-    return out
+    return humanize_layer_slug(layer_slug)
 
 
-def _humanize_layer_slug(layer_slug: str) -> str:
-    """Convert a normalized layer slug into a UI label."""
+def _normalize_layer_slug(raw_slug: str) -> str:
+    """Backwards-compatible wrapper.
 
-    cleaned = " ".join((layer_slug or "").strip().replace("_", "-").split("-"))
-    cleaned = " ".join(cleaned.split())
-    if not cleaned:
-        return ""
+    Prefer [`normalize_layer_slug()`](app/domain/tags.py:1).
+    """
 
-    label = cleaned.title()
-
-    # Preserve known acronyms (avoid `Cto` in menus/titles).
-    acronym_map = {
-        "Cto": "CTO",
-    }
-    return " ".join(acronym_map.get(p, p) for p in label.split(" "))
+    return normalize_layer_slug(raw_slug)
 
 
 def _extract_category_queries_from_tags(tags: list[str]) -> set[str]:
@@ -256,20 +214,13 @@ def _extract_category_queries_from_tags(tags: list[str]) -> set[str]:
 
 
 def _extract_layer_slugs_from_tags(tags: list[str]) -> set[str]:
-    """Extract normalized `layer:` slugs from a post's tag list."""
+    """Backwards-compatible wrapper.
 
-    out: set[str] = set()
-    for t in tags or []:
-        raw = (t or "").strip()
-        if not raw:
-            continue
-        if not raw.lower().startswith(_LAYER_TAG_PREFIX):
-            continue
-        tail = raw.split(":", 1)[1].strip()
-        slug = _normalize_layer_slug(tail)
-        if slug:
-            out.add(slug)
-    return out
+    Prefer [`extract_layer_slugs_from_tags()`](app/domain/tags.py:1).
+    """
+
+    # Keep semantics: only layer tags.
+    return extract_layer_slugs_from_tags(tags)
 
 
 def _is_blog_post_by_cat(tags: list[str]) -> bool:
@@ -295,7 +246,9 @@ def _posts_href(
     return "/posts" + ("?" + "&".join(parts) if parts else "")
 
 
-def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[str, object]]:
+def _sidebar_categories(
+    blog: BlogService, *, exclude_blog: bool
+) -> list[dict[str, object]]:
     """Build sidebar categories from explicit `cat:` tags and nested `layer:` tags.
 
     URL scheme:
@@ -362,13 +315,13 @@ def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[s
         cat_label_norm = str(entry.get("cat") or "")
         cat_is_blog = cat_label_norm.strip().lower() == "blog"
         href_exclude_blog = (
-            False
-            if cat_is_blog
-            else (False if not exclude_blog else None)
+            False if cat_is_blog else (False if not exclude_blog else None)
         )
 
         layers_map = cast(dict[str, dict[str, str]], entry.pop("layers_map", {}))
-        layers = sorted(layers_map.values(), key=lambda d: (d.get("label") or "").lower())
+        layers = sorted(
+            layers_map.values(), key=lambda d: (d.get("label") or "").lower()
+        )
 
         out.append(
             {
@@ -383,17 +336,17 @@ def _sidebar_categories(blog: BlogService, *, exclude_blog: bool) -> list[dict[s
                 ),
                 "layers": [
                     {
-                        "layer": l["layer"],
-                        "label": l["label"],
+                        "layer": layer_entry["layer"],
+                        "label": layer_entry["label"],
                         "href": _posts_href(
                             query=None,
                             cat=cat_label_norm,
-                            layer=l["layer"],
+                            layer=layer_entry["layer"],
                             exclude_blog=href_exclude_blog,
                         ),
                     }
-                    for l in layers
-                    if l.get("layer")
+                    for layer_entry in layers
+                    if layer_entry.get("layer")
                 ],
             }
         )
@@ -509,7 +462,10 @@ def _base_context(request: Request) -> dict:
         "og_type": "website",
         "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
         "jsonld_extra_json": None,
-        "meta_description": "Crank The Code - Python engineering blog and technical write-ups by Oliver Ernster.",
+        "meta_description": (
+            "Crank The Code - Python engineering blog and technical write-ups by "
+            "Oliver Ernster."
+        ),
         # Filled by routes (requires BlogService).
         "sidebar_categories": [],
         "current_q": (request.query_params.get("q") or "").strip(),
@@ -578,7 +534,9 @@ def _category_label_for_query(
             "blog": "📝 Blog",
             "automation|monitoring|obs|script|ansible|terraform": "🤖 Automation",
             "machine learning|computer vision|ml|data": "🧠 Data / ML",
-            "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|stellody|trainer": "🖥️ Desktop Apps",
+            # Keep this on a separate line for Flake8's 88-char limit.
+            "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|"
+            "stellody|trainer": "🖥️ Desktop Apps",
             "gaming|game|elite|dangerous|frontier|colonisation": "🎮 Gaming",
             "tool|tools|cli|utility|utilities|launcher|database|db": "🧰 Tools",
             "api|apis|fastapi|django|rest|web": "🌐 Web APIs",
@@ -616,7 +574,9 @@ async def homepage(
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
-    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
     cover_index = _post_cover_index(blog)
     thumb_index = _post_thumb_index(blog)
     blurb_index = _post_blurb_index(blog)
@@ -624,15 +584,19 @@ async def homepage(
 
     homepage_meta = {
         "is_homepage": True,
-        "page_title": "Oliver Ernster - Senior Python Developer & Decision Systems Technologist",
+        "page_title": (
+            "Oliver Ernster - Senior Python Developer & Decision Systems Technologist"
+        ),
         "og_title": "Oliver Ernster | Crank The Code",
         "og_description": (
             "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
-            "writing about decision systems, authority alignment and backend architecture."
+            "writing about decision systems, authority alignment and backend "
+            "architecture."
         ),
         "meta_description": (
             "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
-            "writing about decision systems, authority alignment and backend architecture."
+            "writing about decision systems, authority alignment and backend "
+            "architecture."
         ),
     }
 
@@ -655,7 +619,6 @@ async def homepage(
                     # Pinned intro posts (keep first).
                     {"slug": "hello-crank", "label": "Hello Crank"},
                     {"slug": "why-crank", "label": "Why Crank?"},
-
                     {"slug": "3D-printer-launcher", "label": "3D Printer Launcher"},
                     {"slug": "audiodeck", "label": "Audio Deck"},
                     {"slug": "elevator", "label": "Elevator"},
@@ -742,28 +705,34 @@ async def posts_index(
 ):
     emoji_map = _post_emoji_map()
     posts = [
-        (lambda _p: (
-            {
-                "slug": _p.slug,
-                "title": _p.title,
-                "title_text": _display_title_parts(
-                    title=_p.title,
-                    emoji=(getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")),
-                )[1],
-                "date": _p.date,
-                "tags": list(_p.tags),
-                "blurb": getattr(_p, "blurb", None),
-                "one_liner": getattr(_p, "one_liner", None),
-                "cover_image_url": _p.cover_image_url,
-                "thumb_image_url": getattr(_p, "thumb_image_url", None),
-                "emoji": _display_title_parts(
-                    title=_p.title,
-                    emoji=(getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")),
-                )[0],
-                # Keep links in summaries clickable.
-                "summary_html": _p.summary_html,
-            }
-        ))(p)
+        (
+            lambda _p: (
+                {
+                    "slug": _p.slug,
+                    "title": _p.title,
+                    "title_text": _display_title_parts(
+                        title=_p.title,
+                        emoji=(
+                            getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")
+                        ),
+                    )[1],
+                    "date": _p.date,
+                    "tags": list(_p.tags),
+                    "blurb": getattr(_p, "blurb", None),
+                    "one_liner": getattr(_p, "one_liner", None),
+                    "cover_image_url": _p.cover_image_url,
+                    "thumb_image_url": getattr(_p, "thumb_image_url", None),
+                    "emoji": _display_title_parts(
+                        title=_p.title,
+                        emoji=(
+                            getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")
+                        ),
+                    )[0],
+                    # Keep links in summaries clickable.
+                    "summary_html": _p.summary_html,
+                }
+            )
+        )(p)
         for p in blog.list_posts()
     ]
 
@@ -773,9 +742,7 @@ async def posts_index(
     # These should not appear in any post listing (including “All posts (exc. Blog)”).
     hidden_slugs = {"about-me", "about", "start-here"}
     posts = [
-        p
-        for p in posts
-        if str(p.get("slug", "")).strip().lower() not in hidden_slugs
+        p for p in posts if str(p.get("slug", "")).strip().lower() not in hidden_slugs
     ]
     ctx = _base_context(request)
     current_q = (ctx.get("current_q", "") or "").strip()
@@ -791,7 +758,10 @@ async def posts_index(
     cat_label: str | None = None
     if current_cat_raw:
         cat_label = _normalize_cat_label(current_cat_raw)
-    elif current_q.lower().startswith(_CAT_TAG_PREFIX) and current_q.strip().lower() != _CAT_TAG_PREFIX:
+    elif (
+        current_q.lower().startswith(_CAT_TAG_PREFIX)
+        and current_q.strip().lower() != _CAT_TAG_PREFIX
+    ):
         tail = current_q.split(":", 1)[1].strip()
         cat_label = _normalize_cat_label(tail) if tail else None
 
@@ -804,9 +774,8 @@ async def posts_index(
     ctx["current_layer"] = layer_slug or ""
 
     browsing_blog = (
-        (cat_label or "").strip().lower() == "blog"
-        or current_q.strip().lower() == _CAT_TAG_BLOG
-    )
+        cat_label or ""
+    ).strip().lower() == "blog" or current_q.strip().lower() == _CAT_TAG_BLOG
 
     # Default view: projects only (exclude `cat:Blog`) unless explicitly included.
     # Always include blog posts when the user is explicitly browsing the Blog category.
@@ -827,7 +796,9 @@ async def posts_index(
             for p in posts
             if any(
                 (q or "").strip().lower() == cat_tag_norm
-                for q in _extract_category_queries_from_tags([str(t) for t in (p.get("tags") or [])])
+                for q in _extract_category_queries_from_tags(
+                    [str(t) for t in (p.get("tags") or [])]
+                )
             )
         ]
 
@@ -838,7 +809,9 @@ async def posts_index(
             for p in posts
             if any(
                 f"layer:{s}".strip().lower() == layer_tag_norm
-                for s in _extract_layer_slugs_from_tags([str(t) for t in (p.get("tags") or [])])
+                for s in _extract_layer_slugs_from_tags(
+                    [str(t) for t in (p.get("tags") or [])]
+                )
             )
         ]
 
@@ -864,7 +837,9 @@ async def posts_index(
         if layer_label:
             page_title = f"{layer_label} | {cat_text} | Posts | Crank The Code"
             og_title = page_title
-            og_description = f"Browse posts in {layer_label} ({cat_text}) on Crank The Code."
+            og_description = (
+                f"Browse posts in {layer_label} ({cat_text}) on Crank The Code."
+            )
             meta_description = og_description
         elif cat_text:
             page_title = f"{cat_text} | Posts | Crank The Code"
@@ -954,15 +929,23 @@ async def about_page(
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
-    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
     ctx.update(
         {
             "about_html": _load_about_html(),
             "is_homepage": False,
             "page_title": "About Oliver Ernster | Senior Python Developer",
             "og_title": "About Oliver Ernster",
-            "og_description": "About Oliver Ernster, Senior Python Developer and CTO-level technologist.",
-            "meta_description": "About Oliver Ernster, Senior Python Developer and CTO-level technologist.",
+            "og_description": (
+                "About Oliver Ernster, Senior Python Developer and CTO-level "
+                "technologist."
+            ),
+            "meta_description": (
+                "About Oliver Ernster, Senior Python Developer and CTO-level "
+                "technologist."
+            ),
             "back_link_href": "/",
             "back_link_label": "← Back to posts",
             "breadcrumb_items": [
@@ -986,7 +969,9 @@ async def help_page(
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
-    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
     ctx.update(
         {
             "is_homepage": False,
@@ -1013,14 +998,21 @@ async def battlestation_page(
     templates: Jinja2Templates = Depends(get_templates),
 ):
     ctx = _base_context(request)
-    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
     ctx.update(
         {
             "is_homepage": False,
             "page_title": "🖥️ The Battlestation That Ships | Crank The Code",
             "og_title": "🖥️ The Battlestation That Ships | Crank The Code",
-            "og_description": "The Command Battlestation - dev cockpit + 3D printer room.",
-            "meta_description": "A look at my Command Battlestation: daily driver workstation + 3D printer room.",
+            "og_description": (
+                "The Command Battlestation - dev cockpit + 3D printer room."
+            ),
+            "meta_description": (
+                "A look at my Command Battlestation: daily driver workstation + "
+                "3D printer room."
+            ),
             "back_link_href": "/",
             "back_link_label": "← Back to home",
             "breadcrumb_items": [
@@ -1043,7 +1035,7 @@ async def read_post(
     templates: Jinja2Templates = Depends(get_templates),
 ):
     slug_raw = (slug or "").strip()
-    slug_norm = slug_raw.lower()
+    # Keep `slug_raw` casing/formatting as provided; repository handles lookup.
 
     detail = blog.get_post(slug_raw)
 
@@ -1069,7 +1061,9 @@ async def read_post(
         "content": detail.content_html,
     }
     ctx = _base_context(request)
-    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
 
     # Post-specific SEO.
     site_url = ctx.get("site_url") or DEFAULT_SITE_URL
@@ -1088,7 +1082,9 @@ async def read_post(
         default=description,
     )
 
-    subtitle = (getattr(detail, "one_liner", None) or getattr(detail, "blurb", None) or "").strip()
+    subtitle = (
+        getattr(detail, "one_liner", None) or getattr(detail, "blurb", None) or ""
+    ).strip()
     og_title = f"{detail.title} - {subtitle}" if subtitle else detail.title
 
     og_image = (
@@ -1099,7 +1095,9 @@ async def read_post(
     og_image = absolute_url(site_url, og_image)
 
     # Bonus SEO sauce: for project posts, add SoftwareApplication schema.
-    is_project = bool(getattr(detail, "one_liner", None) or getattr(detail, "blurb", None))
+    is_project = bool(
+        getattr(detail, "one_liner", None) or getattr(detail, "blurb", None)
+    )
     if is_project:
         app_jsonld = {
             "@context": "https://schema.org",
@@ -1175,7 +1173,9 @@ async def read_post(
             "og_type": "article",
             "og_image_url": og_image,
             "og_image_alt": detail.title,
-            "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
+            "jsonld_json": json.dumps(
+                jsonld, ensure_ascii=False, separators=(",", ":")
+            ),
             "jsonld_extra_json": json.dumps(
                 breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
             ),

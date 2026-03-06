@@ -97,8 +97,8 @@ def test_rss_feed_excludes_special_pages():
         items = channel.findall("item")
         links = [_get_text(i, "link") for i in items]
 
-        assert not any((l or "").endswith("/posts/about-me") for l in links)
-        assert not any((l or "").endswith("/posts/start-here") for l in links)
+        assert not any((link or "").endswith("/posts/about-me") for link in links)
+        assert not any((link or "").endswith("/posts/start-here") for link in links)
     finally:
         os.environ.pop("SITE_URL", None)
 
@@ -185,4 +185,3 @@ def test_rss_helpers_is_leadership_post_handles_non_iterable_tags_for_coverage()
 
     # Non-iterable should be treated as a single tag value.
     assert _is_leadership_post(123) is False
-

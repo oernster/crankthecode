@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import date as Date
 from datetime import datetime, time
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import Sequence
 
 import frontmatter
 

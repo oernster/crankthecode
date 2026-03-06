@@ -50,7 +50,9 @@ def test_get_post_uses_frontmatter_image_as_cover_and_strips_matching_image_para
                 image="/static/images/cover.png",
                 thumb_image=None,
                 extra_images=(),
-                content_markdown="Intro\n\n![Banner](/static/images/cover.png)\n\nMore text",
+                content_markdown=(
+                    "Intro\n\n" "![Banner](/static/images/cover.png)\n\n" "More text"
+                ),
                 emoji=None,
             ),
         )
@@ -65,7 +67,10 @@ def test_get_post_uses_frontmatter_image_as_cover_and_strips_matching_image_para
 
 
 def test_get_post_does_not_strip_cover_image_when_it_only_appears_in_body():
-    """Regression test: don't remove images from legitimate sections (e.g. screenshots)."""
+    """Regression test.
+
+    Don't remove images from legitimate sections (e.g. screenshots).
+    """
 
     repo = InMemoryPostsRepository(
         posts=(
@@ -79,7 +84,12 @@ def test_get_post_does_not_strip_cover_image_when_it_only_appears_in_body():
                 image="/static/images/cover.png",
                 thumb_image=None,
                 extra_images=(),
-                content_markdown="Intro\n\n## Screenshots\n\n![Main](/static/images/cover.png)\n\nMore text",
+                content_markdown=(
+                    "Intro\n\n"
+                    "## Screenshots\n\n"
+                    "![Main](/static/images/cover.png)\n\n"
+                    "More text"
+                ),
                 emoji=None,
             ),
         )
@@ -120,7 +130,7 @@ def test_get_post_extracts_first_standalone_image_as_cover_when_no_frontmatter_i
     assert "/static/images/cover.png" not in result.content_html
 
 
-def test_get_post_axisdb_injects_install_terminal_when_has_problem_solution_impact_section():
+def test_get_post_axisdb_injects_install_terminal_when_has_problem_solution_impact():
     repo = InMemoryPostsRepository(
         posts=(
             MarkdownPost(
@@ -134,9 +144,7 @@ def test_get_post_axisdb_injects_install_terminal_when_has_problem_solution_impa
                 thumb_image=None,
                 extra_images=(),
                 content_markdown=(
-                    "## Problem → Solution → Impact\n\n"
-                    "Some body.\n\n"
-                    "More body.\n"
+                    "## Problem → Solution → Impact\n\n" "Some body.\n\n" "More body.\n"
                 ),
                 emoji=None,
             ),
@@ -149,7 +157,7 @@ def test_get_post_axisdb_injects_install_terminal_when_has_problem_solution_impa
     assert "fake-terminal--axisdb-install" in result.content_html
 
 
-def test_get_post_inserts_author_screenshots_section_when_has_problem_solution_impact_but_no_primary_images():
+def test_get_post_inserts_author_screenshots_when_has_psi_but_no_primary_images():
     # Covers the branch where we have a PSI section but no cover/extra images;
     # still includes the author-provided screenshots body.
     repo = InMemoryPostsRepository(

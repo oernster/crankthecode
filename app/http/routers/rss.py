@@ -14,7 +14,6 @@ from app.http.deps import get_blog_service
 from app.http.seo import get_site_url
 from app.services.blog_service import BlogService
 
-
 router = APIRouter(tags=["rss"])
 
 # Bump this when you need feed readers to treat items as new (e.g. to re-ingest
@@ -272,4 +271,3 @@ async def rss_feed(
     xml_text = xml_bytes.decode("utf-8")
     xml_text = _unescape_cdata_sections(xml_text)
     return Response(content=xml_text.encode("utf-8"), media_type="application/rss+xml")
-
