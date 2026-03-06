@@ -8,7 +8,7 @@ from typing import cast
 from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from app.http.deps import get_blog_service, get_templates
@@ -26,6 +26,7 @@ from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
 from app.domain.tags import extract_layer_slugs_from_tags
 from app.domain.tags import humanize_layer_slug
+from app.domain.tags import primary_layer_slug_from_tags
 from app.domain.tags import normalize_layer_slug
 
 router = APIRouter()
@@ -512,6 +513,122 @@ def _person_jsonld_oliver_ernster(*, site_url: str) -> dict[str, object]:
     }
 
 
+def _is_leadership_post(tags: list[str]) -> bool:
+    """Return True if tags include the `cat:Leadership` category."""
+
+    return any((t or "").strip().lower() == "cat:leadership" for t in (tags or []))
+
+
+def _topic_descriptions() -> dict[str, str]:
+    """Short, calm topic blurbs keyed by normalized `layer:` slug."""
+
+    return {
+        "decision-systems": "Decision ownership, option space, and the mechanics of stable decisions at scale.",
+        "cto-operating-model": "Authority, escalation, and operating rhythms that keep execution coherent.",
+        "organisational-structure": "Roles, boundaries, and structure as the substrate for durable delivery.",
+        "structural-design": "Models and primitives for designing organisations that compound rather than fragment.",
+        "architecture": "Architecture as boundary design: where constraints live, and how systems stay legible.",
+    }
+
+
+def _leadership_topic_hubs(blog: BlogService) -> list[dict[str, object]]:
+    """Derive stable topic hubs from existing `cat:Leadership` + `layer:` tags."""
+
+    # layer_slug -> (latest_date_str, count)
+    layer_counts: dict[str, int] = {}
+    for p in blog.list_posts():
+        tags = [str(t) for t in (p.tags or [])]
+        if not _is_leadership_post(tags):
+            continue
+        layer_slugs = sorted(extract_layer_slugs_from_tags(tags))
+        if not layer_slugs:
+            layer_slugs = [""]
+        for layer_slug in layer_slugs:
+            layer_counts[layer_slug] = layer_counts.get(layer_slug, 0) + 1
+
+    # Keep ordering stable and intentional where possible; fall back to label sort.
+    preferred_order = [
+        "decision-systems",
+        "cto-operating-model",
+        "organisational-structure",
+        "structural-design",
+        "architecture",
+        "",
+    ]
+
+    def _sort_key(slug: str) -> tuple[int, str]:
+        if slug in preferred_order:
+            return (preferred_order.index(slug), "")
+        return (999, humanize_layer_slug(slug).lower())
+
+    descriptions = _topic_descriptions()
+    hubs: list[dict[str, object]] = []
+    for slug in sorted(layer_counts.keys(), key=_sort_key):
+        label = humanize_layer_slug(slug) if slug else "General"
+        hubs.append(
+            {
+                "layer": slug,
+                "label": label,
+                "description": descriptions.get(slug, ""),
+                "href": f"/topics/{slug}" if slug else "/topics/general",
+                "count": layer_counts.get(slug, 0),
+            }
+        )
+
+    # Ensure we don't accidentally expose an empty-slug URL; normalize it to /topics/general.
+    for h in hubs:
+        if h.get("layer") == "":
+            h["layer"] = "general"
+    return hubs
+
+
+def _topic_layer_slug_for_route(raw: str) -> str:
+    """Normalize topic route param.
+
+    - `general` is a stable alias for posts with no `layer:`.
+    - Everything else uses the existing layer normalizer.
+    """
+
+    cleaned = (raw or "").strip().lower()
+    if cleaned in {"", "general"}:
+        return "general"
+    return normalize_layer_slug(cleaned)
+
+
+def _topic_posts_for_layer(blog: BlogService, *, layer_slug: str) -> list[dict[str, object]]:
+    """Return leadership posts for a given normalized topic `layer_slug`."""
+
+    out: list[dict[str, object]] = []
+    for p in blog.list_posts():
+        tags = [str(t) for t in (p.tags or [])]
+        if not _is_leadership_post(tags):
+            continue
+
+        primary = primary_layer_slug_from_tags(tags) or ""
+        primary = normalize_layer_slug(primary) if primary else ""
+
+        if layer_slug == "general":
+            if extract_layer_slugs_from_tags(tags):
+                continue
+        else:
+            if layer_slug not in extract_layer_slugs_from_tags(tags):
+                continue
+
+        out.append(
+            {
+                "slug": p.slug,
+                "title": p.title,
+                "date": p.date,
+                "blurb": getattr(p, "blurb", None),
+                "one_liner": getattr(p, "one_liner", None),
+                "primary_layer": primary,
+            }
+        )
+
+    out.sort(key=lambda i: str(i.get("date", "")), reverse=True)
+    return out
+
+
 def _category_label_for_query(
     query: str,
     *,
@@ -932,9 +1049,45 @@ async def about_page(
     ctx["sidebar_categories"] = _sidebar_categories(
         blog, exclude_blog=bool(ctx.get("exclude_blog"))
     )
+
+    site_url = get_site_url(request)
+    canonical = absolute_url(site_url, "/about")
+    home = absolute_url(site_url, "/")
+
+    # Strong author page: WebPage + explicit about-linking to the Person entity.
+    about_page_jsonld = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": f"{canonical}#webpage",
+        "url": canonical,
+        "name": "About Oliver Ernster",
+        "about": {"@id": f"{home}#oliver-ernster"},
+        "isPartOf": {"@id": f"{home}#website"},
+    }
+
+    breadcrumb_jsonld = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": absolute_url(site_url, "/"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "About",
+                "item": canonical,
+            },
+        ],
+    }
+
     ctx.update(
         {
             "about_html": _load_about_html(),
+            "topic_hubs": _leadership_topic_hubs(blog),
             "is_homepage": False,
             "page_title": "About Oliver Ernster | Senior Python Developer",
             "og_title": "About Oliver Ernster",
@@ -955,11 +1108,235 @@ async def about_page(
         }
     )
 
-    about_jsonld = _person_jsonld_oliver_ernster(site_url=get_site_url(request))
+    ctx["jsonld_json"] = json.dumps(
+        about_page_jsonld, ensure_ascii=False, separators=(",", ":")
+    )
+    # Emit Person + Breadcrumb as a second JSON-LD block.
     ctx["jsonld_extra_json"] = json.dumps(
-        about_jsonld, ensure_ascii=False, separators=(",", ":")
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                _person_jsonld_oliver_ernster(site_url=site_url),
+                breadcrumb_jsonld,
+            ],
+        },
+        ensure_ascii=False,
+        separators=(",", ":"),
     )
     return templates.TemplateResponse(request, "about.html", ctx)
+
+
+@router.get("/about/oliver-ernster", include_in_schema=False)
+async def about_oliver_ernster_redirect(request: Request):
+    """Alias route to strengthen entity discoverability.
+
+    Canonical remains `/about`.
+    """
+
+    return RedirectResponse(url="/about", status_code=301)
+
+
+@router.get("/topics", response_class=HTMLResponse)
+async def topics_index(
+    request: Request,
+    blog: BlogService = Depends(get_blog_service),
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
+
+    hubs = _leadership_topic_hubs(blog)
+
+    site_url = get_site_url(request)
+    canonical = absolute_url(site_url, "/topics")
+    home = absolute_url(site_url, "/")
+
+    item_list = {
+        "@type": "ItemList",
+        "itemListOrder": "http://schema.org/ItemListOrderAscending",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": idx + 1,
+                "name": str(h.get("label") or ""),
+                "item": absolute_url(site_url, str(h.get("href") or "/topics")),
+            }
+            for idx, h in enumerate(hubs)
+        ],
+    }
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": f"{canonical}#collection",
+        "url": canonical,
+        "name": "Topics",
+        "about": {"@id": f"{home}#oliver-ernster"},
+        "isPartOf": {"@id": f"{home}#website"},
+        "mainEntity": item_list,
+    }
+
+    breadcrumb_jsonld = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": absolute_url(site_url, "/"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Topics",
+                "item": canonical,
+            },
+        ],
+    }
+
+    ctx.update(
+        {
+            "is_homepage": False,
+            "page_title": "Topics | Crank The Code",
+            "og_title": "Topics | Crank The Code",
+            "og_description": "Topic hubs for the Decision Architecture / Leadership layer.",
+            "meta_description": "Topic hubs for the Decision Architecture / Leadership layer.",
+            "topic_hubs": hubs,
+            "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
+            "jsonld_extra_json": json.dumps(
+                breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
+            ),
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Topics", "href": "/topics"},
+            ],
+        }
+    )
+    return templates.TemplateResponse(request, "topics_index.html", ctx)
+
+
+@router.get("/topics/{layer_slug}", response_class=HTMLResponse)
+async def topic_hub_page(
+    request: Request,
+    layer_slug: str,
+    blog: BlogService = Depends(get_blog_service),
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
+
+    topic_slug = _topic_layer_slug_for_route(layer_slug)
+    hubs = _leadership_topic_hubs(blog)
+
+    # Find label/description from derived hubs (source of truth).
+    hub = next((h for h in hubs if (h.get("layer") or "") == topic_slug), None)
+    topic_label = (
+        str(hub.get("label"))
+        if hub is not None
+        else (humanize_layer_slug(topic_slug) if topic_slug != "general" else "General")
+    )
+    topic_description = str(hub.get("description") or "") if hub is not None else ""
+
+    posts = _topic_posts_for_layer(blog, layer_slug=topic_slug)
+
+    site_url = get_site_url(request)
+    canonical_path = f"/topics/{topic_slug}"
+    canonical = absolute_url(site_url, canonical_path)
+    home = absolute_url(site_url, "/")
+
+    item_list = {
+        "@type": "ItemList",
+        "itemListOrder": "http://schema.org/ItemListOrderDescending",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": idx + 1,
+                "name": p.get("title"),
+                "item": absolute_url(site_url, f"/posts/{p.get('slug')}")
+                if p.get("slug")
+                else None,
+            }
+            for idx, p in enumerate(posts)
+        ],
+    }
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": f"{canonical}#collection",
+        "url": canonical,
+        "name": topic_label,
+        "description": topic_description or None,
+        "about": {"@id": f"{home}#oliver-ernster"},
+        "isPartOf": {"@id": f"{home}#website"},
+        "mainEntity": item_list,
+    }
+
+    breadcrumb_jsonld = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": absolute_url(site_url, "/"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Topics",
+                "item": absolute_url(site_url, "/topics"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": topic_label,
+                "item": canonical,
+            },
+        ],
+    }
+
+    ctx.update(
+        {
+            "is_homepage": False,
+            "page_title": f"{topic_label} | Topics | Crank The Code",
+            "og_title": f"{topic_label} | Topics | Crank The Code",
+            "og_description": topic_description
+            or f"Posts in {topic_label} (Decision Architecture).",
+            "meta_description": topic_description
+            or f"Posts in {topic_label} (Decision Architecture).",
+            "topic": {
+                "layer": topic_slug,
+                "label": topic_label,
+                "description": topic_description,
+                "posts_index_href": _posts_href(
+                    query=None,
+                    cat="Leadership",
+                    layer=topic_slug if topic_slug != "general" else None,
+                    exclude_blog=None,
+                ),
+            },
+            "posts": posts,
+            "topic_hubs": hubs,
+            "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
+            "jsonld_extra_json": json.dumps(
+                breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
+            ),
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Topics", "href": "/topics"},
+                {"label": topic_label, "href": canonical_path},
+            ],
+        }
+    )
+
+    return templates.TemplateResponse(request, "topic_hub.html", ctx)
 
 
 @router.get("/help", response_class=HTMLResponse)
@@ -1190,6 +1567,29 @@ async def read_post(
             ],
         }
     )
+
+    # Orientation layer: enrich Start Here with structural navigation without
+    # rewriting the underlying markdown.
+    if (detail.slug or "").strip().lower() == "start-here":
+        hubs = _leadership_topic_hubs(blog)
+        recommendations: list[dict[str, object]] = []
+        for h in hubs:
+            layer = str(h.get("layer") or "").strip()
+            layer_posts = _topic_posts_for_layer(blog, layer_slug=layer)[:3]
+            recommendations.append(
+                {
+                    "layer": layer,
+                    "label": h.get("label"),
+                    "href": h.get("href"),
+                    "posts": layer_posts,
+                }
+            )
+        ctx["start_here"] = {
+            "author_href": "/about",
+            "topics_href": "/topics",
+            "topic_hubs": hubs,
+            "recommended_by_topic": recommendations,
+        }
 
     resp = templates.TemplateResponse(request, "post.html", ctx)
     # Dev-only safety: clear browser HTTP cache to avoid sticky cached redirects

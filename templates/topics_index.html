@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Topics | Crank The Code{% endblock %}
+
+{% block content %}
+  <section class="section-panel" aria-label="Topics">
+    <h1 class="section-title section-title--accent">Topics</h1>
+    <p class="muted" style="margin: 0 0 12px 0;">
+      Stable hubs for the Decision Architecture / Leadership layer.
+    </p>
+
+    <div class="featured-buttons" aria-label="Topic hub links">
+      {% for t in topic_hubs or [] %}
+        <a class="btn-link" href="{{ t.href }}">
+          {{ t.label }}
+          {% if (t.count or 0) > 0 %}
+            <span class="btn-subtext">{{ t.count }} posts</span>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
+

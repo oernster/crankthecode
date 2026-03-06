@@ -7,5 +7,21 @@
     <div class="about-content">
       {{ about_html | safe }}
     </div>
+
+    {# Minimal structural layer for machines: stable topic links. #}
+    {% if topic_hubs and (topic_hubs|length) > 0 %}
+      <hr class="post-separator post-separator--subtle" aria-hidden="true" />
+      <div class="section-panel" aria-label="Topics">
+        <h2 class="section-title section-title--accent">Topics</h2>
+        <p class="muted" style="margin: 0 0 10px 0;">Decision Architecture is organised into stable topic hubs.</p>
+        <div class="featured-buttons" aria-label="Topic hub links">
+          {% for t in topic_hubs %}
+            <a class="btn-link" href="{{ t.href }}">
+              {{ t.label }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
   </section>
 {% endblock %}

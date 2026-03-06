@@ -9,6 +9,7 @@ from fastapi.responses import Response
 from app.http.deps import get_blog_service
 from app.http.seo import get_site_url, to_iso_date
 from app.services.blog_service import BlogService
+from app.domain.tags import extract_layer_slugs_from_tags
 
 router = APIRouter(tags=["seo"])
 
@@ -36,8 +37,21 @@ async def sitemap_xml(
     _add_url("/")
     _add_url("/posts")
     _add_url("/about")
+    _add_url("/about/oliver-ernster")
     _add_url("/posts/start-here")
     _add_url("/battlestation")
+    _add_url("/topics")
+
+    # Topic hub pages (Leadership layers only).
+    layer_slugs: set[str] = set()
+    for post in blog.list_posts():
+        tags = [str(t) for t in (post.tags or [])]
+        if not any(t.strip().lower() == "cat:leadership" for t in tags):
+            continue
+        layer_slugs.update(extract_layer_slugs_from_tags(tags))
+
+    for layer in sorted(layer_slugs):
+        _add_url(f"/topics/{layer}")
 
     # All posts.
     for post in blog.list_posts():

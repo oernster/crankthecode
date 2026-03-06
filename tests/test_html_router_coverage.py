@@ -94,6 +94,78 @@ def test_extract_category_queries_from_tags_skips_empty_and_cat_colon_only():
     assert out == {"cat:Tools"}
 
 
+def test_topic_helpers_cover_general_hub_route_normalization_and_general_exclusion():
+    """Coverage for topic hub helper branches.
+
+    This covers:
+    - leadership posts with no `layer:` -> become the `general` hub
+    - route normalization for empty/"general"
+    - general-topic post selection excludes posts that *do* have a layer
+    - fallback hub sorting for an unknown layer slug
+    """
+
+    from app.domain.models import PostSummary
+
+    posts = (
+        PostSummary(
+            slug="no-layer",
+            title="No Layer",
+            date="2026-02-01 12:00",
+            tags=("cat:Leadership",),
+            blurb=None,
+            one_liner=None,
+            cover_image_url=None,
+            thumb_image_url=None,
+            summary_html="",
+            emoji=None,
+        ),
+        PostSummary(
+            slug="known-layer",
+            title="Known Layer",
+            date="2026-02-02 12:00",
+            tags=("cat:Leadership", "layer:decision-systems"),
+            blurb=None,
+            one_liner=None,
+            cover_image_url=None,
+            thumb_image_url=None,
+            summary_html="",
+            emoji=None,
+        ),
+        PostSummary(
+            slug="unknown-layer",
+            title="Unknown Layer",
+            date="2026-02-03 12:00",
+            tags=("cat:Leadership", "layer:weird-layer"),
+            blurb=None,
+            one_liner=None,
+            cover_image_url=None,
+            thumb_image_url=None,
+            summary_html="",
+            emoji=None,
+        ),
+    )
+
+    class FakeBlog:
+        def list_posts(self):
+            return posts
+
+        def get_post(self, slug: str):
+            return None
+
+    hubs = html_module._leadership_topic_hubs(FakeBlog())
+    assert any(h.get("layer") == "general" for h in hubs)
+    assert any(h.get("layer") == "weird-layer" for h in hubs)
+
+    assert html_module._topic_layer_slug_for_route("") == "general"
+    assert html_module._topic_layer_slug_for_route("general") == "general"
+
+    general_posts = html_module._topic_posts_for_layer(FakeBlog(), layer_slug="general")
+    slugs = {p.get("slug") for p in general_posts}
+    assert "no-layer" in slugs
+    # Posts with any layer must be excluded from the general hub.
+    assert "known-layer" not in slugs
+
+
 def test_sidebar_label_with_emoji_maps_known_labels_and_passes_through_unknowns():
     from app.http.routers.html import _sidebar_label_with_emoji
 

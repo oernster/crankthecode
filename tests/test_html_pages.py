@@ -151,6 +151,43 @@ def test_about_page_renders():
 
     assert resp.status_code == 200
     assert "Things I build with" in resp.text
+    # Author page should expose topic hubs for structural navigation.
+    assert "Topics" in resp.text
+    assert "decision-systems" in resp.text
+
+
+def test_topics_pages_render():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/topics")
+    assert resp.status_code == 200
+    assert "Topics" in resp.text
+    assert 'href="/topics/decision-systems"' in resp.text
+
+    resp = client.get("/topics/decision-systems")
+    assert resp.status_code == 200
+    assert "Decision Systems" in resp.text
+
+
+def test_about_author_alias_redirects_to_about():
+    app = create_app()
+    # Use localhost to bypass canonical-host middleware so we test the route handler.
+    client = TestClient(app, base_url="http://localhost")
+
+    resp = client.get("/about/oliver-ernster", follow_redirects=False)
+    assert resp.status_code == 301
+    assert resp.headers.get("location") == "/about"
+
+
+def test_start_here_includes_orientation_links():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/posts/start-here")
+    assert resp.status_code == 200
+    assert 'href="/topics"' in resp.text
+    assert 'href="/about"' in resp.text
 
 
 def test_help_page_renders_and_is_noindex_and_masks_email():

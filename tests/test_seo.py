@@ -93,7 +93,10 @@ def test_sitemap_lists_main_pages_and_posts():
         assert "https://example.com/" in locs
         assert "https://example.com/posts" in locs
         assert "https://example.com/about" in locs
+        assert "https://example.com/about/oliver-ernster" in locs
         assert "https://example.com/posts/start-here" in locs
+        assert "https://example.com/topics" in locs
+        assert "https://example.com/topics/decision-systems" in locs
         assert "https://example.com/posts/trainer" in locs
 
         # Special pages should not be listed as regular posts.

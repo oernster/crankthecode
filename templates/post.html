@@ -22,6 +22,36 @@
     {% endif %}
   </div>
 
+  {# Orientation layer (Start Here): injected server-side without rewriting markdown. #}
+  {% if start_here %}
+    <section class="section-panel" aria-label="Orientation">
+      <h2 class="section-title section-title--accent">Orientation</h2>
+      <p class="muted" style="margin: 0 0 10px 0;">
+        Author: <a href="{{ start_here.author_href }}">Oliver Ernster</a> ·
+        Topics: <a href="{{ start_here.topics_href }}">topic hubs</a>
+      </p>
+
+      {% if start_here.recommended_by_topic and (start_here.recommended_by_topic|length) > 0 %}
+        <div class="featured-buttons" aria-label="Recommended reading">
+          {% for g in start_here.recommended_by_topic %}
+            <div class="featured-group" aria-label="Recommended group">
+              <h3 class="featured-group-title">
+                <a href="{{ g.href }}">{{ g.label }}</a>
+              </h3>
+              <div class="featured-group-items">
+                {% for p in g.posts %}
+                  <a class="btn-link" href="/posts/{{ p.slug }}">{{ p.title }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    <hr class="post-separator" aria-hidden="true" />
+  {% endif %}
+
   {% if post.cover_image_url %}
     <a class="post-cover-link" href="{{ post.cover_image_url }}" aria-label="Open full-size image: {{ post.title }}">
       <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="eager" />
