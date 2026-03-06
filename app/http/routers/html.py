@@ -796,6 +796,9 @@ async def homepage(
                 "name": "Crank The Code",
                 "url": home,
                 "author": {"@id": f"{home}#oliver-ernster"},
+                # Explicitly define the site's main entity to strengthen the
+                # WebSite -> Person association for crawlers and AI systems.
+                "mainEntity": {"@id": f"{home}#oliver-ernster"},
             },
             person_jsonld,
         ],
