@@ -31,9 +31,9 @@
             {% elif post.slug == 'galacticunicorn' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
             {% elif post.slug == '3D-printer-launcher' %}
-              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ post.title }}" loading="lazy" />
+              <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ post.title }}" loading="lazy" />
             {% elif post.slug == 'fancy-clock' %}
-              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ post.title }}" loading="lazy" />
+              <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ post.title }}" loading="lazy" />
             {% elif thumb %}
               <img class="btn-thumb" src="{{ thumb }}" alt="{{ post.title }}" loading="lazy" />
             {% endif %}

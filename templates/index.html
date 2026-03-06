@@ -13,7 +13,7 @@
         <div class="hero__avatar">
           <img
             class="hero__avatar-img"
-            src="/static/images/me-hero.jpg"
+            src="{{ asset_url('images/me-hero.jpg') }}"
             alt="Portrait of the site author"
             width="120"
             height="120"
@@ -120,9 +120,9 @@
               {% elif p.slug == 'galacticunicorn' %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
               {% elif p.slug == '3D-printer-launcher' %}
-                <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
+                <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
               {% elif p.slug == 'fancy-clock' %}
-                <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
+                <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
               {% elif cover %}
                 <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
               {% endif %}
@@ -165,9 +165,9 @@
             {% elif p.slug == 'galacticunicorn' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
             {% elif p.slug == '3D-printer-launcher' %}
-              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
+              <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
             {% elif p.slug == 'fancy-clock' %}
-              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
+              <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
             {% elif cover %}
               <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
             {% endif %}
@@ -207,9 +207,9 @@
             {% elif p.slug == 'galacticunicorn' %}
               <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
             {% elif p.slug == '3D-printer-launcher' %}
-              <img class="btn-thumb" src="/static/images/3dprinterlauncher-icon.png" alt="{{ p.label }}" loading="lazy" />
+              <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
             {% elif p.slug == 'fancy-clock' %}
-              <img class="btn-thumb" src="/static/images/fancyclock-icon.png" alt="{{ p.label }}" loading="lazy" />
+              <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
             {% elif cover %}
               <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
             {% endif %}

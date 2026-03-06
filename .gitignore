@@ -192,6 +192,9 @@ cython_debug/
 # Ruff stuff:
 .ruff_cache/
 
+# Built static asset output (fingerprinted)
+static_dist/
+
 # PyPI configuration file
 .pypirc
 

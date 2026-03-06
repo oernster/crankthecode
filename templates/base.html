@@ -118,7 +118,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="{{ asset_url('styles.css') }}">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="Crank The Code RSS" href="/rss.xml">
 </head>
@@ -174,7 +174,7 @@
           </button>
 
           <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
-            <img class="rss-icon" src="/static/rss.svg" alt="Crank The Code RSS" />
+            <img class="rss-icon" src="{{ asset_url('rss.svg') }}" alt="Crank The Code RSS" />
           </a>
         </div>
       </div>
@@ -328,10 +328,10 @@
     </button>
   </div>
 
-  <script src="/static/search.js" defer></script>
-  <script src="/static/scroll-top.js" defer></script>
-  <script src="/static/copy-code.js" defer></script>
-  <script src="/static/read-time.js" defer></script>
+  <script src="{{ asset_url('search.js') }}" defer></script>
+  <script src="{{ asset_url('scroll-top.js') }}" defer></script>
+  <script src="{{ asset_url('copy-code.js') }}" defer></script>
+  <script src="{{ asset_url('read-time.js') }}" defer></script>
 
   <script>
     (function () {

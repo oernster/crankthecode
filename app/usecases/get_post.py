@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import re
 
+from app.assets.manifest import get_asset_manifest
 from app.usecases.list_posts import (
     _extract_cover_image_and_strip,
     _strip_image_paragraph,
@@ -161,6 +162,7 @@ class GetPostUseCase:
     renderer: MarkdownRenderer
 
     def execute(self, slug: str) -> PostDetail | None:
+        assets = get_asset_manifest()
         post = self.repo.get_post(slug)
         if post is None:
             return None
@@ -242,6 +244,7 @@ class GetPostUseCase:
                 markdown_wo_cover = screenshots_md + "\n"
 
         html_content = self.renderer.render(markdown_wo_cover)
+        html_content = assets.rewrite_html_static_urls(html_content)
         return PostDetail(
             slug=post.slug,
             title=post.title,
@@ -249,9 +252,13 @@ class GetPostUseCase:
             tags=post.tags,
             blurb=getattr(post, "blurb", None),
             one_liner=getattr(post, "one_liner", None),
-            cover_image_url=cover_url,
-            social_image_url=social_url,
-            extra_image_urls=extra_urls,
+            cover_image_url=assets.resolve_url_or_path(str(cover_url or ""))
+            if cover_url
+            else None,
+            social_image_url=assets.resolve_url_or_path(str(social_url or ""))
+            if social_url
+            else None,
+            extra_image_urls=tuple(assets.resolve_url_or_path(u) for u in extra_urls),
             content_html=html_content,
             emoji=getattr(post, "emoji", None),
         )

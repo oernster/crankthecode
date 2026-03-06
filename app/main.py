@@ -1,14 +1,18 @@
 from __future__ import annotations
 
+import os
 from typing import Awaitable, Callable
+
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi.responses import FileResponse, RedirectResponse, Response
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jinja2 import Environment, FileSystemLoader
 
+from app.assets.manifest import asset_url
+from app.assets.staticfiles import CachingStaticFiles
 from app.http.routers.api import router as api_router
 from app.http.routers.html import router as html_router
 from app.http.routers.rss import router as rss_router
@@ -52,9 +56,44 @@ def create_app() -> FastAPI:
 
         return await call_next(request)
 
+    @fastapi_app.middleware("http")
+    async def cache_policy_middleware(
+        request: Request,
+        call_next: Callable[[Request], Awaitable[Response]],
+    ) -> Response:
+        resp = await call_next(request)
+
+        # Apply cache policy based on response content type.
+        content_type = (resp.headers.get("content-type") or "").lower()
+
+        if content_type.startswith("text/html"):
+            resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            resp.headers["Pragma"] = "no-cache"
+            resp.headers["Expires"] = "0"
+            return resp
+
+        # Dynamic text endpoints (RSS, sitemap, robots) must be revalidated.
+        if (
+            content_type.startswith("application/rss+xml")
+            or content_type.startswith("application/xml")
+            or content_type.startswith("text/plain")
+        ):
+            resp.headers.setdefault("Cache-Control", "no-cache, must-revalidate")
+
+        return resp
+
     # Static and templates
-    fastapi_app.mount("/static", StaticFiles(directory="static"), name="static")
-    fastapi_app.mount("/docs", StaticFiles(directory="docs"), name="docs")
+    #
+    # Serve from the build output directory in production. We keep a fallback to
+    # `static/` for developer ergonomics (tests also run without the build step).
+    configured_static_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
+    static_dir = (
+        configured_static_dir
+        if configured_static_dir
+        else ("static_dist" if Path("static_dist").exists() else "static")
+    )
+    fastapi_app.mount("/static", CachingStaticFiles(directory=static_dir), name="static")
+    fastapi_app.mount("/docs", CachingStaticFiles(directory="docs"), name="docs")
 
     # Templates
     # - auto_reload + cache_size=0 ensures template edits are reflected without
@@ -66,11 +105,15 @@ def create_app() -> FastAPI:
         auto_reload=True,
         cache_size=0,
     )
+    env.globals["asset_url"] = asset_url
     fastapi_app.state.templates = Jinja2Templates(env=env)
 
     @fastapi_app.get("/favicon.ico", include_in_schema=False)
     async def favicon():
-        return FileResponse("static/favicon.ico")
+        resp = FileResponse("static/favicon.ico")
+        # Favicons are often cached aggressively by browsers; force revalidation.
+        resp.headers["Cache-Control"] = "no-cache, must-revalidate"
+        return resp
 
     fastapi_app.include_router(html_router)
     fastapi_app.include_router(api_router)

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import re
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 
@@ -21,6 +23,61 @@ def test_homepage_renders():
     assert "Download eBook" in resp.text
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
+
+
+def test_html_cache_headers_are_no_store():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/")
+    assert resp.status_code == 200
+    assert resp.headers.get("cache-control") == "no-cache, no-store, must-revalidate"
+    assert resp.headers.get("pragma") == "no-cache"
+    assert resp.headers.get("expires") == "0"
+
+
+def test_favicon_is_not_cached_forever():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/favicon.ico")
+    assert resp.status_code == 200
+    # Browsers can be extremely sticky with favicons; force revalidation.
+    assert resp.headers.get("cache-control") == "no-cache, must-revalidate"
+
+
+def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
+    # Ensure the build output exists *before* app creation; `create_app()`
+    # mounts `static_dist/` only if it exists.
+    from app.assets.build_static import build_static_dist
+    from app.assets.manifest import reset_asset_manifest_cache
+
+    build_static_dist(
+        static_src_dir=Path("static"),
+        static_dist_dir=Path("static_dist"),
+        manifest_path=Path("static_dist/manifest.json"),
+        hash_len=10,
+    )
+
+    # Make the test hermetic even if the outer environment sets these.
+    monkeypatch.setenv("CTC_STATIC_DIST_DIR", "static_dist")
+    monkeypatch.setenv("CTC_STATIC_MANIFEST_PATH", "static_dist/manifest.json")
+    reset_asset_manifest_cache()
+
+    app = create_app()
+    client = TestClient(app)
+
+    html = client.get("/")
+    assert html.status_code == 200
+
+    # The homepage should reference fingerprinted CSS after build.
+    m = re.search(r"/static/styles\.[0-9a-f]{8,}\.css", html.text)
+    assert m is not None, html.text
+
+    css_url = m.group(0)
+    css = client.get(css_url)
+    assert css.status_code == 200
+    assert css.headers.get("cache-control") == "public, max-age=31536000, immutable"
 
 
 def test_docs_epub_is_served():
