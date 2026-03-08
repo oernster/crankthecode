@@ -474,27 +474,31 @@ body.is-homepage .header-cta {
 
 /*
   Header corner icons (theme / home / search / RSS)
-  - Keep them visually quiet until hovered.
-  - On hover, use the same banana-yellow highlight as button hovers.
+  - Default state should be clearly visible (banana-yellow).
+  - Hover state should switch to brand mauve for a crisp, interactive affordance.
 */
 .header-actions .icon-btn,
 .header-actions .rss-link,
 .header-actions .home-favicon-link {
-  opacity: 0.32;
+  opacity: 1;
+  background: var(--cta-bg-hover);
+  border-color: var(--cta-border-hover);
+  color: var(--cta-fg);
+  text-shadow: none;
   transition:
-    opacity 0.18s ease,
     background 0.18s ease,
     border-color 0.18s ease,
-    color 0.18s ease;
+    color 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .header-actions .icon-btn:hover,
 .header-actions .rss-link:hover,
 .header-actions .home-favicon-link:hover {
-  opacity: 1;
-  background: var(--cta-bg-hover);
-  border-color: var(--cta-border-hover);
-  text-shadow: none;
+  background: var(--brand-mauve);
+  border-color: color-mix(in srgb, var(--brand-mauve) 72%, white);
+  color: #111827;
+  box-shadow: 0 14px 30px rgba(203, 182, 255, 0.18);
 }
 
 .header-actions .icon-btn:focus-visible,
@@ -725,6 +729,12 @@ body.is-homepage .header-cta {
   border-radius: 14px;
 }
 
+/* Home button: emoji instead of favicon image (favicon stays as the site icon). */
+.home-favicon-emoji {
+  font-size: calc(26px * var(--btn-scale));
+  line-height: 1;
+}
+
 .icon-btn {
   padding: 0;
   cursor: pointer;
@@ -740,38 +750,8 @@ body.is-homepage .header-cta {
   text-shadow: none;
 }
 
-/*
-  Header corner icons (theme / home / search / RSS)
-  - Visually quiet until hovered.
-  - On hover, use the same banana-yellow highlight as button hovers.
-  NOTE: This is placed after the generic icon hover rules so it wins.
-*/
-.header-actions .icon-btn,
-.header-actions .rss-link,
-.header-actions .home-favicon-link {
-  opacity: 0.62;
-  transition:
-    opacity 0.18s ease,
-    background 0.18s ease,
-    border-color 0.18s ease,
-    color 0.18s ease;
-}
-
-.header-actions .icon-btn:hover,
-.header-actions .rss-link:hover,
-.header-actions .home-favicon-link:hover {
-  opacity: 1;
-  background: var(--cta-bg-hover);
-  border-color: var(--cta-border-hover);
-  color: var(--cta-fg);
-  text-shadow: none;
-}
-
-.header-actions .icon-btn:focus-visible,
-.header-actions .rss-link:focus-visible,
-.header-actions .home-favicon-link:focus-visible {
-  opacity: 1;
-}
+/* (removed) Duplicate `.header-actions` rules lived here and conflicted with the
+   block above. Keep a single source of truth for these buttons. */
 
 .icon-btn:focus-visible,
 .rss-link:focus-visible {
