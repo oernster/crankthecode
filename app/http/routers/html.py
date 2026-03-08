@@ -724,6 +724,9 @@ async def homepage(
             "breadcrumb_items": [{"label": "Home", "href": "/"}],
             "homepage_projects": {
                 "featured": [
+                    # Order is deliberate: newest/most important first.
+                    {"slug": "narratex", "label": "NarrateX"},
+                    {"slug": "latencylab", "label": "LatencyLab"},
                     {"slug": "stellody", "label": "Stellody"},
                     {"slug": "3D-printing-info", "label": "3D Printing Info"},
                     {"slug": "calendifier", "label": "Calendifier"},

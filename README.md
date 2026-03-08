@@ -32,6 +32,34 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+### Running tests (use the venv interpreter)
+
+On Windows it’s easy to accidentally run tests with the *system* Python (which may
+not have dependencies like `pytest` installed). Use the venv interpreter:
+
+```powershell
+.\venv\Scripts\python.exe -m pytest -q --cov
+```
+
+### Static assets in local dev
+
+Posts often reference images like `/static/images/foo.png`.
+
+In production (Render), a build step fingerprints and copies assets into `static_dist/`
+([`render.yaml`](render.yaml:1)). Locally you normally **do not** need to build
+anything.
+
+If you ever see a confusing 404 for an image that *definitely exists* in
+[`static/images`](static/images:1), it usually means a stale `static_dist/` directory
+is present on disk from a previous build. The app also has a dev guardrail to
+fall back to [`static/`](static:1) when an asset is missing from `static_dist/`.
+
+Fix:
+
+```powershell
+Remove-Item -Recurse -Force static_dist
+```
+
 ## Tests (currently 100% coverage)
 
 ```bash

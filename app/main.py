@@ -12,7 +12,7 @@ from fastapi.templating import Jinja2Templates
 from jinja2 import Environment, FileSystemLoader
 
 from app.assets.manifest import asset_url
-from app.assets.staticfiles import CachingStaticFiles
+from app.assets.staticfiles import CachingStaticFiles, FallbackStaticFiles
 from app.http.routers.api import router as api_router
 from app.http.routers.html import router as html_router
 from app.http.routers.rss import router as rss_router
@@ -84,15 +84,23 @@ def create_app() -> FastAPI:
 
     # Static and templates
     #
-    # Serve from the build output directory in production. We keep a fallback to
-    # `static/` for developer ergonomics (tests also run without the build step).
+    # Production: prefer `static_dist/` (fingerprinted build output).
+    # Local dev: a stale `static_dist/` can exist and *not* contain newly added
+    # images, causing confusing 404s. To make local dev "just work", we keep
+    # `static_dist/` as the primary directory (when present) but fall back to
+    # `static/` if a file is missing.
     configured_static_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
-    static_dir = (
-        configured_static_dir
-        if configured_static_dir
-        else ("static_dist" if Path("static_dist").exists() else "static")
+    static_dir = configured_static_dir or (
+        "static_dist" if Path("static_dist").exists() else "static"
     )
-    fastapi_app.mount("/static", CachingStaticFiles(directory=static_dir), name="static")
+
+    fallback_static_dir = "static" if static_dir != "static" else None
+
+    fastapi_app.mount(
+        "/static",
+        FallbackStaticFiles(directory=static_dir, fallback_directory=fallback_static_dir),
+        name="static",
+    )
     fastapi_app.mount("/docs", CachingStaticFiles(directory="docs"), name="docs")
 
     # Templates

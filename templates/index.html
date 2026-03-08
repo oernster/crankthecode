@@ -103,7 +103,7 @@
         <div class="featured-buttons" aria-label="Featured project links">
           {% for p in homepage_projects.featured %}
             <a
-              class="btn-link btn-link--with-thumb{% if loop.first %} btn-link--primary featured-primary{% endif %}"
+              class="btn-link btn-link--with-thumb{% if p.slug == 'narratex' %} btn-link--primary featured-primary{% endif %}"
               href="/posts/{{ p.slug }}"
             >
               {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}

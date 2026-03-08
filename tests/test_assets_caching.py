@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from app.assets.manifest import AssetManifest, get_asset_manifest, reset_asset_manifest_cache
-from app.assets.staticfiles import CachingStaticFiles
+from app.assets.staticfiles import CachingStaticFiles, FallbackStaticFiles
 
 
 def test_build_static_hash_and_fingerprinted_name_helpers():
@@ -182,4 +182,83 @@ def test_caching_staticfiles_cache_headers(tmp_path: Path):
     if lm:
         not_modified = client.get("/static/app.1234abcd.js", headers={"if-modified-since": lm})
         assert not_modified.status_code == 304
+
+
+def test_fallback_staticfiles_serves_from_fallback_on_404(tmp_path: Path):
+    primary = tmp_path / "static_dist"
+    fallback = tmp_path / "static"
+    primary.mkdir()
+    fallback.mkdir()
+
+    # Only exists in fallback.
+    (fallback / "only-fallback.txt").write_text("ok", encoding="utf-8")
+
+    app = FastAPI()
+    app.mount(
+        "/static",
+        FallbackStaticFiles(directory=str(primary), fallback_directory=str(fallback)),
+        name="static",
+    )
+    client = TestClient(app)
+
+    resp = client.get("/static/only-fallback.txt")
+    assert resp.status_code == 200
+    assert resp.text == "ok"
+
+
+def test_fallback_staticfiles_propagates_404_when_no_fallback(tmp_path: Path):
+    primary = tmp_path / "static_dist"
+    primary.mkdir()
+
+    app = FastAPI()
+    app.mount(
+        "/static",
+        FallbackStaticFiles(directory=str(primary), fallback_directory=None),
+        name="static",
+    )
+    client = TestClient(app)
+
+    # Missing in primary and no fallback -> 404 must propagate.
+    resp = client.get("/static/does-not-exist.txt")
+    assert resp.status_code == 404
+
+
+def test_fallback_staticfiles_uses_fallback_when_primary_returns_404_response(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+):
+    """Cover the non-exception 404 path.
+
+    Starlette can raise for 404s, but our wrapper also handles a plain 404 Response
+    defensively.
+    """
+
+    async def fake_get_response(self, path: str, scope):
+        from starlette.responses import PlainTextResponse
+
+        # Primary (FallbackStaticFiles instance): return a 404 Response.
+        if isinstance(self, FallbackStaticFiles):
+            return PlainTextResponse("missing", status_code=404)
+
+        # Fallback (CachingStaticFiles instance): return 200.
+        return PlainTextResponse("ok", status_code=200)
+
+    monkeypatch.setattr(CachingStaticFiles, "get_response", fake_get_response)
+
+    primary = tmp_path / "static_dist"
+    fallback = tmp_path / "static"
+    primary.mkdir()
+    fallback.mkdir()
+
+    app = FastAPI()
+    app.mount(
+        "/static",
+        FallbackStaticFiles(directory=str(primary), fallback_directory=str(fallback)),
+        name="static",
+    )
+    client = TestClient(app)
+
+    resp = client.get("/static/anything.txt")
+    assert resp.status_code == 200
+    assert resp.text == "ok"
 

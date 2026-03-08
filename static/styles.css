@@ -3181,12 +3181,13 @@ html.theme-light .section-title {
   display: none !important;
 }
 
+/* Homepage: featured project highlight (subtle, not larger). */
 .featured-primary {
-  flex-basis: 100%;
-  text-align: center;
-  justify-content: center;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  /* Keep size identical; only adjust emphasis. */
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 14px 30px rgba(139, 179, 255, 0.16),
+    var(--hover-accent-shadow);
 }
 
 .hotas-list {
