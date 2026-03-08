@@ -57,9 +57,28 @@ class MarkdownAssembler:
             ]
         )
 
+    def _render_prologue(self) -> str:
+        """Render the book prologue from `book/prologue.md`.
+
+        If the file is absent, omit the prologue (keeps the builder tolerant).
+        """
+
+        if not self.paths.prologue_file.exists():
+            return ""
+
+        raw = self.paths.prologue_file.read_text(encoding="utf-8")
+        fm = parse_frontmatter(raw)
+        body = fm.body.strip()
+        if not body:
+            return ""
+
+        # The prologue file is expected to define its own title/heading.
+        return body + "\n\n"
+
     def render_book_markdown(self, *, sections: list[BookSection]) -> str:
         blocks: list[str] = []
         blocks.append(self.render_front_matter())
+        blocks.append(self._render_prologue())
         blocks.append(self.render_essay_index(sections))
         blocks.append(self._render_intro_about_me())
 

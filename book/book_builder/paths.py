@@ -20,6 +20,7 @@ class BookPaths:
     posts_dir: Path
     book_dir: Path
     about_file: Path
+    prologue_file: Path
     output_file: Path
     temp_combined: Path
     css_file: Path
@@ -35,6 +36,7 @@ class BookPaths:
             posts_dir=repo_root / "posts",
             book_dir=book_dir,
             about_file=book_dir / "about-me-book.md",
+            prologue_file=book_dir / "prologue.md",
             # Public artifact: served by FastAPI StaticFiles mounted at `/docs`.
             # This avoids exposing the whole `book/` directory.
             output_file=docs_dir / "Decision-Architecture.epub",
