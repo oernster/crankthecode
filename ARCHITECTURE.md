@@ -153,9 +153,14 @@ Tags also power UI navigation and structured data:
 Static files are served via a caching-aware StaticFiles subclass:
 
 - Static mount: [`fastapi_app.mount("/static", ...)`](app/main.py:95)
-- Implementation: [`CachingStaticFiles`](app/assets/staticfiles.py:13)
+- Primary implementation: [`CachingStaticFiles`](app/assets/staticfiles.py:14)
   - Fingerprinted filenames cache for 1y immutable: [`get_response()`](app/assets/staticfiles.py:23)
   - Non-fingerprinted assets are `no-cache, must-revalidate` as a safe fallback: [`Cache-Control`](app/assets/staticfiles.py:35)
+
+Local dev guardrail:
+
+- When `/static` is mounted from `static_dist/` but a specific asset is missing (stale build output), the app can fall back to serving it from `static/`:
+  [`FallbackStaticFiles`](app/assets/staticfiles.py:40) mounted in [`create_app()`](app/main.py:85).
 
 The app mounts `/docs` for public artifacts like the EPUB output: [`fastapi_app.mount("/docs", ...)`](app/main.py:96)
 
@@ -173,9 +178,9 @@ Render runs an explicit build step before starting the app: [`buildCommand`](ren
 
 Runtime selection:
 
-- The app serves from `static_dist/` when present, otherwise falls back to `static/`: [`static_dir`](app/main.py:90)
+- The app serves from `static_dist/` when present, otherwise falls back to `static/`: [`static_dir`](app/main.py:93)
 - Environment overrides:
-  - `CTC_STATIC_DIST_DIR` selects the served static directory: [`CTC_STATIC_DIST_DIR`](app/main.py:89)
+  - `CTC_STATIC_DIST_DIR` selects the served static directory: [`CTC_STATIC_DIST_DIR`](app/main.py:92)
   - `CTC_STATIC_MANIFEST_PATH` selects manifest file path: [`_default_manifest_path()`](app/assets/manifest.py:118)
   - The build script also supports `CTC_STATIC_SRC_DIR` + `CTC_STATIC_HASH_LEN`: [`main()`](app/assets/build_static.py:77)
 
@@ -189,6 +194,7 @@ The repository also ships a small book-building subsystem that compiles selected
   - Reads source posts from `posts/` but filters to those with `layer:` tags: [`FilesystemBookPostsRepository.list_posts()`](book/book_builder/repository.py:17)
   - Uses shared tag logic from the app domain to keep layer parsing consistent: [`primary_layer_slug_from_tags()`](app/domain/tags.py:73)
 - Output is written under `docs/` so it can be served publicly at `/docs/...` without exposing the whole book source tree: [`output_file`](book/book_builder/paths.py:40)
+- The combined markdown includes a prologue sourced from [`prologue.md`](book/prologue.md:1) via [`MarkdownAssembler._render_prologue()`](book/book_builder/markdown_assembler.py:60).
 - EPUB build is executed by calling `pandoc` via subprocess:
   - Command construction + up-to-date checks: [`PandocEpubBuilder.build()`](book/book_builder/pandoc_epub.py:29)
 
