@@ -3,7 +3,7 @@ date: 2026-02-11 20:00
 emoji: 🪜
 one_liner: Consensus often appears when no one is allowed to decide.
 tags:
-- cat:blog
+- cat:governance
 - decision-making
 - authority
 - organisations
