@@ -72,7 +72,6 @@ class MarkdownAssembler:
         if not body:
             return ""
 
-        # The prologue file is expected to define its own title/heading.
         return body + "\n\n"
 
     def render_book_markdown(self, *, sections: list[BookSection]) -> str:
@@ -82,11 +81,21 @@ class MarkdownAssembler:
         blocks.append(self.render_essay_index(sections))
         blocks.append(self._render_intro_about_me())
 
+        chapter_number = 1
+
         for section in sections:
             blocks.append(f"# {section.name}\n\n")
+
             for post in section.posts:
                 body = normalize_content(post.body)
-                blocks.append(f"## {post.title}\n\n")
+
+                # Explicit chapter heading for EPUB navigation and NarrateX detection
+                blocks.append(
+                    f"## Chapter {chapter_number}: {post.title}\n\n"
+                )
+
                 blocks.append(body + "\n\n")
+
+                chapter_number += 1
 
         return "".join(blocks)
