@@ -25,6 +25,18 @@ def test_homepage_renders():
     assert 'href="/posts/start-here"' in resp.text
 
 
+def test_homepage_featured_projects_uses_narratex_thumbnail_image_not_emoji():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/")
+    assert resp.status_code == 200
+
+    # NarrateX should render with its thumb image (not an emoji span).
+    # The file lives at `/static/images/narratex-icon.png`.
+    assert "/static/images/narratex-icon" in resp.text
+
+
 def test_html_cache_headers_are_no_store():
     app = create_app()
     client = TestClient(app)
@@ -60,6 +72,7 @@ def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
     )
 
     # Make the test hermetic even if the outer environment sets these.
+    monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
     monkeypatch.setenv("CTC_STATIC_DIST_DIR", "static_dist")
     monkeypatch.setenv("CTC_STATIC_MANIFEST_PATH", "static_dist/manifest.json")
     reset_asset_manifest_cache()

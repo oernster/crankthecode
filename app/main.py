@@ -84,17 +84,37 @@ def create_app() -> FastAPI:
 
     # Static and templates
     #
-    # Production: prefer `static_dist/` (fingerprinted build output).
-    # Local dev: a stale `static_dist/` can exist and *not* contain newly added
-    # images, causing confusing 404s. To make local dev "just work", we keep
-    # `static_dist/` as the primary directory (when present) but fall back to
-    # `static/` if a file is missing.
-    configured_static_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
-    static_dir = configured_static_dir or (
-        "static_dist" if Path("static_dist").exists() else "static"
-    )
+    # We need local dev *and* production to be reliable.
+    #
+    # - Local dev: default to serving from `static/` (source of truth).
+    #   Rationale: `static_dist/` is build output and can be stale or partially
+    #   generated locally, which can cause wrong icons / broken images.
+    #
+    # - Production (Render): explicitly opt into `static_dist/` via
+    #   `CTC_USE_STATIC_DIST=1`, so fingerprinted assets are served and cached
+    #   immutably.
+    #
+    # When serving from `static_dist/`, we still fall back to `static/` for
+    # missing files (useful during deploy transitions).
+    def _truthy_env(name: str) -> bool:
+        return (os.getenv(name) or "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "y",
+            "on",
+        }
 
-    fallback_static_dir = "static" if static_dir != "static" else None
+    use_static_dist = _truthy_env("CTC_USE_STATIC_DIST")
+    configured_static_dist_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
+    static_dist_dir = configured_static_dist_dir or "static_dist"
+
+    if use_static_dist and Path(static_dist_dir).exists():
+        static_dir = static_dist_dir
+        fallback_static_dir = "static"
+    else:
+        static_dir = "static"
+        fallback_static_dir = None
 
     fastapi_app.mount(
         "/static",

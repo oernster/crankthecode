@@ -11,6 +11,26 @@ from pathlib import Path
 _FINGERPRINT_RE = re.compile(r"\.[0-9a-f]{8,}\.")
 
 
+def _truthy_env(name: str) -> bool:
+    return (os.getenv(name) or "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "y",
+        "on",
+    }
+
+
+def _use_static_dist() -> bool:
+    """Return True when the app should use fingerprinted `static_dist/` assets.
+
+    Local dev should default to `static/` to avoid stale build output breaking
+    images. Production explicitly opts into `static_dist/`.
+    """
+
+    return _truthy_env("CTC_USE_STATIC_DIST")
+
+
 def _normalize_rel_path(path: str) -> str:
     # Manifest keys always use forward slashes and no leading slash.
     p = (path or "").strip().lstrip("/")
@@ -121,6 +141,11 @@ def _default_manifest_path() -> Path:
 
 @lru_cache(maxsize=1)
 def get_asset_manifest() -> AssetManifest:
+    # If we're not serving from `static_dist/`, do not rewrite URLs to
+    # fingerprinted filenames (they won't exist under the mounted `/static`).
+    if not _use_static_dist():
+        return AssetManifest(mapping={})
+
     return AssetManifest.load(_default_manifest_path())
 
 

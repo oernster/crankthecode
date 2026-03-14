@@ -4,3 +4,10 @@ services:
     env: python
     buildCommand: "pip install -r requirements.txt && python -m app.assets.build_static"
     startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+    envVars:
+      - key: CTC_USE_STATIC_DIST
+        value: "1"
+      - key: CTC_STATIC_DIST_DIR
+        value: "static_dist"
+      - key: CTC_STATIC_MANIFEST_PATH
+        value: "static_dist/manifest.json"

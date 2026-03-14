@@ -109,7 +109,10 @@
               {% set cover = homepage_thumb_index.get(p.slug) or homepage_cover_index.get(p.slug) %}
               {% set blurb = homepage_blurb_index.get(p.slug) %}
               {% set emoji = homepage_emoji_index.get(p.slug) or p.emoji %}
-              {% if (emoji or '')|length > 0 %}
+              {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
+              {% if cover %}
+                <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
+              {% elif (emoji or '')|length > 0 %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
               {% elif p.slug == 'calendifier' %}
                 <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
@@ -123,8 +126,6 @@
                 <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
               {% elif p.slug == 'fancy-clock' %}
                 <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
-              {% elif cover %}
-                <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
               {% endif %}
             <span class="btn-text">
               {{ p.label }}

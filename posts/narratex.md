@@ -16,7 +16,9 @@ thumb_image: /static/images/narratex-icon.png
 title: NarrateX
 ---
 
-[NarrateX](https://github.com/oernster/NarrateX) A local desktop narration engine for turning books and documents into spoken audio.
+[NarrateX](https://github.com/oernster/NarrateX/releases) A local desktop narration engine for turning books and documents into spoken audio.
+
+- Now with custom beautiful UI installer for windows.
 
 <div style="text-align:center; font-size:1.2em; margin: 1em 0;">
 Turn any ebook into natural narration directly on your own machine.
@@ -41,7 +43,7 @@ Your library becomes something you can listen to anywhere. Books are no longer t
 
 NarrateX is a desktop application designed to transform written material into spoken narration.
 
-The idea is straightforward. Reading should not require sitting in front of a page. A book should be able to follow you during a walk a commute or quiet work.
+The idea is straightforward. Reading should not require sitting in front of a page. A book should be able to follow you during a walk, a commute, or quiet work.
 
 The application loads an ebook or document then parses the text into structured segments. These segments are processed through a local text to speech engine which produces audio in real time.
 
