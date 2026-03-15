@@ -263,27 +263,69 @@
   </div>
 
   <div class="page-layout">
-    <nav class="sidebar" aria-label="Categories">
-      <h2 class="sidebar-title">Categories</h2>
-      {% for cat in sidebar_categories or [] %}
-        <a
-          class="sidebar-link{% if (current_cat or '')|lower == (cat.cat or '')|lower and (current_layer or '')|length == 0 %} is-active{% endif %}"
-          href="{{ cat.href }}"
-        >
-          {{ cat.label }}
-        </a>
-        {% if cat.layers and (cat.layers|length) > 0 %}
-          {% for layer in cat.layers %}
-            <a
-              class="sidebar-link sidebar-link--layer{% if (current_cat or '')|lower == (cat.cat or '')|lower and (current_layer or '')|lower == (layer.layer or '')|lower %} is-active{% endif %}"
-              href="{{ layer.href }}"
-            >
-              <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-              <span class="sidebar-layer-text">{{ layer.label }}</span>
-            </a>
-          {% endfor %}
-        {% endif %}
-      {% endfor %}
+    <nav class="sidebar" aria-label="Navigation">
+      <h2 class="sidebar-title">Navigation</h2>
+
+      <div class="muted" style="margin: 6px 0 6px 6px; font-weight: 800;">Decision Architecture</div>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/architecture' %} is-active{% endif %}"
+        href="/topics/architecture"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Architecture</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/cto-operating-model' %} is-active{% endif %}"
+        href="/topics/cto-operating-model"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">CTO Operating Model</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/decision-systems' %} is-active{% endif %}"
+        href="/topics/decision-systems"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Decision Systems</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/organisational-structure' %} is-active{% endif %}"
+        href="/topics/organisational-structure"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Organisational Structure</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/structural-design' %} is-active{% endif %}"
+        href="/topics/structural-design"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Structural Design</span>
+      </a>
+
+      <hr class="post-separator post-separator--subtle" aria-hidden="true" />
+
+      <a
+        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
+        href="/posts?cat=Governance"
+      >
+        <span class="sidebar-link__icon" aria-hidden="true">🏛️</span>
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Governance</span>
+          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
+        </span>
+      </a>
+
+      <a
+        class="sidebar-link{% if request.url.path == '/portfolio' %} is-active{% endif %}"
+        href="/portfolio"
+      >
+        <span class="sidebar-link__icon" aria-hidden="true">🧩</span>
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Portfolio</span>
+          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
+        </span>
+      </a>
 
       <a
         class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_q or '')|length == 0 and exclude_blog %} is-active{% endif %}"

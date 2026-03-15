@@ -126,25 +126,16 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
     resp = client.get("/posts")
     assert resp.status_code == 200
 
-    # Decision Architecture (cat:Leadership) should be pinned to the top of the
-    # category list.
-    leadership_pos = resp.text.find("cat=Leadership")
-    blog_pos = resp.text.find("cat=Blog")
-    tools_pos = resp.text.find("cat=Tools")
-    assert leadership_pos != -1
-    assert blog_pos != -1
-    assert tools_pos != -1
-    assert leadership_pos < blog_pos < tools_pos
-
-    # The fixed "All" link should appear below categories.
-    assert resp.text.find("cat=Tools") < resp.text.find('aria-label="All"')
-
-    # Category link.
-    assert "cat=Leadership" in resp.text
-
-    # Layer link under that category, humanized.
-    assert "layer=decision-systems" in resp.text
-    assert "Decision Systems" in resp.text
+    # Global sidebar is now conceptual, not category-driven.
+    assert "Decision Architecture" in resp.text
+    assert 'href="/topics/decision-systems"' in resp.text
+    assert 'href="/topics/cto-operating-model"' in resp.text
+    assert 'href="/topics/organisational-structure"' in resp.text
+    assert 'href="/topics/structural-design"' in resp.text
+    assert 'href="/topics/architecture"' in resp.text
+    assert 'href="/posts?cat=Governance"' in resp.text
+    assert 'href="/portfolio"' in resp.text
+    assert 'href="/posts?exclude_blog=1"' in resp.text
 
 
 def test_layer_slug_normalization_collapses_spaces_underscores_and_punctuation():
@@ -181,8 +172,11 @@ def test_layer_slug_normalization_collapses_spaces_underscores_and_punctuation()
     resp = client.get("/posts")
     assert resp.status_code == 200
 
-    # Normalized layer slug should appear in the sidebar link href.
-    assert "layer=decision-systems" in resp.text
+    # Sidebar is no longer layer-driven; this test is about normalization behavior.
+    # We keep the normalization unit tested at the domain layer.
+    from app.domain.tags import normalize_layer_slug
+
+    assert normalize_layer_slug("  Decision__Systems!!  ") == "decision-systems"
 
 
 def test_legacy_q_cat_deeplink_still_filters_posts():

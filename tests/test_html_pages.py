@@ -17,12 +17,16 @@ def test_homepage_renders():
 
     assert resp.status_code == 200
     assert "Things I build with" not in resp.text
-    assert "Featured Projects" in resp.text
+    assert "Featured Systems" not in resp.text
     assert "docs/CV-Oliver.pdf" in resp.text
     assert 'href="/docs/Decision-Architecture.epub"' in resp.text
     assert "Download eBook" in resp.text
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
+
+    # Homepage should not show app/system button sections.
+    assert "Engineering Experiments" not in resp.text
+    assert 'aria-label="Tooling links"' not in resp.text
 
 
 def test_homepage_featured_projects_uses_narratex_thumbnail_image_not_emoji():
@@ -32,9 +36,8 @@ def test_homepage_featured_projects_uses_narratex_thumbnail_image_not_emoji():
     resp = client.get("/")
     assert resp.status_code == 200
 
-    # NarrateX should render with its thumb image (not an emoji span).
-    # The file lives at `/static/images/narratex-icon.png`.
-    assert "/static/images/narratex-icon" in resp.text
+    # Homepage no longer renders app/system project buttons.
+    assert "/static/images/narratex-icon" not in resp.text
 
 
 def test_html_cache_headers_are_no_store():

@@ -480,7 +480,9 @@ def test_homepage_leadership_missing_posts_is_tolerated(monkeypatch):
 
     resp = client.get("/")
     assert resp.status_code == 200
-    assert "Hello Crank" in resp.text
+    # Homepage should tolerate missing leadership slugs and still render.
+    # It no longer renders app/project buttons like "Hello Crank".
+    assert "Decision Architecture" in resp.text
 
 
 def test_homepage_leadership_empty_renders_empty_state(monkeypatch):

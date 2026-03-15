@@ -152,7 +152,7 @@ def _is_hidden_special_post(slug: object) -> bool:
     content streams.
     """
 
-    return str(slug or "").strip().lower() in {"about-me", "start-here"}
+    return str(slug or "").strip().lower() in {"about-me", "start-here", "portfolio"}
 
 
 @router.get("/rss.xml", include_in_schema=False)
