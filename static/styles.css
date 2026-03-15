@@ -3136,6 +3136,11 @@ html.theme-light .section-title {
   margin: 0 0 12px;
 }
 
+/* Posts index: 3-way view switch should sit as a compact row */
+.posts-toolbar .featured-buttons {
+  justify-content: flex-end;
+}
+
 .posts-index .post-item:hover {
   background: linear-gradient(
     90deg,

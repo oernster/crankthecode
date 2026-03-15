@@ -133,9 +133,9 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
     assert 'href="/topics/organisational-structure"' in resp.text
     assert 'href="/topics/structural-design"' in resp.text
     assert 'href="/topics/architecture"' in resp.text
-    assert 'href="/posts?cat=Governance"' in resp.text
+    assert 'href="/posts?view=writing&cat=Governance"' in resp.text
     assert 'href="/portfolio"' in resp.text
-    assert 'href="/posts?exclude_blog=1"' in resp.text
+    assert 'href="/posts?view=archive"' in resp.text
 
 
 def test_layer_slug_normalization_collapses_spaces_underscores_and_punctuation():

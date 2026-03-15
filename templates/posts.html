@@ -5,11 +5,20 @@
 {% block content %}
   <div class="posts-index" aria-label="All posts">
     <div class="posts-toolbar" aria-label="Post filters">
-      {% if exclude_blog_effective %}
-        <a class="btn-link btn-link--subtle" href="{{ include_blog_href }}">Include Blog</a>
-      {% else %}
-        <a class="btn-link btn-link--subtle" href="{{ projects_only_href }}">Projects only</a>
-      {% endif %}
+      <div class="featured-buttons featured-buttons--compact" role="group" aria-label="Content type">
+        <a
+          class="btn-link btn-link--compact{% if current_view == 'writing' %} btn-link--primary{% else %} btn-link--subtle{% endif %}"
+          href="{{ writing_href }}"
+        >Writing</a>
+        <a
+          class="btn-link btn-link--compact{% if current_view == 'projects' %} btn-link--primary{% else %} btn-link--subtle{% endif %}"
+          href="{{ projects_href }}"
+        >Projects</a>
+        <a
+          class="btn-link btn-link--compact{% if current_view == 'archive' %} btn-link--primary{% else %} btn-link--subtle{% endif %}"
+          href="{{ archive_href }}"
+        >Archive</a>
+      </div>
     </div>
 
     {% for post in posts %}

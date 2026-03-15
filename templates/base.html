@@ -307,7 +307,7 @@
 
       <a
         class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
-        href="/posts?cat=Governance"
+        href="/posts?view=writing&cat=Governance"
       >
         <span class="sidebar-link__icon" aria-hidden="true">🏛️</span>
         <span class="sidebar-link__text">
@@ -328,8 +328,8 @@
       </a>
 
       <a
-        class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_q or '')|length == 0 and exclude_blog %} is-active{% endif %}"
-        href="/posts?exclude_blog=1"
+        class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_view or '') == 'archive' and (current_q or '')|length == 0 %} is-active{% endif %}"
+        href="/posts?view=archive"
       >
         <span class="sidebar-link__icon" aria-hidden="true">🧰</span>
         <span class="sidebar-link__text" aria-label="All">

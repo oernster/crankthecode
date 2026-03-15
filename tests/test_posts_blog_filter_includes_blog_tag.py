@@ -44,7 +44,7 @@ def test_posts_blog_view_has_cat_blog_in_data_search(tmp_path: Path):
     app.dependency_overrides[get_blog_service] = lambda: blog
     client = TestClient(app)
 
-    resp = client.get("/posts?q=cat:Blog&exclude_blog=0")
+    resp = client.get("/posts?q=cat:Blog&view=writing")
     assert resp.status_code == 200
 
     assert "Some Blog Post" in resp.text

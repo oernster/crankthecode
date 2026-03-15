@@ -156,7 +156,7 @@ def test_posts_index_excludes_about_me_from_all_lists(monkeypatch):
     app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
     client = TestClient(app)
 
-    resp = client.get("/posts?exclude_blog=1")
+    resp = client.get("/posts?view=archive")
     assert resp.status_code == 200
     assert "About Me" not in resp.text
 

@@ -5,6 +5,7 @@ import json
 import unicodedata
 from pathlib import Path
 from typing import cast
+from collections.abc import Mapping
 from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, Request
@@ -34,6 +35,29 @@ router = APIRouter()
 _CAT_TAG_PREFIX = "cat:"
 _CAT_TAG_BLOG = "cat:blog"
 _LAYER_TAG_PREFIX = "layer:"
+
+# /posts filter model
+_POSTS_VIEW_WRITING = "writing"
+_POSTS_VIEW_PROJECTS = "projects"
+_POSTS_VIEW_ARCHIVE = "archive"
+_POSTS_ALLOWED_VIEWS = {
+    _POSTS_VIEW_WRITING,
+    _POSTS_VIEW_PROJECTS,
+    _POSTS_VIEW_ARCHIVE,
+}
+
+# Portfolio / systems categories (conceptual: Projects)
+_PROJECT_CATEGORY_LABELS = {
+    "desktop apps",
+    "tools",
+    "gaming",
+    "hardware",
+    "web apis",
+    "data / ml",
+}
+
+_TRUTHY_QUERY = {"1", "true", "yes", "y", "on"}
+_FALSY_QUERY = {"0", "false", "no", "n", "off"}
 
 
 def _sidebar_label_with_emoji(label: str) -> str:
@@ -245,6 +269,66 @@ def _posts_href(
     if exclude_blog is not None:
         parts.append(f"exclude_blog={'1' if exclude_blog else '0'}")
     return "/posts" + ("?" + "&".join(parts) if parts else "")
+
+
+def _posts_view_href(
+    *,
+    view: str,
+    query: str | None,
+    cat: str | None = None,
+    layer: str | None = None,
+) -> str:
+    """Build a /posts href preserving secondary filters.
+
+    Primary filter is `view=writing|projects|archive`.
+    Secondary filters remain `q`, `cat`, `layer`.
+    """
+
+    parts: list[str] = [f"view={quote(view, safe='')}"]
+    if query:
+        parts.append(f"q={quote(query, safe='')}")
+    if cat:
+        parts.append(f"cat={quote(cat, safe='')}")
+    if layer:
+        parts.append(f"layer={quote(layer, safe='')}")
+    return "/posts" + ("?" + "&".join(parts) if parts else "")
+
+
+def _posts_base_href(*, view: str | None = None) -> str:
+    """Canonical breadcrumb href for the Posts listing.
+
+    Keep breadcrumbs deterministic by including the selected `view` when present.
+    """
+
+    view_norm = _normalize_posts_view(view)
+    if not view_norm:
+        return "/posts"
+    return f"/posts?view={quote(view_norm, safe='')}"
+
+
+def _normalize_posts_view(raw: str | None) -> str:
+    view = (raw or "").strip().lower()
+    return view if view in _POSTS_ALLOWED_VIEWS else ""
+
+
+def _posts_view_from_legacy_exclude_blog(raw: str | None) -> str | None:
+    """Backwards compatibility for legacy links.
+
+    Mapping:
+    - exclude_blog=1 -> view=projects
+    - exclude_blog=0 -> view=archive
+
+    Only used when `view` is absent.
+    """
+
+    val = (raw or "").strip().lower()
+    if not val:
+        return None
+    if val in _TRUTHY_QUERY:
+        return _POSTS_VIEW_PROJECTS
+    if val in _FALSY_QUERY:
+        return _POSTS_VIEW_ARCHIVE
+    return None
 
 
 def _sidebar_categories(
@@ -1124,10 +1208,11 @@ async def posts_index(
     current_q = (ctx.get("current_q", "") or "").strip()
     current_cat_raw = (ctx.get("current_cat", "") or "").strip()
     current_layer_raw = (ctx.get("current_layer", "") or "").strip()
-    exclude_blog = bool(ctx.get("exclude_blog"))
 
-    # Sidebar categories are tag-driven.
-    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=exclude_blog)
+    # Sidebar categories are tag-driven (legacy). The global sidebar is now
+    # conceptual and template-driven, but we keep this populated for backwards
+    # compatibility with any templates that still reference it.
+    ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
 
     # Support legacy deep-links: `/posts?q=cat:<Label>` should behave like
     # `/posts?cat=<Label>`.
@@ -1149,18 +1234,50 @@ async def posts_index(
     ctx["current_cat"] = cat_label or ""
     ctx["current_layer"] = layer_slug or ""
 
-    browsing_blog = (
-        cat_label or ""
-    ).strip().lower() == "blog" or current_q.strip().lower() == _CAT_TAG_BLOG
+    # Determine the content-type view.
+    # Priority:
+    # 1) explicit `view=`
+    # 2) legacy `exclude_blog=` mapping
+    # 3) sensible default based on category deep-link
+    view_norm = _normalize_posts_view(request.query_params.get("view"))
+    legacy_view = (
+        None
+        if view_norm
+        else _posts_view_from_legacy_exclude_blog(request.query_params.get("exclude_blog"))
+    )
 
-    # Default view: projects only (exclude `cat:Blog`) unless explicitly included.
-    # Always include blog posts when the user is explicitly browsing the Blog category.
-    if exclude_blog and not browsing_blog:
-        posts = [
-            p
-            for p in posts
-            if not _is_blog_post_by_cat([str(t) for t in (p.get("tags") or [])])
-        ]
+    cat_norm = (cat_label or "").strip().lower()
+    default_view = (
+        _POSTS_VIEW_PROJECTS if cat_norm in _PROJECT_CATEGORY_LABELS else _POSTS_VIEW_WRITING
+    )
+    current_view = view_norm or legacy_view or default_view
+    ctx["current_view"] = current_view
+
+    def _post_category_labels_lower(post: Mapping[str, object]) -> set[str]:
+        tags_obj = post.get("tags") or []
+        tags = [str(t) for t in cast(list[object], tags_obj)]
+        cats = _extract_category_queries_from_tags(tags)
+        return {
+            (q.split(":", 1)[1].strip().lower() if ":" in q else q.strip().lower())
+            for q in cats
+        }
+
+    def _is_project_post(post: Mapping[str, object]) -> bool:
+        cats_lower = _post_category_labels_lower(post)
+        return any(c in _PROJECT_CATEGORY_LABELS for c in cats_lower)
+
+    # Content-type filtering (primary)
+    if current_view == _POSTS_VIEW_WRITING:
+        # Writing = everything except portfolio/system categories.
+        # Uncategorized posts are treated as writing by default.
+        posts = [p for p in posts if not _is_project_post(p)]
+    elif current_view == _POSTS_VIEW_PROJECTS:
+        posts = [p for p in posts if _is_project_post(p)]
+    elif current_view == _POSTS_VIEW_ARCHIVE:
+        posts = posts
+    else:  # pragma: no cover
+        # Defensive fallback; should be unreachable due to normalization.
+        posts = [p for p in posts if not _is_project_post(p)]
 
     # Server-side filtering for category + layer (AND semantics).
     if cat_label:
@@ -1195,9 +1312,7 @@ async def posts_index(
     if cat_label:
         category_label = _sidebar_label_with_emoji(cat_label)
     else:
-        category_label = _category_label_for_query(
-            current_q, blog=blog, exclude_blog=exclude_blog
-        )
+        category_label = _category_label_for_query(current_q, blog=blog, exclude_blog=False)
 
     layer_label = _humanize_layer_slug(layer_slug) if layer_slug else None
 
@@ -1227,24 +1342,30 @@ async def posts_index(
             # Keep the generic Posts page metadata.
             meta_description = meta_description  # pragma: no cover
 
-    filtered_href = _posts_href(
+    writing_href = _posts_view_href(
+        view=_POSTS_VIEW_WRITING,
         query=current_q or None,
         cat=cat_label,
         layer=layer_slug,
-        exclude_blog=None,
+    )
+    projects_href = _posts_view_href(
+        view=_POSTS_VIEW_PROJECTS,
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
+    )
+    archive_href = _posts_view_href(
+        view=_POSTS_VIEW_ARCHIVE,
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
     )
 
-    projects_only_href = _posts_href(
-        query=current_q or None,
+    filtered_href = _posts_view_href(
+        view=current_view,
+        query=None,
         cat=cat_label,
         layer=layer_slug,
-        exclude_blog=True,
-    )
-    include_blog_href = _posts_href(
-        query=current_q or None,
-        cat=cat_label,
-        layer=layer_slug,
-        exclude_blog=False,
     )
     ctx.update(
         {
@@ -1254,12 +1375,12 @@ async def posts_index(
             "og_title": og_title,
             "og_description": og_description,
             "meta_description": meta_description,
-            "projects_only_href": projects_only_href,
-            "include_blog_href": include_blog_href,
-            "exclude_blog_effective": exclude_blog and not browsing_blog,
+            "writing_href": writing_href,
+            "projects_href": projects_href,
+            "archive_href": archive_href,
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
-                {"label": "Posts", "href": "/posts"},
+                {"label": "Posts", "href": _posts_base_href(view=current_view)},
                 *(
                     [
                         {
