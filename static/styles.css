@@ -1590,6 +1590,15 @@ a[href=\"/\"]:hover {
   min-width: 0;
 }
 
+.hero__thesis {
+  margin: 0 0 8px;
+  color: var(--text-muted);
+  font-size: 14.4px;
+  line-height: 1.45;
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
 .hero__headline {
   margin: 0 0 10.4px;
   color: var(--brand-mauve);
@@ -1710,6 +1719,12 @@ a[href=\"/\"]:hover {
 
   .hero__headline {
     font-size: 27.2px;
+  }
+
+  .hero__thesis {
+    /* Keep the thesis line visually quiet when the headline scales down. */
+    font-size: 13.6px;
+    margin: 0 0 6.4px;
   }
 }
 
