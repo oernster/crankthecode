@@ -18,6 +18,8 @@ class _PostSummary:
     thumb_image_url: str | None
     summary_html: str
     emoji: str | None = None
+    post_type: str | None = None
+    role: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,6 +35,8 @@ class _PostDetail:
     content_html: str
     social_image_url: str | None = None
     emoji: str | None = None
+    post_type: str | None = None
+    role: str | None = None
 
 
 def make_fake_blog_service() -> BlogService:

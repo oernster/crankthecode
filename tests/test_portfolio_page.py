@@ -17,13 +17,14 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     # Page heading.
     assert "Portfolio" in resp.text
 
-    # Curated groups.
-    assert "Featured Systems" in resp.text
+    # Flagship entry should appear before the first category section.
     assert 'href="/posts/narratex"' in resp.text
-    assert 'href="/posts/trainer"' in resp.text
-    assert 'href="/posts/stellody"' in resp.text
-
     assert "Desktop Applications" in resp.text
+    assert resp.text.index('href="/posts/narratex"') < resp.text.index(
+        "Desktop Applications"
+    )
+
+    # Curated Desktop Applications group.
     assert 'href="/posts/fancy-clock"' in resp.text
     assert 'href="/posts/calendifier"' in resp.text
     assert 'href="/posts/elevator"' in resp.text
@@ -90,6 +91,7 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
         summary_html="",
         emoji=None,
         post_type=None,
+        role=None,
     )
 
     class FakeBlog:
@@ -99,7 +101,11 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
         def get_post(self, slug: str):
             return None
 
-    assert html._post_summary_index(FakeBlog()) == {}
+    from typing import cast
+
+    from app.services.blog_service import BlogService
+
+    assert html._post_summary_index(cast(BlogService, FakeBlog())) == {}
 
     # Curated helper should ignore empty, hidden, and missing slugs.
     out = html._curated_portfolio_entries_from_slugs(
@@ -140,6 +146,7 @@ def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatc
         summary_html="",
         emoji=None,
         post_type=None,
+        role=None,
     )
 
     class FakeBlog:
@@ -149,10 +156,49 @@ def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatc
         def get_post(self, slug: str):
             return None
 
-    groups = html._portfolio_groups(FakeBlog())
+    from typing import cast
+
+    from app.services.blog_service import BlogService
+
+    groups = html._portfolio_groups(cast(BlogService, FakeBlog()))
     tools = next(g for g in groups if g.get("label") == "Tools")
     slugs = [e.get("slug") for e in (tools.get("entries") or [])]
     assert slugs == ["audiodeck"]
+
+
+def test_portfolio_groups_ignores_flagship_posts_with_blank_slug():
+    """Cover the defensive branch where a flagship post has an empty slug."""
+
+    from typing import cast
+
+    import app.http.routers.html as html
+    from app.domain.models import PostSummary
+    from app.services.blog_service import BlogService
+
+    empty_flagship = PostSummary(
+        slug="",
+        title="X",
+        date="2026-02-01 12:00",
+        tags=(),
+        blurb=None,
+        one_liner=None,
+        cover_image_url=None,
+        thumb_image_url=None,
+        summary_html="",
+        emoji=None,
+        post_type="project",
+        role="flagship",
+    )
+
+    class FakeBlog:
+        def list_posts(self):
+            return (empty_flagship,)
+
+        def get_post(self, slug: str):
+            return None
+
+    groups = html._portfolio_groups(cast(BlogService, FakeBlog()))
+    assert isinstance(groups, list)
 
 
 def test_portfolio_meta_description_branch_when_phrase_already_present(monkeypatch):

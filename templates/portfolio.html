@@ -14,6 +14,41 @@
     {% if page_intro_html %}
       <div class="post-content">{{ page_intro_html | safe }}</div>
     {% endif %}
+
+    {% if flagship_entries %}
+      <div class="featured-buttons" aria-label="Portfolio flagship items">
+        {% for p in flagship_entries or [] %}
+          <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+            {% set cover = p.thumb_image_url or p.cover_image_url %}
+            {% set emoji = p.emoji %}
+            {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
+            {% if cover %}
+              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
+            {% elif (emoji or '')|length > 0 %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
+            {% elif p.slug == 'calendifier' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+            {% elif p.slug == 'elevator' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+            {% elif p.slug == 'audiodeck' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+            {% elif p.slug == 'galacticunicorn' %}
+              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+            {% elif p.slug == '3D-printer-launcher' %}
+              <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
+            {% elif p.slug == 'fancy-clock' %}
+              <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
+            {% endif %}
+            <span class="btn-text">
+              {{ p.label }}
+              {% if p.blurb %}
+                <span class="btn-subtext">{{ p.blurb }}</span>
+              {% endif %}
+            </span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
   </section>
 
   {% for g in portfolio_groups or [] %}

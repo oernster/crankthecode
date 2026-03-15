@@ -29,6 +29,7 @@ def _mk_summary(
         emoji=None,
         summary_html="",
         post_type=None,
+        role=None,
     )
 
 
@@ -323,6 +324,7 @@ def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():
         ),
         content_markdown=md_with_psi,
         post_type=None,
+        role=None,
     )
 
     uc = GetPostUseCase(repo=FakeRepo(post), renderer=IdentityRenderer())
@@ -354,6 +356,7 @@ def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():
         extra_images=(),
         content_markdown=md_with_screens,
         post_type=None,
+        role=None,
     )
     uc2 = GetPostUseCase(repo=FakeRepo(post2), renderer=IdentityRenderer())
     detail2 = uc2.execute("demo2")
@@ -405,6 +408,7 @@ def test_get_post_usecase_has_psi_but_no_screenshots_no_changes():
         extra_images=(),
         content_markdown=md_with_psi_no_images,
         post_type=None,
+        role=None,
     )
 
     uc = GetPostUseCase(repo=FakeRepo(post), renderer=IdentityRenderer())
@@ -642,6 +646,7 @@ def test_get_post_appends_screenshots_when_body_markdown_empty_covers_else_branc
                 emoji=None,
                 social_image=None,
                 post_type=None,
+                role=None,
             )
 
         def list_posts(self):

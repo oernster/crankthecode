@@ -868,14 +868,43 @@ def _portfolio_item_from_summary(
         "cover_image_url": getattr(summary, "cover_image_url", None),
         "thumb_image_url": getattr(summary, "thumb_image_url", None),
         "emoji": emoji,
+        "role": getattr(summary, "role", None),
     }
+
+
+def _portfolio_flagship_entries(blog: BlogService) -> list[dict[str, object]]:
+    """Return portfolio entries for any project(s) with `role: flagship`.
+
+    Rules:
+    - select posts where `post_type == 'project'` and `role == 'flagship'`
+    - preserve chronological ordering (newest-first), matching `blog.list_posts()`
+    """
+
+    emoji_map = _post_emoji_map()
+    emoji_index = _post_frontmatter_emoji_index(blog)
+
+    out: list[dict[str, object]] = []
+    for p in blog.list_posts():
+        post_type = str(getattr(p, "post_type", "") or "").strip().lower()
+        if post_type != "project":
+            continue
+        role = str(getattr(p, "role", "") or "").strip().lower()
+        if role != "flagship":
+            continue
+        out.append(
+            _portfolio_item_from_summary(
+                summary=p,
+                emoji_map=emoji_map,
+                frontmatter_emoji_index=emoji_index,
+            )
+        )
+    return out
 
 
 def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
     """Build the curated Portfolio page groups.
 
     Rules:
-    - Featured Systems: explicit order, curated.
     - Desktop Applications: curated.
     - Hardware / Embedded: any `cat:Hardware`, with Galactic Unicorn pinned first.
     - Tools: any `cat:Tools`.
@@ -889,13 +918,18 @@ def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
 
     hidden = {"about-me", "start-here", "portfolio"}
 
-    featured_items = _curated_portfolio_entries_from_slugs(
-        slugs=["narratex", "trainer", "stellody"],
-        index=index,
-        hidden=hidden,
-        emoji_map=emoji_map,
-        emoji_index=emoji_index,
-    )
+    # Flagship projects are rendered separately (at the top of the page).
+    flagship_slugs: set[str] = set()
+    for p in blog.list_posts():
+        post_type = str(getattr(p, "post_type", "") or "").strip().lower()
+        if post_type != "project":
+            continue
+        role = str(getattr(p, "role", "") or "").strip().lower()
+        if role == "flagship":
+            slug = str(getattr(p, "slug", "") or "").strip().lower()
+            if slug:
+                flagship_slugs.add(slug)
+
     desktop_items = _curated_portfolio_entries_from_slugs(
         slugs=["fancy-clock", "calendifier", "elevator"],
         index=index,
@@ -906,8 +940,9 @@ def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
 
     # Avoid duplicates across groups (curated entries should not reappear in
     # category-derived buckets).
-    curated_slugs = {e.get("slug", "") for e in [*featured_items, *desktop_items]}
+    curated_slugs = {e.get("slug", "") for e in [*desktop_items]}
     curated_slugs = {str(s).strip().lower() for s in curated_slugs if str(s).strip()}
+    curated_slugs |= flagship_slugs
 
     data_summaries: list[object] = []
     desktop_summaries: list[object] = []
@@ -1028,12 +1063,6 @@ def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
     desktop_all = [*desktop_items, *desktop_items_auto]
 
     return [
-        {
-            "label": "Featured Systems",
-            "description": "Most complete, structurally coherent systems.",
-            "entries": featured_items,
-            "more_href": None,
-        },
         {
             "label": "Desktop Applications",
             "description": "Independent desktop systems (UI + local operations).",
@@ -1553,6 +1582,7 @@ async def portfolio_page(
             "page_heading": title,
             "page_emoji": emoji or "🧩",
             "page_intro_html": intro_html,
+            "flagship_entries": _portfolio_flagship_entries(blog),
             "portfolio_groups": _portfolio_groups(blog),
         }
     )

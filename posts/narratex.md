@@ -2,6 +2,7 @@
 blurb: Local AI narration for ebooks and documents
 date: 2026-03-15 01:30
 type: project
+role: flagship
 image: /static/images/narratex.png
 one_liner: A local desktop application that converts books and documents into spoken audio using modern TTS engines.
 social_image: /static/images/narratex.png

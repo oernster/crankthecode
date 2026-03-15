@@ -26,6 +26,7 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
                 content_markdown="First para\n\nSecond para",
                 emoji=None,
                 post_type=None,
+                role=None,
             ),
             MarkdownPost(
                 slug="new",
@@ -40,6 +41,7 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
                 content_markdown="Hello\n\nMore",
                 emoji=None,
                 post_type=None,
+                role=None,
             ),
         )
     )
@@ -70,6 +72,7 @@ def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_image_paragrap
                 ),
                 emoji=None,
                 post_type=None,
+                role=None,
             ),
         )
     )
@@ -109,6 +112,7 @@ def test_list_posts_does_not_strip_cover_image_when_it_only_appears_in_body():
                 ),
                 emoji=None,
                 post_type=None,
+                role=None,
             ),
         )
     )
@@ -141,6 +145,7 @@ def test_list_posts_prefers_thumb_image_when_provided():
                 content_markdown="Intro\n\nMore",
                 emoji=None,
                 post_type=None,
+                role=None,
             ),
         )
     )

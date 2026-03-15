@@ -22,6 +22,7 @@ def test_posts_index_supports_cat_and_layer_params_and_filters_with_and_semantic
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
         PostSummary(
             slug="b",
@@ -35,6 +36,7 @@ def test_posts_index_supports_cat_and_layer_params_and_filters_with_and_semantic
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
         PostSummary(
             slug="c",
@@ -48,6 +50,7 @@ def test_posts_index_supports_cat_and_layer_params_and_filters_with_and_semantic
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
     )
 
@@ -87,6 +90,7 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
         PostSummary(
             slug="b",
@@ -100,6 +104,7 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
         PostSummary(
             slug="c",
@@ -113,6 +118,7 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
     )
 
@@ -160,6 +166,7 @@ def test_layer_slug_normalization_collapses_spaces_underscores_and_punctuation()
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
     )
 
@@ -200,6 +207,7 @@ def test_legacy_q_cat_deeplink_still_filters_posts():
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
         PostSummary(
             slug="b",
@@ -213,6 +221,7 @@ def test_legacy_q_cat_deeplink_still_filters_posts():
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
     )
 

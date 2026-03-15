@@ -60,6 +60,7 @@ def test_posts_legacy_exclude_blog_mapping_is_supported():
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
         PostSummary(
             slug="tooling",
@@ -73,6 +74,7 @@ def test_posts_legacy_exclude_blog_mapping_is_supported():
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
     )
 
@@ -127,6 +129,7 @@ def test_posts_projects_view_includes_type_project_even_without_portfolio_catego
             summary_html="",
             emoji=None,
             post_type="project",
+            role=None,
         ),
         PostSummary(
             slug="essay",
@@ -140,6 +143,7 @@ def test_posts_projects_view_includes_type_project_even_without_portfolio_catego
             summary_html="",
             emoji=None,
             post_type=None,
+            role=None,
         ),
     )
 

@@ -262,4 +262,5 @@ class GetPostUseCase:
             content_html=html_content,
             emoji=getattr(post, "emoji", None),
             post_type=getattr(post, "post_type", None),
+            role=getattr(post, "role", None),
         )

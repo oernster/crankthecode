@@ -26,6 +26,9 @@ class MarkdownPost:
     # Structural content type. `None` means default-to-writing.
     # Parsed from frontmatter key `type:` (e.g. `type: project`).
     post_type: str | None = None
+    # Optional structural role used for portfolio rendering only.
+    # Parsed from frontmatter key `role:` (e.g. `role: flagship`).
+    role: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -44,6 +47,8 @@ class PostSummary:
     emoji: str | None = None
     # Structural content type. `None` means default-to-writing.
     post_type: str | None = None
+    # Optional structural role used for portfolio rendering only.
+    role: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,3 +68,5 @@ class PostDetail:
     emoji: str | None = None
     # Structural content type. `None` means default-to-writing.
     post_type: str | None = None
+    # Optional structural role used for portfolio rendering only.
+    role: str | None = None
