@@ -32,6 +32,12 @@ def test_homepage_renders():
     assert "📩 Hire Me" not in hero_block
     assert "Download my CV" not in hero_block
 
+    # Minimal proof-of-execution cue should live inside the homepage intro.
+    assert 'class="homepage-selected-project"' in hero_block
+    assert "Selected project:" in hero_block
+    assert 'href="/posts/narratex"' in hero_block
+    assert "NarrateX</a> - local AI audiobook system." in hero_block
+
     # But the CTAs must appear in the contact section at the end.
     m = re.search(r'<section id="contact"[\s\S]*?</section>', resp.text)
     assert m is not None, resp.text

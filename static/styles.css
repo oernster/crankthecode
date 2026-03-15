@@ -1645,6 +1645,25 @@ a[href=\"/\"]:hover {
   color: var(--text-muted);
 }
 
+/* Homepage intro: quiet proof-of-execution cue (inline, not a new section). */
+.homepage-selected-project {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.homepage-selected-project a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.homepage-selected-project a:hover,
+.homepage-selected-project a:focus-visible {
+  opacity: 1;
+}
+
 /* Homepage hero action buttons */
 .hero-actions {
   display: flex;
