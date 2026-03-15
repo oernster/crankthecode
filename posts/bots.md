@@ -1,6 +1,7 @@
 ---
 blurb: Bots are more than code ~ they’re your interface with chaos.
 date: 2026-01-24 11:30
+type: project
 one_liner: Musings and mechanics behind the bots that do my bidding.
 tags:
 - cat:Tools

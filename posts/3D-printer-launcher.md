@@ -1,6 +1,7 @@
 ---
 blurb: Klipper launcher
 date: 2026-01-19 10:15
+type: project
 extra_images:
 - /static/images/qidi.png
 - /static/images/voron.png

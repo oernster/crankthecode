@@ -1178,6 +1178,7 @@ async def posts_index(
                     )[1],
                     "date": _p.date,
                     "tags": list(_p.tags),
+                    "post_type": getattr(_p, "post_type", None),
                     "blurb": getattr(_p, "blurb", None),
                     "one_liner": getattr(_p, "one_liner", None),
                     "cover_image_url": _p.cover_image_url,
@@ -1238,7 +1239,7 @@ async def posts_index(
     # Priority:
     # 1) explicit `view=`
     # 2) legacy `exclude_blog=` mapping
-    # 3) sensible default based on category deep-link
+    # 3) sensible default based on category deep-link (transition: project categories)
     view_norm = _normalize_posts_view(request.query_params.get("view"))
     legacy_view = (
         None
@@ -1253,17 +1254,20 @@ async def posts_index(
     current_view = view_norm or legacy_view or default_view
     ctx["current_view"] = current_view
 
-    def _post_category_labels_lower(post: Mapping[str, object]) -> set[str]:
+    def _is_project_post(post: Mapping[str, object]) -> bool:
+        # New model: structural frontmatter `type: project`.
+        post_type = str(post.get("post_type") or "").strip().lower()
+        if post_type == "project":
+            return True
+
+        # Transition fallback: infer projects from legacy portfolio categories.
         tags_obj = post.get("tags") or []
         tags = [str(t) for t in cast(list[object], tags_obj)]
         cats = _extract_category_queries_from_tags(tags)
-        return {
+        cats_lower = {
             (q.split(":", 1)[1].strip().lower() if ":" in q else q.strip().lower())
             for q in cats
         }
-
-    def _is_project_post(post: Mapping[str, object]) -> bool:
-        cats_lower = _post_category_labels_lower(post)
         return any(c in _PROJECT_CATEGORY_LABELS for c in cats_lower)
 
     # Content-type filtering (primary)

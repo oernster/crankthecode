@@ -1,6 +1,7 @@
 ---
 blurb: Tinkering without breaking things. Mostly.
 date: 2026-01-24 11:30
+type: project
 one_liner: Hacking as exploration, not destruction.
 tags:
 - cat:Tools

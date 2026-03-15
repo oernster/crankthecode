@@ -1,6 +1,7 @@
 ---
 blurb: Desktop clock
 date: 2026-01-19 04:35
+type: project
 extra_images:
 - /static/images/fancy-clock2.png
 - /static/images/fancy-clock3.png

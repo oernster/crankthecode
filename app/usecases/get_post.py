@@ -261,4 +261,5 @@ class GetPostUseCase:
             extra_image_urls=tuple(assets.resolve_url_or_path(u) for u in extra_urls),
             content_html=html_content,
             emoji=getattr(post, "emoji", None),
+            post_type=getattr(post, "post_type", None),
         )

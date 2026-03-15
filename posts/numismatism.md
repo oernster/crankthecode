@@ -1,6 +1,7 @@
 ---
 blurb: Coin ML Tool
 date: 2026-01-19 06:10
+type: project
 image: /static/images/numismatism.png
 one_liner: Computer-vision and ML experiments for recognising, identifying and cataloguing
   coins from images.

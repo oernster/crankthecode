@@ -1,6 +1,7 @@
 ---
 blurb: Travel tracker
 date: 2026-01-19 07:05
+type: project
 extra_images:
 - /static/images/trainer2.png
 - /static/images/trainer3.png

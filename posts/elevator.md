@@ -1,6 +1,7 @@
 ---
 blurb: Elevator control panel
 date: 2026-01-19 02:30
+type: project
 image: /static/images/elevator.png
 one_liner: A web-based elevator control panel built with Django and React.
 social_image: /static/images/elevator.png

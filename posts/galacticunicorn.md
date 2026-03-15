@@ -1,6 +1,7 @@
 ---
 blurb: MicroPython LED
 date: 2026-01-19 06:45
+type: project
 image: /static/images/galacticunicorn.png
 one_liner: MicroPython experiments on the Galactic Unicorn LED matrix, exploring visuals
   and device control.

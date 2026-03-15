@@ -1,6 +1,7 @@
 ---
 blurb: In-game tool for Elite Dangerous
 date: 2026-01-24 18:35
+type: project
 image: /static/images/EDColonisationAsst.png
 one_liner: A browser-based in-game tool for colonisation tracking and planning in
   Elite Dangerous.

@@ -1,6 +1,7 @@
 ---
 blurb: JSON database
 date: 2026-01-19 12:38
+type: project
 image: /static/images/AxisDB.png
 one_liner: An embedded Python database that stores JSON documents with atomic commits
   and multidimensional keys.

@@ -23,6 +23,9 @@ class MarkdownPost:
     emoji: str | None = None
     # Optional social share image (OpenGraph/Twitter). If omitted, cover image is used.
     social_image: str | None = None
+    # Structural content type. `None` means default-to-writing.
+    # Parsed from frontmatter key `type:` (e.g. `type: project`).
+    post_type: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,6 +42,8 @@ class PostSummary:
     thumb_image_url: str | None
     summary_html: str
     emoji: str | None = None
+    # Structural content type. `None` means default-to-writing.
+    post_type: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,3 +61,5 @@ class PostDetail:
     content_html: str
     social_image_url: str | None = None
     emoji: str | None = None
+    # Structural content type. `None` means default-to-writing.
+    post_type: str | None = None

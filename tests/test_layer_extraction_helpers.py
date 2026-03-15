@@ -80,6 +80,7 @@ def test_category_label_for_query_finds_label_when_category_exists():
             thumb_image_url=None,
             summary_html="",
             emoji=None,
+            post_type=None,
         ),
     )
 
@@ -118,6 +119,7 @@ def test_posts_index_seo_branch_handles_empty_category_text_gracefully():
             thumb_image_url=None,
             summary_html="",
             emoji=None,
+            post_type=None,
         ),
     )
 

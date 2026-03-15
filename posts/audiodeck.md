@@ -1,6 +1,7 @@
 ---
 blurb: Audio switcher
 date: 2026-01-19 06:50
+type: project
 extra_images:
 - /static/images/audiodeck2.png
 image: /static/images/audiodeck1.png

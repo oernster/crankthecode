@@ -28,6 +28,7 @@ def _mk_summary(
         thumb_image_url=thumb,
         emoji=None,
         summary_html="",
+        post_type=None,
     )
 
 
@@ -321,6 +322,7 @@ def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():
             "/static/images/b.png",
         ),
         content_markdown=md_with_psi,
+        post_type=None,
     )
 
     uc = GetPostUseCase(repo=FakeRepo(post), renderer=IdentityRenderer())
@@ -351,6 +353,7 @@ def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():
         social_image=None,
         extra_images=(),
         content_markdown=md_with_screens,
+        post_type=None,
     )
     uc2 = GetPostUseCase(repo=FakeRepo(post2), renderer=IdentityRenderer())
     detail2 = uc2.execute("demo2")
@@ -401,6 +404,7 @@ def test_get_post_usecase_has_psi_but_no_screenshots_no_changes():
         social_image=None,
         extra_images=(),
         content_markdown=md_with_psi_no_images,
+        post_type=None,
     )
 
     uc = GetPostUseCase(repo=FakeRepo(post), renderer=IdentityRenderer())
@@ -584,6 +588,7 @@ def test_get_post_includes_author_screenshots_section_when_has_psi(monkeypatch):
         content_markdown=md,
         emoji=None,
         social_image=None,
+        post_type=None,
     )
 
     class FakeRepo:
@@ -636,6 +641,7 @@ def test_get_post_appends_screenshots_when_body_markdown_empty_covers_else_branc
                 content_markdown="",  # empty body
                 emoji=None,
                 social_image=None,
+                post_type=None,
             )
 
         def list_posts(self):

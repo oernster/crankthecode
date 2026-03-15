@@ -1,6 +1,7 @@
 ---
 blurb: Working with machines means accepting their limits.
 date: 2026-01-24 11:30
+type: project
 one_liner: A short manifesto on how machines respond to inputs, not intentions.
 tags:
 - cat:Tools

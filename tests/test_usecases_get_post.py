@@ -27,6 +27,7 @@ def test_get_post_renders_html_when_found():
                 extra_images=(),
                 content_markdown="# Title",
                 emoji=None,
+                post_type=None,
             ),
         )
     )
@@ -54,6 +55,7 @@ def test_get_post_uses_frontmatter_image_as_cover_and_strips_matching_image_para
                     "Intro\n\n" "![Banner](/static/images/cover.png)\n\n" "More text"
                 ),
                 emoji=None,
+                post_type=None,
             ),
         )
     )
@@ -91,6 +93,7 @@ def test_get_post_does_not_strip_cover_image_when_it_only_appears_in_body():
                     "More text"
                 ),
                 emoji=None,
+                post_type=None,
             ),
         )
     )
@@ -119,6 +122,7 @@ def test_get_post_extracts_first_standalone_image_as_cover_when_no_frontmatter_i
                 extra_images=(),
                 content_markdown="![Cover](/static/images/cover.png)\n\nHello",
                 emoji=None,
+                post_type=None,
             ),
         )
     )
@@ -147,6 +151,7 @@ def test_get_post_axisdb_injects_install_terminal_when_has_problem_solution_impa
                     "## Problem → Solution → Impact\n\n" "Some body.\n\n" "More body.\n"
                 ),
                 emoji=None,
+                post_type=None,
             ),
         )
     )
@@ -179,6 +184,7 @@ def test_get_post_inserts_author_screenshots_when_has_psi_but_no_primary_images(
                     "![Shot](/static/images/s.png)\n"
                 ),
                 emoji=None,
+                post_type=None,
             ),
         )
     )

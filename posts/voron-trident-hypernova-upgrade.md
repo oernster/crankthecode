@@ -1,5 +1,6 @@
 ---
 date: 2026-01-27 00:45
+type: project
 emoji: "\U0001F6E0️"
 one_liner: Upgrading the Voron Trident with a HyperNova toolhead new rails and a precision
   Cartographer mod.

@@ -89,6 +89,7 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
         thumb_image_url=None,
         summary_html="",
         emoji=None,
+        post_type=None,
     )
 
     class FakeBlog:
@@ -138,6 +139,7 @@ def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatc
         thumb_image_url=None,
         summary_html="",
         emoji=None,
+        post_type=None,
     )
 
     class FakeBlog:

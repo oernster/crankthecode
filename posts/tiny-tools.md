@@ -1,6 +1,7 @@
 ---
 blurb: Tiny tools with massive impact.
 date: 2026-01-24 11:30
+type: project
 draft: true
 one_liner: A short list of the kind of oddball tools I rely on in day-to-day development
   and tinkering.

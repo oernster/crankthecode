@@ -1,6 +1,7 @@
 ---
 blurb: Music playlists
 date: 2026-01-19 13:45
+type: project
 image: /static/images/stellody.png
 one_liner: A cross-platform app that analyses your library (or Spotify) and generates
   genre-sorted playlists.

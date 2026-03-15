@@ -156,6 +156,7 @@ class ListPostsUseCase:
                     else None,
                     emoji=getattr(post, "emoji", None),
                     summary_html=summary_html,
+                    post_type=getattr(post, "post_type", None),
                 )
             )
 

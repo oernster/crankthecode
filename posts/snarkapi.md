@@ -1,6 +1,7 @@
 ---
 blurb: Sarcasm API
 date: 2026-01-19 06:05
+type: project
 image: /static/images/snarkapi-icon.png
 one_liner: A playful API that generates sarcastic, roast-style responses for IT and
   software scenarios.

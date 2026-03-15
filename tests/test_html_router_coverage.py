@@ -118,6 +118,7 @@ def test_topic_helpers_cover_general_hub_route_normalization_and_general_exclusi
             thumb_image_url=None,
             summary_html="",
             emoji=None,
+            post_type=None,
         ),
         PostSummary(
             slug="known-layer",
@@ -130,6 +131,7 @@ def test_topic_helpers_cover_general_hub_route_normalization_and_general_exclusi
             thumb_image_url=None,
             summary_html="",
             emoji=None,
+            post_type=None,
         ),
         PostSummary(
             slug="unknown-layer",
@@ -142,6 +144,7 @@ def test_topic_helpers_cover_general_hub_route_normalization_and_general_exclusi
             thumb_image_url=None,
             summary_html="",
             emoji=None,
+            post_type=None,
         ),
     )
 

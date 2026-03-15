@@ -87,6 +87,7 @@ class FilesystemPostsRepository(PostsRepository):
 
         title = post.get("title", slug)
         published_at_raw = post.get("date", "1900-01-01")
+        post_type_raw = post.get("type")
         tags_raw = post.get("tags", [])
         blurb = post.get("blurb")
         one_liner = post.get("one_liner")
@@ -97,6 +98,13 @@ class FilesystemPostsRepository(PostsRepository):
         extra_images_raw = post.get("extra_images", [])
 
         tags = FilesystemPostsRepository._normalize_tags(tags_raw)
+
+        # Structural type: `type: project` (frontmatter) => `post_type='project'`.
+        # Empty or missing defaults to None (writing).
+        post_type = None
+        if post_type_raw is not None:
+            s = str(post_type_raw).strip().lower()
+            post_type = s or None
 
         # Safety net: blog posts should always be discoverable in `/posts?q=cat:Blog`.
         # The posts index uses client-side filtering against `title + tags`.
@@ -135,6 +143,7 @@ class FilesystemPostsRepository(PostsRepository):
             social_image=str(social_image) if social_image else None,
             extra_images=tuple(str(u) for u in extra_images_raw),
             content_markdown=post.content,
+            post_type=post_type,
         )
 
     @staticmethod

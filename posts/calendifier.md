@@ -1,6 +1,7 @@
 ---
 blurb: Calendar tool
 date: 2026-01-19 06:35
+type: project
 extra_images:
 - /static/images/calendifier-ha.png
 image: /static/images/calendifier.png

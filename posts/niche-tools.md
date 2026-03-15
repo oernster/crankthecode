@@ -1,6 +1,7 @@
 ---
 blurb: Because general-purpose tools are rarely personal.
 date: 2026-01-24 11:30
+type: project
 one_liner: Tiny tools with weird, specific use cases that somehow keep solving problems.
 tags:
 - cat:Tools

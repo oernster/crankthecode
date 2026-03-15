@@ -59,6 +59,7 @@ def test_posts_legacy_exclude_blog_mapping_is_supported():
             thumb_image_url=None,
             summary_html="",
             emoji=None,
+            post_type=None,
         ),
         PostSummary(
             slug="tooling",
@@ -71,6 +72,7 @@ def test_posts_legacy_exclude_blog_mapping_is_supported():
             thumb_image_url=None,
             summary_html="",
             emoji=None,
+            post_type=None,
         ),
     )
 
@@ -98,6 +100,66 @@ def test_posts_legacy_exclude_blog_mapping_is_supported():
     assert resp2.status_code == 200
     assert 'href="/posts/tooling"' in resp2.text
     assert 'href="/posts/essay"' in resp2.text
+
+
+def test_posts_projects_view_includes_type_project_even_without_portfolio_category():
+    """`type: project` is the primary structural marker for Projects view.
+
+    During transition we still support category inference, but `type` must win even
+    when category would otherwise classify as writing.
+    """
+
+    from fastapi.testclient import TestClient
+
+    from app.main import create_app
+    from app.domain.models import PostSummary
+
+    posts = (
+        PostSummary(
+            slug="system",
+            title="System",
+            date="2026-02-01 12:00",
+            tags=("cat:Leadership",),
+            blurb=None,
+            one_liner=None,
+            cover_image_url=None,
+            thumb_image_url=None,
+            summary_html="",
+            emoji=None,
+            post_type="project",
+        ),
+        PostSummary(
+            slug="essay",
+            title="Essay",
+            date="2026-02-02 12:00",
+            tags=("cat:Leadership",),
+            blurb=None,
+            one_liner=None,
+            cover_image_url=None,
+            thumb_image_url=None,
+            summary_html="",
+            emoji=None,
+            post_type=None,
+        ),
+    )
+
+    class FakeBlog:
+        def list_posts(self):
+            return posts
+
+        def get_post(self, slug: str):
+            return None
+
+    from app.http.deps import get_blog_service
+
+    app = create_app()
+    app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
+    client = TestClient(app)
+
+    resp = client.get("/posts?view=projects")
+    assert resp.status_code == 200
+    assert 'href="/posts/system"' in resp.text
+    assert 'href="/posts/essay"' not in resp.text
 
 
 def test_posts_href_helpers_have_basic_coverage():
