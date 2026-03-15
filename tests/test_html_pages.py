@@ -43,6 +43,13 @@ def test_homepage_renders():
     # Email should not be present in static HTML (it is JS-injected via window.CTC_CONTACT).
     assert "oernster@codecrafter.uk" not in resp.text
 
+    # GitHub profile link should be present in the header (public identity, OK in static HTML).
+    assert 'href="https://github.com/oernster"' in resp.text
+    assert 'aria-label="Oliver Ernster GitHub Profile"' in resp.text
+    assert 'title="github.com/oernster"' in resp.text
+    assert 'target="_blank"' in resp.text
+    assert 'rel="noopener noreferrer me"' in resp.text
+
     # Contact pieces must not appear in clear text inside the bootstrap script.
     # (The site can still legitimately reference the GitHub username elsewhere.)
     m = re.search(

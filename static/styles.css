@@ -435,7 +435,34 @@ body.is-homepage .header-cta {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: 10px;
   padding-top: 4px;
+}
+
+/* Header email + GitHub link (quiet credibility signal; avoid button styling). */
+
+.header-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.65;
+  transition: opacity 0.15s ease;
+  text-decoration: none;
+  color: inherit;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.header-github-link:hover,
+.header-github-link:focus-visible {
+  opacity: 1;
+}
+
+.header-github-link svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
 }
 
 .header-email-link {
