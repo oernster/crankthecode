@@ -22,8 +22,25 @@
     {% endif %}
   </div>
 
+  {% if post.cover_image_url %}
+    <a class="post-cover-link" href="{{ post.cover_image_url }}" aria-label="Open full-size image: {{ post.title }}">
+      <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="eager" />
+    </a>
+  {% endif %}
+
+  {# Per-post flourish: AxisDB install prompt above the cover image #}
+  {# NOTE: AxisDB install prompt is injected server-side immediately after the
+     Problem -> Solution -> Impact section (see get_post use-case). #}
+
+  <div class="post-content{% if post.slug == 'hello-crank' %} post-content--centered{% endif %}">
+    {{ post.content | safe }}
+  </div>
+
   {# Orientation layer (Start Here): injected server-side without rewriting markdown. #}
+  {# NOTE: Rendered *after* the markdown so Start Here reads top-to-bottom. #}
   {% if start_here %}
+    <hr class="post-separator post-separator--subtle" aria-hidden="true" />
+
     <section class="section-panel" aria-label="Orientation">
       <h2 class="section-title section-title--accent">Orientation</h2>
       <p class="muted" style="margin: 0 0 10px 0;">
@@ -49,20 +66,18 @@
       {% endif %}
     </section>
 
-    <hr class="post-separator" aria-hidden="true" />
+    <hr class="post-separator post-separator--subtle" aria-hidden="true" />
+
+    <section class="section-panel section-panel--start-here-themes" aria-label="Explore themes">
+      <h2 class="section-title section-title--accent">Explore these themes</h2>
+
+      <div class="featured-buttons featured-buttons--compact" aria-label="Topic hub links">
+        {% for t in start_here.topic_hubs or [] %}
+          {% if (t.layer or '') != 'general' %}
+            <a class="btn-link btn-link--compact" href="{{ t.href }}">{{ t.label }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
   {% endif %}
-
-  {% if post.cover_image_url %}
-    <a class="post-cover-link" href="{{ post.cover_image_url }}" aria-label="Open full-size image: {{ post.title }}">
-      <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="eager" />
-    </a>
-  {% endif %}
-
-  {# Per-post flourish: AxisDB install prompt above the cover image #}
-  {# NOTE: AxisDB install prompt is injected server-side immediately after the
-     Problem -> Solution -> Impact section (see get_post use-case). #}
-
-  <div class="post-content{% if post.slug == 'hello-crank' %} post-content--centered{% endif %}">
-    {{ post.content | safe }}
-  </div>
 {% endblock %}

@@ -141,8 +141,15 @@ def test_asset_manifest_resolution_and_rewriting():
 
 
 def test_asset_manifest_cache_reset(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    # Cover the short-circuit branch where `CTC_USE_STATIC_DIST` is false.
+    monkeypatch.delenv("CTC_USE_STATIC_DIST", raising=False)
+    reset_asset_manifest_cache()
+    assert get_asset_manifest().static_url("styles.css") == "/static/styles.css"
+
     path = tmp_path / "manifest.json"
     path.write_text(json.dumps({"styles.css": "styles.11111111.css"}), encoding="utf-8")
+    # Manifest rewriting is enabled only when serving from `static_dist/`.
+    monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
     monkeypatch.setenv("CTC_STATIC_MANIFEST_PATH", str(path))
 
     reset_asset_manifest_cache()

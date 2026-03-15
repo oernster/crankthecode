@@ -202,6 +202,17 @@ def test_start_here_includes_orientation_links():
     assert 'href="/topics"' in resp.text
     assert 'href="/about"' in resp.text
 
+    # The injected Orientation panel should render after the markdown body.
+    # (If it appears before the content, Start Here feels like it starts with navigation.)
+    assert "Crank The Code explores structural thinking" in resp.text
+    assert resp.text.index("Crank The Code explores structural thinking") < resp.text.index(
+        'aria-label="Orientation"'
+    )
+
+    # Start Here should include a compact theme button row linking to topic hubs.
+    assert 'aria-label="Explore themes"' in resp.text
+    assert 'href="/topics/decision-systems"' in resp.text
+
 
 def test_help_page_renders_and_is_noindex_and_masks_email():
     app = create_app()

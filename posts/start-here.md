@@ -7,7 +7,27 @@ one_liner: A guide to navigating the ideas and systems explored on Crank The Cod
 
 Crank The Code explores structural thinking across organisations, software and governance.
 
-If you are new, this page maps the territory.
+After nearly three decades working across multiple organisations and industries a pattern became difficult to ignore.
+
+Most technical failures are not caused by technology.
+
+They are caused by structure.
+
+Responsibilities blur.  
+Decision authority drifts.  
+Architectures emerge accidentally rather than deliberately.
+
+Over time the same failure modes appear again and again.
+
+If you want the distilled version of that experience begin with:
+
+[What extensive experience across organisations teaches you](/posts/lead31)
+
+*Structure determines whether systems compound or slowly fragment.*
+
+---
+
+If you are new to the site the sections below map the territory.
 
 The essays and projects here are not separate threads. They are different surfaces of the same question:
 

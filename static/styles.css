@@ -1418,6 +1418,12 @@ a[href=\"/\"]:hover {
   gap: calc(12.8px * var(--btn-scale));
 }
 
+/* Compact button variant (used for dense navigation rows like Start Here themes). */
+.btn-link--compact {
+  min-height: calc(46px * var(--btn-scale));
+  padding: calc(10px * var(--btn-scale)) calc(18px * var(--btn-scale));
+}
+
 .btn-thumb {
   width: calc(56px * var(--btn-scale));
   height: calc(56px * var(--btn-scale));
@@ -3108,6 +3114,11 @@ html.theme-light .section-title {
   gap: 14.4px;
   justify-content: center;
   align-items: center;
+}
+
+/* Slightly tighter layout for compact navigation rows. */
+.featured-buttons--compact {
+  gap: 10.4px;
 }
 
 /* Posts index: treat each post entry like a discrete row/card for easier scanning */

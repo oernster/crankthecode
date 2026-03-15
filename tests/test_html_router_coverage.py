@@ -182,8 +182,8 @@ def test_legacy_leadership_blog_posts_redirect_to_leadership_slugs():
     app = create_app()
     client = TestClient(app, base_url="http://localhost")
 
-    # Legacy redirects have been removed; ensure blog18 is served normally.
-    resp = client.get("/posts/blog18", follow_redirects=False)
+    # Legacy redirects have been removed; ensure a historical post is served normally.
+    resp = client.get("/posts/governance2", follow_redirects=False)
     assert resp.status_code == 200
     assert "When consensus becomes the goal" in resp.text
 
@@ -202,6 +202,6 @@ def test_dev_site_clears_cache_header_on_localhost_responses():
     assert resp.status_code == 200
     assert resp.headers.get("Clear-Site-Data") == '"cache"'
 
-    resp = client.get("/posts/blog18")
+    resp = client.get("/posts/governance2")
     assert resp.status_code == 200
     assert resp.headers.get("Clear-Site-Data") == '"cache"'
