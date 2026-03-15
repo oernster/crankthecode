@@ -24,6 +24,39 @@ def test_homepage_renders():
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
 
+    # Primary homepage CTAs must not appear in the hero (manifesto-first reading).
+    assert '<div class="hero-actions" aria-label="Primary actions">' in resp.text
+    m = re.search(r'<section class="landing-intro"[\s\S]*?</section>', resp.text)
+    assert m is not None, resp.text
+    hero_block = m.group(0)
+    assert "📩 Hire Me" not in hero_block
+    assert "Download my CV" not in hero_block
+
+    # But the CTAs must appear in the contact section at the end.
+    m = re.search(r'<section id="contact"[\s\S]*?</section>', resp.text)
+    assert m is not None, resp.text
+    contact_block = m.group(0)
+    assert "Download my CV" in contact_block
+    assert "📩 Hire Me" not in contact_block
+    assert 'id="contact-email"' in contact_block
+
+    # Email should not be present in static HTML (it is JS-injected via window.CTC_CONTACT).
+    assert "oernster@codecrafter.uk" not in resp.text
+
+    # Contact pieces must not appear in clear text inside the bootstrap script.
+    # (The site can still legitimately reference the GitHub username elsewhere.)
+    m = re.search(
+        r"window\.CTC_CONTACT\s*=\s*\(function\s*\(\)\s*\{[\s\S]*?\}\)\s*\(\)\s*;",
+        resp.text,
+    )
+    assert m is not None, "CTC_CONTACT bootstrap script not found"
+    contact_js = m.group(0)
+    assert "oernster@codecrafter.uk" not in contact_js
+    assert 'const user = "oernster"' not in contact_js
+    assert 'const domain = "codecrafter"' not in contact_js
+    assert 'const tld = "uk"' not in contact_js
+    assert "atob(" in contact_js
+
     # Homepage should not show app/system button sections.
     assert "Engineering Experiments" not in resp.text
     assert 'aria-label="Tooling links"' not in resp.text
@@ -229,6 +262,18 @@ def test_help_page_renders_and_is_noindex_and_masks_email():
     assert "[enable JavaScript]" in resp.text
     # Ensure we don't include a literal mailto in the static HTML.
     assert "mailto:" not in resp.text
+
+    # Contact pieces must not appear in clear text inside the bootstrap script.
+    m = re.search(
+        r"window\.CTC_CONTACT\s*=\s*\(function\s*\(\)\s*\{[\s\S]*?\}\)\s*\(\)\s*;",
+        resp.text,
+    )
+    assert m is not None, "CTC_CONTACT bootstrap script not found"
+    contact_js = m.group(0)
+    assert 'const user = "oernster"' not in contact_js
+    assert 'const domain = "codecrafter"' not in contact_js
+    assert 'const tld = "uk"' not in contact_js
+    assert "atob(" in contact_js
 
 
 def test_unknown_post_returns_404_html():

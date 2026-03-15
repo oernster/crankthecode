@@ -48,11 +48,6 @@
           <p class="hero__subline">
             Deeply technical. Structurally minded. Comfortable in code and accountable at executive level.
           </p>
-
-          <div class="hero-actions" aria-label="Primary actions">
-            <a href="#contact" class="cta-button">📩 Hire Me</a>
-            <a class="cta-button" href="/docs/CV-Oliver.pdf" download>📄 Download my CV</a>
-          </div>
         </div>
       </div>
     </div>
@@ -142,21 +137,45 @@
         <p>If the mandate is real, we can talk.</p>
         <p>
           <span class="landing-outro__email">
+            <a id="contact-email" class="contact_email"></a>
             <script type="text/javascript">
+              // Reveal the email only after real user interaction.
               (function () {
-                const c = window.CTC_CONTACT;
-                if (!c) {
-                  return;
+                function revealContactEmail() {
+                  const el = document.getElementById("contact-email");
+                  if (!el) {
+                    return;
+                  }
+
+                  const c = window.CTC_CONTACT;
+                  if (!c) {
+                    return;
+                  }
+
+                  el.textContent = c.address;
+                  el.setAttribute("href", c.link);
                 }
-                document.currentScript.insertAdjacentHTML(
-                  "beforebegin",
-                  `<a href="${c.link}">${c.address}</a>`
-                );
+
+                function initContactReveal() {
+                  revealContactEmail();
+
+                  document.removeEventListener("mousemove", initContactReveal);
+                  document.removeEventListener("keydown", initContactReveal);
+                  document.removeEventListener("touchstart", initContactReveal);
+                }
+
+                document.addEventListener("mousemove", initContactReveal, { once: true });
+                document.addEventListener("keydown", initContactReveal, { once: true });
+                document.addEventListener("touchstart", initContactReveal, { once: true });
               })();
             </script>
             <noscript>Enable JavaScript to reveal the email address.</noscript>
           </span>
         </p>
+
+        <div class="hero-actions" aria-label="Primary actions">
+          <a class="cta-button" href="/docs/CV-Oliver.pdf" download>📄 Download my CV</a>
+        </div>
       </section>
     </div>
   </section>

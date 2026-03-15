@@ -110,11 +110,26 @@
   #}
   <script>
     window.CTC_CONTACT = (function () {
-      const user = "oernster";
-      const domain = "codecrafter.uk";
-      const address = user + "@" + domain;
+      // Encoded source-of-truth pieces.
+      // These values are safe to expose because they do not match email patterns.
+      const decode = (v) => {
+        try {
+          return atob(v);
+        } catch (e) {
+          return "";
+        }
+      };
+
+      // NOTE: Keep `user/domain/tld/address/link` fields for backwards-compatible templates.
+      const user = decode("b2VybnN0ZXI=");
+      const domain = decode("Y29kZWNyYWZ0ZXI=");
+      const tld = decode("dWs=");
+
+      // Computed fields (backwards compatible with existing templates).
+      const address = user + "@" + domain + "." + tld;
       const link = "mai" + "lto:" + address;
-      return { user, domain, address, link };
+
+      return { user, domain, tld, address, link };
     })();
   </script>
 

@@ -29,21 +29,34 @@
       </p>
 
       <script type="text/javascript">
-        // Keep the email address out of the static HTML to reduce bot scraping.
+        // Reveal the email only after real user interaction.
         (function () {
-          const c = window.CTC_CONTACT;
-          const el = document.getElementById("masked-email");
-          if (!el) {
-            return;
+          function revealContactEmail() {
+            const el = document.getElementById("masked-email");
+            if (!el) {
+              return;
+            }
+
+            const c = window.CTC_CONTACT;
+            if (!c) {
+              return;
+            }
+
+            // Display remains the normal address; only the source is JS-injected.
+            el.innerHTML = `<a href="${c.link}">${c.address}</a>`;
           }
 
-          if (!c) {
-            return;
+          function initContactReveal() {
+            revealContactEmail();
+
+            document.removeEventListener("mousemove", initContactReveal);
+            document.removeEventListener("keydown", initContactReveal);
+            document.removeEventListener("touchstart", initContactReveal);
           }
 
-          // Keep the email address out of the static HTML to reduce bot scraping.
-          // Display remains the normal address; only the source is JS-injected.
-          el.innerHTML = `<a href="${c.link}">${c.address}</a>`;
+          document.addEventListener("mousemove", initContactReveal, { once: true });
+          document.addEventListener("keydown", initContactReveal, { once: true });
+          document.addEventListener("touchstart", initContactReveal, { once: true });
         })();
       </script>
       <noscript>Enable JavaScript to reveal the email address.</noscript>
