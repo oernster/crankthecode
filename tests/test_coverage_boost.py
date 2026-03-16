@@ -114,12 +114,15 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
     assert resp.status_code == 200
     assert "Decision Architecture" in resp.text
 
-    # Ensure the series is ordered lead9 -> lead1 (newest-first for the series).
+    # Homepage no longer renders leadership post pills; ordering is enforced on
+    # the Decision Architecture gateway page.
+    resp = client.get("/decision-architecture")
+    assert resp.status_code == 200
     idx_lead10 = resp.text.index("Leadership Ten")
     idx_lead1 = resp.text.index("Leadership One")
     assert idx_lead10 < idx_lead1
 
-    # Non-leadership posts should not show up in the Leadership content section.
+    # Non-leadership posts should not show up in the Decision Architecture section.
     assert "Not Leadership" not in resp.text
 
 
@@ -521,7 +524,8 @@ def test_homepage_leadership_empty_renders_empty_state(monkeypatch):
     resp = client.get("/")
     assert resp.status_code == 200
     assert "Decision Architecture" in resp.text
-    assert "No leadership posts yet." in resp.text
+    # Homepage no longer renders the leadership post pills; it must still render.
+
 
 
 def test_posts_index_category_title_empty_is_tolerated(monkeypatch):

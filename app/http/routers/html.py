@@ -498,6 +498,85 @@ def _homepage_leadership_items(blog: BlogService) -> list[dict[str, object]]:
     return out
 
 
+def _category_posts_grouped_by_layer(
+    blog: BlogService,
+    *,
+    cat_tag: str,
+    layer_label_overrides: dict[str, str] | None = None,
+    preferred_layer_order: list[str] | None = None,
+) -> list[dict[str, object]]:
+    """Group posts for a given `cat:` tag under their `layer:` slugs.
+
+    This mirrors the homepage Leadership grouping semantics, but lets us reuse the
+    UI for other primary sections (e.g. Decision Architecture Patterns).
+
+    Ordering:
+    - posts are always newest-first (`date` desc)
+    - groups are ordered by `preferred_layer_order` (if provided), otherwise
+      by label (case-insensitive)
+    """
+
+    cat_norm = (cat_tag or "").strip().lower()
+    if not cat_norm:
+        return []
+
+    posts: list[dict[str, object]] = []
+    for p in blog.list_posts():
+        tags_norm = [(str(t) or "").strip().lower() for t in (p.tags or [])]
+        if cat_norm not in tags_norm:
+            continue
+        posts.append(
+            {
+                "slug": p.slug,
+                "label": p.title,
+                "date": str(p.date or ""),
+                "tags": [str(t) for t in (p.tags or [])],
+            }
+        )
+
+    posts.sort(key=lambda i: str(i.get("date", "")), reverse=True)
+
+    layer_to_items: dict[str, list[dict[str, str]]] = {}
+    for p in posts:
+        tags = [str(t) for t in cast(list[object], (p.get("tags") or []))]
+        layer_slugs = sorted(_extract_layer_slugs_from_tags(tags))
+        if not layer_slugs:
+            layer_slugs = [""]
+
+        for layer_slug in layer_slugs:
+            layer_to_items.setdefault(layer_slug, [])
+            layer_to_items[layer_slug].append(
+                {"slug": str(p.get("slug") or ""), "label": str(p.get("label") or "")}
+            )
+
+    overrides = layer_label_overrides or {}
+    preferred = preferred_layer_order or []
+
+    def _layer_label(slug: str) -> str:
+        if slug in overrides:
+            return overrides[slug]
+        return _humanize_layer_slug(slug) if slug else "General"
+
+    def _layer_sort_key(slug: str) -> tuple[int, str]:
+        if slug in preferred:
+            return (preferred.index(slug), "")
+        if slug == "":
+            return (9999, "zzzz-general")
+        return (9999, _layer_label(slug).lower())
+
+    out: list[dict[str, object]] = []
+    for layer_slug in sorted(layer_to_items.keys(), key=_layer_sort_key):
+        out.append(
+            {
+                "layer": layer_slug,
+                "label": _layer_label(layer_slug),
+                "posts": layer_to_items[layer_slug],
+            }
+        )
+
+    return out
+
+
 def _post_emoji_map() -> dict[str, str]:
     """Optional emoji thumbnails for posts without dedicated thumb/cover images."""
 
@@ -1184,6 +1263,189 @@ async def homepage(
     ctx.update(homepage_meta)
 
     return templates.TemplateResponse(request, "index.html", ctx)
+
+
+@router.get("/decision-architecture", response_class=HTMLResponse)
+async def decision_architecture_gateway(
+    request: Request,
+    blog: BlogService = Depends(get_blog_service),
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    """Gateway page for Decision Architecture content.
+
+    This page holds the grouped post-button UI that previously lived on the
+    homepage.
+    """
+
+    ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
+
+    emoji_index = _post_frontmatter_emoji_index(blog)
+
+    ctx.update(
+        {
+            "is_homepage": False,
+            "page_title": "Decision Architecture | Crank The Code",
+            "og_title": "Decision Architecture | Crank The Code",
+            "og_description": "Decision Architecture posts grouped by layer.",
+            "meta_description": "Decision Architecture posts grouped by layer.",
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Decision Architecture", "href": "/decision-architecture"},
+            ],
+            "groups": _homepage_leadership_items(blog),
+            "emoji_index": emoji_index,
+        }
+    )
+
+    return templates.TemplateResponse(request, "decision_architecture.html", ctx)
+
+
+_PATTERNS_CAT_TAG = "cat:decision-architecture-patterns"
+_PATTERNS_LAYER_ORDER = [
+    "decision-primitives",
+    "decision-interfaces",
+    "authority-models",
+    "system-dynamics",
+    "pattern-catalogue",
+]
+_PATTERNS_LAYER_LABELS = {
+    "decision-primitives": "Decision Primitives",
+    "decision-interfaces": "Decision Interfaces",
+    "authority-models": "Authority Models",
+    "system-dynamics": "System Dynamics",
+    "pattern-catalogue": "Pattern Catalogue",
+}
+
+
+def _is_patterns_post(tags: list[str]) -> bool:
+    return any((t or "").strip().lower() == _PATTERNS_CAT_TAG for t in (tags or []))
+
+
+def _patterns_posts_for_layer(
+    blog: BlogService, *, layer_slug: str
+) -> list[dict[str, object]]:
+    out: list[dict[str, object]] = []
+    for p in blog.list_posts():
+        tags = [str(t) for t in (p.tags or [])]
+        if not _is_patterns_post(tags):
+            continue
+
+        if layer_slug == "general":
+            if extract_layer_slugs_from_tags(tags):
+                continue
+        else:
+            if layer_slug not in extract_layer_slugs_from_tags(tags):
+                continue
+
+        out.append(
+            {
+                "slug": p.slug,
+                "title": p.title,
+                "date": p.date,
+                "blurb": getattr(p, "blurb", None),
+                "one_liner": getattr(p, "one_liner", None),
+            }
+        )
+
+    out.sort(key=lambda i: str(i.get("date", "")), reverse=True)
+    return out
+
+
+@router.get("/patterns", response_class=HTMLResponse)
+async def patterns_index(
+    request: Request,
+    blog: BlogService = Depends(get_blog_service),
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    """Gateway page for Decision Architecture Patterns."""
+
+    ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
+
+    emoji_index = _post_frontmatter_emoji_index(blog)
+    groups = _category_posts_grouped_by_layer(
+        blog,
+        cat_tag=_PATTERNS_CAT_TAG,
+        layer_label_overrides=_PATTERNS_LAYER_LABELS,
+        preferred_layer_order=_PATTERNS_LAYER_ORDER,
+    )
+
+    layers = [
+        {"layer": slug, "label": _PATTERNS_LAYER_LABELS[slug], "href": f"/patterns/{slug}"}
+        for slug in _PATTERNS_LAYER_ORDER
+    ]
+
+    ctx.update(
+        {
+            "is_homepage": False,
+            "page_title": "Decision Architecture Patterns | Crank The Code",
+            "og_title": "Decision Architecture Patterns | Crank The Code",
+            "og_description": "Reusable organisational design patterns derived from Decision Architecture thinking.",
+            "meta_description": "Reusable organisational design patterns derived from Decision Architecture thinking.",
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Decision Architecture Patterns", "href": "/patterns"},
+            ],
+            "description": "Reusable organisational design patterns derived from Decision Architecture thinking.",
+            "layers": layers,
+            "groups": groups,
+            "emoji_index": emoji_index,
+        }
+    )
+
+    return templates.TemplateResponse(request, "patterns_index.html", ctx)
+
+
+@router.get("/patterns/{layer_slug}", response_class=HTMLResponse)
+async def patterns_layer_page(
+    request: Request,
+    layer_slug: str,
+    blog: BlogService = Depends(get_blog_service),
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    cleaned = _topic_layer_slug_for_route(layer_slug)
+    # No "general" hub in the UI; normalize it anyway for safety.
+    if cleaned == "general":
+        # Display as General; still list posts without a layer.
+        label = "General"
+    else:
+        label = _PATTERNS_LAYER_LABELS.get(cleaned, humanize_layer_slug(cleaned))
+
+    posts = _patterns_posts_for_layer(blog, layer_slug=cleaned)
+
+    ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
+
+    site_url = get_site_url(request)
+    canonical_path = f"/patterns/{cleaned}"
+    canonical = absolute_url(site_url, canonical_path)
+
+    ctx.update(
+        {
+            "is_homepage": False,
+            "canonical_url": canonical,
+            "page_title": f"{label} | Patterns | Crank The Code",
+            "og_title": f"{label} | Patterns | Crank The Code",
+            "og_description": f"Posts in {label} (Decision Architecture Patterns).",
+            "meta_description": f"Posts in {label} (Decision Architecture Patterns).",
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Decision Architecture Patterns", "href": "/patterns"},
+                {"label": label, "href": canonical_path},
+            ],
+            "hub": {"layer": cleaned, "label": label, "description": ""},
+            "posts": posts,
+        }
+    )
+
+    return templates.TemplateResponse(request, "patterns_hub.html", ctx)
 
 
 @router.get("/posts", response_class=HTMLResponse)

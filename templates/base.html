@@ -309,6 +309,43 @@
     <nav class="sidebar" aria-label="Navigation">
       <h2 class="sidebar-title">Navigation</h2>
 
+      <div class="muted" style="margin: 6px 0 6px 6px; font-weight: 800;">Decision Architecture Patterns</div>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-primitives' %} is-active{% endif %}"
+        href="/patterns/decision-primitives"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Decision Primitives</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-interfaces' %} is-active{% endif %}"
+        href="/patterns/decision-interfaces"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Decision Interfaces</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/authority-models' %} is-active{% endif %}"
+        href="/patterns/authority-models"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Authority Models</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/system-dynamics' %} is-active{% endif %}"
+        href="/patterns/system-dynamics"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">System Dynamics</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/pattern-catalogue' %} is-active{% endif %}"
+        href="/patterns/pattern-catalogue"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Pattern Catalogue</span>
+      </a>
+
       <div class="muted" style="margin: 6px 0 6px 6px; font-weight: 800;">Decision Architecture</div>
       <a
         class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/architecture' %} is-active{% endif %}"

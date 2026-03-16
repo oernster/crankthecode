@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Iterable
 
 from app.domain.tags import primary_layer_slug_from_tags
 
@@ -12,7 +13,21 @@ from book.book_builder.models import SourcePost
 
 @dataclass(frozen=True, slots=True)
 class FilesystemBookPostsRepository:
+    """Load markdown posts from the filesystem for book generation.
+
+    Optionally filters posts by a required category tag (e.g.
+    `cat:decision-architecture-patterns`).
+    """
+
     posts_dir: Path
+    required_category: str | None = None
+
+    def _has_required_category(self, tags: Iterable[str]) -> bool:
+        """Check whether the post includes the required category."""
+        if not self.required_category:
+            return True
+
+        return self.required_category in tags
 
     def list_posts(self) -> list[SourcePost]:
         posts: list[SourcePost] = []
@@ -23,15 +38,28 @@ class FilesystemBookPostsRepository:
 
             text = path.read_text(encoding="utf-8")
             fm = parse_frontmatter(text)
+
             tags = fm.meta.get("tags", [])
             tags_list = [str(t) for t in tags] if isinstance(tags, list) else []
 
+            # --- Category filter (new) ---
+            if not self._has_required_category(tags_list):
+                continue
+
+            # Determine layer slug
             layer_slug = primary_layer_slug_from_tags(tags_list)
             if not layer_slug:
                 continue
 
             title = normalize_whitespace(str(fm.meta.get("title", path.stem)))
-            description = normalize_whitespace(str(fm.meta.get("description", "")))
+            description = normalize_whitespace(
+                str(
+                    fm.meta.get(
+                        "description",
+                        fm.meta.get("one_liner", ""),
+                    )
+                )
+            )
 
             posts.append(
                 SourcePost(

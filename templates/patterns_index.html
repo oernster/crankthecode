@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Decision Architecture Patterns | Crank The Code{% endblock %}
+
+{% block content %}
+  <section class="section-panel" aria-label="Decision Architecture Patterns">
+    <div class="section-heading-row" aria-label="Decision Architecture Patterns heading">
+      <h1 class="section-title section-title--accent">Decision Architecture Patterns</h1>
+      <a
+        class="cta-button cta-button--compact"
+        href="/ebooks/decision-architecture-patterns.pdf"
+        aria-label="Download Decision Architecture Patterns eBook"
+      >
+        📘 Download eBook
+      </a>
+    </div>
+
+    {% if (description or '')|length > 0 %}
+      <p class="muted" style="margin: 0 0 12px 0;">{{ description }}</p>
+    {% endif %}
+
+    <div class="featured-buttons featured-buttons--compact" aria-label="Pattern layers">
+      {% for l in layers or [] %}
+        <a class="btn-link btn-link--compact btn-link--subtle" href="{{ l.href }}">{{ l.label }}</a>
+      {% endfor %}
+    </div>
+
+    <hr class="post-separator" aria-hidden="true" />
+
+    <div class="featured-buttons" aria-label="Patterns groups">
+      {% if groups and (groups|length) > 0 %}
+        {% for g in groups %}
+          <div class="featured-group" aria-label="Patterns layer group">
+            <div class="section-heading-row" aria-label="Layer heading">
+              <h2 class="featured-group-title" style="margin: 0;">{{ g.label }}</h2>
+              {% if (g.layer or '')|length > 0 %}
+                <a class="btn-link btn-link--subtle" href="/patterns/{{ g.layer }}">View layer</a>
+              {% endif %}
+            </div>
+            <div class="featured-group-items">
+              {% for p in g.posts %}
+                <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+                  {% set emoji = emoji_index.get(p.slug) %}
+                  {% if (emoji or '')|length > 0 %}
+                    <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
+                  {% else %}
+                    <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧠</span>
+                  {% endif %}
+                  <span class="btn-text">{{ p.label }}</span>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-state" aria-label="No patterns posts yet">
+          <p class="muted">No patterns posts yet.</p>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+

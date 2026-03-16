@@ -62,43 +62,56 @@
       All posts are listed in reverse chronological order.
     </p>
 
-    <section class="section-panel section-panel--backlog" aria-labelledby="leadership-heading">
-      <div class="section-heading-row" aria-label="Decision Architecture header">
-        <h2 id="leadership-heading" class="section-title section-title--accent">Decision Architecture</h2>
-        <a
-          class="cta-button cta-button--compact"
-          href="/docs/Decision-Architecture.epub"
-          download
-          aria-label="Download Decision Architecture eBook"
-        >
-          📘 Download eBook
-        </a>
-      </div>
-      <div class="featured-buttons" aria-label="Decision Architecture links">
-        {% if homepage_projects.leadership and (homepage_projects.leadership|length) > 0 %}
-          {% for g in homepage_projects.leadership %}
-            <div class="featured-group" aria-label="Leadership layer group">
-              <h3 class="featured-group-title">{{ g.label }}</h3>
-              <div class="featured-group-items">
-                {% for p in g.posts %}
-                  <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
-                    {% set emoji = homepage_emoji_index.get(p.slug) %}
-                    {% if (emoji or '')|length > 0 %}
-                      <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
-                    {% else %}
-                      <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">♟️</span>
-                    {% endif %}
-                    <span class="btn-text">{{ p.label }}</span>
-                  </a>
-                {% endfor %}
-              </div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <div class="empty-state" aria-label="No leadership posts yet">
-            <p class="muted">No leadership posts yet.</p>
+    <section class="section-panel section-panel--backlog" aria-label="Section gateways">
+      <div class="featured-group" aria-label="Decision Architecture gateway">
+        <div class="section-heading-row" aria-label="Decision Architecture header">
+          <h2 class="section-title section-title--accent">Decision Architecture</h2>
+          <div class="featured-buttons featured-buttons--compact" role="group" aria-label="Decision Architecture actions">
+            <a
+              class="cta-button cta-button--compact"
+              href="/docs/Decision-Architecture.epub"
+              download
+              aria-label="Download Decision Architecture eBook"
+            >
+              📘 Download eBook
+            </a>
+            <a
+              class="btn-link btn-link--compact btn-link--subtle"
+              href="/decision-architecture"
+              aria-label="Explore Decision Architecture"
+            >
+              Explore
+            </a>
           </div>
-        {% endif %}
+        </div>
+      </div>
+
+      <hr class="post-separator post-separator--subtle" aria-hidden="true" />
+
+      <div class="featured-group" aria-label="Decision Architecture Patterns gateway">
+        <div class="section-heading-row" aria-label="Decision Architecture Patterns header">
+          <h2 class="section-title section-title--accent">Decision Architecture Patterns</h2>
+          <div class="featured-buttons featured-buttons--compact" role="group" aria-label="Decision Architecture Patterns actions">
+            <a
+              class="cta-button cta-button--compact"
+              href="/ebooks/decision-architecture-patterns.epub"
+              aria-label="Download Decision Architecture Patterns eBook"
+            >
+              📘 Download eBook
+            </a>
+            <a
+              class="btn-link btn-link--compact btn-link--subtle"
+              href="/patterns"
+              aria-label="Explore Decision Architecture Patterns"
+            >
+              Explore
+            </a>
+          </div>
+        </div>
+
+        <p class="muted" style="margin: 0 0 12px 0;">
+          Reusable organisational design patterns derived from Decision Architecture thinking.
+        </p>
       </div>
     </section>
   </section>

@@ -85,6 +85,8 @@ def test_sitemap_includes_topics_and_topic_hub_pages():
 
         assert "https://example.com/topics" in locs
         assert "https://example.com/topics/decision-systems" in locs
+        assert "https://example.com/decision-architecture" in locs
+        assert "https://example.com/patterns" in locs
         # Alias route should be discoverable but canonical remains /about.
         assert "https://example.com/about/oliver-ernster" in locs
     finally:

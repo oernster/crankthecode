@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ hub.label }} | Patterns | Crank The Code{% endblock %}
+
+{% block content %}
+  <section class="section-panel" aria-label="Patterns layer">
+    <div class="section-heading-row" aria-label="Patterns layer heading">
+      <h1 class="section-title section-title--accent">{{ hub.label }}</h1>
+      <a class="btn-link btn-link--subtle" href="/patterns">All patterns</a>
+    </div>
+
+    {% if (hub.description or '')|length > 0 %}
+      <p class="muted" style="margin: 0 0 12px 0;">{{ hub.description }}</p>
+    {% endif %}
+
+    <div class="posts-toolbar" aria-label="Layer actions">
+      <a class="btn-link btn-link--subtle" href="/patterns">View all layers</a>
+    </div>
+
+    <hr class="post-separator" aria-hidden="true" />
+
+    {% if posts and (posts|length) > 0 %}
+      <div class="posts-index" aria-label="Layer posts">
+        {% for p in posts %}
+          <div class="post-item">
+            <div class="post-heading">
+              <a class="btn-link" href="/posts/{{ p.slug }}">{{ p.title }}</a>
+              <div class="post-meta">
+                <small class="post-date">{{ p.date }}</small>
+              </div>
+              {% if p.one_liner or p.blurb %}
+                <div class="post-one-liner">{{ p.one_liner or p.blurb }}</div>
+              {% endif %}
+            </div>
+          </div>
+          {% if not loop.last %}
+            <hr class="post-separator" />
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state" aria-label="No posts">
+        <p class="muted">No posts found for this layer.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
+
