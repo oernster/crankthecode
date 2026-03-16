@@ -54,12 +54,12 @@ SECTION_PRIORITY: dict[str, int] = {
     "pattern-catalogue": 5,
 }
 
-LAYER_LABELS: dict[str, str] = {
-    "decision-primitives": "Decision Primitives",
+LAYER_LABELS = {
+    "decision-primitives": "Decision Objects",
     "decision-interfaces": "Decision Interfaces",
-    "authority-models": "Authority Models",
-    "system-dynamics": "System Dynamics",
-    "pattern-catalogue": "Pattern Catalogue",
+    "authority-models": "Authority Patterns",
+    "system-dynamics": "Behaviour Patterns",
+    "pattern-catalogue": "System Patterns",
 }
 
 VALID_LAYERS = set(LAYER_LABELS.keys())

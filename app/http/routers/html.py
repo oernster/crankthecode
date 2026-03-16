@@ -1326,11 +1326,13 @@ _PATTERNS_LAYER_ORDER = [
     "pattern-catalogue",
 ]
 _PATTERNS_LAYER_LABELS = {
-    "decision-primitives": "Decision Primitives",
+    # IMPORTANT: keys are canonical slugs referenced by frontmatter/routing.
+    # Only change the human-readable labels.
+    "decision-primitives": "Decision Objects",
     "decision-interfaces": "Decision Interfaces",
-    "authority-models": "Authority Models",
-    "system-dynamics": "System Dynamics",
-    "pattern-catalogue": "Pattern Catalogue",
+    "authority-models": "Authority Patterns",
+    "system-dynamics": "Behaviour Patterns",
+    "pattern-catalogue": "System Patterns",
 }
 
 _PATTERNS_LAYER_EMOJIS = {

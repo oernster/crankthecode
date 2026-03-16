@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 
 from fastapi.testclient import TestClient
@@ -176,6 +177,64 @@ def test_rss_items_include_content_encoded_html_with_leading_img_for_feed_thumbn
         encoded_texts = [elem.text or "" for elem in encoded]
         assert any("<img" in text for text in encoded_texts)
         assert any("https://example.com/" in text for text in encoded_texts)
+    finally:
+        os.environ.pop("SITE_URL", None)
+
+
+def test_rss_feed_does_not_need_thumbnail_backfill_when_newest_posts_already_have_images():
+    """Cover the non-backfill branch of the RSS thumbnail selection.
+
+    When the first page of feed items already contains at least one image-bearing
+    post summary, the RSS feed should not need to scan older posts.
+    """
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        # Provide a blog service where the newest items already have a cover image.
+        post = SimpleNamespace(
+            slug="hello-crank",
+            title="Hello Crank",
+            date="2026-01-18 10:11",
+            tags=(),
+            summary_html="<p>Intro</p>",
+            cover_image_url="/static/images/me.jpg",
+        )
+        detail = SimpleNamespace(
+            slug="hello-crank",
+            title="Hello Crank",
+            date="2026-01-18 10:11",
+            tags=(),
+            cover_image_url="/static/images/me.jpg",
+            content_html="<p>Body</p>",
+        )
+
+        class FakeBlog:
+            def list_posts(self):
+                return (post,)
+
+            def get_post(self, slug: str):
+                assert slug == "hello-crank"
+                return detail
+
+        from app.http.deps import get_blog_service
+
+        app = create_app()
+        app.dependency_overrides[get_blog_service] = lambda: FakeBlog()
+        client = TestClient(app)
+
+        resp = client.get("/rss.xml")
+        assert resp.status_code == 200
+
+        root = ET.fromstring(resp.text)
+        channel = root.find("channel")
+        assert channel is not None
+
+        items = channel.findall("item")
+        assert len(items) == 1
+
+        media_ns = "http://search.yahoo.com/mrss/"
+        media_tag = f"{{{media_ns}}}content"
+        assert items[0].find(media_tag) is not None
     finally:
         os.environ.pop("SITE_URL", None)
 

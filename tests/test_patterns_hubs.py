@@ -115,7 +115,7 @@ def test_patterns_index_renders_layer_pills_and_groups_and_orders_posts_newest_f
     assert "Not Patterns" not in html
 
     # Group ordering: preferred layers first, unknown layers next, General last.
-    idx_primitives = html.index("Decision Primitives")
+    idx_primitives = html.index("Decision Objects")
     idx_weird = html.index("Weird Layer")
     idx_general = html.index("General")
     assert idx_primitives < idx_weird < idx_general
@@ -185,7 +185,7 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
     resp = client.get("/patterns/decision-primitives")
     assert resp.status_code == 200
     html = resp.text
-    assert "Decision Primitives" in html
+    assert "Decision Objects" in html
     assert 'href="/patterns"' in html
     assert 'href="/topics"' in html
     # Layer pills should include emojis.

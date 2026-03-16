@@ -10,6 +10,8 @@ import xml.etree.ElementTree as ET
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import Response
 
+from typing import Any
+
 from app.http.deps import get_blog_service
 from app.http.seo import get_site_url
 from app.services.blog_service import BlogService
@@ -126,6 +128,25 @@ def _guess_image_mime(url: str) -> str | None:
     return None
 
 
+def _post_summary_has_image(post: Any) -> bool:
+    """Cheap heuristic to detect whether a post *probably* has an image.
+
+    This avoids pulling full post detail HTML just to decide whether to include at
+    least one thumbnail-bearing item in the feed.
+
+    Note:
+    - `cover_image_url` is derived from either frontmatter `image:` or the first
+      standalone image paragraph in markdown.
+    - `summary_html` may include an `<img>` when the first paragraph contains an
+      image.
+    """
+
+    cover = getattr(post, "cover_image_url", None)
+    if cover:
+        return True
+    return bool(_first_image_src(str(getattr(post, "summary_html", "") or "")))
+
+
 def _is_leadership_post(tags: object) -> bool:
     """Return True if a post should be excluded from the RSS feed.
 
@@ -160,13 +181,31 @@ async def rss_feed(
     request: Request,
     blog: BlogService = Depends(get_blog_service),
 ):
-    posts = [
+    eligible_posts = [
         p
         for p in blog.list_posts()
         if not _is_leadership_post(getattr(p, "tags", []))
         and not _is_hidden_special_post(getattr(p, "slug", ""))
     ]
-    posts = posts[:20]
+
+    # Feed contract: newest-first, max 20.
+    #
+    # However, RSS thumbnail support in readers (and our tests) expects that at
+    # least one item includes an image when *any* post in the repository has one.
+    # Over time, it's common for the 20 newest posts to be text-only.
+    #
+    # To keep the feed resilient, we ensure that if the first 20 contain no
+    # image-bearing post summaries, we pull in one older post that does.
+    posts = eligible_posts[:20]
+    if posts and not any(_post_summary_has_image(p) for p in posts):
+        replacement = None
+        # Scan a bounded window of older posts for a cover/summary image.
+        for candidate in eligible_posts[20:200]:
+            if _post_summary_has_image(candidate):
+                replacement = candidate
+                break
+        if replacement is not None and len(posts) == 20:
+            posts = [*posts[:-1], replacement]
 
     base_url = _site_url(request)
 
