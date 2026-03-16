@@ -1,17 +1,14 @@
 from __future__ import annotations
 
 
-from book.build_da_patterns_book import (
-    THESIS_DISTILLED_STEM,
-    build_markdown,
-)
+from pathlib import Path
+
+from book.build_da_patterns_book import THESIS_DISTILLED_STEM, PatternsBookPaths, PatternsMarkdownAssembler
 from book.book_builder.models import BookSection, SourcePost
 
 
 def _post(*, stem: str, title: str, one_liner: str = "", body: str = "Body") -> SourcePost:
     # Path is only used for stable sort in the builder.
-    from pathlib import Path
-
     return SourcePost(
         path=Path(f"{stem}.md"),
         title=title,
@@ -39,7 +36,23 @@ def test_build_markdown_renders_thesis_distilled_as_chapter_1_and_prefixes_chapt
         ],
     )
 
-    out = build_markdown(sections=[section], thesis_post=thesis)
+    # Provide non-existent files so the optional prologue/about branches are skipped.
+    paths = PatternsBookPaths(
+        repo_root=Path("."),
+        posts_dir=Path("posts"),
+        book_dir=Path("book"),
+        about_file=Path("book") / "__missing__about.md",
+        prologue_file=Path("book") / "__missing__prologue.md",
+        output_file=Path("docs") / "__missing__.epub",
+        temp_combined=Path("book") / "__missing__combined.md",
+        css_file=Path("book") / "__missing__.css",
+        metadata_file=Path("book") / "__missing__.yaml",
+        cover_file=Path("book") / "__missing__.png",
+    )
+    out = PatternsMarkdownAssembler(paths=paths).render_book_markdown(
+        sections=[section],
+        thesis_post=thesis,
+    )
 
     assert "## Chapter 1: Decision Architecture - Thesis Distilled" in out
     assert "## Chapter 2: Decision factory" in out
