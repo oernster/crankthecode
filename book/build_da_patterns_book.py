@@ -1,9 +1,11 @@
 """Build the Decision Architecture Patterns book (EPUB).
 
-Adds one additional rule:
+Enhancements:
 
-OODAThesisDistilled.md must always appear as Chapter 1
-before the sectioned pattern content.
+1. GoF-style PART structure
+2. Pattern summaries at the start of each Part
+3. Intent / Description / Consequences headers
+4. No modification required to post content
 """
 
 from __future__ import annotations
@@ -16,10 +18,6 @@ from typing import Any
 
 import yaml
 
-
-# ---------------------------------------------------------------------------
-# Repo root detection
-# ---------------------------------------------------------------------------
 
 def _find_repo_root_for_script(*, start: Path) -> Path:
     start = start.resolve()
@@ -34,19 +32,14 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 
-from book.book_builder.markdown_assembler import MarkdownAssembler  # noqa: E402
-from book.book_builder.models import BookSection, SourcePost  # noqa: E402
-from book.book_builder.pandoc_epub import PandocEpubBuilder  # noqa: E402
-from book.book_builder.paths import BookPaths, find_repo_root  # noqa: E402
+from book.book_builder.models import BookSection, SourcePost  # noqa
+from book.book_builder.pandoc_epub import PandocEpubBuilder  # noqa
+from book.book_builder.paths import BookPaths, find_repo_root  # noqa
 
-
-# ---------------------------------------------------------------------------
-# Canonical Decision Architecture Patterns taxonomy
-# ---------------------------------------------------------------------------
 
 REQUIRED_CATEGORY = "cat:decision-architecture-patterns"
 
-SECTION_PRIORITY: dict[str, int] = {
+SECTION_PRIORITY = {
     "decision-primitives": 1,
     "decision-interfaces": 2,
     "authority-models": 3,
@@ -64,13 +57,8 @@ LAYER_LABELS = {
 
 VALID_LAYERS = set(LAYER_LABELS.keys())
 
-# Thesis file forced to Chapter 1
-THESIS_FILENAME = "OODAThesisDistilled.md"
+_ROMAN = ["I", "II", "III", "IV", "V"]
 
-
-# ---------------------------------------------------------------------------
-# Frontmatter parsing
-# ---------------------------------------------------------------------------
 
 _FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 
@@ -86,141 +74,182 @@ def parse_frontmatter(markdown: str) -> Frontmatter:
     if not match:
         return Frontmatter(meta={}, body=markdown or "")
 
-    meta = yaml.safe_load(match.group(1))
-    if meta is None or not isinstance(meta, dict):
-        meta = {}
+    meta = yaml.safe_load(match.group(1)) or {}
 
-    return Frontmatter(meta=dict(meta), body=(markdown or "")[match.end() :])
+    return Frontmatter(meta=dict(meta), body=(markdown or "")[match.end():])
 
-
-def normalize_whitespace(text: str) -> str:
-    return re.sub(r"\s+", " ", (text or "").replace("\u00a0", " ")).strip()
-
-
-# ---------------------------------------------------------------------------
-# Patterns repository
-# ---------------------------------------------------------------------------
 
 @dataclass(frozen=True, slots=True)
-class PatternsBookRepository:
+class PatternsRepository:
     posts_dir: Path
 
-    def _extract_patterns_layer_slug(self, tags: list[str]) -> str | None:
+    def _extract_layer(self, tags: list[str]) -> str | None:
         for tag in tags:
-            if not tag.startswith("layer:"):
-                continue
-            slug = tag.split(":", 1)[1].strip()
-            if slug in VALID_LAYERS:
-                return slug
+            if tag.startswith("layer:"):
+                slug = tag.split(":", 1)[1].strip()
+                if slug in VALID_LAYERS:
+                    return slug
         return None
 
-    def list_posts(self) -> tuple[list[SourcePost], SourcePost | None]:
+    def list_posts(self) -> list[SourcePost]:
 
         posts: list[SourcePost] = []
-        thesis_post: SourcePost | None = None
 
         for path in sorted(self.posts_dir.glob("*.md")):
+
             if path.name.startswith("_"):
                 continue
 
             text = path.read_text(encoding="utf-8")
             fm = parse_frontmatter(text)
 
-            raw_tags = fm.meta.get("tags", [])
-            tags = [str(t).strip() for t in raw_tags] if isinstance(raw_tags, list) else []
+            tags = [str(t) for t in fm.meta.get("tags", [])]
 
             if REQUIRED_CATEGORY not in tags:
                 continue
 
-            layer_slug = self._extract_patterns_layer_slug(tags)
-            if not layer_slug:
+            layer = self._extract_layer(tags)
+            if not layer:
                 continue
 
-            title = normalize_whitespace(str(fm.meta.get("title", path.stem)))
-            description = normalize_whitespace(
-                str(fm.meta.get("description", fm.meta.get("one_liner", "")))
+            posts.append(
+                SourcePost(
+                    path=path,
+                    title=str(fm.meta.get("title", path.stem)),
+                    description=str(fm.meta.get("one_liner", "")),
+                    body=fm.body,
+                    layer_slug=layer,
+                )
             )
 
-            post = SourcePost(
-                path=path,
-                title=title,
-                description=description,
-                body=fm.body,
-                layer_slug=layer_slug,
-            )
+        return posts
 
-            if path.name == THESIS_FILENAME:
-                thesis_post = post
-            else:
-                posts.append(post)
-
-        return posts, thesis_post
-
-
-# ---------------------------------------------------------------------------
-# Section organiser
-# ---------------------------------------------------------------------------
 
 @dataclass(frozen=True, slots=True)
-class PatternsSectionOrganizer:
-    section_priority: dict[str, int]
+class SectionOrganizer:
 
     def organize(self, posts: list[SourcePost]) -> list[BookSection]:
-        sections_by_slug: dict[str, BookSection] = {}
+
+        sections: dict[str, BookSection] = {}
 
         for post in posts:
+
             slug = post.layer_slug
 
-            section = sections_by_slug.get(slug)
-            if section is None:
-                section = BookSection(
+            if slug not in sections:
+                sections[slug] = BookSection(
                     layer_slug=slug,
                     name=LAYER_LABELS[slug],
-                    priority=self.section_priority[slug],
+                    priority=SECTION_PRIORITY[slug],
                 )
-                sections_by_slug[slug] = section
 
-            section.posts.append(post)
+            sections[slug].posts.append(post)
 
-        for section in sections_by_slug.values():
-            section.posts.sort(key=lambda p: p.path.name)
+        for s in sections.values():
+            s.posts.sort(key=lambda p: p.path.name)
 
-        return sorted(
-            sections_by_slug.values(),
-            key=lambda s: (s.priority, s.name),
-        )
+        return sorted(sections.values(), key=lambda s: s.priority)
 
 
-# ---------------------------------------------------------------------------
-# Build entrypoint
-# ---------------------------------------------------------------------------
+def render_pattern(post: SourcePost) -> str:
 
-def main() -> None:
+    intent = post.description.strip()
+
+    md = []
+
+    md.append(f"# {post.title}")
+    md.append("")
+
+    if intent:
+        md.append("## Intent")
+        md.append("")
+        md.append(intent)
+        md.append("")
+
+    md.append("## Description")
+    md.append("")
+    md.append(post.body.strip())
+    md.append("")
+
+    md.append("## Consequences")
+    md.append("")
+    md.append(
+        "This pattern alters how decision objects move through the organisation. "
+        "Applying it may change authority distribution, escalation behaviour and "
+        "decision latency across the system."
+    )
+    md.append("")
+
+    return "\n".join(md)
+
+
+def render_part_summary(section: BookSection) -> str:
+
+    md = []
+
+    md.append("## Patterns in this Part")
+    md.append("")
+
+    for post in section.posts:
+        md.append(f"- **{post.title}** – {post.description}")
+
+    md.append("")
+
+    return "\n".join(md)
+
+
+def build_markdown(sections: list[BookSection]) -> str:
+
+    md: list[str] = []
+
+    for i, section in enumerate(sections):
+
+        part = _ROMAN[i] if i < len(_ROMAN) else str(i + 1)
+
+        md.append("")
+        md.append(f"# Part {part}")
+        md.append("")
+        md.append(f"## {section.name}")
+        md.append("")
+
+        md.append(render_part_summary(section))
+
+        for post in section.posts:
+            md.append(render_pattern(post))
+
+    return "\n".join(md)
+
+
+def main():
 
     repo_root = find_repo_root(start=Path(__file__).resolve())
 
-    base_paths = BookPaths.from_repo_root(repo_root)
+    base = BookPaths.from_repo_root(repo_root)
 
     paths = BookPaths(
-        repo_root=base_paths.repo_root,
-        posts_dir=base_paths.posts_dir,
-        book_dir=base_paths.book_dir,
-        about_file=base_paths.about_file,
-        prologue_file=base_paths.book_dir / "prologue_patterns.md",
+        repo_root=base.repo_root,
+        posts_dir=base.posts_dir,
+        book_dir=base.book_dir,
+        about_file=base.about_file,
+        prologue_file=base.book_dir / "prologue_patterns.md",
         output_file=repo_root / "docs" / "decision-architecture-patterns.epub",
-        temp_combined=base_paths.book_dir / "_combined_da_patterns_book.md",
-        css_file=base_paths.css_file,
-        metadata_file=base_paths.book_dir / "_metadata_patterns.yaml",
-        cover_file=base_paths.book_dir / "_cover_da_patterns.png",
+        temp_combined=base.book_dir / "_combined_da_patterns_book.md",
+        css_file=base.css_file,
+        metadata_file=base.book_dir / "_metadata_patterns.yaml",
+        cover_file=base.book_dir / "_cover_da_patterns.png",
     )
 
-    paths.output_file.parent.mkdir(parents=True, exist_ok=True)
+    repo = PatternsRepository(paths.posts_dir)
+    organizer = SectionOrganizer()
 
-    posts_repo = PatternsBookRepository(posts_dir=paths.posts_dir)
-    organizer = PatternsSectionOrganizer(section_priority=SECTION_PRIORITY)
-    assembler = MarkdownAssembler(paths=paths)
+    posts = repo.list_posts()
+    sections = organizer.organize(posts)
 
-    epub_builder = PandocEpubBuilder(
+    combined = build_markdown(sections)
+
+    paths.temp_combined.write_text(combined, encoding="utf-8")
+
+    epub = PandocEpubBuilder(
         metadata_file=paths.metadata_file,
         combined_markdown_file=paths.temp_combined,
         css_file=paths.css_file,
@@ -228,31 +257,11 @@ def main() -> None:
         output_file=paths.output_file,
     )
 
-    posts, thesis_post = posts_repo.list_posts()
+    epub.build()
 
-    sections = organizer.organize(posts)
+    paths.temp_combined.unlink(missing_ok=True)
 
-    # Inject thesis as Chapter 1
-    if thesis_post:
-        thesis_section = BookSection(
-            layer_slug="thesis",
-            name="Thesis",
-            priority=0,
-            posts=[thesis_post],
-        )
-        sections.insert(0, thesis_section)
-
-    combined = assembler.render_book_markdown(sections=sections)
-
-    paths.temp_combined.write_text(combined, encoding="utf-8")
-
-    try:
-        epub_builder.build()
-    finally:
-        if paths.temp_combined.exists():
-            paths.temp_combined.unlink()
-
-    print("Decision Architecture Patterns book created successfully")
+    print("Decision Architecture Patterns book created")
     print(paths.output_file)
 
 
