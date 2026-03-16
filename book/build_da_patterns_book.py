@@ -1,11 +1,13 @@
 """Build the Decision Architecture Patterns book (EPUB).
 
-Enhancements:
+This deliberately mirrors the simpler Decision Architecture book builder
+approach so the EPUB structure stays consistent across both books.
 
-1. GoF-style PART structure
-2. Pattern summaries at the start of each Part
-3. Intent / Description / Consequences headers
-4. No modification required to post content
+Patterns-specific behaviour retained:
+- filters only decision-architecture-patterns posts
+- remaps layer slugs to book-facing section labels
+- uses patterns-specific metadata / cover / prologue / output paths
+- keeps the thesis post first
 """
 
 from __future__ import annotations
@@ -32,9 +34,11 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 
-from book.book_builder.models import BookSection, SourcePost  # noqa
-from book.book_builder.pandoc_epub import PandocEpubBuilder  # noqa
-from book.book_builder.paths import BookPaths, find_repo_root  # noqa
+from book.book_builder.frontmatter import parse_frontmatter  # noqa: E402
+from book.book_builder.markdown_normalizer import normalize_content  # noqa: E402
+from book.book_builder.models import BookSection, SourcePost  # noqa: E402
+from book.book_builder.pandoc_epub import PandocEpubBuilder  # noqa: E402
+from book.book_builder.paths import BookPaths, find_repo_root  # noqa: E402
 
 
 REQUIRED_CATEGORY = "cat:decision-architecture-patterns"
@@ -57,26 +61,37 @@ LAYER_LABELS = {
 
 VALID_LAYERS = set(LAYER_LABELS.keys())
 
-_ROMAN = ["I", "II", "III", "IV", "V"]
-
-
-_FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
+THESIS_DISTILLED_STEM = "OODAThesisDistilled"
 
 
 @dataclass(frozen=True, slots=True)
-class Frontmatter:
-    meta: dict[str, Any]
-    body: str
+class PatternsBookPaths:
+    repo_root: Path
+    posts_dir: Path
+    book_dir: Path
+    about_file: Path
+    prologue_file: Path
+    output_file: Path
+    temp_combined: Path
+    css_file: Path
+    metadata_file: Path
+    cover_file: Path
 
-
-def parse_frontmatter(markdown: str) -> Frontmatter:
-    match = _FRONTMATTER_RE.match(markdown or "")
-    if not match:
-        return Frontmatter(meta={}, body=markdown or "")
-
-    meta = yaml.safe_load(match.group(1)) or {}
-
-    return Frontmatter(meta=dict(meta), body=(markdown or "")[match.end():])
+    @classmethod
+    def from_repo_root(cls, repo_root: Path) -> "PatternsBookPaths":
+        base = BookPaths.from_repo_root(repo_root)
+        return cls(
+            repo_root=base.repo_root,
+            posts_dir=base.posts_dir,
+            book_dir=base.book_dir,
+            about_file=base.about_file,
+            prologue_file=base.book_dir / "prologue_patterns.md",
+            output_file=repo_root / "docs" / "decision-architecture-patterns.epub",
+            temp_combined=base.book_dir / "_combined_da_patterns_book.md",
+            css_file=base.css_file,
+            metadata_file=base.book_dir / "_metadata_patterns.yaml",
+            cover_file=base.book_dir / "_cover_da_patterns.png",
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -85,6 +100,8 @@ class PatternsRepository:
 
     def _extract_layer(self, tags: list[str]) -> str | None:
         for tag in tags:
+            if not isinstance(tag, str):
+                continue
             if tag.startswith("layer:"):
                 slug = tag.split(":", 1)[1].strip()
                 if slug in VALID_LAYERS:
@@ -92,19 +109,16 @@ class PatternsRepository:
         return None
 
     def list_posts(self) -> list[SourcePost]:
-
         posts: list[SourcePost] = []
 
         for path in sorted(self.posts_dir.glob("*.md")):
-
             if path.name.startswith("_"):
                 continue
 
-            text = path.read_text(encoding="utf-8")
-            fm = parse_frontmatter(text)
+            raw = path.read_text(encoding="utf-8")
+            fm = parse_frontmatter(raw)
 
             tags = [str(t) for t in fm.meta.get("tags", [])]
-
             if REQUIRED_CATEGORY not in tags:
                 continue
 
@@ -127,13 +141,10 @@ class PatternsRepository:
 
 @dataclass(frozen=True, slots=True)
 class SectionOrganizer:
-
     def organize(self, posts: list[SourcePost]) -> list[BookSection]:
-
         sections: dict[str, BookSection] = {}
 
         for post in posts:
-
             slug = post.layer_slug
 
             if slug not in sections:
@@ -145,111 +156,115 @@ class SectionOrganizer:
 
             sections[slug].posts.append(post)
 
-        for s in sections.values():
-            s.posts.sort(key=lambda p: p.path.name)
+        for section in sections.values():
+            section.posts.sort(key=lambda p: p.path.name)
 
         return sorted(sections.values(), key=lambda s: s.priority)
 
 
-def render_pattern(post: SourcePost) -> str:
+@dataclass(frozen=True, slots=True)
+class PatternsMarkdownAssembler:
+    paths: PatternsBookPaths
 
-    intent = post.description.strip()
+    def render_front_matter(self) -> str:
+        return """
+---
 
-    md = []
+> Technical organisations rarely fail in unique ways.
+>
+> They repeat structural mistakes until authority, responsibility
+> and decision flow drift apart.
 
-    md.append(f"# {post.title}")
-    md.append("")
+---
 
-    if intent:
-        md.append("## Intent")
-        md.append("")
-        md.append(intent)
-        md.append("")
+"""
 
-    md.append("## Description")
-    md.append("")
-    md.append(post.body.strip())
-    md.append("")
+    def render_pattern_index(self, sections: list[BookSection]) -> str:
+        blocks: list[str] = ["# Pattern Index {.unnumbered}\n\n"]
 
-    md.append("## Consequences")
-    md.append("")
-    md.append(
-        "This pattern alters how decision objects move through the organisation. "
-        "Applying it may change authority distribution, escalation behaviour and "
-        "decision latency across the system."
-    )
-    md.append("")
+        for section in sections:
+            blocks.append(f"**{section.name}**\n\n")
+            for post in section.posts:
+                line = f"- **{post.title}**"
+                if post.description:
+                    line += f" - {post.description}"
+                blocks.append(line + "\n")
+            blocks.append("\n")
 
-    return "\n".join(md)
+        return "".join(blocks)
+
+    def _render_intro_about_me(self) -> str:
+        if not self.paths.about_file.exists():
+            return ""
+
+        raw = self.paths.about_file.read_text(encoding="utf-8")
+        fm = parse_frontmatter(raw)
+        body = normalize_content(fm.body, remove_heading_text="About me")
+
+        return "".join(
+            [
+                "# Introduction\n\n",
+                "## About me\n\n",
+                body + "\n\n",
+            ]
+        )
+
+    def _render_prologue(self) -> str:
+        if not self.paths.prologue_file.exists():
+            return ""
+
+        raw = self.paths.prologue_file.read_text(encoding="utf-8")
+        fm = parse_frontmatter(raw)
+        body = fm.body.strip()
+
+        if not body:
+            return ""
+
+        return body + "\n\n"
+
+    def render_book_markdown(
+        self,
+        *,
+        sections: list[BookSection],
+        thesis_post: SourcePost | None,
+    ) -> str:
+        blocks: list[str] = []
+
+        blocks.append(self.render_front_matter())
+        blocks.append(self._render_prologue())
+        blocks.append(self.render_pattern_index(sections))
+        blocks.append(self._render_intro_about_me())
+
+        chapter_number = 1
+
+        if thesis_post is not None:
+            blocks.append("# Thesis Distilled\n\n")
+            blocks.append(f"## Chapter {chapter_number}: {thesis_post.title}\n\n")
+            blocks.append(normalize_content(thesis_post.body) + "\n\n")
+            chapter_number += 1
+
+        for section in sections:
+            blocks.append(f"# {section.name}\n\n")
+
+            for post in section.posts:
+                body = normalize_content(post.body)
+                blocks.append(f"## Chapter {chapter_number}: {post.title}\n\n")
+                blocks.append(body + "\n\n")
+                chapter_number += 1
+
+        return "".join(blocks)
 
 
-def render_part_summary(section: BookSection) -> str:
-
-    md = []
-
-    md.append("## Patterns in this Part")
-    md.append("")
-
-    for post in section.posts:
-        md.append(f"- **{post.title}** – {post.description}")
-
-    md.append("")
-
-    return "\n".join(md)
-
-
-def build_markdown(sections: list[BookSection]) -> str:
-
-    md: list[str] = []
-
-    for i, section in enumerate(sections):
-
-        part = _ROMAN[i] if i < len(_ROMAN) else str(i + 1)
-
-        md.append("")
-        md.append(f"# Part {part}")
-        md.append("")
-        md.append(f"## {section.name}")
-        md.append("")
-
-        md.append(render_part_summary(section))
-
-        for post in section.posts:
-            md.append(render_pattern(post))
-
-    return "\n".join(md)
-
-
-def main():
-
+def main() -> None:
     repo_root = find_repo_root(start=Path(__file__).resolve())
+    paths = PatternsBookPaths.from_repo_root(repo_root)
 
-    base = BookPaths.from_repo_root(repo_root)
+    paths.output_file.parent.mkdir(parents=True, exist_ok=True)
 
-    paths = BookPaths(
-        repo_root=base.repo_root,
-        posts_dir=base.posts_dir,
-        book_dir=base.book_dir,
-        about_file=base.about_file,
-        prologue_file=base.book_dir / "prologue_patterns.md",
-        output_file=repo_root / "docs" / "decision-architecture-patterns.epub",
-        temp_combined=base.book_dir / "_combined_da_patterns_book.md",
-        css_file=base.css_file,
-        metadata_file=base.book_dir / "_metadata_patterns.yaml",
-        cover_file=base.book_dir / "_cover_da_patterns.png",
-    )
-
-    repo = PatternsRepository(paths.posts_dir)
+    repo = PatternsRepository(posts_dir=paths.posts_dir)
     organizer = SectionOrganizer()
-
-    posts = repo.list_posts()
-    sections = organizer.organize(posts)
-
-    combined = build_markdown(sections)
-
-    paths.temp_combined.write_text(combined, encoding="utf-8")
-
-    epub = PandocEpubBuilder(
+    assembler = PatternsMarkdownAssembler(paths=paths)
+    epub_builder = PandocEpubBuilder(
         metadata_file=paths.metadata_file,
         combined_markdown_file=paths.temp_combined,
         css_file=paths.css_file,
@@ -257,9 +272,30 @@ def main():
         output_file=paths.output_file,
     )
 
-    epub.build()
+    posts = repo.list_posts()
 
-    paths.temp_combined.unlink(missing_ok=True)
+    thesis_post: SourcePost | None = None
+    remaining_posts: list[SourcePost] = []
+
+    for post in posts:
+        if post.path.stem == THESIS_DISTILLED_STEM:
+            thesis_post = post
+            continue
+        remaining_posts.append(post)
+
+    sections = organizer.organize(remaining_posts)
+    combined = assembler.render_book_markdown(
+        sections=sections,
+        thesis_post=thesis_post,
+    )
+
+    paths.temp_combined.write_text(combined, encoding="utf-8")
+
+    try:
+        epub_builder.build()
+    finally:
+        if paths.temp_combined.exists():
+            paths.temp_combined.unlink()
 
     print("Decision Architecture Patterns book created")
     print(paths.output_file)
