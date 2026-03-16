@@ -24,7 +24,7 @@ def test_homepage_renders():
     assert 'href="/docs/Decision-Architecture.epub"' in resp.text
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
-    assert 'href="/ebooks/decision-architecture-patterns.epub"' in resp.text
+    assert 'href="/docs/decision-architecture-patterns.epub"' in resp.text
     assert "Download eBook" in resp.text
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
