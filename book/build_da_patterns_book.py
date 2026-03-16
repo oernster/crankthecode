@@ -1,22 +1,9 @@
 """Build the Decision Architecture Patterns book (EPUB).
 
-This builder is intentionally self-contained so it does NOT depend on the
-shared repository/tag resolution logic used by the original Decision
-Architecture book pipeline.
+Adds one additional rule:
 
-Why:
-- The shared repository can still pick up older layer/tag conventions.
-- This book must include ONLY posts tagged with:
-    cat:decision-architecture-patterns
-- It must also only recognise the approved new layer slugs:
-    decision-primitives
-    decision-interfaces
-    authority-models
-    system-dynamics
-    pattern-catalogue
-
-This keeps Pandoc / chapter behaviour aligned with the working original
-builder while preventing DA posts from bleeding into the Patterns book.
+OODAThesisDistilled.md must always appear as Chapter 1
+before the sectioned pattern content.
 """
 
 from __future__ import annotations
@@ -30,8 +17,11 @@ from typing import Any
 import yaml
 
 
+# ---------------------------------------------------------------------------
+# Repo root detection
+# ---------------------------------------------------------------------------
+
 def _find_repo_root_for_script(*, start: Path) -> Path:
-    """Find the repository root when this script is executed as a file."""
     start = start.resolve()
     for candidate in (start, *start.parents):
         if (candidate / "pyproject.toml").exists():
@@ -74,9 +64,12 @@ LAYER_LABELS: dict[str, str] = {
 
 VALID_LAYERS = set(LAYER_LABELS.keys())
 
+# Thesis file forced to Chapter 1
+THESIS_FILENAME = "OODAThesisDistilled.md"
+
 
 # ---------------------------------------------------------------------------
-# Minimal frontmatter parsing
+# Frontmatter parsing
 # ---------------------------------------------------------------------------
 
 _FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
@@ -105,7 +98,7 @@ def normalize_whitespace(text: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Patterns-only repository
+# Patterns repository
 # ---------------------------------------------------------------------------
 
 @dataclass(frozen=True, slots=True)
@@ -113,11 +106,6 @@ class PatternsBookRepository:
     posts_dir: Path
 
     def _extract_patterns_layer_slug(self, tags: list[str]) -> str | None:
-        """Return only approved new layer slugs.
-
-        This intentionally avoids any old generic tag parsing helpers so the
-        old taxonomy cannot leak into this build.
-        """
         for tag in tags:
             if not tag.startswith("layer:"):
                 continue
@@ -126,8 +114,10 @@ class PatternsBookRepository:
                 return slug
         return None
 
-    def list_posts(self) -> list[SourcePost]:
+    def list_posts(self) -> tuple[list[SourcePost], SourcePost | None]:
+
         posts: list[SourcePost] = []
+        thesis_post: SourcePost | None = None
 
         for path in sorted(self.posts_dir.glob("*.md")):
             if path.name.startswith("_"):
@@ -139,11 +129,9 @@ class PatternsBookRepository:
             raw_tags = fm.meta.get("tags", [])
             tags = [str(t).strip() for t in raw_tags] if isinstance(raw_tags, list) else []
 
-            # Hard filter to the new category only.
             if REQUIRED_CATEGORY not in tags:
                 continue
 
-            # Hard filter to the new canonical layer taxonomy only.
             layer_slug = self._extract_patterns_layer_slug(tags)
             if not layer_slug:
                 continue
@@ -153,21 +141,24 @@ class PatternsBookRepository:
                 str(fm.meta.get("description", fm.meta.get("one_liner", "")))
             )
 
-            posts.append(
-                SourcePost(
-                    path=path,
-                    title=title,
-                    description=description,
-                    body=fm.body,
-                    layer_slug=layer_slug,
-                )
+            post = SourcePost(
+                path=path,
+                title=title,
+                description=description,
+                body=fm.body,
+                layer_slug=layer_slug,
             )
 
-        return posts
+            if path.name == THESIS_FILENAME:
+                thesis_post = post
+            else:
+                posts.append(post)
+
+        return posts, thesis_post
 
 
 # ---------------------------------------------------------------------------
-# Patterns-only section organiser
+# Section organiser
 # ---------------------------------------------------------------------------
 
 @dataclass(frozen=True, slots=True)
@@ -179,6 +170,7 @@ class PatternsSectionOrganizer:
 
         for post in posts:
             slug = post.layer_slug
+
             section = sections_by_slug.get(slug)
             if section is None:
                 section = BookSection(
@@ -190,8 +182,6 @@ class PatternsSectionOrganizer:
 
             section.posts.append(post)
 
-        # Preserve deterministic ordering. Your posts already use dated filenames,
-        # so sorting by path name mirrors the existing book behaviour.
         for section in sections_by_slug.values():
             section.posts.sort(key=lambda p: p.path.name)
 
@@ -206,6 +196,7 @@ class PatternsSectionOrganizer:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
+
     repo_root = find_repo_root(start=Path(__file__).resolve())
 
     base_paths = BookPaths.from_repo_root(repo_root)
@@ -223,12 +214,12 @@ def main() -> None:
         cover_file=base_paths.book_dir / "_cover_da_patterns.png",
     )
 
-    # Ensure output directory exists.
     paths.output_file.parent.mkdir(parents=True, exist_ok=True)
 
     posts_repo = PatternsBookRepository(posts_dir=paths.posts_dir)
     organizer = PatternsSectionOrganizer(section_priority=SECTION_PRIORITY)
     assembler = MarkdownAssembler(paths=paths)
+
     epub_builder = PandocEpubBuilder(
         metadata_file=paths.metadata_file,
         combined_markdown_file=paths.temp_combined,
@@ -237,10 +228,22 @@ def main() -> None:
         output_file=paths.output_file,
     )
 
-    posts = posts_repo.list_posts()
+    posts, thesis_post = posts_repo.list_posts()
+
     sections = organizer.organize(posts)
 
+    # Inject thesis as Chapter 1
+    if thesis_post:
+        thesis_section = BookSection(
+            layer_slug="thesis",
+            name="Thesis",
+            priority=0,
+            posts=[thesis_post],
+        )
+        sections.insert(0, thesis_section)
+
     combined = assembler.render_book_markdown(sections=sections)
+
     paths.temp_combined.write_text(combined, encoding="utf-8")
 
     try:
