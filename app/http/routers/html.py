@@ -686,11 +686,11 @@ def _topic_descriptions() -> dict[str, str]:
     """Short, calm topic blurbs keyed by normalized `layer:` slug."""
 
     return {
-        "decision-systems": "Decision ownership, option space, and the mechanics of stable decisions at scale.",
-        "cto-operating-model": "Authority, escalation, and operating rhythms that keep execution coherent.",
-        "organisational-structure": "Roles, boundaries, and structure as the substrate for durable delivery.",
+        "decision-systems": "Decision ownership, option space and the mechanics of stable decisions at scale.",
+        "cto-operating-model": "Authority, escalation and operating rhythms that keep execution coherent.",
+        "organisational-structure": "Roles, boundaries and structure as the substrate for durable delivery.",
         "structural-design": "Models and primitives for designing organisations that compound rather than fragment.",
-        "architecture": "Architecture as boundary design: where constraints live, and how systems stay legible.",
+        "architecture": "Architecture as boundary design: where constraints live and how systems stay legible.",
     }
 
 
@@ -784,6 +784,7 @@ def _topic_posts_for_layer(blog: BlogService, *, layer_slug: str) -> list[dict[s
                 "date": p.date,
                 "blurb": getattr(p, "blurb", None),
                 "one_liner": getattr(p, "one_liner", None),
+                "emoji": getattr(p, "emoji", None),
                 "primary_layer": primary,
             }
         )
@@ -1284,6 +1285,18 @@ async def decision_architecture_gateway(
 
     emoji_index = _post_frontmatter_emoji_index(blog)
 
+    # Keep the "All structures" page conceptually aligned with the Patterns
+    # gateway page by always rendering a stable layer pill row.
+    layers = [
+        {
+            "layer": slug,
+            "label": humanize_layer_slug(slug),
+            "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
+            "href": f"/topics/{slug}",
+        }
+        for slug in _STRUCTURES_LAYER_ORDER
+    ]
+
     ctx.update(
         {
             "is_homepage": False,
@@ -1296,6 +1309,7 @@ async def decision_architecture_gateway(
                 {"label": "Decision Architecture", "href": "/decision-architecture"},
             ],
             "groups": _homepage_leadership_items(blog),
+            "layers": layers,
             "emoji_index": emoji_index,
         }
     )
@@ -1317,6 +1331,31 @@ _PATTERNS_LAYER_LABELS = {
     "authority-models": "Authority Models",
     "system-dynamics": "System Dynamics",
     "pattern-catalogue": "Pattern Catalogue",
+}
+
+_PATTERNS_LAYER_EMOJIS = {
+    "decision-primitives": "🧠",
+    "decision-interfaces": "🪟",
+    "authority-models": "🧬",
+    "system-dynamics": "🧩",
+    "pattern-catalogue": "🧭",
+}
+
+# Decision Architecture (structures) layer pill UI (for /topics/<layer> pages).
+_STRUCTURES_LAYER_ORDER = [
+    "decision-systems",
+    "cto-operating-model",
+    "organisational-structure",
+    "structural-design",
+    "architecture",
+]
+
+_STRUCTURES_LAYER_EMOJIS = {
+    "decision-systems": "⚙️",
+    "cto-operating-model": "🎛️",
+    "organisational-structure": "🏛️",
+    "structural-design": "🧱",
+    "architecture": "🏗️",
 }
 
 
@@ -1345,6 +1384,7 @@ def _patterns_posts_for_layer(
                 "slug": p.slug,
                 "title": p.title,
                 "date": p.date,
+                "emoji": getattr(p, "emoji", None),
                 "blurb": getattr(p, "blurb", None),
                 "one_liner": getattr(p, "one_liner", None),
             }
@@ -1376,7 +1416,12 @@ async def patterns_index(
     )
 
     layers = [
-        {"layer": slug, "label": _PATTERNS_LAYER_LABELS[slug], "href": f"/patterns/{slug}"}
+        {
+            "layer": slug,
+            "label": _PATTERNS_LAYER_LABELS[slug],
+            "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
+            "href": f"/patterns/{slug}",
+        }
         for slug in _PATTERNS_LAYER_ORDER
     ]
 
@@ -1441,6 +1486,16 @@ async def patterns_layer_page(
                 {"label": label, "href": canonical_path},
             ],
             "hub": {"layer": cleaned, "label": label, "description": ""},
+            "layers": [
+                {
+                    "layer": slug,
+                    "label": _PATTERNS_LAYER_LABELS[slug],
+                    "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
+                    "href": f"/patterns/{slug}",
+                }
+                for slug in _PATTERNS_LAYER_ORDER
+            ],
+            "current_layer": cleaned,
             "posts": posts,
         }
     )
@@ -1875,6 +1930,28 @@ async def topics_index(
 
     hubs = _leadership_topic_hubs(blog)
 
+    # Provide both layer pill sets so `/topics` can act as the single
+    # "View all layers" destination for both Structures and Patterns.
+    structures_layers = [
+        {
+            "layer": slug,
+            "label": humanize_layer_slug(slug),
+            "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
+            "href": f"/topics/{slug}",
+        }
+        for slug in _STRUCTURES_LAYER_ORDER
+    ]
+
+    patterns_layers = [
+        {
+            "layer": slug,
+            "label": _PATTERNS_LAYER_LABELS.get(slug, humanize_layer_slug(slug)),
+            "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
+            "href": f"/patterns/{slug}",
+        }
+        for slug in _PATTERNS_LAYER_ORDER
+    ]
+
     site_url = get_site_url(request)
     canonical = absolute_url(site_url, "/topics")
     home = absolute_url(site_url, "/")
@@ -1931,6 +2008,8 @@ async def topics_index(
             "og_description": "Topic hubs for the Decision Architecture / Leadership layer.",
             "meta_description": "Topic hubs for the Decision Architecture / Leadership layer.",
             "topic_hubs": hubs,
+            "structures_layers": structures_layers,
+            "patterns_layers": patterns_layers,
             "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
             "jsonld_extra_json": json.dumps(
                 breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
@@ -1969,6 +2048,16 @@ async def topic_hub_page(
     topic_description = str(hub.get("description") or "") if hub is not None else ""
 
     posts = _topic_posts_for_layer(blog, layer_slug=topic_slug)
+
+    layers = [
+        {
+            "layer": slug,
+            "label": humanize_layer_slug(slug),
+            "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
+            "href": f"/topics/{slug}",
+        }
+        for slug in _STRUCTURES_LAYER_ORDER
+    ]
 
     site_url = get_site_url(request)
     canonical_path = f"/topics/{topic_slug}"
@@ -2049,6 +2138,7 @@ async def topic_hub_page(
                 ),
             },
             "posts": posts,
+            "layers": layers,
             "topic_hubs": hubs,
             "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
             "jsonld_extra_json": json.dumps(

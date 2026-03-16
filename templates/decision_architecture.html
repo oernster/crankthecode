@@ -16,6 +16,21 @@
       </a>
     </div>
 
+    {% if layers and (layers|length) > 0 %}
+      <div class="featured-buttons featured-buttons--compact" aria-label="Decision Architecture layers">
+        {% for l in layers or [] %}
+          <a class="btn-link btn-link--compact btn-link--subtle" href="{{ l.href }}">
+            {% if (l.emoji or '')|length > 0 %}
+              <span aria-hidden="true">{{ l.emoji }}</span>
+            {% endif %}
+            {{ l.label }}
+          </a>
+        {% endfor %}
+      </div>
+
+      <hr class="post-separator" aria-hidden="true" />
+    {% endif %}
+
     <div class="featured-buttons" aria-label="Decision Architecture links">
       {% if groups and (groups|length) > 0 %}
         {% for g in groups %}

@@ -1,5 +1,5 @@
 ---
-blurb: Local AI narration for ebooks and documents
+blurb: Local narration for ebooks and documents
 date: 2026-03-15 01:30
 type: project
 role: flagship

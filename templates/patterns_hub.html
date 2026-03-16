@@ -14,8 +14,25 @@
     {% endif %}
 
     <div class="posts-toolbar" aria-label="Layer actions">
-      <a class="btn-link btn-link--subtle" href="/patterns">View all layers</a>
+      <a class="btn-link btn-link--subtle" href="/topics">View all layers</a>
     </div>
+
+    {% if layers and (layers|length) > 0 %}
+      <div class="featured-buttons featured-buttons--compact" aria-label="Pattern layers">
+        {% for l in layers or [] %}
+          <a
+            class="btn-link btn-link--compact{% if (current_layer or '') == (l.layer or '') %} btn-link--primary{% else %} btn-link--subtle{% endif %}"
+            href="{{ l.href }}"
+            aria-label="Open {{ l.label }}"
+          >
+            {% if (l.emoji or '')|length > 0 %}
+              <span aria-hidden="true">{{ l.emoji }}</span>
+            {% endif %}
+            {{ l.label }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
 
     <hr class="post-separator" aria-hidden="true" />
 
@@ -24,7 +41,14 @@
         {% for p in posts %}
           <div class="post-item">
             <div class="post-heading">
-              <a class="btn-link" href="/posts/{{ p.slug }}">{{ p.title }}</a>
+              <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+                {% if (p.emoji or '')|length > 0 %}
+                  <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
+                {% else %}
+                  <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">♟️</span>
+                {% endif %}
+                <span class="btn-text">{{ p.title }}</span>
+              </a>
               <div class="post-meta">
                 <small class="post-date">{{ p.date }}</small>
               </div>

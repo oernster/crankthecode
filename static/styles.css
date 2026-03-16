@@ -219,7 +219,7 @@ body.is-homepage .header-cta {
 /* Sidebar layout: desktop = left sidebar + content; mobile = sidebar above content */
 .page-layout {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 360px 1fr;
   gap: 24px;
   align-items: start;
 }
@@ -332,6 +332,17 @@ body.is-homepage .header-cta {
   padding-left: 22px;
   font-size: 0.96em;
   opacity: 0.95;
+}
+
+/* Sidebar: section header links (e.g. Decision Architecture / Patterns). */
+.sidebar-link--section {
+  margin: 6px 0 6px;
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+.sidebar-link--section .sidebar-link__text {
+  gap: 0;
 }
 
 .sidebar-layer-bullet {

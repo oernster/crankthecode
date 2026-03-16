@@ -21,7 +21,12 @@
 
     <div class="featured-buttons featured-buttons--compact" aria-label="Pattern layers">
       {% for l in layers or [] %}
-        <a class="btn-link btn-link--compact btn-link--subtle" href="{{ l.href }}">{{ l.label }}</a>
+        <a class="btn-link btn-link--compact btn-link--subtle" href="{{ l.href }}">
+          {% if (l.emoji or '')|length > 0 %}
+            <span aria-hidden="true">{{ l.emoji }}</span>
+          {% endif %}
+          {{ l.label }}
+        </a>
       {% endfor %}
     </div>
 
@@ -33,9 +38,6 @@
           <div class="featured-group" aria-label="Patterns layer group">
             <div class="section-heading-row" aria-label="Layer heading">
               <h2 class="featured-group-title" style="margin: 0;">{{ g.label }}</h2>
-              {% if (g.layer or '')|length > 0 %}
-                <a class="btn-link btn-link--subtle" href="/patterns/{{ g.layer }}">View layer</a>
-              {% endif %}
             </div>
             <div class="featured-group-items">
               {% for p in g.posts %}

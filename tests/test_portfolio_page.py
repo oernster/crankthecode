@@ -107,7 +107,7 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
 
     assert html._post_summary_index(cast(BlogService, FakeBlog())) == {}
 
-    # Curated helper should ignore empty, hidden, and missing slugs.
+    # Curated helper should ignore empty, hidden and missing slugs.
     out = html._curated_portfolio_entries_from_slugs(
         slugs=["", "portfolio", "missing"],
         index={},

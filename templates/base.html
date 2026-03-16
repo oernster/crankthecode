@@ -309,7 +309,14 @@
     <nav class="sidebar" aria-label="Navigation">
       <h2 class="sidebar-title">Navigation</h2>
 
-      <div class="muted" style="margin: 6px 0 6px 6px; font-weight: 800;">Decision Architecture Patterns</div>
+      <a
+        class="sidebar-link sidebar-link--section{% if request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %} is-active{% endif %}"
+        href="/patterns"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Decision Architecture Patterns</span>
+        </span>
+      </a>
       <a
         class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-primitives' %} is-active{% endif %}"
         href="/patterns/decision-primitives"
@@ -346,7 +353,14 @@
         <span class="sidebar-layer-text">Pattern Catalogue</span>
       </a>
 
-      <div class="muted" style="margin: 6px 0 6px 6px; font-weight: 800;">Decision Architecture</div>
+      <a
+        class="sidebar-link sidebar-link--section{% if request.url.path == '/decision-architecture' or request.url.path == '/topics' or request.url.path.startswith('/topics/') %} is-active{% endif %}"
+        href="/decision-architecture"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Decision Architecture</span>
+        </span>
+      </a>
       <a
         class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/architecture' %} is-active{% endif %}"
         href="/topics/architecture"

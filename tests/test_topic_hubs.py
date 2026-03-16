@@ -17,8 +17,20 @@ def test_topics_index_renders_and_includes_decision_systems_link():
     resp = client.get("/topics")
     assert resp.status_code == 200
     assert "Topics" in resp.text
-    # One stable hub slug that exists in the corpus.
+    # Structures pill row should include stable layer links.
+    assert 'aria-label="Decision Architecture layers"' in resp.text
     assert 'href="/topics/decision-systems"' in resp.text
+
+    # `/topics` is the shared "View all layers" destination for both Structures
+    # and Patterns: ensure the patterns pill row is present and links into
+    # `/patterns/<layer>`.
+    assert 'aria-label="Pattern layers"' in resp.text
+    assert 'href="/patterns/decision-primitives"' in resp.text
+    assert 'href="/patterns/pattern-catalogue"' in resp.text
+
+    # The old hub list section is intentionally omitted to avoid duplicating the pills.
+    assert 'aria-label="Topic hub links"' not in resp.text
+    assert 'class="btn-subtext"' not in resp.text
 
 
 def test_topic_hub_page_lists_posts_and_emits_jsonld_and_canonical():
@@ -36,6 +48,22 @@ def test_topic_hub_page_lists_posts_and_emits_jsonld_and_canonical():
 
         # Ensure at least one known decision-systems leadership post is listed.
         assert 'href="/posts/lead1"' in html
+        # Topic hub post items should render with the thumb/emoji wrapper.
+        assert 'btn-link--with-thumb' in html
+
+        # Structures UI parity: layer pills + "All structures" link.
+        assert "All structures" in html
+        assert "View all layers" in html
+        assert 'href="/decision-architecture"' in html
+        assert 'href="/topics/decision-systems"' in html
+        assert 'href="/topics/cto-operating-model"' in html
+        assert 'href="/topics/organisational-structure"' in html
+        assert 'href="/topics/structural-design"' in html
+        assert 'href="/topics/architecture"' in html
+
+        # Removed buttons.
+        assert "All topics" not in html
+        assert "View in Posts index" not in html
 
         # JSON-LD should be parseable.
         blocks = re.findall(

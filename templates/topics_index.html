@@ -6,19 +6,36 @@
   <section class="section-panel" aria-label="Topics">
     <h1 class="section-title section-title--accent">Topics</h1>
     <p class="muted" style="margin: 0 0 12px 0;">
-      Stable hubs for the Decision Architecture / Leadership layer.
+      Layer hubs for Decision Architecture Structures and Decision Architecture Patterns.
     </p>
 
-    <div class="featured-buttons" aria-label="Topic hub links">
-      {% for t in topic_hubs or [] %}
-        <a class="btn-link" href="{{ t.href }}">
-          {{ t.label }}
-          {% if (t.count or 0) > 0 %}
-            <span class="btn-subtext">{{ t.count }} posts</span>
-          {% endif %}
-        </a>
-      {% endfor %}
-    </div>
+    {% if patterns_layers and (patterns_layers|length) > 0 %}
+      <div class="featured-buttons featured-buttons--compact" aria-label="Pattern layers" style="margin-top: 14px;">
+        {% for l in patterns_layers or [] %}
+          <a class="btn-link btn-link--compact" href="{{ l.href }}">
+            {% if (l.emoji or '')|length > 0 %}
+              <span aria-hidden="true">{{ l.emoji }}</span>
+            {% endif %}
+            {{ l.label }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if structures_layers and (structures_layers|length) > 0 %}
+      <div class="featured-buttons featured-buttons--compact" aria-label="Decision Architecture layers" style="margin-top: 14px;">
+        {% for l in structures_layers or [] %}
+          <a class="btn-link btn-link--compact" href="{{ l.href }}">
+            {% if (l.emoji or '')|length > 0 %}
+              <span aria-hidden="true">{{ l.emoji }}</span>
+            {% endif %}
+            {{ l.label }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {# NOTE: the explicit hub list is intentionally omitted to avoid duplicating the layer pills above. #}
   </section>
 {% endblock %}
 

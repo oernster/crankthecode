@@ -140,12 +140,14 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
 
     # Global sidebar is now conceptual, not category-driven.
     assert "Decision Architecture Patterns" in resp.text
+    assert 'href="/patterns"' in resp.text
     assert 'href="/patterns/decision-primitives"' in resp.text
     assert 'href="/patterns/decision-interfaces"' in resp.text
     assert 'href="/patterns/authority-models"' in resp.text
     assert 'href="/patterns/system-dynamics"' in resp.text
     assert 'href="/patterns/pattern-catalogue"' in resp.text
     assert "Decision Architecture" in resp.text
+    assert 'href="/decision-architecture"' in resp.text
     assert 'href="/topics/decision-systems"' in resp.text
     assert 'href="/topics/cto-operating-model"' in resp.text
     assert 'href="/topics/organisational-structure"' in resp.text

@@ -16,6 +16,8 @@ def test_homepage_renders():
     resp = client.get("/")
 
     assert resp.status_code == 200
+
+    assert "All posts are listed in reverse chronological order." not in resp.text
     assert "Things I build with" not in resp.text
     assert "Featured Systems" not in resp.text
     assert "docs/CV-Oliver.pdf" in resp.text
@@ -26,6 +28,12 @@ def test_homepage_renders():
     assert "Download eBook" in resp.text
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
+
+    # Featured essay (single CTA) should appear between hero and gateways.
+    assert 'aria-label="Featured essay"' in resp.text
+    assert 'href="/posts/OODAThesisDistilled"' in resp.text
+    assert "Decision Architecture - Thesis Distilled" in resp.text
+    assert "🧩" in resp.text
 
     # Primary homepage CTAs must not appear in the hero (manifesto-first reading).
     assert '<div class="hero-actions" aria-label="Primary actions">' in resp.text
@@ -39,7 +47,7 @@ def test_homepage_renders():
     assert 'class="homepage-selected-project"' in hero_block
     assert "Selected project:" in hero_block
     assert 'href="/posts/narratex"' in hero_block
-    assert "NarrateX</a> - local AI audiobook system." in hero_block
+    assert "NarrateX</a> - local audiobook system." in hero_block
 
     # But the CTAs must appear in the contact section at the end.
     m = re.search(r'<section id="contact"[\s\S]*?</section>', resp.text)

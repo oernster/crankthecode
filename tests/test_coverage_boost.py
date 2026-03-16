@@ -118,6 +118,21 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
     # the Decision Architecture gateway page.
     resp = client.get("/decision-architecture")
     assert resp.status_code == 200
+
+    # UI parity with Patterns: the "All structures" gateway should show the
+    # structures layer pill row (linking into /topics/<layer>). This must be
+    # present regardless of whether posts are in those layers.
+    assert 'aria-label="Decision Architecture layers"' in resp.text
+    assert 'href="/topics/decision-systems"' in resp.text
+    assert 'href="/topics/cto-operating-model"' in resp.text
+    assert 'href="/topics/organisational-structure"' in resp.text
+    assert 'href="/topics/structural-design"' in resp.text
+    assert 'href="/topics/architecture"' in resp.text
+    assert "⚙️" in resp.text
+    assert "🎛️" in resp.text
+    assert "🏛️" in resp.text
+    assert "🧱" in resp.text
+    assert "🏗️" in resp.text
     idx_lead10 = resp.text.index("Leadership Ten")
     idx_lead1 = resp.text.index("Leadership One")
     assert idx_lead10 < idx_lead1

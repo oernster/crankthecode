@@ -6,7 +6,14 @@ from app.domain.models import PostSummary
 from app.main import create_app
 
 
-def _mk_summary(*, slug: str, title: str, date: str, tags: tuple[str, ...]) -> PostSummary:
+def _mk_summary(
+    *,
+    slug: str,
+    title: str,
+    date: str,
+    tags: tuple[str, ...],
+    emoji: str | None = None,
+) -> PostSummary:
     return PostSummary(
         slug=slug,
         title=title,
@@ -17,7 +24,7 @@ def _mk_summary(*, slug: str, title: str, date: str, tags: tuple[str, ...]) -> P
         cover_image_url=None,
         thumb_image_url=None,
         summary_html="",
-        emoji=None,
+        emoji=emoji,
         post_type=None,
         role=None,
     )
@@ -94,10 +101,15 @@ def test_patterns_index_renders_layer_pills_and_groups_and_orders_posts_newest_f
     html = resp.text
     assert "Decision Architecture Patterns" in html
     assert 'href="/patterns/decision-primitives"' in html
+    assert "🧠" in html
     assert 'href="/patterns/decision-interfaces"' in html
+    assert "🪟" in html
     assert 'href="/patterns/authority-models"' in html
+    assert "🧬" in html
     assert 'href="/patterns/system-dynamics"' in html
+    assert "🧩" in html
     assert 'href="/patterns/pattern-catalogue"' in html
+    assert "🧭" in html
 
     # Only patterns posts should show up.
     assert "Not Patterns" not in html
@@ -124,6 +136,7 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
                 "cat:decision-architecture-patterns",
                 "layer:decision-primitives",
             ),
+            emoji="🪐",
         ),
         _mk_summary(
             slug="b",
@@ -133,6 +146,7 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
                 "cat:decision-architecture-patterns",
                 "layer:decision-primitives",
             ),
+            emoji="🧱",
         ),
         _mk_summary(
             slug="c",
@@ -142,6 +156,7 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
                 "cat:decision-architecture-patterns",
                 "layer:weird_layer!!",
             ),
+            emoji="🧿",
         ),
         _mk_summary(
             slug="not-pattern",
@@ -172,6 +187,9 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
     html = resp.text
     assert "Decision Primitives" in html
     assert 'href="/patterns"' in html
+    assert 'href="/topics"' in html
+    # Layer pills should include emojis.
+    assert "🧠" in html
 
     # Non-pattern posts must not leak into layer views.
     assert "Not Patterns" not in html
@@ -179,6 +197,11 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
     idx_new = html.index("Newer")
     idx_old = html.index("Older")
     assert idx_new < idx_old
+
+    # Individual posts should render their emojis (thumb style).
+    assert "btn-thumb--emoji" in html
+    assert "🧱" in html
+    assert "🪐" in html
 
     # Unknown layers should still render (fallback label via humanize).
     resp = client.get("/patterns/weird_layer!!")
@@ -193,6 +216,7 @@ def test_patterns_layer_page_supports_general_alias_for_unlayered_posts():
             title="Unlayered",
             date="2026-02-01 10:00",
             tags=("cat:decision-architecture-patterns",),
+            emoji="🧷",
         ),
         _mk_summary(
             slug="y",
@@ -202,6 +226,7 @@ def test_patterns_layer_page_supports_general_alias_for_unlayered_posts():
                 "cat:decision-architecture-patterns",
                 "layer:decision-primitives",
             ),
+            emoji="🧨",
         ),
     )
 
@@ -222,6 +247,7 @@ def test_patterns_layer_page_supports_general_alias_for_unlayered_posts():
     assert resp.status_code == 200
     assert "General" in resp.text
     assert "Unlayered" in resp.text
+    assert "🧷" in resp.text
     assert "Layered" not in resp.text
 
 
@@ -235,11 +261,14 @@ def test_category_posts_grouped_by_layer_tolerates_empty_cat_tag():
         def get_post(self, slug: str):
             return None
 
+    from typing import cast
+
     from app.http.routers.html import _category_posts_grouped_by_layer
+    from app.services.blog_service import BlogService
 
     assert (
         _category_posts_grouped_by_layer(
-            FakeBlog(),
+            cast(BlogService, FakeBlog()),
             cat_tag="",
             layer_label_overrides=None,
             preferred_layer_order=None,
