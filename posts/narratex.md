@@ -1,6 +1,6 @@
 ---
 blurb: Local narration for ebooks and documents
-date: 2026-03-15 01:30
+date: 2026-03-17 17:30
 type: project
 role: flagship
 image: /static/images/narratex.png
@@ -20,9 +20,45 @@ title: NarrateX
 
 [NarrateX](https://github.com/oernster/NarrateX/releases) is a local desktop narration engine for turning books and documents into spoken audio.
 
-- Now with custom Windows installer.
-- Playback speed control, bookmarking and chapter navigation.
-- Persistent volume control with real time adjustment.
+---
+
+## Version 2.0.0
+
+This release introduces a structural overhaul of the system along with a set of focused usability improvements.
+
+### Architecture
+
+The codebase has been refactored to remove accumulated technical debt and enforce a clearer separation of concerns across the system.
+
+Unit tests now go beyond coverage. They actively constrain future changes by encoding structural expectations into the test suite. The goal is simple. The system should resist accidental degradation over time.
+
+*The architecture is now part of the product, not just its implementation.*
+
+### UI and Interaction
+
+The interface has been refined to improve clarity and consistency without adding noise.
+
+Controls are grouped more deliberately. Button sizes are consistent across the interface. Disabled states in dark mode are clearly visible with defined borders.
+
+Playback controls have been made more explicit.  
+The play and pause control is now a single larger toggle.  
+The stop control is visually distinct.
+
+Navigation feedback has been improved.  
+The vertical navigation indicator now reflects live progress through the text.  
+Highlighted text is synchronised with audio during playback.
+
+*Subtle visual adjustments have been applied across the interface to improve overall cohesion and reduce friction during long sessions.*
+
+### Navigation and State
+
+Chapter and section detection has been extended to support automatic bookmark generation.
+
+Bookmarks now follow a consistent visual format and are easier to scan during navigation.
+
+*The system continues to maintain a clear separation between navigation state and playback state to preserve deterministic behaviour.*
+
+---
 
 <div style="text-align:center; font-size:1.2em; margin: 1em 0;">
 Turn any ebook into natural narration directly on your own machine.
@@ -72,6 +108,8 @@ Narration begins almost immediately because synthesis and playback run together 
     <li>Bookmarking with automatic resume</li>
     <li>Chapter navigation with visual tree indicator</li>
     <li>Automatic text chunking for stable narration</li>
+    <li>Automatic section and chapter bookmark generation</li>
+    <li>Audio synchronised text highlighting</li>
     <li>Support for EPUB PDF and plain text</li>
     <li>Optional Kindle format support via Calibre conversion</li>
   </ul>
@@ -148,6 +186,8 @@ Users can create multiple numbered bookmarks during narration.
 
 A separate hidden resume position is automatically stored when playback stops pauses or the application exits.
 
+Bookmarks include both manual pins and automatically generated section markers to support different navigation styles.
+
 *When playback resumes the system automatically continues from the last listening position.*
 
 ### Chapter Navigation
@@ -196,11 +236,15 @@ Your books remain yours.
 
 ## Development Notes
 
-Recent releases introduced several major usability improvements including playback speed control bookmarking chapter navigation and persistent volume management.
+Version 2.0.0 represents a shift from feature accumulation to structural integrity.
 
-These features were implemented while maintaining strict separation between synthesis playback and navigation logic so the system remains deterministic and easy to evolve.
+The system has been refactored to reduce internal complexity while strengthening guarantees around behaviour and evolution.
 
-The goal is not to produce a feature heavy media player but a focused narration tool that makes personal libraries easier to experience.
+Testing now acts as a structural constraint rather than a safety net. The system is designed to resist regression by construction.
+
+UI improvements were applied carefully to improve clarity without introducing visual noise. Most changes are subtle yet compound over time during long listening sessions.
+
+The goal remains consistent. A focused narration tool that treats structure as a first class concern.
 
 ---
 
