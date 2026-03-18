@@ -99,7 +99,9 @@ def test_patterns_builder_skips_empty_thesis_and_empty_sections():
 
     assert "# Thesis Distilled" not in out
     assert "# Decision Objects" not in out
-    assert "# Real Section" in out
+    # Section headings are intentionally not emitted to avoid heading-only split
+    # XHTML files (KDP renders them as blank pages).
+    assert "**Real Section**" in out
 
 
 def test_patterns_builder_does_not_emit_level1_thesis_heading():
