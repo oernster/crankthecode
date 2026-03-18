@@ -45,10 +45,18 @@ SECTION_PRIORITY = {
 }
 
 
+# This book is the essay collection. Explicitly exclude DA Patterns posts.
+_EXCLUDED_CATEGORY = "cat:decision-architecture-patterns"
+
+
 def main() -> None:
     repo_root = find_repo_root(start=Path(__file__).resolve())
     paths = BookPaths.from_repo_root(repo_root)
-    BuildOrchestrator(paths=paths, section_priority=SECTION_PRIORITY).build()
+    BuildOrchestrator(
+        paths=paths,
+        section_priority=SECTION_PRIORITY,
+        required_category=f"!{_EXCLUDED_CATEGORY}",
+    ).build()
 
 
 if __name__ == "__main__":

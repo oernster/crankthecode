@@ -15,12 +15,16 @@ class BuildOrchestrator:
 
     paths: BookPaths
     section_priority: dict[str, int]
+    required_category: str | None = None
 
     def build(self) -> None:
         # Ensure the public output directory exists (served from `/docs`).
         self.paths.output_file.parent.mkdir(parents=True, exist_ok=True)
 
-        posts_repo = FilesystemBookPostsRepository(posts_dir=self.paths.posts_dir)
+        posts_repo = FilesystemBookPostsRepository(
+            posts_dir=self.paths.posts_dir,
+            required_category=self.required_category,
+        )
         organizer = SectionOrganizer(section_priority=self.section_priority)
         assembler = MarkdownAssembler(paths=self.paths)
         epub_builder = PandocEpubBuilder(
@@ -40,7 +44,11 @@ class BuildOrchestrator:
             epub_builder.build()
         finally:
             if self.paths.temp_combined.exists():
-                self.paths.temp_combined.unlink()
+                # NOTE: Temporary debugging aid. Keep the combined markdown so we
+                # can inspect for headings-only / empty sections that cause blank
+                # pages in KDP preview.
+                # self.paths.temp_combined.unlink()
+                pass
 
         print("Book created successfully")
         print(self.paths.output_file)

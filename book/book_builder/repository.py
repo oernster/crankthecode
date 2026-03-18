@@ -15,8 +15,12 @@ from book.book_builder.models import SourcePost
 class FilesystemBookPostsRepository:
     """Load markdown posts from the filesystem for book generation.
 
-    Optionally filters posts by a required category tag (e.g.
-    `cat:decision-architecture-patterns`).
+    Optionally filters posts by a required category tag.
+
+    - If `required_category` is like `cat:leadership`, only posts containing that
+      tag are included.
+    - If `required_category` is like `!cat:decision-architecture-patterns`, posts
+      containing the tag are excluded.
     """
 
     posts_dir: Path
@@ -27,7 +31,12 @@ class FilesystemBookPostsRepository:
         if not self.required_category:
             return True
 
-        return self.required_category in tags
+        required = self.required_category.strip()
+        if required.startswith("!"):
+            excluded = required[1:].strip()
+            return excluded not in tags
+
+        return required in tags
 
     def list_posts(self) -> list[SourcePost]:
         posts: list[SourcePost] = []
