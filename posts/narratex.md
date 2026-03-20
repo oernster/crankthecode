@@ -18,45 +18,45 @@ thumb_image: /static/images/narratex-icon.png
 title: NarrateX
 ---
 
-[NarrateX](https://github.com/oernster/NarrateX/releases) is a local desktop narration engine for turning books and documents into spoken audio.
+[NarrateX](https://github.com/oernster/NarrateX) is a local desktop narration engine for turning books and documents into spoken audio.
 
 ---
 
-## Version 2.0.0
+NarrateX is built around a simple idea. Narration should be reliable, predictable and easy to follow over long sessions.
 
-This release introduces a structural overhaul of the system along with a set of focused usability improvements.
+The system focuses on stable playback, clear state boundaries and a consistent narration flow. The goal is not just to generate audio but to behave correctly while doing so.
 
 ### Architecture
 
-The codebase has been refactored to remove accumulated technical debt and enforce a clearer separation of concerns across the system.
+The codebase enforces a clear separation of concerns across the system.
 
-Unit tests now go beyond coverage. They actively constrain future changes by encoding structural expectations into the test suite. The goal is simple. The system should resist accidental degradation over time.
+Unit tests go beyond coverage. They encode structural expectations and constrain future changes. The system is designed to resist accidental degradation over time.
 
-*The architecture is now part of the product, not just its implementation.*
+*The architecture is part of the product, not just its implementation.*
 
 ### UI and Interaction
 
-The interface has been refined to improve clarity and consistency without adding noise.
+The interface is designed to remain clear and consistent without adding noise.
 
-Controls are grouped more deliberately. Button sizes are consistent across the interface. Disabled states in dark mode are clearly visible with defined borders.
+Controls are grouped deliberately. Button sizes are consistent across the interface. Disabled states in dark mode remain visible with defined borders.
 
-Playback controls have been made more explicit.  
-The play and pause control is now a single larger toggle.  
+Playback controls are explicit.
+The play and pause control is a single larger toggle.
 The stop control is visually distinct.
 
-Navigation feedback has been improved.  
-The vertical navigation indicator now reflects live progress through the text.  
+Navigation feedback is continuous.
+The vertical navigation indicator reflects live progress through the text.
 Highlighted text is synchronised with audio during playback.
 
-*Subtle visual adjustments have been applied across the interface to improve overall cohesion and reduce friction during long sessions.*
+*Subtle visual adjustments improve cohesion and reduce friction during long sessions.*
 
 ### Navigation and State
 
-Chapter and section detection has been extended to support automatic bookmark generation.
+Chapter and section detection supports automatic bookmark generation.
 
-Bookmarks now follow a consistent visual format and are easier to scan during navigation.
+Bookmarks follow a consistent format and are easy to scan during navigation.
 
-*The system continues to maintain a clear separation between navigation state and playback state to preserve deterministic behaviour.*
+The system maintains a strict separation between navigation state and playback state to preserve deterministic behaviour.
 
 ---
 
@@ -68,13 +68,13 @@ Turn any ebook into natural narration directly on your own machine.
 
 ## Problem → Solution → Impact
 
-**Problem:**  
-Large digital libraries are easy to collect yet surprisingly difficult to consume when reading time is limited.
+**Problem:**
+Large digital libraries are easy to collect yet difficult to consume when reading time is limited.
 
-**Solution:**  
+**Solution:**
 NarrateX converts books and documents into natural spoken narration using modern text to speech engines that run locally.
 
-**Impact:**  
+**Impact:**
 Your library becomes something you can listen to anywhere. Books are no longer tied to a screen.
 
 ---
@@ -83,11 +83,11 @@ Your library becomes something you can listen to anywhere. Books are no longer t
 
 NarrateX is a desktop application designed to transform written material into spoken narration.
 
-The idea is straightforward. Reading should not require sitting in front of a page. A book should be able to follow you during a walk, a commute or quiet work.
+Reading should not require sitting in front of a page. A book should follow you during a walk a commute or quiet work.
 
 The application loads an ebook or document then parses the text into structured segments. These segments are processed through a local text to speech engine which produces audio in real time.
 
-Narration begins almost immediately because synthesis and playback run together in a streaming pipeline. This avoids the long delays that often occur when an entire book must be generated before playback begins.
+Narration begins almost immediately because synthesis and playback run together in a streaming pipeline. This avoids delays that occur when an entire book must be generated before playback begins.
 
 *Everything runs locally which means the workflow is fast predictable and private.*
 
@@ -134,13 +134,13 @@ Narration begins almost immediately because synthesis and playback run together 
 
 NarrateX processes text through a structured pipeline designed for long form narration.
 
-A book is first loaded and parsed into normalised text.  
-The text is then divided into manageable speech chunks.  
+A book is first loaded and parsed into normalised text.
+The text is divided into manageable speech chunks.
 Each chunk is synthesised into audio and streamed directly to the playback device.
 
-Chunk based narration has an important benefit. The system can stay responsive even when processing very large books. Audio generation continues ahead of playback which keeps narration smooth.
+Chunk based narration keeps the system responsive even for very large books. Audio generation continues ahead of playback which keeps narration smooth.
 
-*Voice profiles can be swapped depending on preference. Some voices work well for fiction while others suit technical writing.*
+*Voice profiles can be swapped depending on preference. Some voices suit fiction while others work better for technical writing.*
 
 ---
 
@@ -150,25 +150,25 @@ NarrateX provides fine control over how narration is delivered without altering 
 
 ### Playback Speed
 
-Playback speed can be adjusted between slower and faster narration rates without changing the TTS output itself.
+Playback speed can be adjusted without changing the TTS output.
 
-Speed is applied during playback rather than synthesis which keeps the audio cache stable and avoids regenerating speech for different speeds.
+Speed is applied during playback rather than synthesis which keeps the audio cache stable and avoids regenerating speech.
 
-*This allows smooth adjustment while maintaining deterministic behaviour in the narration pipeline.*
+*This preserves deterministic behaviour in the narration pipeline.*
 
 ### Volume Control
 
-Volume can be adjusted in real time during playback using a simple slider interface.
+Volume can be adjusted in real time using a simple slider interface.
 
 The control includes a visual indicator that reflects mute low and normal volume states.
 
-*Volume settings are persisted between runs so the application starts with the previously selected level.*
+*Volume settings persist between runs.*
 
 ### UI Locking During Playback
 
-While narration is actively playing the interface temporarily locks certain configuration controls such as voice selection and playback speed.
+During active narration certain configuration controls are temporarily locked.
 
-This avoids inconsistent playback states and keeps the narration pipeline deterministic.
+This prevents inconsistent playback states and keeps the system predictable.
 
 *Playback controls and volume adjustment remain available.*
 
@@ -176,30 +176,29 @@ This avoids inconsistent playback states and keeps the narration pipeline determ
 
 ## Navigation
 
-Long form listening requires the same navigation flexibility readers expect from modern ebook software.
+Long form listening requires the same flexibility readers expect from modern ebook software.
 
-*NarrateX implements two complementary navigation systems.*
+NarrateX implements two complementary navigation systems.
 
 ### Bookmarks
 
 Users can create multiple numbered bookmarks during narration.
 
-A separate hidden resume position is automatically stored when playback stops pauses or the application exits.
+A hidden resume position is automatically stored when playback stops pauses or the application exits.
 
-Bookmarks include both manual pins and automatically generated section markers to support different navigation styles.
+Bookmarks include both manual pins and automatically generated section markers.
 
-*When playback resumes the system automatically continues from the last listening position.*
+*Playback resumes from the last listening position.*
 
 ### Chapter Navigation
 
-NarrateX detects chapter headings directly from the book text and builds a navigation index.
+NarrateX detects chapter headings from the book text and builds a navigation index.
 
-Navigation controls allow jumping to the previous or next chapter instantly.
+Navigation controls allow jumping between chapters instantly.
 
-A visual chapter indicator appears alongside the reading pane as a vertical tree style guide.  
-This acts as a structural overview of the book and updates dynamically as narration progresses.
+A vertical tree style indicator provides a structural overview of the book and updates as narration progresses.
 
-*The goal is not to replicate a full table of contents but to provide a calm visual reference for long form listening.*
+*The goal is a calm reference rather than a full table of contents.*
 
 ---
 
@@ -207,48 +206,50 @@ This acts as a structural overview of the book and updates dynamically as narrat
 
 The project follows a layered architecture separating interface application services domain logic and infrastructure.
 
-The desktop interface is built using PySide6.  
-Application services orchestrate narration playback and navigation.  
+The interface is built using PySide6.
+Application services orchestrate playback and navigation.
 Domain logic manages chunking chapter detection and bookmark state.
 
-Infrastructure adapters connect the system to TTS engines audio streaming libraries and ebook parsing tools.
+Infrastructure adapters connect to TTS engines audio streaming and ebook parsing tools.
 
-*This structure keeps the narration pipeline predictable and allows components such as TTS engines or audio streaming backends to evolve independently.*
+*This structure keeps the narration pipeline predictable and allows components to evolve independently.*
 
 ---
 
 ## Why Build This
 
-Many people maintain large personal ebook libraries. Those collections often contain hundreds or thousands of titles that rarely get opened.
+Many people maintain large ebook libraries that are rarely used.
 
-Time is usually the limiting factor rather than interest.
+Time is usually the limiting factor.
 
-Audio solves that constraint by letting a book accompany everyday activity. Walking, commuting, cooking, or working quietly all become opportunities to continue reading.
+Audio allows books to accompany everyday activity. Walking, commuting, cooking, or quiet work become opportunities to continue reading.
 
-Commercial audiobook platforms provide a partial answer however they depend on catalog availability, licensing and subscription models.
+Commercial audiobook platforms depend on catalog availability, licensing and subscriptions.
 
-NarrateX takes the opposite approach.
+NarrateX takes a different approach.
 
-Your books remain yours.  
-*The software simply gives them a voice.*
+Your books remain yours.
+
+*The software gives them a voice.*
 
 ---
 
 ## Development Notes
 
-Version 2.0.0 represents a shift from feature accumulation to structural integrity.
+NarrateX is built with a focus on structural integrity rather than feature accumulation.
 
-The system has been refactored to reduce internal complexity while strengthening guarantees around behaviour and evolution.
+The system prioritises predictable behaviour clear state boundaries and long term maintainability.
 
-Testing now acts as a structural constraint rather than a safety net. The system is designed to resist regression by construction.
+Testing acts as a structural constraint rather than a safety net. The system is designed to resist regression by construction.
 
-UI improvements were applied carefully to improve clarity without introducing visual noise. Most changes are subtle yet compound over time during long listening sessions.
+UI changes are applied carefully to improve clarity without adding noise. Small improvements compound during long listening sessions.
 
-The goal remains consistent. A focused narration tool that treats structure as a first class concern.
+*The goal remains consistent. A focused narration tool that treats structure as a first class concern.*
 
 ---
 
 NarrateX is an exploration of what happens when personal libraries become audible.
 
-Books already contain voices.  
-*Software simply helps them speak.*
+Books already contain voices.
+
+*Software helps them speak.*
