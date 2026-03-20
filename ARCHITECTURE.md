@@ -106,6 +106,8 @@ Visual structure on the homepage is intentionally separated by the green “pill
 - Book metadata is centralized to avoid duplication:
   - [`BOOKS_CATALOGUE`](app/domain/books_catalogue.py:29)
 
+The Books page presents a calm visual catalogue (covers only, linked to Amazon) with restrained spacing.
+
 ### Posts index (`/posts`)
 
 - Route handler: [`posts_index()`](app/http/routers/html.py:1493)
