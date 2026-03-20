@@ -33,6 +33,8 @@ Train Times with Weather Integration & Astronomical Events
 **Problem:**  
 Regular travelers (e.g., consultants/trainers) often have messy or inconsistent travel logging.
 
+A common pattern appears in travel tools. They optimise for finding a route, not for staying aligned with a real journey as it unfolds.
+
 **Solution:**  
 Trainer Travel Tracker provides a clean interface and backend for routing travel events, timestamps and offers weather to plan.
 
