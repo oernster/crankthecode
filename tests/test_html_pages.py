@@ -7,6 +7,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from app.main import create_app
+from app.domain.books_catalogue import BookCatalogueEntry
 
 
 def test_homepage_renders():
@@ -21,11 +22,8 @@ def test_homepage_renders():
     assert "Things I build with" not in resp.text
     assert "Featured Systems" not in resp.text
     assert "docs/CV-Oliver.pdf" in resp.text
-    assert 'href="/docs/Decision-Architecture.epub"' in resp.text
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
-    assert 'href="/docs/decision-architecture-patterns.epub"' in resp.text
-    assert "Download eBook" in resp.text
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
 
@@ -153,15 +151,55 @@ def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
     assert css.headers.get("cache-control") == "public, max-age=31536000, immutable"
 
 
-def test_docs_epub_is_served():
-    """The eBook should be directly downloadable like the CV (via `/docs`)."""
+def test_docs_epub_is_not_served():
+    """EPUBs are retained in-repo but should not be publicly downloadable via `/docs`."""
 
     app = create_app()
     client = TestClient(app)
 
     resp = client.get("/docs/Decision-Architecture.epub")
+    assert resp.status_code == 404
+
+
+def test_books_page_renders_and_links_to_amazon_uk():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/books")
     assert resp.status_code == 200
-    assert len(resp.content) > 0
+
+    assert "Books" in resp.text
+
+    # Covers (served from /static). Support both unfingerprinted and
+    # fingerprinted asset paths.
+    assert re.search(
+        r"/static/images/_cover_da(?:\.[0-9a-f]{8,})?\.png",
+        resp.text,
+    ), resp.text
+    assert re.search(
+        r"/static/images/_cover_da_patterns(?:\.[0-9a-f]{8,})?\.png",
+        resp.text,
+    ), resp.text
+    assert re.search(
+        r"/static/images/_cover_relativistic_da_architecture(?:\.[0-9a-f]{8,})?\.png",
+        resp.text,
+    ), resp.text
+
+    # Canonical Amazon UK links (no link switching)
+    assert "https://www.amazon.co.uk/dp/B0GT4JNMGK" in resp.text
+    assert "https://www.amazon.co.uk/dp/B0GT4CZ327" in resp.text
+    assert "https://www.amazon.co.uk/dp/B0GT7D4P8G" in resp.text
+
+
+def test_book_catalogue_entry_alt_text_omits_empty_subtitle():
+    entry = BookCatalogueEntry(
+        title="T",
+        subtitle="",
+        cover_asset="images/x.png",
+        amazon_uk_url="https://example.invalid",
+        hover_text="h",
+    )
+    assert entry.alt_text == "T"
 
 
 def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld():

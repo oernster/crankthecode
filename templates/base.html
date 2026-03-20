@@ -422,6 +422,17 @@
       </a>
 
       <a
+        class="sidebar-link{% if request.url.path == '/books' %} is-active{% endif %}"
+        href="/books"
+      >
+        <span class="sidebar-link__icon" aria-hidden="true">📚</span>
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Books</span>
+          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
+        </span>
+      </a>
+
+      <a
         class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_view or '') == 'archive' and (current_q or '')|length == 0 %} is-active{% endif %}"
         href="/posts?view=archive"
       >

@@ -29,6 +29,7 @@ from app.domain.tags import extract_layer_slugs_from_tags
 from app.domain.tags import humanize_layer_slug
 from app.domain.tags import primary_layer_slug_from_tags
 from app.domain.tags import normalize_layer_slug
+from app.domain.books_catalogue import BOOKS_CATALOGUE
 
 router = APIRouter()
 
@@ -1769,6 +1770,45 @@ async def posts_index(
     if hostname in {"127.0.0.1", "localhost"}:
         resp.headers["Clear-Site-Data"] = '"cache"'
     return resp
+
+
+@router.get("/books", response_class=HTMLResponse)
+async def books_page(
+    request: Request,
+    blog: BlogService = Depends(get_blog_service),
+    templates: Jinja2Templates = Depends(get_templates),
+):
+    """Quiet catalogue page for authored books."""
+
+    ctx = _base_context(request)
+    ctx["sidebar_categories"] = _sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
+
+    site_url = get_site_url(request)
+    canonical = absolute_url(site_url, "/books")
+
+    ctx.update(
+        {
+            "is_homepage": False,
+            "canonical_url": canonical,
+            "page_title": "Books | Crank The Code",
+            "og_title": "Books | Crank The Code",
+            "og_description": (
+                "Authored books on decision architecture and structural design in technical organisations."
+            ),
+            "meta_description": (
+                "Authored books on decision architecture and structural design in technical organisations."
+            ),
+            "breadcrumb_items": [
+                {"label": "Home", "href": "/"},
+                {"label": "Books", "href": "/books"},
+            ],
+            "books": BOOKS_CATALOGUE,
+        }
+    )
+
+    return templates.TemplateResponse(request, "books.html", ctx)
 
 
 @router.get("/about", response_class=HTMLResponse)

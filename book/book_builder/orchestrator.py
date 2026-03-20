@@ -18,7 +18,7 @@ class BuildOrchestrator:
     required_category: str | None = None
 
     def build(self) -> None:
-        # Ensure the public output directory exists (served from `/docs`).
+        # Ensure the output directory exists.
         self.paths.output_file.parent.mkdir(parents=True, exist_ok=True)
 
         posts_repo = FilesystemBookPostsRepository(

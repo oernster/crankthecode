@@ -86,7 +86,7 @@ class PatternsBookPaths:
             book_dir=base.book_dir,
             about_file=base.about_file,
             prologue_file=base.book_dir / "prologue_patterns.md",
-            output_file=repo_root / "docs" / "decision-architecture-patterns.epub",
+            output_file=base.book_dir / "private_epubs" / "decision-architecture-patterns.epub",
             temp_combined=base.book_dir / "_combined_da_patterns_book.md",
             css_file=base.css_file,
             metadata_file=base.book_dir / "_metadata_patterns.yaml",

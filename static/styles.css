@@ -3193,6 +3193,81 @@ html.theme-light .section-title {
   gap: 10.4px;
 }
 
+/* Books page: quiet cover catalogue (no marketing). */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+@media (max-width: 860px) {
+  .books-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .books-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.book-tile {
+  background: var(--panel-bg-subtle);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  padding: 14.4px;
+}
+
+.book-cover-link {
+  display: block;
+  text-decoration: none;
+}
+
+.book-cover {
+  display: block;
+  width: 100%;
+  /* Enforce a consistent visual height for cover images even if source assets
+     have slightly different aspect ratios (e.g. DA Patterns cover). */
+  aspect-ratio: 2 / 3;
+  height: auto;
+  /* Prefer filling the cover frame so hover/focus rings read as a perimeter
+     highlight (no inset “letterboxing” effect). */
+  object-fit: cover;
+  /* Bias slightly toward the bottom so cover title areas are preserved if
+     any vertical cropping occurs (mainly affects the Patterns cover). */
+  object-position: center 62%;
+  background: color-mix(in srgb, var(--panel-bg) 70%, transparent);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.book-tile:hover {
+  background: linear-gradient(
+    90deg,
+    var(--hover-accent-bg),
+    color-mix(in srgb, var(--panel-bg) 75%, transparent)
+  );
+  border-color: var(--hover-accent-border);
+  box-shadow: var(--hover-accent-shadow);
+}
+
+/* Books: focus/hover should highlight the *entire* cover perimeter.
+   We avoid relying on `outline` because it can render inconsistently around
+   images in some browsers / zoom levels. */
+.book-cover-link:focus-visible {
+  outline: none;
+}
+
+.book-cover-link:hover .book-cover,
+.book-cover-link:focus-visible .book-cover {
+  border-color: rgba(255, 246, 200, 0.9);
+  box-shadow: 0 0 0 3px rgba(255, 246, 200, 0.55);
+}
+
 /* Posts index: treat each post entry like a discrete row/card for easier scanning */
 .posts-index .post-item {
   padding: 14.4px 14.4px 17.6px;
