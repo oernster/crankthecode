@@ -1,6 +1,6 @@
 # Architecture
 
-CrankTheCode is a small FastAPI application that serves a personal site (posts + portfolio + Decision Architecture hubs + Decision Architecture Patterns hubs) from Markdown posts, plus a lightweight static asset fingerprinting pipeline and an EPUB book builder.
+CrankTheCode is a small FastAPI application that serves a personal site (posts + portfolio + Decision Architecture hubs + Decision Architecture Patterns hubs + a Books catalogue page) from Markdown posts, plus a lightweight static asset fingerprinting pipeline and an EPUB book builder.
 
 ## What runs in production
 
@@ -98,6 +98,13 @@ Template: [`templates/index.html`](templates/index.html:60)
 Visual structure on the homepage is intentionally separated by the green “pill” divider:
 
 - Separator component: [`post-separator`](static/styles.css:1396)
+
+### Books (`/books`)
+
+- Route handler: [`books_page()`](app/http/routers/html.py:1775)
+- Template: [`templates/books.html`](templates/books.html:1)
+- Book metadata is centralized to avoid duplication:
+  - [`BOOKS_CATALOGUE`](app/domain/books_catalogue.py:29)
 
 ### Posts index (`/posts`)
 
@@ -238,12 +245,9 @@ Static files are served via a caching-aware StaticFiles subclass:
   - Fingerprinted filenames cache for 1y immutable: [`CachingStaticFiles.get_response()`](app/assets/staticfiles.py:23)
   - Non-fingerprinted assets are `no-cache, must-revalidate` as a safe fallback: [`Cache-Control`](app/assets/staticfiles.py:35)
 
-The app mounts `/docs` for public artifacts like the EPUB output: [`fastapi_app.mount("/docs", ...)`](app/main.py:124)
+The app mounts `/docs` for public artifacts like the CV: [`fastapi_app.mount("/docs", ...)`](app/main.py:124)
 
-Note: some templates link to `/ebooks/...` (e.g. Patterns download). This is currently a plain hyperlink (the app does not mount `/ebooks`):
-
-- [`templates/patterns_index.html`](templates/patterns_index.html:1)
-- [`templates/index.html`](templates/index.html:60)
+EPUB files are retained in-repo but are no longer published under `/docs`.
 
 ### Asset fingerprinting pipeline (build step)
 
@@ -274,7 +278,9 @@ The repository also ships a small book-building subsystem that compiles selected
 - Orchestrator use case: [`BuildOrchestrator.build()`](book/book_builder/orchestrator.py:19)
   - Reads source posts from `posts/` (filtered by tags depending on the build script): [`FilesystemBookPostsRepository.list_posts()`](book/book_builder/repository.py:17)
   - Uses shared tag logic from the app domain to keep layer parsing consistent: [`primary_layer_slug_from_tags()`](app/domain/tags.py:73)
-- Output is written under `docs/` so it can be served publicly at `/docs/...` without exposing the whole book source tree: [`output_file`](book/book_builder/paths.py:40)
+- Output is written under a non-public directory so EPUBs are retained but not served by the app:
+  - Decision Architecture: [`output_file`](book/book_builder/paths.py:24) → `book/private_epubs/Decision-Architecture.epub`
+  - Patterns build mirrors this to `book/private_epubs/decision-architecture-patterns.epub`: [`PatternsBookPaths.from_repo_root()`](book/build_da_patterns_book.py:80)
 - EPUB build is executed by calling `pandoc` via subprocess:
   - Command construction + up-to-date checks: [`PandocEpubBuilder.build()`](book/book_builder/pandoc_epub.py:29)
 
