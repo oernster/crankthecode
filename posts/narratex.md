@@ -190,6 +190,9 @@ Bookmarks include both manual pins and automatically generated section markers.
 
 *Playback resumes from the last listening position.*
 
+- Bookmarking reliability is a known failure mode in narration tools. 
+- NarrateX maintains consistent bookmark and resume state without drift between playback and navigation.
+
 ### Chapter Navigation
 
 NarrateX detects chapter headings from the book text and builds a navigation index.
