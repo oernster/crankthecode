@@ -184,11 +184,19 @@ def test_books_page_renders_and_links_to_amazon_uk():
         r"/static/images/_cover_relativistic_da_architecture(?:\.[0-9a-f]{8,})?\.png",
         resp.text,
     ), resp.text
+    assert re.search(
+        r"/static/images/_cover-da-move-space(?:\.[0-9a-f]{8,})?\.png",
+        resp.text,
+    ), resp.text
 
     # Canonical Amazon UK links (no link switching)
     assert "https://www.amazon.co.uk/dp/B0GT4JNMGK" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GT4CZ327" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GT7D4P8G" in resp.text
+    assert "https://www.amazon.co.uk/dp/B0GTDX7186" in resp.text
+
+    # Hover/subtitle text should be present (consistent behaviour across cards).
+    assert "A Positional Model of Organisational Change" in resp.text
 
 
 def test_book_catalogue_entry_alt_text_omits_empty_subtitle():

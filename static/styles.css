@@ -3196,12 +3196,14 @@ html.theme-light .section-title {
 /* Books page: quiet cover catalogue (no marketing). */
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Desktop: one calm, coherent row of 4 (series progression, not inventory). */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 22px;
   margin-top: 20px;
 }
 
-@media (max-width: 860px) {
+/* Tablet: allow 2 columns so covers remain readable (avoid cramped 4-across). */
+@media (max-width: 1023px) {
   .books-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3266,6 +3268,14 @@ html.theme-light .section-title {
 .book-cover-link:focus-visible .book-cover {
   border-color: rgba(255, 246, 200, 0.9);
   box-shadow: 0 0 0 3px rgba(255, 246, 200, 0.55);
+}
+
+/* Books: subtle series label (quiet, curated tone). */
+.books-series-label {
+  font-size: 14.4px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.85;
 }
 
 /* Posts index: treat each post entry like a discrete row/card for easier scanning */

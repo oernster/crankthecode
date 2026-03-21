@@ -46,5 +46,12 @@ BOOKS_CATALOGUE: tuple[BookCatalogueEntry, ...] = (
         amazon_uk_url="https://www.amazon.co.uk/dp/B0GT7D4P8G",
         hover_text="The geometry of decision systems",
     ),
+    BookCatalogueEntry(
+        title="Decision Architecture: The Move Space",
+        subtitle="A Positional Model of Organisational Change",
+        cover_asset="images/_cover-da-move-space.png",
+        amazon_uk_url="https://www.amazon.co.uk/dp/B0GTDX7186",
+        hover_text="A Positional Model of Organisational Change",
+    ),
 )
 
