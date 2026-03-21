@@ -7,7 +7,7 @@ one_liner: A guide to navigating the ideas and systems explored on Crank The Cod
 
 # Start Here
 
-This site explores a single idea:
+This site is built around a single idea:
 
 Structure determines outcomes.
 
@@ -21,7 +21,7 @@ Not intent.
 
 Read this first:
 
-👉 Thesis Distilled
+👉 [Thesis Distilled](/posts/OODAThesisDistilled)
 
 This explains the core model in its simplest form.
 
@@ -47,21 +47,30 @@ Most change fails because it operates inside a broken move space.
 
 It attempts to improve outcomes without changing the structure that produces them.
 
+This is not a failure of people.
+
+It is a property of the system.
+
 ---
 
-## How to use this site
+## How to navigate
 
 If you want the full model:
 
-👉 Read the books
+👉 [Read the books](https://www.crankthecode.com/books)
 
 If you want reusable components:
 
-👉 Explore patterns
+👉 [Explore patterns](https://www.crankthecode.com/patterns)
 
 If you want applied thinking:
 
-👉 Read posts
+👉 [Read posts](https://www.crankthecode.com/decision-architecture)
+
+To see this applied in real systems:
+
+👉 [Consult my portfolio](https://www.crankthecode.com/portfolio)
+
 
 ---
 
