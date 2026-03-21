@@ -5,110 +5,66 @@ emoji: 🗺️
 one_liner: A guide to navigating the ideas and systems explored on Crank The Code.
 ---
 
-Crank The Code explores structural thinking across organisations, software and governance.
+# Start Here
 
-After nearly three decades working across multiple organisations and industries a pattern became difficult to ignore.
+This site explores a single idea:
 
-Most technical failures are not caused by technology.
+Structure determines outcomes.
 
-They are caused by structure.
-
-Responsibilities blur.  
-Decision authority drifts.  
-Architectures emerge accidentally rather than deliberately.
-
-Over time the same failure modes appear again and again.
-
-If you want the distilled version of that experience begin with:
-
-[What extensive experience across organisations teaches you](/posts/lead31)
-
-*Structure determines whether systems compound or slowly fragment.*
+Not effort.
+Not talent.
+Not intent.
 
 ---
 
-If you are new to the site the sections below map the territory.
+## If you’re new
 
-The essays and projects here are not separate threads. They are different surfaces of the same question:
+Read this first:
 
-*How do we design systems that compound rather than fragment?*
+👉 Thesis Distilled
 
----
-
-## Structural Design & Technical Leadership
-
-This layer examines authority, governance and decision boundaries.
-
-It focuses on why organisations destabilise as they grow and how clarity prevents that drift.
-
-If you are interested in scaling teams, reducing fragility or stabilising roadmaps, begin with:
-
-[Structural Design for Technical Organisations](/posts/model1)  
-[What Actually Causes an Unstable Product Roadmap](/posts/lead27)  
-[Why Acceleration Outlasts Speed](/posts/lead25)  
-[The Cost of Directional Instability](/posts/lead26)
-
-*These pieces describe the structural variables that determine whether improvement compounds.*
+This explains the core model in its simplest form.
 
 ---
 
-## Decision Systems
+## The model
 
-This section looks at how decisions persist or decay under pressure.
+Organisations behave as systems.
 
-Growth increases option space.  
-Ambiguity reopens trade-offs.  
-Coordination cost replaces code complexity as the primary bottleneck.
+Each system has:
 
-You can explore this further in the Decision Systems essays: [/posts?cat=Decision-Systems](/posts?cat=Decision-Systems)
+* a structure
+* observable signals
+* a constrained set of possible actions
 
-*Decision systems determine whether learning survives contact with scale.*
-
----
-
-## Architecture & Applied Systems
-
-Structure is not theoretical.
-
-It manifests in code.
-
-[Stellody](/posts/stellody), [Trainer](/posts/trainer) and the collection of smaller applied tools under [/posts?cat=Tools](/posts?cat=Tools) are not portfolio ornaments. 
-They are applied design experiments.
-
-They explore boundary clarity, modularity, authority surfaces and compounding improvement in real systems.
-
-*The principles are the same. The medium changes.*
+That set is the move space.
 
 ---
 
-## Governance & Extended Systems
+## What this means
 
-Structural thinking does not stop at engineering organisations.
+Most change fails because it operates inside a broken move space.
 
-It applies to institutional design, public governance and collective decision-making.
-
-You can explore that work under the Governance category: [/posts?cat=Governance](/posts?cat=Governance)
-
-Authority alignment.  
-Boundary clarity.  
-Stability under growth.  
-Compounding improvement.
-
-*The scale changes. The mechanics do not.*
+It attempts to improve outcomes without changing the structure that produces them.
 
 ---
 
-## How to Read This Site
+## How to use this site
 
-There is no required path.
+If you want the full model:
 
-You can begin with the structural model and branch outward.  
-You can explore leadership essays chronologically: [/posts?cat=Leadership](/posts?cat=Leadership)
+👉 Read the books
 
-You can start with the software and work backwards to the principles.
+If you want reusable components:
 
-Or, if you prefer, you can simply navigate the convenient menu categories.
+👉 Explore patterns
 
-The through-line is structural integrity.
+If you want applied thinking:
 
-*Everything else is surface detail.*
+👉 Read posts
+
+---
+
+This is not advice.
+
+It is a system for reasoning.
