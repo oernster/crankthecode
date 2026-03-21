@@ -326,45 +326,34 @@ def test_start_here_includes_orientation_links():
 
     resp = client.get("/posts/start-here")
     assert resp.status_code == 200
+    # Orientation / Explore navigation should no longer be injected into Start Here.
+    assert 'aria-label="Orientation"' not in resp.text
+    assert 'aria-label="Explore themes"' not in resp.text
+
+
+def test_explore_page_renders_orientation_and_theme_links():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/explore")
+
+    assert resp.status_code == 200
+    assert 'aria-label="Orientation"' in resp.text
     assert 'href="/topics"' in resp.text
     assert 'href="/about"' in resp.text
-
-    # The injected Orientation panel should render after the markdown body.
-    # (If it appears before the content, Start Here feels like it starts with navigation.)
-    assert "Crank The Code explores structural thinking" in resp.text
-    assert resp.text.index("Crank The Code explores structural thinking") < resp.text.index(
-        'aria-label="Orientation"'
-    )
-
-    # Start Here should include a compact theme button row linking to topic hubs.
     assert 'aria-label="Explore themes"' in resp.text
     assert 'href="/topics/decision-systems"' in resp.text
 
 
-def test_help_page_renders_and_is_noindex_and_masks_email():
+def test_help_redirects_to_explore():
     app = create_app()
-    client = TestClient(app)
+    # Use localhost to bypass canonical-host middleware so we test the route handler.
+    client = TestClient(app, base_url="http://localhost")
 
-    resp = client.get("/help")
+    resp = client.get("/help", follow_redirects=False)
 
-    assert resp.status_code == 200
-    assert "You Clicked Help" in resp.text
-    assert '<meta name="robots" content="noindex"' in resp.text
-    assert "[enable JavaScript]" in resp.text
-    # Ensure we don't include a literal mailto in the static HTML.
-    assert "mailto:" not in resp.text
-
-    # Contact pieces must not appear in clear text inside the bootstrap script.
-    m = re.search(
-        r"window\.CTC_CONTACT\s*=\s*\(function\s*\(\)\s*\{[\s\S]*?\}\)\s*\(\)\s*;",
-        resp.text,
-    )
-    assert m is not None, "CTC_CONTACT bootstrap script not found"
-    contact_js = m.group(0)
-    assert 'const user = "oernster"' not in contact_js
-    assert 'const domain = "codecrafter"' not in contact_js
-    assert 'const tld = "uk"' not in contact_js
-    assert "atob(" in contact_js
+    assert resp.status_code == 301
+    assert resp.headers.get("location") == "/explore"
 
 
 def test_unknown_post_returns_404_html():

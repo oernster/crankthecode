@@ -2203,27 +2203,57 @@ async def help_page(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
+    # Legacy route retired: permanently redirect to the Explore surface.
+    return RedirectResponse(url="/explore", status_code=301)
+
+
+@router.get("/explore", response_class=HTMLResponse)
+async def explore_page(
+    request: Request,
+    blog: BlogService = Depends(get_blog_service),
+    templates: Jinja2Templates = Depends(get_templates),
+):
     ctx = _base_context(request)
     ctx["sidebar_categories"] = _sidebar_categories(
         blog, exclude_blog=bool(ctx.get("exclude_blog"))
     )
+
+    hubs = _leadership_topic_hubs(blog)
+    recommendations: list[dict[str, object]] = []
+    for h in hubs:
+        layer = str(h.get("layer") or "").strip()
+        layer_posts = _topic_posts_for_layer(blog, layer_slug=layer)[:3]
+        recommendations.append(
+            {
+                "layer": layer,
+                "label": h.get("label"),
+                "href": h.get("href"),
+                "posts": layer_posts,
+            }
+        )
+
     ctx.update(
         {
             "is_homepage": False,
-            "robots_meta": "noindex",
-            "page_title": "Help | Crank The Code",
-            "og_title": "Help | Crank The Code",
-            "og_description": "A deliberately unhelpful help page.",
-            "meta_description": "Help page for Crank The Code.",
+            "page_title": "Explore | Crank The Code",
+            "og_title": "Explore | Crank The Code",
+            "og_description": "Orientation and themes to explore on Crank The Code.",
+            "meta_description": "Explore orientation and themes on Crank The Code.",
             "back_link_href": "/",
             "back_link_label": "← Back to home",
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
-                {"label": "Help", "href": "/help"},
+                {"label": "Explore", "href": "/explore"},
             ],
+            "start_here": {
+                "author_href": "/about",
+                "topics_href": "/topics",
+                "topic_hubs": hubs,
+                "recommended_by_topic": recommendations,
+            },
         }
     )
-    return templates.TemplateResponse(request, "help.html", ctx)
+    return templates.TemplateResponse(request, "explore.html", ctx)
 
 
 @router.get("/battlestation", response_class=HTMLResponse)
@@ -2425,29 +2455,6 @@ async def read_post(
             ],
         }
     )
-
-    # Orientation layer: enrich Start Here with structural navigation without
-    # rewriting the underlying markdown.
-    if (detail.slug or "").strip().lower() == "start-here":
-        hubs = _leadership_topic_hubs(blog)
-        recommendations: list[dict[str, object]] = []
-        for h in hubs:
-            layer = str(h.get("layer") or "").strip()
-            layer_posts = _topic_posts_for_layer(blog, layer_slug=layer)[:3]
-            recommendations.append(
-                {
-                    "layer": layer,
-                    "label": h.get("label"),
-                    "href": h.get("href"),
-                    "posts": layer_posts,
-                }
-            )
-        ctx["start_here"] = {
-            "author_href": "/about",
-            "topics_href": "/topics",
-            "topic_hubs": hubs,
-            "recommended_by_topic": recommendations,
-        }
 
     resp = templates.TemplateResponse(request, "post.html", ctx)
     # Dev-only safety: clear browser HTTP cache to avoid sticky cached redirects

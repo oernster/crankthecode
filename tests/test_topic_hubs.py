@@ -94,8 +94,10 @@ def test_start_here_post_includes_orientation_links_to_topics_and_about():
 
     resp = client.get("/posts/start-here")
     assert resp.status_code == 200
-    assert 'href="/topics"' in resp.text
-    assert 'href="/about"' in resp.text
+    # Orientation / Explore navigation moved to /explore; Start Here should remain clean.
+    assert 'href="/topics"' not in resp.text
+    assert 'aria-label="Orientation"' not in resp.text
+    assert 'aria-label="Explore themes"' not in resp.text
 
 
 def test_sitemap_includes_topics_and_topic_hub_pages():

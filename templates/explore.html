@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Explore | Crank The Code{% endblock %}
+
+{% block content %}
+  <section class="section-panel" aria-label="Explore">
+    <div class="section-heading-row" aria-label="Explore heading">
+      <h1 class="section-title section-title--accent">Explore</h1>
+    </div>
+
+    {# Orientation / Explore these themes: moved from Start Here injection. #}
+    <section class="section-panel" aria-label="Orientation">
+      <h2 class="section-title section-title--accent">Orientation</h2>
+      <p class="muted" style="margin: 0 0 10px 0;">
+        Author: <a href="{{ start_here.author_href }}">Oliver Ernster</a> ·
+        Topics: <a href="{{ start_here.topics_href }}">topic hubs</a>
+      </p>
+
+      {% if start_here.recommended_by_topic and (start_here.recommended_by_topic|length) > 0 %}
+        <div class="featured-buttons" aria-label="Recommended reading">
+          {% for g in start_here.recommended_by_topic %}
+            <div class="featured-group" aria-label="Recommended group">
+              <h3 class="featured-group-title">
+                <a href="{{ g.href }}">{{ g.label }}</a>
+              </h3>
+              <div class="featured-group-items">
+                {% for p in g.posts %}
+                  <a class="btn-link" href="/posts/{{ p.slug }}">{{ p.title }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    <hr class="post-separator post-separator--subtle" aria-hidden="true" />
+
+    <section class="section-panel section-panel--start-here-themes" aria-label="Explore themes">
+      <h2 class="section-title section-title--accent">Explore these themes</h2>
+
+      <div class="featured-buttons featured-buttons--compact" aria-label="Topic hub links">
+        {% for t in start_here.topic_hubs or [] %}
+          {% if (t.layer or '') != 'general' %}
+            <a class="btn-link btn-link--compact" href="{{ t.href }}">{{ t.label }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+  </section>
+{% endblock %}
+
