@@ -3198,6 +3198,8 @@ html.theme-light .section-title {
   display: grid;
   /* Desktop: one calm, coherent row of 4 (series progression, not inventory). */
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Avoid tall, stretched tiles that create dead space under short subtitles. */
+  align-items: start;
   gap: 22px;
   margin-top: 20px;
 }
@@ -3223,8 +3225,10 @@ html.theme-light .section-title {
 }
 
 .book-cover-link {
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
+  text-align: left;
 }
 
 .book-cover {
@@ -3245,6 +3249,63 @@ html.theme-light .section-title {
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: none;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* Books: title + subtitle under the cover (always visible; calm metadata). */
+.book-meta {
+  margin-top: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+
+  /* Keep cards visually even across a row while still allowing readable
+     multi-line subtitles (prevents the “short” third tile). */
+  min-height: 114px;
+}
+
+.book-title {
+  font-weight: 700;
+  color: var(--text-color);
+  /* Slightly smaller to avoid frequent truncation on long titles. */
+  font-size: 15.2px;
+  line-height: 1.25;
+  text-align: left;
+
+  /* Titles should not grow cards beyond the intended calm, uniform rhythm. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-subtitle {
+  font-weight: 400;
+  opacity: 0.78;
+  color: var(--text-muted);
+  /* Slightly smaller than title (calm, metadata-like). */
+  font-size: 14.4px;
+  line-height: 1.25;
+  text-align: left;
+
+  /* Max 4 lines, then ellipsis (mobile + scanning-friendly). */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Books page: allow slightly more breathing room below the final note. */
+.section-panel--books {
+  padding-bottom: 24px;
+}
+
+.books-footer-note {
+  margin: 22px 0 2px;
 }
 
 .book-tile:hover {

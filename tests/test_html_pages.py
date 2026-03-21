@@ -198,14 +198,35 @@ def test_books_page_renders_and_links_to_amazon_uk():
     # Hover/subtitle text should be present (consistent behaviour across cards).
     assert "A Positional Model of Organisational Change" in resp.text
 
+    # Subtitles must be visible (not hover-only) and must match hover text.
+    assert re.search(
+        r'class="book-title">\s*Decision Architecture\s*</div>',
+        resp.text,
+    ), resp.text
+    assert re.search(
+        r'class="book-subtitle">\s*How technical organisations fail and recover\s*</div>',
+        resp.text,
+    ), resp.text
+
+    assert re.search(
+        r'class="book-title">\s*Decision Architecture: The Move Space\s*</div>',
+        resp.text,
+    ), resp.text
+    assert re.search(
+        r'class="book-subtitle">\s*A Positional Model of Organisational Change\s*</div>',
+        resp.text,
+    ), resp.text
+
+    # Source-of-truth guard: old title-case subtitle should not appear anymore.
+    assert "How Technical Organisations Fail and Recover" not in resp.text
+
 
 def test_book_catalogue_entry_alt_text_omits_empty_subtitle():
     entry = BookCatalogueEntry(
         title="T",
-        subtitle="",
         cover_asset="images/x.png",
         amazon_uk_url="https://example.invalid",
-        hover_text="h",
+        hover_text="",
     )
     assert entry.alt_text == "T"
 

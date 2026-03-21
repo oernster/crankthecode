@@ -3,7 +3,7 @@
 {% block title %}Books | Crank The Code{% endblock %}
 
 {% block content %}
-  <section class="section-panel" aria-label="Books">
+  <section class="section-panel section-panel--books" aria-label="Books">
     <h1 class="section-title section-title--accent">Books</h1>
 
     <p class="muted" style="margin: 0 0 20px 0;">
@@ -23,7 +23,7 @@
             target="_blank"
             rel="noopener noreferrer"
             title="{{ b.hover_text }}"
-            aria-label="{{ b.title }} (Amazon UK)"
+            aria-label="{{ b.alt_text }} (Amazon UK)"
           >
             <img
               class="book-cover"
@@ -32,13 +32,19 @@
               loading="lazy"
               decoding="async"
             />
+
+            <div class="book-meta" aria-label="Book details">
+              <div class="book-title">{{ b.title }}</div>
+              <div class="book-subtitle">{{ b.subtitle }}</div>
+            </div>
+
             <span class="visually-hidden">{{ b.hover_text }}</span>
           </a>
         </article>
       {% endfor %}
     </div>
 
-    <p class="muted" style="margin: 20px 0 0 0;">
+    <p class="muted books-footer-note">
       This work underpins the thinking explored across this site.
     </p>
   </section>
