@@ -1114,7 +1114,7 @@ a {
   - Avoid layout shift: no padding/line-height changes; use inset box-shadow.
   - Scope to content links to avoid overriding nav/button-like links.
 */
-.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):hover {
+.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):hover {
   color: var(--cta-fg);
   text-decoration: none;
   text-shadow: none;
@@ -1123,7 +1123,7 @@ a {
 }
 
 /* Light mode: use brand mauve for link hover highlight instead of banana yellow. */
-html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):hover {
+html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):hover {
   color: #111827;
   box-shadow: inset 0 -1.1em 0 var(--brand-mauve);
 }
