@@ -23,6 +23,11 @@
   }
 
   ready(() => {
+    // Home landing page: never show read time in the hero area.
+    if (document.body && document.body.classList.contains("is-homepage")) {
+      return;
+    }
+
     const target = document.querySelector(".read-time");
 
     const content =

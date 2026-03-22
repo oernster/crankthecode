@@ -198,6 +198,11 @@ body.is-homepage .header-cta {
   margin: 0 0 12px;
 }
 
+/* Homepage: hide the read-time bar entirely so the hero panel top aligns with the sidebar top. */
+body.is-homepage .read-time-bar {
+  display: none;
+}
+
 .read-time {
   display: inline-flex;
   align-items: center;
@@ -1595,6 +1600,11 @@ a[href=\"/\"]:hover {
 /* Landing page intro (homepage) */
 .landing-intro {
   margin: 4px 0 28px;
+}
+
+/* Homepage: remove the extra top offset so the first section aligns with the sidebar panel top. */
+body.is-homepage .landing-intro {
+  margin-top: 0;
 }
 
 .section-panel--intro {
