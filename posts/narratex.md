@@ -18,8 +18,7 @@ thumb_image: /static/images/narratex-icon.png
 title: NarrateX
 ---
 
-[NarrateX](https://github.com/oernster/NarrateX) is a local desktop narration engine for turning books and documents into spoken audio.
-
+[NarrateX](https://narratex.co.uk/) is a local desktop narration engine for turning books and documents into spoken audio.
 ---
 
 NarrateX is built around a simple idea. Narration should be reliable, predictable and easy to follow over long sessions.
