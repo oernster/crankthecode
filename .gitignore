@@ -219,5 +219,6 @@ ALL_SOURCES.txt
 generate_scripts.py
 progress.md
 features.json
-
+Decision-Architecture.tmp_da.pdf
+Decision-Architecture.tmp_da_print.pdf
 
