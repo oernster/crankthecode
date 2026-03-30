@@ -65,7 +65,7 @@ The cause is structural.
 
 ## The experiment
 
-NarrateX was built partly as a practical exercise.
+NarrateX (narratex.co.uk) was built partly as a practical exercise.
 
 The goal was not simply to create an ebook reader with speech synthesis. The goal was to construct the system in a way that reflects the same structural principles discussed in these essays.
 
