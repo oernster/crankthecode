@@ -4,7 +4,7 @@ one_liner: Organisations behave according to how decisions are structured, const
 date: 2026-04-03 00:00
 emoji: 🧩
 tags:
-- cat:decision-architecture
+- cat:Leadership
 - layer:architecture
 - decision-architecture
 - organisational-behaviour

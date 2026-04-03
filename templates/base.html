@@ -310,50 +310,6 @@
       <h2 class="sidebar-title">Navigation</h2>
 
       <a
-        class="sidebar-link sidebar-link--section{% if request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %} is-active{% endif %}"
-        href="/patterns"
-      >
-        <span class="sidebar-link__text">
-          <span class="sidebar-link__text-main">Decision Architecture Patterns</span>
-        </span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-primitives' %} is-active{% endif %}"
-        href="/patterns/decision-primitives"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Decision Objects</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-interfaces' %} is-active{% endif %}"
-        href="/patterns/decision-interfaces"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Decision Interfaces</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/authority-models' %} is-active{% endif %}"
-        href="/patterns/authority-models"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Authority Patterns</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/system-dynamics' %} is-active{% endif %}"
-        href="/patterns/system-dynamics"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Behaviour Patterns</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/pattern-catalogue' %} is-active{% endif %}"
-        href="/patterns/pattern-catalogue"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">System Patterns</span>
-      </a>
-
-      <a
         class="sidebar-link sidebar-link--section{% if request.url.path == '/decision-architecture' or request.url.path == '/topics' or request.url.path.startswith('/topics/') %} is-active{% endif %}"
         href="/decision-architecture"
       >
@@ -397,15 +353,59 @@
         <span class="sidebar-layer-text">Structural Design</span>
       </a>
 
+      <a
+        class="sidebar-link sidebar-link--section{% if request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %} is-active{% endif %}"
+        href="/patterns"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Decision Architecture Patterns</span>
+        </span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-primitives' %} is-active{% endif %}"
+        href="/patterns/decision-primitives"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Decision Objects</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-interfaces' %} is-active{% endif %}"
+        href="/patterns/decision-interfaces"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Decision Interfaces</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/authority-models' %} is-active{% endif %}"
+        href="/patterns/authority-models"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Authority Patterns</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/system-dynamics' %} is-active{% endif %}"
+        href="/patterns/system-dynamics"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">Behaviour Patterns</span>
+      </a>
+      <a
+        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/pattern-catalogue' %} is-active{% endif %}"
+        href="/patterns/pattern-catalogue"
+      >
+        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+        <span class="sidebar-layer-text">System Patterns</span>
+      </a>
+
       <hr class="post-separator post-separator--subtle" aria-hidden="true" />
 
       <a
-        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
-        href="/posts?view=writing&cat=Governance"
+        class="sidebar-link{% if request.url.path == '/books' %} is-active{% endif %}"
+        href="/books"
       >
-        <span class="sidebar-link__icon" aria-hidden="true">🏛️</span>
+        <span class="sidebar-link__icon" aria-hidden="true">📚</span>
         <span class="sidebar-link__text">
-          <span class="sidebar-link__text-main">Governance</span>
+          <span class="sidebar-link__text-main">Books</span>
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
         </span>
       </a>
@@ -422,12 +422,12 @@
       </a>
 
       <a
-        class="sidebar-link{% if request.url.path == '/books' %} is-active{% endif %}"
-        href="/books"
+        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
+        href="/posts?view=writing&cat=Governance"
       >
-        <span class="sidebar-link__icon" aria-hidden="true">📚</span>
+        <span class="sidebar-link__icon" aria-hidden="true">🏛️</span>
         <span class="sidebar-link__text">
-          <span class="sidebar-link__text-main">Books</span>
+          <span class="sidebar-link__text-main">Governance</span>
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
         </span>
       </a>
