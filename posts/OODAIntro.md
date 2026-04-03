@@ -1,5 +1,5 @@
 ---
-title: Introduction to Decision Architecture
+title: What is Decision Architecture?
 one_liner: Organisations behave according to how decisions are structured, constrained and allowed to interact within a system.
 date: 2026-04-03 00:00
 emoji: 🧩
@@ -12,7 +12,7 @@ tags:
 - leadership
 ---
 
-### What is Decision Architecture?
+### Introduction
 
 Decision architecture is the structural design of how decisions are made inside a system.
 
@@ -200,6 +200,11 @@ It is a way of understanding and designing the structure that determines how dec
 
 Once seen, it becomes difficult to ignore.
 
+---
+
+This model is explored in more detail in the Decision Architecture book series.
+
+[View the books](https://www.crankthecode.com/books)
 
 ----------------------------------------------------------------------------------------------
 

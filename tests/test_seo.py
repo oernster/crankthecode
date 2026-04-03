@@ -70,7 +70,7 @@ def test_legacy_post_alias_serves_content_but_canonical_points_to_new_slug():
             '<link rel="canonical" href="https://example.com/posts/OODAIntro"' in html
         )
         assert '<meta name="robots" content="noindex,follow">' in html
-        assert "Introduction to Decision Architecture" in html
+        assert "What is Decision Architecture?" in html
     finally:
         os.environ.pop("SITE_URL", None)
 
