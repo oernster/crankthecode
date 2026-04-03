@@ -92,6 +92,18 @@ def _sidebar_label_with_emoji(label: str) -> str:
 
 _LEGACY_POST_REDIRECTS: dict[str, str] = {}
 
+# Legacy post aliases: serve the *new* post content at an old public slug.
+#
+# Use-case:
+# - We renamed/merged posts but want existing inbound links to keep working.
+# - We do NOT want an HTTP redirect (user requested alias), but we DO want SEO
+#   consolidation (canonical URL points at the new slug).
+#
+# Keys are compared case-insensitively.
+_LEGACY_POST_ALIASES: dict[str, str] = {
+    "oodathesisdistilled": "OODAIntro",
+}
+
 
 def _post_cover_index(blog: BlogService) -> dict[str, str]:
     """Map post slug -> cover_image_url (only when present)."""
@@ -2302,7 +2314,13 @@ async def read_post(
     slug_raw = (slug or "").strip()
     # Keep `slug_raw` casing/formatting as provided; repository handles lookup.
 
-    detail = blog.get_post(slug_raw)
+    # Legacy slug aliasing: serve content from the canonical target slug while
+    # preserving the requested URL.
+    alias_target = _LEGACY_POST_ALIASES.get(slug_raw.strip().lower())
+    canonical_slug = alias_target or slug_raw
+    lookup_slug = alias_target or slug_raw
+
+    detail = blog.get_post(lookup_slug)
 
     if detail is None:
         return HTMLResponse(content="<h1>404 - Post Not Found</h1>", status_code=404)
@@ -2332,7 +2350,16 @@ async def read_post(
 
     # Post-specific SEO.
     site_url = ctx.get("site_url") or DEFAULT_SITE_URL
-    canonical = canonical_url_for_request(request, site_url=site_url)
+
+    # Canonical URL:
+    # - Normal posts: canonical is the request URL (preserving query string).
+    # - Alias posts: canonical must point at the *target* slug to consolidate SEO.
+    if alias_target:
+        canonical = absolute_url(site_url, f"/posts/{canonical_slug}")
+        # Belt + braces: avoid indexing the alias URL even if a crawler ignores canonical.
+        ctx["robots_meta"] = "noindex,follow"
+    else:
+        canonical = canonical_url_for_request(request, site_url=site_url)
     # SEO meta description: keep it stable and concise; tests expect blurb first.
     description = build_meta_description(
         getattr(detail, "blurb", None),

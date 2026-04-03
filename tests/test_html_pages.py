@@ -29,8 +29,8 @@ def test_homepage_renders():
 
     # Featured essay (single CTA) should appear between hero and gateways.
     assert 'aria-label="Featured essay"' in resp.text
-    assert 'href="/posts/OODAThesisDistilled"' in resp.text
-    assert "Decision Architecture - Thesis Distilled" in resp.text
+    assert 'href="/posts/OODAIntro"' in resp.text
+    assert "Introduction to Decision Architecture" in resp.text
     assert "🧩" in resp.text
 
     # Primary homepage CTAs must not appear in the hero (manifesto-first reading).

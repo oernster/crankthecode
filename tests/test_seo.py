@@ -49,6 +49,32 @@ def test_post_page_includes_meta_description_canonical_and_jsonld():
         os.environ.pop("SITE_URL", None)
 
 
+def test_legacy_post_alias_serves_content_but_canonical_points_to_new_slug():
+    """Legacy post slugs may be served as aliases.
+
+    Requirement:
+    - Requesting the legacy slug returns 200 (no redirect).
+    - Canonical URL points at the new slug to consolidate SEO.
+    """
+
+    os.environ["SITE_URL"] = "https://example.com"
+    try:
+        app = create_app()
+        client = TestClient(app)
+
+        resp = client.get("/posts/OODAThesisDistilled")
+        assert resp.status_code == 200
+
+        html = resp.text
+        assert (
+            '<link rel="canonical" href="https://example.com/posts/OODAIntro"' in html
+        )
+        assert '<meta name="robots" content="noindex,follow">' in html
+        assert "Introduction to Decision Architecture" in html
+    finally:
+        os.environ.pop("SITE_URL", None)
+
+
 def test_category_page_sets_distinct_title_and_meta_description_for_leadership():
     os.environ["SITE_URL"] = "https://example.com"
     try:

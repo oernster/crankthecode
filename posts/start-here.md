@@ -21,7 +21,7 @@ Not intent.
 
 Read this first:
 
-👉 [Thesis Distilled](/posts/OODAThesisDistilled)
+👉 [Introduction to Decision Architecture](/posts/OODAIntro)
 
 This explains the core model in its simplest form.
 
