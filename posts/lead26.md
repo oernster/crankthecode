@@ -11,7 +11,7 @@ tags:
 - decision-making
 title: The cost of directional instability
 ---
-# Direction changes destroy compounding
+# Direction Changes Destroy Compounding
 
 Organisations often measure progress by output.
 

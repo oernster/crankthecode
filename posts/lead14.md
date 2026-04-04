@@ -13,7 +13,7 @@ tags:
 title: When roles reach their natural end
 social_image: /static/images/latencylab.png
 ---
-# Roles designed to vanish
+# Roles Designed to Vanish
 
 Not all engineering roles are meant to endure.
 

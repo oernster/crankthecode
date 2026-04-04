@@ -11,7 +11,7 @@ tags:
 status: working-draft
 ---
 
-# The Crank The Code Structural Operating Model
+# The Crank the Code Structural Operating Model
 
 This is the structural model I use to design and operate technical organisations.
 
@@ -24,7 +24,7 @@ The goal is simple:
 
 ---
 
-## 1. Authority Before Accountability
+## 1. Authority before accountability
 
 No one should be accountable for outcomes they cannot steer.
 
@@ -39,7 +39,7 @@ It is usually decision ownership failure.
 
 ---
 
-## 2. Escalation Over Heroics
+## 2. Escalation over heroics
 
 Heroics hide structural weakness.
 
@@ -53,7 +53,7 @@ Ownership during failure should not be ambiguous.
 
 ---
 
-## 3. Stability at the Core, Experimentation at the Edge
+## 3. Stability at the core, experimentation at the edge
 
 Revenue-critical systems must be predictable.
 
@@ -73,7 +73,7 @@ Edge systems:
 
 ---
 
-## 4. Decision Latency Is the First Scaling Bottleneck
+## 4. Decision latency is the first scaling bottleneck
 
 Scaling does not first fail at code complexity.
 
@@ -90,7 +90,7 @@ Scaling requires governance evolution.
 
 ---
 
-## 5. Metrics as Diagnostic Instrumentation
+## 5. Metrics as diagnostic instrumentation
 
 Profit is validation.  
 Operational metrics are instrumentation.
@@ -109,7 +109,7 @@ Healthy measurement:
 
 ---
 
-## 6. Architecture Follows Decision Boundaries
+## 6. Architecture follows decision boundaries
 
 System boundaries should mirror authority boundaries.
 
@@ -123,7 +123,7 @@ If architecture feels tangled, examine decision structure first.
 
 ---
 
-## 7. The Role of the Technical Leader
+## 7. The role of the technical leader
 
 The CTO is not the smartest engineer in the room.
 

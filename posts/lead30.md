@@ -13,7 +13,7 @@ tags:
   - decision-making
 ---
 
-# AI did not remove the hard part
+# AI Did Not Remove the Hard Part
 
 AI coding tools have improved dramatically.
 

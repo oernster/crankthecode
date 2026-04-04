@@ -13,7 +13,7 @@ tags:
 title: Structure is what allows speed to persist
 ---
 
-# Speed collapses without structure
+# Speed Collapses without Structure
 
 Startups value speed.
 

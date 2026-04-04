@@ -13,7 +13,7 @@ tags:
 title: When work is delegated without definition
 social_image: /static/images/latencylab.png
 ---
-# When responsibility outruns meaning
+# When Responsibility Outruns Meaning
 
 Large organisations often delegate work that is syntactically clear but semantically undefined.
 

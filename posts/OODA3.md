@@ -12,7 +12,7 @@ tags:
 - organisational-structure
 ---
 
-# Decision surfaces behave like interfaces between organisational domains
+# Decision Surfaces Behave Like Interfaces Between Organisational Domains
 
 Software engineers understand interfaces instinctively.
 

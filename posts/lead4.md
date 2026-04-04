@@ -14,7 +14,7 @@ title: Decision latency is the performance problem
 social_image: /static/images/latencylab.png
 ---
 
-# Where performance really slows down
+# Where Performance Really Slows Down
 
 When systems feel slow, organisations look for technical causes. When decisions feel slow, organisations call it governance. In practice, these are usually the same problem expressed in different domains.
 

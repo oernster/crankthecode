@@ -12,7 +12,7 @@ tags:
 - leadership
 ---
 
-# Organisations exhibit recurring decision architecture patterns
+# Organisations Exhibit Recurring Decision Architecture Patterns
 
 Software engineers recognise design patterns as recurring structural solutions.
 

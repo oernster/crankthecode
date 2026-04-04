@@ -12,7 +12,7 @@ tags:
 - governance
 ---
 
-# Responsibility without authority
+# Responsibility without Authority
 
 Many organisations unintentionally assign responsibility without granting the authority required to fulfil it.
 

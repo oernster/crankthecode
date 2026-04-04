@@ -13,7 +13,7 @@ tags:
 title: When discovery cannot be timeboxed
 social_image: /static/images/latencylab.png
 ---
-# When certainty is required before it exists
+# When Certainty Is Required Before It Exists
 
 Small teams are often assumed to be simple systems.
 

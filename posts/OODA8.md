@@ -12,7 +12,7 @@ tags:
 - system-dynamics
 ---
 
-# Escalation must be designed deliberately
+# Escalation Must Be Designed Deliberately
 
 Escalation is often interpreted as organisational weakness.
 

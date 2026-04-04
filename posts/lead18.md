@@ -12,7 +12,7 @@ tags:
 title: Junior pipelines are structural not sentimental
 ---
 
-# Junior pipelines are structural not sentimental
+# Junior Pipelines Are Structural Not Sentimental
 
 AI reduces code production time.
 

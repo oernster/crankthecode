@@ -11,7 +11,7 @@ tags:
 - decision-making
 title: An operating model for when the CTO role is working
 ---
-# When the CTO role stops being busy
+# When the CTO Role Stops Being Busy
 
 This is not a guide on how to become a CTO.
 

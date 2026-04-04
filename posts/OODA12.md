@@ -12,7 +12,7 @@ tags:
 - system-dynamics
 ---
 
-# Decision load reveals structural congestion
+# Decision Load Reveals Structural Congestion
 
 Leaders frequently measure delivery velocity yet rarely measure decision load.
 

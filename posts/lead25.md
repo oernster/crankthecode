@@ -12,7 +12,7 @@ tags:
 title: Why acceleration outlasts speed
 ---
 
-# Speed is visible. Acceleration is structural.
+# Speed Is Visible. Acceleration Is Structural.
 
 Startups talk about speed.
 

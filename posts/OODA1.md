@@ -12,7 +12,7 @@ tags:
 - decision-systems
 ---
 
-# Organisations are systems of decision objects not hierarchies of roles
+# Organisations Are Systems of Decision Objects Not Hierarchies of Roles
 
 Decision Architecture has largely been discussed on this site in structural terms.
 

@@ -14,7 +14,7 @@ title: Why programme management still absorbs blame
 social_image: /static/images/latencylab.png
 ---
 
-# Accountability without authority at scale
+# Accountability without Authority at Scale
 
 Programme management roles often appear senior, powerful and well-positioned.
 

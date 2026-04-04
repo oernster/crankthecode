@@ -13,7 +13,7 @@ title: The things that never happen
 social_image: /static/images/latencylab.png
 ---
 
-# What never appears on a dashboard
+# What Never Appears on a Dashboard
 
 Most organisations believe they are well observed.
 

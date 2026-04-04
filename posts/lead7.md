@@ -13,7 +13,7 @@ title: When competence becomes a liability
 social_image: /static/images/latencylab.png
 ---
 
-# When competence becomes a liability
+# When Competence Becomes a Liability
 
 Some organisations appear to function because a small number of highly capable people quietly make them work.
 

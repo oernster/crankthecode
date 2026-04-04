@@ -12,7 +12,7 @@ tags:
 title: The structural cost of delegation without authority
 ---
 
-# Delegation without authority is organisational harm
+# Delegation without Authority Is Organisational Harm
 
 Delegation is often framed as empowerment.
 

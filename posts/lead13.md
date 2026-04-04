@@ -13,7 +13,7 @@ tags:
 title: When escalation paths are implicit
 social_image: /static/images/latencylab.png
 ---
-# Requirements without resolution
+# Requirements without Resolution
 
 Large organisations often appear well-prepared for complexity.
 

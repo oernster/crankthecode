@@ -14,7 +14,7 @@ title: Why performance begins with how teams think
 social_image: /static/images/latencylab.png
 ---
 
-# Why organisational behaviour matters more than tools
+# Why Organisational Behaviour Matters More Than Tools
 
 Organisations do not set out to build code. They set out to build products. Code is the mechanism through which software products come to life but it is not what customers experience or value.
 

@@ -12,7 +12,7 @@ tags:
 title: Authority mapped to decision type
 ---
 
-# Design authority around decision type not role title
+# Design Authority Around Decision Type Not Role Title
 
 Most organisations assign decision authority through hierarchy.
 

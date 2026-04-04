@@ -13,7 +13,7 @@ title: Special circumstances
 social_image: /static/images/latencylab.png
 ---
 
-# When normal mechanisms stop working
+# When Normal Mechanisms Stop Working
 
 Most organisations are designed to operate in steady state.
 

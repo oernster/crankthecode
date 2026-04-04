@@ -13,7 +13,7 @@ tags:
   - structure
 ---
 
-# From idea to system
+# From Idea to System
 
 Over the past year this site has explored a single recurring theme.
 

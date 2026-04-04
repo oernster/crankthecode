@@ -12,7 +12,7 @@ tags:
 - governance
 ---
 
-# Authority must match decision type
+# Authority Must Match Decision Type
 
 Authority is frequently assigned through hierarchy.
 

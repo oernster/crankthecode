@@ -13,7 +13,7 @@ title: Risk aversion, displacement and the cost of entrepreneurial ideas
 social_image: /static/images/latencylab.png
 ---
 
-# When ideas are recognised but not owned
+# When Ideas Are Recognised but Not Owned
 
 Many organisations say they want entrepreneurial thinking.
 

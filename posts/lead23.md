@@ -12,7 +12,7 @@ tags:
 title: When authority makes merit visible
 ---
 
-# Meritocracy is not a cultural value
+# Meritocracy Is Not a Cultural Value
 
 Meritocracy is frequently described as fairness or opportunity.
 

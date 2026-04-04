@@ -13,7 +13,7 @@ tags:
   - organisational-design
 ---
 
-# What long experience eventually reveals
+# What Long Experience Eventually Reveals
 
 People often assume that long experience in software engineering means memorising technologies.
 

@@ -12,7 +12,7 @@ tags:
 title: Designing authority as a primary CTO function
 ---
 
-# Authority design is the CTO’s primary work
+# Authority Design Is the CTO’s Primary Work
 
 The CTO role is often described in terms of vision technology or innovation.
 

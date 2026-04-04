@@ -12,7 +12,7 @@ tags:
 - system-dynamics
 ---
 
-# Feedback must travel through structure
+# Feedback Must Travel Through Structure
 
 Organisations frequently claim to value feedback.
 

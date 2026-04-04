@@ -12,7 +12,7 @@ tags:
 - leadership
 ---
 
-# Decisions must have a place to end
+# Decisions Must Have a Place to End
 
 Technical organisations rarely fail through a single catastrophic decision. Failure emerges when decisions move indefinitely across the organisation without resolution.
 

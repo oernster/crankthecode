@@ -12,7 +12,7 @@ tags:
 - coordination
 ---
 
-# Decisions require interfaces
+# Decisions Require Interfaces
 
 Software systems communicate through interfaces.
 

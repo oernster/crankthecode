@@ -12,7 +12,7 @@ tags:
 title: Designing junior pipelines in an age of AI
 ---
 
-# Designing junior pipelines in an age of AI
+# Designing Junior Pipelines in an Age of AI
 
 AI accelerates production.
 

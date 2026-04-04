@@ -12,7 +12,7 @@ tags:
 - leadership
 ---
 
-# Optionality must be constrained intentionally
+# Optionality Must Be Constrained Intentionally
 
 Optionality is often treated as inherently valuable.
 

@@ -14,7 +14,7 @@ title: When more data stops changing the answer
 social_image: /static/images/latencylab.png
 ---
 
-# How scale quietly ends performance debates
+# How Scale Quietly Ends Performance Debates
 
 ## Why push further?
 

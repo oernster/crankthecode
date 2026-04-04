@@ -12,7 +12,7 @@ tags:
 - organisational-design
 ---
 
-# Authority works like a type system for organisational decisions
+# Authority Works Like a Type System for Organisational Decisions
 
 Software engineers rely heavily on type systems.
 

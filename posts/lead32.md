@@ -15,7 +15,7 @@ tags:
   - responsibility
 ---
 
-# Engineering organizations become unstable when responsibility exceeds decision authority
+# Engineering Organizations Become Unstable When Responsibility Exceeds Decision Authority
 
 Many engineering roles promise influence.
 

@@ -23,7 +23,7 @@ Most executives blame execution discipline.
 
 *Both are usually wrong.*
 
-## The Visible Symptoms
+## The visible symptoms
 
 An unstable roadmap looks like this:
 
@@ -37,7 +37,7 @@ The surface diagnosis is churn.
 
 *The structural diagnosis is misaligned authority.*
 
-## Estimation Is Not the Root Cause
+## Estimation is not the root cause
 
 Poor estimation does not repeatedly destabilise a roadmap.
 
@@ -49,7 +49,7 @@ If a roadmap changes because multiple stakeholders can override direction withou
 
 *The difference is structural.*
 
-## Authority Without Consequence
+## Authority without consequence
 
 A roadmap becomes unstable when people can influence direction without carrying execution cost.
 
@@ -64,7 +64,7 @@ Every shift seems rational in isolation.
 
 *Collectively they compound instability.*
 
-## Decision Latency
+## Decision latency
 
 Unstable roadmaps are often the product of slow decisions rather than bad ones.
 
@@ -79,7 +79,7 @@ The roadmap then appears unstable because reality eventually forces a correction
 
 *The instability was baked in at the moment of indecision.*
 
-## Strategy Without Constraint
+## Strategy without constraint
 
 A roadmap is not a wishlist.
 
@@ -91,7 +91,7 @@ The instability that follows is not operational failure.
 
 *It is structural dishonesty.*
 
-## Incentive Misalignment
+## Incentive misalignment
 
 Roadmap stability depends on aligned incentives.
 
@@ -107,7 +107,7 @@ Then instability is mathematically predictable.
 Each function optimises locally.  
 *The roadmap absorbs the conflict.*
 
-## The Structural Root
+## The structural root
 
 A stable roadmap requires three things:
 
@@ -123,7 +123,7 @@ If ambition increases risk must be surfaced not hidden.
 
 *Without these constraints instability is inevitable.*
 
-## Stability Is a Governance Property
+## Stability is a governance property
 
 Roadmap stability is not a planning skill.
 

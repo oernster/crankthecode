@@ -12,7 +12,7 @@ tags:
 title: Decision load as a structural signal
 ---
 
-# If the CTO is making too many decisions
+# If the CTO Is Making Too Many Decisions
 
 Tooling has accelerated execution.
 

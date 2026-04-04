@@ -209,7 +209,7 @@ This model is explored in more detail in the Decision Architecture book series.
 ----------------------------------------------------------------------------------------------
 
 
-# Decision architecture as a pattern language
+# Decision Architecture as a Pattern Language
 
 ## The illusion of uniqueness
 

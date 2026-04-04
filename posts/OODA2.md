@@ -12,7 +12,7 @@ tags:
 - governance
 ---
 
-# Every organisation runs on a small set of decision primitives
+# Every Organisation Runs on a Small Set of Decision Primitives
 
 At first glance organisations appear endlessly complicated.
 

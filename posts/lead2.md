@@ -13,7 +13,7 @@ tags:
 title: The architectural mistakes you make before the first profiler runs
 social_image: /static/images/latencylab.png
 ---
-# Where latency really gets decided
+# Where Latency Really Gets Decided
 
 Profilers are good tools. They explain where time went in a running system and they are invaluable when code already exists. The problem is not what profilers do. The problem is when they arrive.
 

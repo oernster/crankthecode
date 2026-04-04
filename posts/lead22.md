@@ -11,7 +11,7 @@ tags:
 title: Reducing option space as a leadership discipline
 ---
 
-# Decision compression as a leadership discipline
+# Decision Compression as a Leadership Discipline
 
 Leadership is often confused with idea generation.
 
