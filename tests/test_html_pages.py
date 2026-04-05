@@ -403,3 +403,15 @@ def test_post_pages_render_read_time_bar_shell():
 
     # Shell element exists (JS fills content); this should be present only for post pages.
     assert 'class="read-time-bar"' in resp.text
+
+
+def test_leadership_post_back_link_targets_decision_architecture_gateway():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/posts/OODAIntro")
+    assert resp.status_code == 200
+
+    # Leadership/Decision Architecture posts should route back to the gateway.
+    assert 'href="/decision-architecture"' in resp.text
+    assert "Back to Decision Architecture" in resp.text

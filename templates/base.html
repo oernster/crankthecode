@@ -142,31 +142,32 @@
 
   <div class="header-layout{% if back_link_href %} header-layout--has-back{% endif %}">
     <div class="header-gutter header-email" aria-label="Email">
-      <script type="text/javascript">
-        (function () {
-          const c = window.CTC_CONTACT;
-          if (!c) {
-            return;
-          }
-          document.write(`<a class="header-email-link" href="${c.link}">${c.address}</a>`);
-        })();
-      </script>
+      <div class="header-email-row" aria-label="Email and GitHub">
+        <script type="text/javascript">
+          (function () {
+            const c = window.CTC_CONTACT;
+            if (!c) {
+              return;
+            }
+            document.write(`<a class="header-email-link" href="${c.link}">${c.address}</a>`);
+          })();
+        </script>
 
-      <a
-        href="https://github.com/oernster"
-        target="_blank"
-        rel="noopener noreferrer me"
-        aria-label="Oliver Ernster GitHub Profile"
-        title="github.com/oernster"
-        class="header-github-link"
-      >
-        <svg
-          viewBox="0 0 16 16"
-          width="22"
-          height="22"
-          fill="currentColor"
-          aria-hidden="true"
+        <a
+          href="https://github.com/oernster"
+          target="_blank"
+          rel="noopener noreferrer me"
+          aria-label="Oliver Ernster GitHub Profile"
+          title="github.com/oernster"
+          class="header-github-link"
         >
+          <svg
+            viewBox="0 0 16 16"
+            width="22"
+            height="22"
+            fill="currentColor"
+            aria-hidden="true"
+          >
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
           0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
           -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
@@ -177,29 +178,37 @@
           .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95
           .29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
           0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-        </svg>
-      </a>
+          </svg>
+        </a>
+      </div>
+
+      {% if back_link_href %}
+        <a class="back-link back-link--gutter" href="{{ back_link_href }}">
+          {{ back_link_label or "← Back" }}
+        </a>
+      {% endif %}
+
       <noscript>Email visible with JavaScript enabled ~ or reach me via GitHub.</noscript>
     </div>
     <div class="header-main">
+      {% if (breadcrumb_items or []) and not is_homepage %}
+        <div class="breadcrumb-bar" aria-label="Breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            {% for bc in breadcrumb_items or [] %}
+              {% if loop.last %}
+                <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
+              {% else %}
+                <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
+                <span class="breadcrumb-sep" aria-hidden="true">›</span>
+              {% endif %}
+            {% endfor %}
+          </nav>
+        </div>
+      {% endif %}
+
       <div class="header-topbar header-topbar--masthead" aria-label="Masthead">
         <div class="header-topbar-left" aria-label="Breadcrumbs">
-          {% if back_link_href %}
-            <a class="back-link back-link--topbar" href="{{ back_link_href }}">{{ back_link_label or "← Back" }}</a>
-          {% endif %}
-
-          {% if (breadcrumb_items or []) and not is_homepage %}
-            <nav class="breadcrumbs" aria-label="Breadcrumb">
-              {% for bc in breadcrumb_items or [] %}
-                {% if loop.last %}
-                  <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
-                {% else %}
-                  <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
-                  <span class="breadcrumb-sep" aria-hidden="true">›</span>
-                {% endif %}
-              {% endfor %}
-            </nav>
-          {% endif %}
+          {# Breadcrumbs now live in `.breadcrumb-bar` above, aligned to the content panel. #}
         </div>
 
         <a class="site-title-link" href="/" aria-label="Homepage">

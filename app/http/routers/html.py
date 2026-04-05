@@ -2347,6 +2347,42 @@ async def read_post(
         "extra_image_urls": list(getattr(detail, "extra_image_urls", [])),
         "content": detail.content_html,
     }
+
+    def _first_cat_tag(tags: list[str]) -> str:
+        for t in tags or []:
+            t_norm = str(t or "").strip()
+            if t_norm.lower().startswith("cat:"):
+                return t_norm
+        return ""
+
+    # UX: deep links into post content should return to the most relevant
+    # gateway where possible (e.g. Decision Architecture).
+    cat_tag = _first_cat_tag(post.get("tags") or [])
+    cat_norm = cat_tag.lower()
+    if cat_norm == "cat:leadership":
+        back_link_href = "/decision-architecture"
+        back_link_label = "← Back to Decision Architecture"
+        breadcrumb_items = [
+            {"label": "Home", "href": "/"},
+            {"label": "Decision Architecture", "href": "/decision-architecture"},
+            {"label": detail.title, "href": f"/posts/{detail.slug}"},
+        ]
+    elif cat_norm == "cat:decision-architecture-patterns":
+        back_link_href = "/patterns"
+        back_link_label = "← Back to Patterns"
+        breadcrumb_items = [
+            {"label": "Home", "href": "/"},
+            {"label": "Decision Architecture Patterns", "href": "/patterns"},
+            {"label": detail.title, "href": f"/posts/{detail.slug}"},
+        ]
+    else:
+        back_link_href = "/posts"
+        back_link_label = "← Back to posts"
+        breadcrumb_items = [
+            {"label": "Home", "href": "/"},
+            {"label": "Posts", "href": "/posts"},
+            {"label": detail.title, "href": f"/posts/{detail.slug}"},
+        ]
     ctx = _base_context(request)
     ctx["sidebar_categories"] = _sidebar_categories(
         blog, exclude_blog=bool(ctx.get("exclude_blog"))
@@ -2478,13 +2514,9 @@ async def read_post(
             ),
             "article_published_time": published_dt,
             "article_modified_time": published_dt,
-            "back_link_href": "/posts",
-            "back_link_label": "← Back to posts",
-            "breadcrumb_items": [
-                {"label": "Home", "href": "/"},
-                {"label": "Posts", "href": "/posts"},
-                {"label": detail.title, "href": f"/posts/{detail.slug}"},
-            ],
+            "back_link_href": back_link_href,
+            "back_link_label": back_link_label,
+            "breadcrumb_items": breadcrumb_items,
         }
     )
 

@@ -460,10 +460,32 @@ body.is-homepage .read-time-bar {
 
 .header-email {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 0;
   padding-top: 4px;
+}
+
+.header-email-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Place back-link under the email in the left gutter (post pages). */
+.back-link--gutter {
+  display: block;
+  margin: 6px 0 0;
+  font-size: 14.4px;
+  color: var(--text-subtle);
+  text-align: left;
+  line-height: 1.2;
+}
+
+.back-link--gutter:hover {
+  color: var(--link-hover-color);
+  text-shadow: var(--link-hover-shadow);
 }
 
 /* Header email + GitHub link (quiet credibility signal; avoid button styling). */
@@ -516,6 +538,13 @@ body.is-homepage .read-time-bar {
   margin-bottom: 10px;
 }
 
+/* Breadcrumbs aligned with the content panel (right column). */
+.breadcrumb-bar {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 0 8px;
+}
+
 /* Visual separation between the masthead and the quick-link pills. */
 .masthead-separator {
   height: 1px;
@@ -526,10 +555,8 @@ body.is-homepage .read-time-bar {
 }
 
 .header-topbar-left {
+  /* Left slot is intentionally empty; breadcrumbs moved to `.breadcrumb-bar`. */
   justify-self: start;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   min-height: 44px;
 }
 
@@ -540,6 +567,12 @@ body.is-homepage .read-time-bar {
   font-size: 14.6px;
   color: var(--text-muted);
   line-height: 1.2;
+  /* Keep to a single tidy line; truncate rather than wrapping per-word. */
+  max-width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .breadcrumb-link {
@@ -555,6 +588,8 @@ body.is-homepage .read-time-bar {
 .breadcrumb-current {
   color: var(--text-muted);
   opacity: 0.95;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .breadcrumb-sep {
@@ -562,6 +597,7 @@ body.is-homepage .read-time-bar {
 }
 
 .back-link--topbar {
+  /* legacy: no longer used */
   margin: 0;
   padding: 0;
 }
