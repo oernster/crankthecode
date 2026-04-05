@@ -1,90 +1,122 @@
-# <img width="48" height="48" alt="favicon-4" src="https://github.com/user-attachments/assets/c7b55ab1-26ee-4d1e-8dd3-39518a0e4b73" /> CrankTheCode
+# Crank The Code
 
+Crank The Code is a long-form technical writing site focused on decision systems, authority design and structural integrity in engineering organisations.
 
-A personal blog and portfolio site built to share my development work, technical tools and software experiments  ~  written and designed by me.
-
-> Visit the live site: [crankthecode.com](https://www.crankthecode.com)
-
----
-
-## About
-
-This project powers the [CrankTheCode](https://www.crankthecode.com) website  ~  a custom-built, Python-based blog and portfolio designed around fast iteration, clean APIs and full control of layout and metadata.
-
-Posts cover everything from tool development and API engineering to system-level problem solving. The site also showcases larger projects, technical writeups and other nerdy chaos.
+> https://www.crankthecode.com
 
 ---
 
-## Features
+## What this is
 
-- Markdown-powered blog posts with syntax highlighting and emoji support
-- FastAPI backend with cleanly separated domains and adapters
-- Full RSS feed (`/rss.xml`) and SEO meta handling (`/sitemap.xml`, `robots.txt`)
-- Built with testability and maintainability in mind  ~  not WordPress
-- Deployed via [Render](https://render.com) but flexible for self-hosting
+This is not a generic dev blog.
+
+The site is a working body of writing around:
+
+* decision systems and decision latency
+* authority design and organisational structure
+* CTO operating models
+* backend architecture and system design
+* failure modes in engineering organisations
+
+The goal is to make the invisible structure of software teams and systems explicit and inspectable.
 
 ---
 
-## Local Development
+## Why this exists
+
+Most engineering writing focuses on tools, frameworks or surface patterns.
+
+That misses the real problem.
+
+Software organisations fail structurally:
+
+* decisions are unclear
+* authority is diffused
+* systems accrete without ownership
+
+This site exists to model those structures directly.
+
+---
+
+## Content model
+
+Posts are organised deliberately rather than chronologically.
+
+Primary categories:
+
+* Leadership
+* Architecture
+* Decision Systems
+* Organisational Structure
+
+Each post may also include a layer:
+
+* decision-systems
+* cto-operating-model
+* organisational-structure
+* architecture
+
+This allows:
+
+* composable filtering
+* structural navigation rather than timeline browsing
+
+---
+
+## The system
+
+The site is a custom-built FastAPI application.
+
+Key characteristics:
+
+* Markdown-driven content with structured frontmatter
+* Explicit domain separation (core, services, adapters)
+* Deterministic routing and metadata generation
+* RSS, sitemap and search-friendly structure
+* No CMS abstraction layer
+
+The system is designed for:
+
+* control over structure
+* fast iteration
+* long-term maintainability
+
+---
+
+## Local development
 
 ```bash
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-### Running tests (use the venv interpreter)
-
-On Windows it’s easy to accidentally run tests with the *system* Python (which may
-not have dependencies like `pytest` installed). Use the venv interpreter:
+### Running tests
 
 ```powershell
 .\venv\Scripts\python.exe -m pytest -q --cov
 ```
 
-### Static assets in local dev
+---
 
-Posts often reference images like `/static/images/foo.png`.
+## Static assets (dev note)
 
-In production (Render), a build step fingerprints and copies assets into `static_dist/`
-([`render.yaml`](render.yaml:1)). Locally you normally **do not** need to build
-anything.
-
-If you ever see a confusing 404 for an image that *definitely exists* in
-[`static/images`](static/images:1), it usually means a stale `static_dist/` directory
-is present on disk from a previous build. The app also has a dev guardrail to
-fall back to [`static/`](static:1) when an asset is missing from `static_dist/`.
-
-Fix:
+If images appear broken locally:
 
 ```powershell
 Remove-Item -Recurse -Force static_dist
 ```
 
-## Tests (currently 100% coverage)
-
-```bash
-python -m coverage run -m pytest -q
-python -m coverage report -m
-```
-
 ---
 
-## Post tagging conventions
+## What this repository represents
 
-Posts use YAML frontmatter with a `tags` list.
+This is not just a website.
 
-- Primary category: `cat:<Label>`
-  - Example: `cat:Leadership`
-  - This powers the sidebar Categories menu.
-- Subcategory (layer): `layer:<slug>`
-  - Example: `layer:decision-systems`
-  - Layers are rendered as nested items under their parent category in the sidebar.
-  - On `/posts`, layer filtering is AND-ed with the category.
+It is:
 
-Deep-links:
+* a publishing system
+* a structured knowledge base
+* an applied model of the ideas described in the writing
 
-- Category: `/posts?cat=Leadership`
-- Category + layer: `/posts?cat=Leadership&layer=decision-systems`
-
-Legacy category deep-links using `q=cat:<Label>` continue to work.
-
+The implementation reflects the same principles:
+clear boundaries, explicit structure and minimal hidden behaviour.
