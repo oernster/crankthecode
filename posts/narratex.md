@@ -1,10 +1,11 @@
 ---
-blurb: Local narration for ebooks and documents
-date: 2026-03-17 17:30
+
+blurb: Structured local narration for ebooks and documents
+date: 2026-04-05 08:30
 type: project
 role: flagship
 image: /static/images/narratex.png
-one_liner: A local desktop application that converts books and documents into spoken audio using modern TTS engines.
+one_liner: A structured desktop reading system that converts books and documents into continuous audio playback.
 social_image: /static/images/narratex.png
 tags:
 - cat:Desktop Apps
@@ -16,100 +17,126 @@ tags:
 - calibre
 thumb_image: /static/images/narratex-icon.png
 title: NarrateX
+
 ---
 
-[NarrateX](https://narratex.co.uk/) is a local desktop narration engine for turning books and documents into spoken audio.
+[NarrateX](https://narratex.co.uk/) is a structured desktop reading system that converts books and documents into continuous audio playback.
+
 ---
 
-NarrateX is built around a simple idea. Narration should be reliable, predictable and easy to follow over long sessions.
+NarrateX treats books as structured systems rather than raw text.
 
-The system focuses on stable playback, clear state boundaries and a consistent narration flow. The goal is not just to generate audio but to behave correctly while doing so.
+This allows navigation to be correct, playback to be predictable and behaviour to remain consistent across real-world formats.
 
-### Architecture
+The system preserves document structure, derives navigation from headings and bookmarks and maintains deterministic playback across sessions.
 
-The codebase enforces a clear separation of concerns across the system.
+It has been validated against real Kindle EPUBs, paperback PDFs and multi-book compilation documents.
 
-Unit tests go beyond coverage. They encode structural expectations and constrain future changes. The system is designed to resist accidental degradation over time.
+---
+
+## Core behaviour
+
+* Playback follows document structure rather than file order
+* Section navigation is derived from headings and bookmarks
+* Non-content sections (e.g. frontmatter, indexes) are excluded from playback
+* Navigation loads immediately and processes in the background
+* Playback position is deterministic and consistent across sessions
+
+---
+
+## Architecture
+
+The system is designed as a set of cooperating layers with clear boundaries.
+
+Interface, application services, domain logic and infrastructure are separated to preserve predictable behaviour.
+
+Unit tests act as structural constraints rather than simple verification. They encode expected system behaviour and limit unintended change.
 
 *The architecture is part of the product, not just its implementation.*
 
-### UI and Interaction
+---
 
-The interface is designed to remain clear and consistent without adding noise.
+## UI and interaction
 
-Controls are grouped deliberately. Button sizes are consistent across the interface. Disabled states in dark mode remain visible with defined borders.
+The interface is designed to remain stable and consistent over long sessions.
 
-Playback controls are explicit.
-The play and pause control is a single larger toggle.
-The stop control is visually distinct.
+Controls are grouped deliberately. Button sizes are consistent across the interface. Disabled states remain visible in dark mode with defined borders.
 
-Navigation feedback is continuous.
-The vertical navigation indicator reflects live progress through the text.
-Highlighted text is synchronised with audio during playback.
+Playback controls are explicit:
 
-*Subtle visual adjustments improve cohesion and reduce friction during long sessions.*
+* A single toggle for play and pause
+* A distinct stop control
 
-### Navigation and State
+Navigation feedback is continuous:
+
+* A vertical indicator reflects progress through the text
+* Highlighted text is synchronised with audio
+
+*Small visual decisions reduce friction during extended listening.*
+
+---
+
+## Navigation and state
+
+NarrateX maintains a strict separation between navigation state and playback state.
 
 Chapter and section detection supports automatic bookmark generation.
 
-Bookmarks follow a consistent format and are easy to scan during navigation.
+Bookmarks follow a consistent format and are easy to scan.
 
-The system maintains a strict separation between navigation state and playback state to preserve deterministic behaviour.
+A hidden resume position is always maintained.
 
----
-
-<div style="text-align:center; font-size:1.2em; margin: 1em 0;">
-Turn any ebook into natural narration directly on your own machine.
-</div>
+*This ensures that playback remains stable even when navigation changes.*
 
 ---
 
-## Problem → Solution → Impact
+## Problem → system → outcome
 
 **Problem:**
-Large digital libraries are easy to collect yet difficult to consume when reading time is limited.
+Most reading tools treat documents as linear text streams.
+This leads to incorrect navigation, unreliable playback and inconsistent behaviour across formats.
 
-**Solution:**
-NarrateX converts books and documents into natural spoken narration using modern text to speech engines that run locally.
+**System:**
+NarrateX treats books as structured systems.
+Structure is preserved, navigation is derived from it and playback follows it.
 
-**Impact:**
-Your library becomes something you can listen to anywhere. Books are no longer tied to a screen.
+**Outcome:**
+Navigation becomes reliable.
+Playback becomes predictable.
+Books behave consistently regardless of source format.
 
 ---
 
 ## Overview
 
-NarrateX is a desktop application designed to transform written material into spoken narration.
+NarrateX transforms written material into continuous spoken narration using a structured pipeline.
 
-Reading should not require sitting in front of a page. A book should follow you during a walk a commute or quiet work.
+A book is loaded and normalised into structured text.
+The text is divided into manageable chunks.
+Each chunk is synthesised and streamed directly to the playback device.
 
-The application loads an ebook or document then parses the text into structured segments. These segments are processed through a local text to speech engine which produces audio in real time.
+Synthesis and playback run concurrently which allows narration to begin immediately.
 
-Narration begins almost immediately because synthesis and playback run together in a streaming pipeline. This avoids delays that occur when an entire book must be generated before playback begins.
-
-*Everything runs locally which means the workflow is fast predictable and private.*
+*Everything runs locally which keeps the system fast, predictable and private.*
 
 ---
 
-## NarrateX at a Glance
+## NarrateX at a glance
 
 <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
 
 <div style="flex: 1; min-width: 250px;">
-  <h3>Features</h3>
+  <h3>Capabilities</h3>
   <ul>
     <li>Local text to speech narration</li>
     <li>Streaming audio playback</li>
-    <li>Selectable voice profiles</li>
-    <li>Playback speed control</li>
-    <li>Persistent volume control</li>
+    <li>Deterministic playback and resume</li>
+    <li>Automatic section and chapter detection</li>
     <li>Bookmarking with automatic resume</li>
-    <li>Chapter navigation with visual tree indicator</li>
-    <li>Automatic text chunking for stable narration</li>
-    <li>Automatic section and chapter bookmark generation</li>
+    <li>Chapter navigation with structural tree view</li>
     <li>Audio synchronised text highlighting</li>
-    <li>Support for EPUB PDF and plain text</li>
+    <li>Playback speed and persistent volume control</li>
+    <li>Support for EPUB, PDF and plain text</li>
     <li>Optional Kindle format support via Calibre conversion</li>
   </ul>
 </div>
@@ -129,129 +156,88 @@ Narration begins almost immediately because synthesis and playback run together 
 
 ---
 
-## How It Works
+## How it works
 
-NarrateX processes text through a structured pipeline designed for long form narration.
+NarrateX processes text through a structured narration pipeline.
 
-A book is first loaded and parsed into normalised text.
-The text is divided into manageable speech chunks.
-Each chunk is synthesised into audio and streamed directly to the playback device.
+Text is segmented into chunks that can be synthesised independently.
+Audio is generated ahead of playback and streamed continuously.
 
-Chunk based narration keeps the system responsive even for very large books. Audio generation continues ahead of playback which keeps narration smooth.
+This keeps the system responsive even for large books.
 
-*Voice profiles can be swapped depending on preference. Some voices suit fiction while others work better for technical writing.*
+*Voice profiles can be selected depending on the type of material.*
 
 ---
 
-## Playback Control
+## Playback control
 
-NarrateX provides fine control over how narration is delivered without altering the underlying text or audio synthesis.
+Playback behaviour is controlled without altering underlying synthesis.
 
-### Playback Speed
+### Playback speed
 
-Playback speed can be adjusted without changing the TTS output.
+Playback speed is applied at runtime rather than during synthesis.
+This avoids regenerating audio and preserves deterministic behaviour.
 
-Speed is applied during playback rather than synthesis which keeps the audio cache stable and avoids regenerating speech.
+### Volume control
 
-*This preserves deterministic behaviour in the narration pipeline.*
+Volume can be adjusted in real time and persists between sessions.
 
-### Volume Control
+### UI locking
 
-Volume can be adjusted in real time using a simple slider interface.
-
-The control includes a visual indicator that reflects mute low and normal volume states.
-
-*Volume settings persist between runs.*
-
-### UI Locking During Playback
-
-During active narration certain configuration controls are temporarily locked.
-
-This prevents inconsistent playback states and keeps the system predictable.
-
-*Playback controls and volume adjustment remain available.*
+During active playback certain configuration controls are temporarily locked.
+This prevents inconsistent system states.
 
 ---
 
 ## Navigation
 
-Long form listening requires the same flexibility readers expect from modern ebook software.
-
-NarrateX implements two complementary navigation systems.
+NarrateX provides structured navigation for long-form listening.
 
 ### Bookmarks
 
-Users can create multiple numbered bookmarks during narration.
+Manual bookmarks and automatically generated section markers are supported.
 
-A hidden resume position is automatically stored when playback stops pauses or the application exits.
+A hidden resume position is always maintained and used by default.
 
-Bookmarks include both manual pins and automatically generated section markers.
+### Chapter navigation
 
-*Playback resumes from the last listening position.*
+Chapter headings are detected and used to build a navigation index.
 
-- Bookmarking reliability is a known failure mode in narration tools. 
-- NarrateX maintains consistent bookmark and resume state without drift between playback and navigation.
-
-### Chapter Navigation
-
-NarrateX detects chapter headings from the book text and builds a navigation index.
-
-Navigation controls allow jumping between chapters instantly.
-
-A vertical tree style indicator provides a structural overview of the book and updates as narration progresses.
-
-*The goal is a calm reference rather than a full table of contents.*
+A vertical tree view provides a structural overview and updates during playback.
 
 ---
 
-## Architecture
+## Why this exists
 
-The project follows a layered architecture separating interface application services domain logic and infrastructure.
+Many ebook libraries are large but underused.
 
-The interface is built using PySide6.
-Application services orchestrate playback and navigation.
-Domain logic manages chunking chapter detection and bookmark state.
+Time is the limiting factor.
 
-Infrastructure adapters connect to TTS engines audio streaming and ebook parsing tools.
-
-*This structure keeps the narration pipeline predictable and allows components to evolve independently.*
-
----
-
-## Why Build This
-
-Many people maintain large ebook libraries that are rarely used.
-
-Time is usually the limiting factor.
-
-Audio allows books to accompany everyday activity. Walking, commuting, cooking, or quiet work become opportunities to continue reading.
-
-Commercial audiobook platforms depend on catalog availability, licensing and subscriptions.
-
-NarrateX takes a different approach.
+NarrateX allows books to be consumed during everyday activity without relying on external services or catalog availability.
 
 Your books remain yours.
 
-*The software gives them a voice.*
+*The system makes them usable.*
 
 ---
 
-## Development Notes
+## Development notes
 
-NarrateX is built with a focus on structural integrity rather than feature accumulation.
+NarrateX is built with a focus on structural integrity.
 
-The system prioritises predictable behaviour clear state boundaries and long term maintainability.
+The system prioritises:
 
-Testing acts as a structural constraint rather than a safety net. The system is designed to resist regression by construction.
+* predictable behaviour
+* clear state boundaries
+* long-term maintainability
 
-UI changes are applied carefully to improve clarity without adding noise. Small improvements compound during long listening sessions.
+Testing enforces structure rather than simply detecting failure.
 
-*The goal remains consistent. A focused narration tool that treats structure as a first class concern.*
+*Changes are made carefully to preserve system behaviour over time.*
 
 ---
 
-NarrateX is an exploration of what happens when personal libraries become audible.
+NarrateX is a working example of what happens when software is designed around structure first.
 
-Books already contain voices.
-
-*Software helps them speak.*
+Behaviour follows.
+*Outcome becomes predictable.*
