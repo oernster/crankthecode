@@ -44,6 +44,38 @@
       {% endfor %}
     </div>
 
+    {% if complete_series_edition %}
+      <section class="books-compilation" aria-label="Complete series edition">
+        <h2 class="books-compilation__title">Complete Series Edition</h2>
+
+        <article class="books-compilation-card" aria-label="{{ complete_series_edition.title }}">
+          <a
+            class="books-compilation-card__link"
+            href="{{ complete_series_edition.amazon_uk_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="{{ complete_series_edition.support_line }}"
+            aria-label="{{ complete_series_edition.alt_text }} (Amazon UK)"
+          >
+            <img
+              class="books-compilation-card__cover"
+              src="{{ asset_url(complete_series_edition.cover_asset) }}"
+              alt="{{ complete_series_edition.alt_text }}"
+              loading="lazy"
+              decoding="async"
+            />
+
+            <div class="books-compilation-card__meta" aria-label="Edition details">
+              <div class="books-compilation-card__name">{{ complete_series_edition.title }}</div>
+              <div class="books-compilation-card__support">{{ complete_series_edition.support_line }}</div>
+            </div>
+
+            <span class="visually-hidden">{{ complete_series_edition.support_line }}</span>
+          </a>
+        </article>
+      </section>
+    {% endif %}
+
     <p class="muted books-footer-note">
       This work underpins the thinking explored across this site.
     </p>

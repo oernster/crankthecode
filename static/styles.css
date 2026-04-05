@@ -164,6 +164,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Slightly tighter global top padding so sidebar + main content start higher. */
+@media (min-width: 861px) {
+  body {
+    padding-top: 48px;
+  }
+}
+
 /* Homepage: tighten the header stack so the landing content starts higher. */
 body.is-homepage {
   padding-top: 36px;
@@ -417,6 +424,10 @@ body.is-homepage .read-time-bar {
     justify-items: center;
   }
 
+  .header-topbar--masthead {
+    gap: 12px;
+  }
+
   .page-layout {
     grid-template-columns: 1fr;
   }
@@ -496,6 +507,85 @@ body.is-homepage .read-time-bar {
   align-items: center;
   gap: 16px;
   margin-bottom: 16px;
+}
+
+/* Masthead: breadcrumbs | big title | CTA + icons */
+.header-topbar--masthead {
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Visual separation between the masthead and the quick-link pills. */
+.masthead-separator {
+  height: 1px;
+  background: rgba(178, 255, 178, 0.38);
+  box-shadow: 0 0 0 1px rgba(178, 255, 178, 0.08);
+  margin: 10px 0 14px;
+  border-radius: 999px;
+}
+
+.header-topbar-left {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.breadcrumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14.6px;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.breadcrumb-link {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+  color: var(--link-hover-color);
+  text-shadow: var(--link-hover-shadow);
+}
+
+.breadcrumb-current {
+  color: var(--text-muted);
+  opacity: 0.95;
+}
+
+.breadcrumb-sep {
+  opacity: 0.7;
+}
+
+.back-link--topbar {
+  margin: 0;
+  padding: 0;
+}
+
+.header-topbar-right {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.header-actions--inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Header CTA removed (was too noisy); keep layout stable without it. */
+
+/* Quick links row under the masthead (kept calm + compact). */
+.header-about-row {
+  margin: 0 0 14px;
 }
 
 .header-about-wrap {
@@ -1119,7 +1209,7 @@ a {
   - Avoid layout shift: no padding/line-height changes; use inset box-shadow.
   - Scope to content links to avoid overriding nav/button-like links.
 */
-.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):hover {
+.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.books-compilation-card__link):hover {
   color: var(--cta-fg);
   text-decoration: none;
   text-shadow: none;
@@ -1128,7 +1218,7 @@ a {
 }
 
 /* Light mode: use brand mauve for link hover highlight instead of banana yellow. */
-html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):hover {
+html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.books-compilation-card__link):hover {
   color: #111827;
   box-shadow: inset 0 -1.1em 0 var(--brand-mauve);
 }
@@ -3347,6 +3437,129 @@ html.theme-light .section-title {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   opacity: 0.85;
+}
+
+/* Books: separate compilation/reference section (not a peer series volume). */
+.books-compilation {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.books-compilation__title {
+  margin: 0;
+  font-size: 14.4px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.95;
+}
+
+.books-compilation-card {
+  margin-top: 14px;
+  background: var(--panel-bg-subtle);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.books-compilation-card__link {
+  display: grid;
+  grid-template-columns: 176px 1fr;
+  gap: 16px;
+  align-items: start;
+  text-decoration: none;
+  /* Ensure no browser focus/active highlight can create a full-width ring/bar.
+     The cover image receives the focus ring instead. */
+  border-radius: 14px;
+  background: transparent;
+}
+
+.books-compilation-card__cover {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  height: auto;
+  object-fit: cover;
+  object-position: center 60%;
+  background: color-mix(in srgb, var(--panel-bg) 70%, transparent);
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.books-compilation-card__meta {
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.books-compilation-card__name {
+  font-weight: 750;
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.books-compilation-card__support {
+  font-weight: 400;
+  color: var(--text-muted);
+  opacity: 0.82;
+  font-size: 14.6px;
+  line-height: 1.35;
+  max-width: 56ch;
+}
+
+.books-compilation-card:hover {
+  background: linear-gradient(
+    90deg,
+    var(--hover-accent-bg),
+    color-mix(in srgb, var(--panel-bg) 75%, transparent)
+  );
+  border-color: var(--hover-accent-border);
+  box-shadow: var(--hover-accent-shadow);
+}
+
+.books-compilation-card__link:hover .books-compilation-card__cover,
+.books-compilation-card__link:focus-visible .books-compilation-card__cover {
+  border-color: rgba(255, 246, 200, 0.9);
+  box-shadow: 0 0 0 3px rgba(255, 246, 200, 0.55);
+}
+
+.books-compilation-card__link:active .books-compilation-card__cover {
+  border-color: rgba(255, 246, 200, 0.9);
+  box-shadow: 0 0 0 3px rgba(255, 246, 200, 0.55);
+}
+
+.books-compilation-card__link:focus-visible {
+  outline: none;
+}
+
+/* Firefox can apply focus outlines on `:focus` even when `:focus-visible` is not
+   used (e.g. mouse click). Ensure the focus ring is only on the cover, not the
+   full card/link box. */
+.books-compilation-card__link:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+
+/* Firefox-specific focus ring hook (keyboard). */
+.books-compilation-card__link:-moz-focusring {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+@media (max-width: 680px) {
+  .books-compilation-card__link {
+    grid-template-columns: 1fr;
+  }
+
+  .books-compilation-card__cover {
+    max-width: 240px;
+  }
 }
 
 /* Posts index: treat each post entry like a discrete row/card for easier scanning */

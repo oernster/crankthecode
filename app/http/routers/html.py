@@ -30,6 +30,7 @@ from app.domain.tags import humanize_layer_slug
 from app.domain.tags import primary_layer_slug_from_tags
 from app.domain.tags import normalize_layer_slug
 from app.domain.books_catalogue import BOOKS_CATALOGUE
+from app.domain.books_compilations import COMPLETE_SERIES_EDITION
 
 router = APIRouter()
 
@@ -652,6 +653,8 @@ def _base_context(request: Request) -> dict:
         "breadcrumb_items": [
             {"label": "Home", "href": "/"},
         ],
+        # UI: show read-time pill only on long-form post detail pages.
+        "show_read_time": False,
     }
 
 
@@ -1817,6 +1820,7 @@ async def books_page(
                 {"label": "Books", "href": "/books"},
             ],
             "books": BOOKS_CATALOGUE,
+            "complete_series_edition": COMPLETE_SERIES_EDITION,
         }
     )
 
@@ -2457,6 +2461,7 @@ async def read_post(
         {
             "post": post,
             "is_homepage": False,
+            "show_read_time": True,
             "page_title": f"{og_title} | Crank The Code",
             "canonical_url": canonical,
             "meta_description": description,

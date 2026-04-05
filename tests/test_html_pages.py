@@ -170,6 +170,9 @@ def test_books_page_renders_and_links_to_amazon_uk():
 
     assert "Books" in resp.text
 
+    # Read time is post-only; non-post pages should not render the pill.
+    assert 'class="read-time-bar"' not in resp.text
+
     # Covers (served from /static). Support both unfingerprinted and
     # fingerprinted asset paths.
     assert re.search(
@@ -194,6 +197,19 @@ def test_books_page_renders_and_links_to_amazon_uk():
     assert "https://www.amazon.co.uk/dp/B0GT4CZ327" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GT7D4P8G" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GTDX7186" in resp.text
+
+    # Complete series hardback compilation: rendered separately (not a 5th peer
+    # card in the primary series grid).
+    assert "Complete Series Edition" in resp.text
+    assert "https://www.amazon.co.uk/dp/B0GTMVV8T5" in resp.text
+    assert re.search(
+        r"/static/images/hardback_cover(?:\.[0-9a-f]{8,})?\.png",
+        resp.text,
+    ), resp.text
+    assert "All four volumes combined into a single hardback reference edition" in resp.text
+
+    # Guardrail: the main series grid should remain exactly 4 tiles.
+    assert resp.text.count('class="book-tile"') == 4, resp.text
 
     # Hover/subtitle text should be present (consistent behaviour across cards).
     assert "A Positional Model of Organisational Change" in resp.text
@@ -229,6 +245,18 @@ def test_book_catalogue_entry_alt_text_omits_empty_subtitle():
         hover_text="",
     )
     assert entry.alt_text == "T"
+
+
+def test_compilation_edition_alt_text_omits_empty_support_line():
+    from app.domain.books_compilations import CompilationEdition
+
+    edition = CompilationEdition(
+        title="Decision Architecture Series",
+        cover_asset="images/hardback_cover.png",
+        amazon_uk_url="https://www.amazon.co.uk/dp/B0GTMVV8T5",
+        support_line="",
+    )
+    assert edition.alt_text == "Decision Architecture Series"
 
 
 def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld():
@@ -364,3 +392,14 @@ def test_unknown_post_returns_404_html():
 
     assert resp.status_code == 404
     assert "Post Not Found" in resp.text
+
+
+def test_post_pages_render_read_time_bar_shell():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/posts/start-here")
+    assert resp.status_code == 200
+
+    # Shell element exists (JS fills content); this should be present only for post pages.
+    assert 'class="read-time-bar"' in resp.text

@@ -182,65 +182,25 @@
       <noscript>Email visible with JavaScript enabled ~ or reach me via GitHub.</noscript>
     </div>
     <div class="header-main">
-        <div class="header-topbar" aria-label="Header actions">
-          <div aria-hidden="true"></div>
-          <div class="header-about-wrap">
-            <a class="top-about-link" href="/posts/start-here">🗺️ Start Here</a>
-            <a class="top-about-link" href="/about">About me</a>
-            <a class="top-about-link" href="/battlestation">My battlestation</a>
-            <a class="top-about-link" href="/explore">Explore</a>
-          </div>
+      <div class="header-topbar header-topbar--masthead" aria-label="Masthead">
+        <div class="header-topbar-left" aria-label="Breadcrumbs">
+          {% if back_link_href %}
+            <a class="back-link back-link--topbar" href="{{ back_link_href }}">{{ back_link_label or "← Back" }}</a>
+          {% endif %}
 
-        <div class="header-actions">
-          <button
-            id="theme-toggle"
-            class="icon-btn theme-toggle"
-            type="button"
-            aria-label="Toggle dark mode"
-            aria-pressed="false"
-          >
-            <span id="theme-icon" class="fade-icon" aria-hidden="true">🌙</span>
-          </button>
-
-          <a class="home-favicon-link" href="/" aria-label="Home">
-            <span class="home-favicon-emoji" aria-hidden="true">🏠</span>
-          </a>
-
-          <button
-            class="icon-btn search-toggle"
-            type="button"
-            aria-label="Search"
-            aria-expanded="false"
-            aria-controls="search-panel"
-          >
-            🔍
-          </button>
-
-          <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
-            <img class="rss-icon" src="{{ asset_url('rss.svg') }}" alt="Crank The Code RSS" />
-          </a>
+          {% if (breadcrumb_items or []) and not is_homepage %}
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              {% for bc in breadcrumb_items or [] %}
+                {% if loop.last %}
+                  <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
+                {% else %}
+                  <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
+                  <span class="breadcrumb-sep" aria-hidden="true">›</span>
+                {% endif %}
+              {% endfor %}
+            </nav>
+          {% endif %}
         </div>
-      </div>
-
-      {% if (breadcrumb_items or []) and not is_homepage %}
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
-          {% for bc in breadcrumb_items or [] %}
-            {% if loop.last %}
-              <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
-            {% else %}
-              <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
-              <span class="breadcrumb-sep" aria-hidden="true">›</span>
-            {% endif %}
-          {% endfor %}
-        </nav>
-      {% endif %}
-
-      <header class="site-header">
-        {% if back_link_href %}
-          <a class="back-link" href="{{ back_link_href }}">{{ back_link_label or "← Back" }}</a>
-        {% else %}
-          <div class="header-spacer" aria-hidden="true"></div>
-        {% endif %}
 
         <a class="site-title-link" href="/" aria-label="Homepage">
           {% if is_homepage %}
@@ -250,30 +210,48 @@
           {% endif %}
         </a>
 
-        <div class="header-spacer" aria-hidden="true"></div>
-      </header>
+        <div class="header-topbar-right" aria-label="Primary actions">
+          <div class="header-actions header-actions--inline" aria-label="Header actions">
+            <button
+              id="theme-toggle"
+              class="icon-btn theme-toggle"
+              type="button"
+              aria-label="Toggle dark mode"
+              aria-pressed="false"
+            >
+              <span id="theme-icon" class="fade-icon" aria-hidden="true">🌙</span>
+            </button>
 
-      <div class="header-cta" aria-label="Contact call to action">
-        <span class="header-cta-slot" aria-label="Email me">
-          <a
-            id="header-cta-link"
-            class="header-cta-link"
-            href="/#contact"
-          >
-            If the mandate is real, email me.
-          </a>
-          <script type="text/javascript">
-            // Keep the email address out of the static HTML to reduce bot scraping.
-            (function () {
-              const c = window.CTC_CONTACT;
-              const el = document.getElementById("header-cta-link");
-              if (!el || !c) {
-                return;
-              }
-              el.setAttribute("href", c.link);
-            })();
-          </script>
-        </span>
+            <a class="home-favicon-link" href="/" aria-label="Home">
+              <span class="home-favicon-emoji" aria-hidden="true">🏠</span>
+            </a>
+
+            <button
+              class="icon-btn search-toggle"
+              type="button"
+              aria-label="Search"
+              aria-expanded="false"
+              aria-controls="search-panel"
+            >
+              🔍
+            </button>
+
+            <a class="rss-link" href="/rss.xml" aria-label="RSS feed">
+              <img class="rss-icon" src="{{ asset_url('rss.svg') }}" alt="Crank The Code RSS" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="masthead-separator" aria-hidden="true"></div>
+
+      <div class="header-about-row" aria-label="Quick links">
+        <div class="header-about-wrap">
+          <a class="top-about-link" href="/posts/start-here">🗺️ Start Here</a>
+          <a class="top-about-link" href="/about">About me</a>
+          <a class="top-about-link" href="/battlestation">My battlestation</a>
+          <a class="top-about-link" href="/explore">Explore</a>
+        </div>
       </div>
 
       <div id="search-panel" class="search-panel" hidden>
@@ -304,6 +282,17 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // Force top-of-page on full reloads.
+    // Firefox can sometimes restore scroll to a stale location after refresh.
+    // Do not override explicit hash anchors.
+    window.onload = () => {
+      if (!window.location.hash) {
+        window.scrollTo(0, 0);
+      }
+    };
+  </script>
 
   <div class="page-layout">
     <nav class="sidebar" aria-label="Navigation">
@@ -447,11 +436,13 @@
     </nav>
 
     <main id="main" class="page-main">
-      <div class="read-time-bar">
-        <small class="read-time" aria-label="Estimated read time" hidden>
-          🕒 Calculating…
-        </small>
-      </div>
+      {% if show_read_time %}
+        <div class="read-time-bar">
+          <small class="read-time" aria-label="Estimated read time" hidden>
+            🕒 Calculating…
+          </small>
+        </div>
+      {% endif %}
       {% block content %}{% endblock %}
     </main>
   </div>
@@ -478,7 +469,9 @@
   <script src="{{ asset_url('search.js') }}" defer></script>
   <script src="{{ asset_url('scroll-top.js') }}" defer></script>
   <script src="{{ asset_url('copy-code.js') }}" defer></script>
-  <script src="{{ asset_url('read-time.js') }}" defer></script>
+  {% if show_read_time %}
+    <script src="{{ asset_url('read-time.js') }}" defer></script>
+  {% endif %}
 
   <script>
     (function () {
