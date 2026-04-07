@@ -1820,6 +1820,9 @@ async def books_page(
                 {"label": "Books", "href": "/books"},
             ],
             "books": BOOKS_CATALOGUE,
+            # Convenience mapping for templates that need to reference a specific
+            # volume without duplicating outbound URLs.
+            "books_by_title": {b.title: b for b in BOOKS_CATALOGUE},
             "complete_series_edition": COMPLETE_SERIES_EDITION,
         }
     )

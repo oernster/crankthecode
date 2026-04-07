@@ -10,6 +10,119 @@
       These books represent my work on decision architecture, developed across nearly three decades in engineering and technical leadership. 
     </p>
 
+    <section class="books-entry-guidance" aria-label="Entry guidance" style="margin: 0 0 20px 0;">
+      <div class="books-entry-guidance__card">
+        {% set da = (books_by_title or {}).get('Decision Architecture') %}
+        {% set da_patterns = (books_by_title or {}).get('Decision Architecture Patterns') %}
+        {% set move_space = (books_by_title or {}).get('Decision Architecture: The Move Space') %}
+        {% set rda = (books_by_title or {}).get('Relativistic Decision Architecture') %}
+
+        <div class="books-entry-guidance__layout">
+          <div class="books-entry-guidance__header">
+            <div class="books-entry-guidance__title">Choose your entry point</div>
+            <div class="books-entry-guidance__subtext">This is a progression. Start where your problem sits.</div>
+          </div>
+
+          <div class="books-entry-guidance__list" role="list" aria-label="Entry points">
+            <div class="books-entry-guidance__item" role="listitem">
+              <div class="books-entry-guidance__condition">If you are trying to understand why things fail</div>
+              <div class="books-entry-guidance__target">
+                <span class="books-entry-guidance__action">
+                  <span class="books-entry-guidance__arrow" aria-hidden="true">→</span>
+                  {% if da %}
+                    <a
+                      class="books-entry-guidance__link"
+                      href="{{ da.amazon_uk_url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Decision Architecture</a>
+                  {% else %}
+                    <span class="books-entry-guidance__book">Decision Architecture</span>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+
+            <div class="books-entry-guidance__item" role="listitem">
+              <div class="books-entry-guidance__condition">If you keep seeing the same problems repeatedly</div>
+              <div class="books-entry-guidance__target">
+                <span class="books-entry-guidance__action">
+                  <span class="books-entry-guidance__arrow" aria-hidden="true">→</span>
+                  {% if da_patterns %}
+                    <a
+                      class="books-entry-guidance__link"
+                      href="{{ da_patterns.amazon_uk_url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Decision Architecture Patterns</a>
+                  {% else %}
+                    <span class="books-entry-guidance__book">Decision Architecture Patterns</span>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+
+            <div class="books-entry-guidance__item" role="listitem">
+              <div class="books-entry-guidance__condition">If you want to change how a system behaves</div>
+              <div class="books-entry-guidance__target">
+                <span class="books-entry-guidance__action">
+                  <span class="books-entry-guidance__arrow" aria-hidden="true">→</span>
+                  {% if move_space %}
+                    <a
+                      class="books-entry-guidance__link"
+                      href="{{ move_space.amazon_uk_url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Decision Architecture: The Move Space</a>
+                  {% else %}
+                    <span class="books-entry-guidance__book">Decision Architecture: The Move Space</span>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+
+            <div class="books-entry-guidance__item" role="listitem">
+              <div class="books-entry-guidance__condition">If you want the underlying model</div>
+              <div class="books-entry-guidance__target">
+                <span class="books-entry-guidance__action">
+                  <span class="books-entry-guidance__arrow" aria-hidden="true">→</span>
+                  {% if rda %}
+                    <a
+                      class="books-entry-guidance__link"
+                      href="{{ rda.amazon_uk_url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Relativistic Decision Architecture</a>
+                  {% else %}
+                    <span class="books-entry-guidance__book">Relativistic Decision Architecture</span>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+
+            <div class="books-entry-guidance__item" role="listitem">
+              <div class="books-entry-guidance__condition">If you want the full progression</div>
+              <div class="books-entry-guidance__target">
+                <span class="books-entry-guidance__action">
+                  <span class="books-entry-guidance__arrow" aria-hidden="true">→</span>
+                  {% if complete_series_edition %}
+                    <a
+                      class="books-entry-guidance__link"
+                      href="{{ complete_series_edition.amazon_uk_url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Complete Series Edition</a>
+                  {% else %}
+                    <span class="books-entry-guidance__book">Complete Series Edition</span>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <p class="muted books-series-label" style="margin: 0 0 10px 0;">
       Decision Architecture series
     </p>
