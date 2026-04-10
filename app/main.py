@@ -83,44 +83,26 @@ def create_app() -> FastAPI:
         return resp
 
     # Static and templates
-    #
-    # We need local dev *and* production to be reliable.
-    #
-    # - Local dev: default to serving from `static/` (source of truth).
-    #   Rationale: `static_dist/` is build output and can be stale or partially
-    #   generated locally, which can cause wrong icons / broken images.
-    #
-    # - Production (Render): explicitly opt into `static_dist/` via
-    #   `CTC_USE_STATIC_DIST=1`, so fingerprinted assets are served and cached
-    #   immutably.
-    #
-    # When serving from `static_dist/`, we still fall back to `static/` for
-    # missing files (useful during deploy transitions).
-    def _truthy_env(name: str) -> bool:
-        return (os.getenv(name) or "").strip().lower() in {
-            "1",
-            "true",
-            "yes",
-            "y",
-            "on",
-        }
+    import os
+    from pathlib import Path
 
-    use_static_dist = _truthy_env("CTC_USE_STATIC_DIST")
-    configured_static_dist_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
-    static_dist_dir = configured_static_dist_dir or "static_dist"
+    BASE_DIR = Path(__file__).resolve().parent
+    PROJECT_ROOT = BASE_DIR.parent
 
-    if use_static_dist and Path(static_dist_dir).exists():
-        static_dir = static_dist_dir
-        fallback_static_dir = "static"
-    else:
-        static_dir = "static"
-        fallback_static_dir = None
+    use_static_dist = os.getenv("CTC_USE_STATIC_DIST") == "1"
+
+    static_dir = PROJECT_ROOT / ("static_dist" if use_static_dist else "static")
+
+    print(">>> STATIC DIR:", static_dir)
 
     fastapi_app.mount(
         "/static",
-        FallbackStaticFiles(directory=static_dir, fallback_directory=fallback_static_dir),
+        FallbackStaticFiles(directory=str(static_dir)),
         name="static",
     )
+
+    configured_static_dist_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
+    static_dist_dir = configured_static_dist_dir or "static_dist"
 
     # `docs/` is optional. Only mount if it exists, otherwise `/docs/...` should 404.
     if Path("docs").exists():

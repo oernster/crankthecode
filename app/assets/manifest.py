@@ -146,7 +146,10 @@ def get_asset_manifest() -> AssetManifest:
     if not _use_static_dist():
         return AssetManifest(mapping={})
 
-    return AssetManifest.load(_default_manifest_path())
+    manifest = AssetManifest.load(_default_manifest_path())
+    # Render debugging aid: confirm we actually loaded keys from the manifest.
+    print("MANIFEST KEYS:", list(manifest.mapping.keys())[:20])
+    return manifest
 
 
 def reset_asset_manifest_cache() -> None:
