@@ -1273,6 +1273,14 @@ ul {
   text-align: left;
 }
 
+/* Homepage: portfolio entry point should align with the centered list block. */
+.section-panel--how-i-work .how-i-work-portfolio {
+  margin: 10px auto 0;
+  max-width: 60ch;
+  text-align: left;
+  color: var(--text-muted);
+}
+
 /* Homepage Featured card: one-line context + slightly reduced empty feel. */
 .section-panel--featured {
   padding-top: 14.4px;
