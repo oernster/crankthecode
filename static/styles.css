@@ -1901,8 +1901,9 @@ body.is-homepage .landing-intro {
   color: var(--text-muted);
   font-size: 14.4px;
   line-height: 1.45;
-  font-variant: small-caps;
-  letter-spacing: 0.03em;
+  font-variant: normal;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .hero__headline {
@@ -1910,6 +1911,7 @@ body.is-homepage .landing-intro {
   color: var(--brand-mauve);
   font-size: 34px;
   line-height: 1.22;
+  font-weight: 750;
 }
 
 .hero__tagline {
