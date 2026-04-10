@@ -170,43 +170,28 @@
 
         <section id="contact" aria-label="Contact">
           <p>If the mandate is real, we can talk.</p>
-        <p>
-          <span class="landing-outro__email">
-            <a id="contact-email" class="contact_email"></a>
-            <script type="text/javascript">
-              // Reveal the email only after real user interaction.
-              (function () {
-                function revealContactEmail() {
-                  const el = document.getElementById("contact-email");
-                  if (!el) {
-                    return;
-                  }
+          <button
+            id="contact-email-btn"
+            class="cta-button cta-button--compact"
+            type="button"
+          >
+            ✉ Start a Conversation
+          </button>
 
-                  const c = window.CTC_CONTACT;
-                  if (!c) {
-                    return;
-                  }
-
-                  el.textContent = c.address;
-                  el.setAttribute("href", c.link);
-                }
-
-                function initContactReveal() {
-                  revealContactEmail();
-
-                  document.removeEventListener("mousemove", initContactReveal);
-                  document.removeEventListener("keydown", initContactReveal);
-                  document.removeEventListener("touchstart", initContactReveal);
-                }
-
-                document.addEventListener("mousemove", initContactReveal, { once: true });
-                document.addEventListener("keydown", initContactReveal, { once: true });
-                document.addEventListener("touchstart", initContactReveal, { once: true });
-              })();
-            </script>
-            <noscript>Enable JavaScript to reveal the email address.</noscript>
-          </span>
-        </p>
+         <script type="text/javascript">
+           (function () {
+             const btn = document.getElementById("contact-email-btn");
+             if (btn) {
+               btn.addEventListener("click", () => {
+                 const c = window.CTC_CONTACT;
+                 if (!c) {
+                   return;
+                 }
+                 window.location.href = c.link;
+               });
+             }
+           })();
+         </script>
         </section>
     </div>
   </section>

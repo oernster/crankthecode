@@ -502,6 +502,45 @@ body.is-homepage .read-time-bar {
   border-radius: 4px;
 }
 
+/* Header social icons: match the header email button height. */
+.header-social-link {
+  /* Match the header icon buttons on the right (52px square). */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(52px * var(--btn-scale));
+  height: calc(52px * var(--btn-scale));
+  padding: 0;
+  border-radius: 8px;
+  background: var(--cta-bg-hover);
+  border: 1px solid var(--cta-border-hover);
+  box-sizing: border-box;
+  /* GitHub SVG uses currentColor; make it dark in the default state. */
+  color: #111827;
+  /* Ensure the background matches other CTA surfaces (avoid inherited fade). */
+  opacity: 1;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.15s ease;
+}
+
+.header-social-link:hover,
+.header-social-link:focus-visible {
+  background: var(--brand-mauve);
+  border-color: color-mix(in srgb, var(--brand-mauve) 72%, white);
+  color: #111827;
+  opacity: 1;
+  box-shadow: 0 14px 30px rgba(203, 182, 255, 0.18);
+}
+
+.header-social-link:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
 .header-github-link:hover,
 .header-github-link:focus-visible {
   opacity: 1;
@@ -514,6 +553,13 @@ body.is-homepage .read-time-bar {
   fill: currentColor;
 }
 
+.header-social-link svg,
+.header-social-link img {
+  display: block;
+  width: calc(24px * var(--btn-scale));
+  height: calc(24px * var(--btn-scale));
+}
+
 .header-email-link {
   color: var(--link-color);
 }
@@ -521,6 +567,40 @@ body.is-homepage .read-time-bar {
 .header-email-link:hover {
   color: var(--link-hover-color);
   text-shadow: var(--link-hover-shadow);
+}
+
+/* Header email should look like a compact button (but still behaves like a link). */
+.header-email-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Match the header icon buttons on the right (52px tall). */
+  height: calc(52px * var(--btn-scale));
+  padding: 0 calc(14px * var(--btn-scale));
+  border-radius: 8px;
+  background: var(--cta-bg-hover);
+  border: 1px solid var(--cta-border-hover);
+  color: var(--cta-fg);
+  text-decoration: none;
+  line-height: 1;
+  text-shadow: none;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.header-email-button:hover {
+  background: var(--brand-mauve);
+  border-color: color-mix(in srgb, var(--brand-mauve) 72%, white);
+  color: #111827;
+  box-shadow: 0 14px 30px rgba(203, 182, 255, 0.18);
+}
+
+.header-email-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
 }
 
 .header-topbar {

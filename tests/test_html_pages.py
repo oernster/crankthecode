@@ -58,9 +58,8 @@ def test_homepage_renders():
     contact_block = m.group(0)
     assert "Download my CV" not in contact_block
     assert "📩 Hire Me" not in contact_block
-    assert 'id="contact-email"' in contact_block
-    assert "✉ Work With Me" in contact_block
-    assert 'href="/#contact"' in contact_block
+    assert 'id="contact-email-btn"' in contact_block
+    assert "✉ Start a Conversation" in contact_block
 
     # CV download CTA should not be duplicated into the contact section.
     assert 'href="/cv-oliver-ernster.pdf"' not in contact_block

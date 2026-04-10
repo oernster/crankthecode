@@ -143,28 +143,70 @@
   <div class="header-layout{% if back_link_href %} header-layout--has-back{% endif %}">
     <div class="header-gutter header-email" aria-label="Email">
        <div class="header-email-row" aria-label="Email and GitHub">
+         <a
+           id="header-email"
+           class="header-email-link header-email-button"
+           href="/help"
+           aria-label="Email (click to open mail client)"
+         >
+           Email
+         </a>
+
          <script type="text/javascript">
+           // Click-to-reveal: avoid rendering the email address into static HTML.
+           // First click both reveals and navigates to mailto.
            (function () {
-             const c = window.CTC_CONTACT;
-             if (!c) {
+             const el = document.getElementById("header-email");
+             if (!el) {
                return;
              }
-             document.write(`<a class="header-email-link" href="${c.link}">${c.address}</a>`);
+
+             function openEmail(e) {
+               // Prevent following the fallback href.
+               if (e && typeof e.preventDefault === "function") {
+                 e.preventDefault();
+               }
+
+               const c = window.CTC_CONTACT;
+               if (!c) {
+                 return;
+               }
+
+               // Do not reveal the email address in the UI; keep the button label as "Email".
+               el.setAttribute("href", c.link);
+
+               // Remove handlers so the next click behaves as a normal anchor.
+               el.removeEventListener("click", openEmail);
+               el.removeEventListener("keydown", onKeydown);
+
+               // Open the mail client immediately on the same click.
+               window.location.href = c.link;
+             }
+
+             function onKeydown(e) {
+               const key = e && e.key;
+               if (key === "Enter" || key === " ") {
+                 openEmail(e);
+               }
+             }
+
+             el.addEventListener("click", openEmail);
+             el.addEventListener("keydown", onKeydown);
            })();
          </script>
 
-         <a
-           href="https://github.com/oernster"
-           target="_blank"
-           rel="noopener noreferrer me"
-           aria-label="Oliver Ernster GitHub Profile"
-           title="github.com/oernster"
-           class="header-github-link"
-         >
-          <svg
-            viewBox="0 0 16 16"
-            width="22"
-            height="22"
+          <a
+            href="https://github.com/oernster"
+            target="_blank"
+            rel="noopener noreferrer me"
+            aria-label="Oliver Ernster GitHub Profile"
+            title="github.com/oernster"
+            class="header-github-link header-social-link"
+          >
+           <svg
+             viewBox="0 0 16 16"
+             width="22"
+             height="22"
             fill="currentColor"
             aria-hidden="true"
           >
@@ -179,26 +221,26 @@
           .29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
           0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
           </svg>
-         </a>
+          </a>
 
-         <a
-           href="https://www.linkedin.com/in/oliverernster/"
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="Oliver Ernster LinkedIn Profile"
-           title="linkedin.com/in/oliverernster"
-           style="display: inline-flex; align-items: center; margin-left: 10px;"
-         >
-           <img
-             src="/static/images/linkedin.png"
-             alt="LinkedIn"
-             width="22"
-             height="22"
-             loading="lazy"
-             decoding="async"
-           />
-         </a>
-       </div>
+          <a
+            href="https://www.linkedin.com/in/oliverernster/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Oliver Ernster LinkedIn Profile"
+            title="linkedin.com/in/oliverernster"
+            class="header-linkedin-link header-social-link"
+          >
+            <img
+              src="/static/images/linkedin.png"
+              alt="LinkedIn"
+              width="22"
+              height="22"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        </div>
 
       {% if back_link_href %}
         <a class="back-link back-link--gutter" href="{{ back_link_href }}">
