@@ -11,11 +11,12 @@
       {{ page_heading or "Portfolio" }}
     </h1>
 
-    {% if page_intro_html %}
-      <div class="post-content">{{ page_intro_html | safe }}</div>
-    {% endif %}
-
     {% if flagship_entries %}
+      {% set featured = (flagship_entries or [])[0] %}
+      <p class="portfolio-featured-label">
+        Featured system: <span class="portfolio-featured-label__name">{{ featured.label }}</span>
+      </p>
+
       <div class="featured-buttons" aria-label="Portfolio flagship items">
         {% for p in flagship_entries or [] %}
           <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
@@ -51,58 +52,125 @@
     {% endif %}
   </section>
 
+  {# Proof before interpretation: show Desktop Applications before the intro copy. #}
   {% for g in portfolio_groups or [] %}
+    {% if g.label == 'Desktop Applications' %}
+      <hr class="post-separator" aria-hidden="true" />
+
+      <section class="section-panel" aria-label="{{ g.label }}">
+        <h2 class="section-title section-title--accent">{{ g.label }}</h2>
+
+        {% if g.description %}
+          <p class="muted" style="margin: 0 0 10px 0;">
+            {{ g.description }}
+          </p>
+        {% endif %}
+
+        <div class="featured-buttons" aria-label="{{ g.label }} items">
+          {# NOTE: avoid the key name `items` because Jinja may resolve `g.items` to the dict method. #}
+          {% for p in g.entries or [] %}
+            <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+              {% set cover = p.thumb_image_url or p.cover_image_url %}
+              {% set emoji = p.emoji %}
+              {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
+              {% if cover %}
+                <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
+              {% elif (emoji or '')|length > 0 %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
+              {% elif p.slug == 'calendifier' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+              {% elif p.slug == 'elevator' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+              {% elif p.slug == 'audiodeck' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+              {% elif p.slug == 'galacticunicorn' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+              {% elif p.slug == '3D-printer-launcher' %}
+                <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
+              {% elif p.slug == 'fancy-clock' %}
+                <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
+              {% endif %}
+              <span class="btn-text">
+                {{ p.label }}
+                {% if p.blurb %}
+                  <span class="btn-subtext">{{ p.blurb }}</span>
+                {% endif %}
+              </span>
+            </a>
+          {% endfor %}
+
+          {% if g.more_href %}
+            <a class="btn-link btn-link--all" href="{{ g.more_href }}" aria-label="More {{ g.label }}">
+              More
+            </a>
+          {% endif %}
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_intro_html %}
     <hr class="post-separator" aria-hidden="true" />
 
-    <section class="section-panel" aria-label="{{ g.label }}">
-      <h2 class="section-title section-title--accent">{{ g.label }}</h2>
-
-      {% if g.description %}
-        <p class="muted" style="margin: 0 0 10px 0;">
-          {{ g.description }}
-        </p>
-      {% endif %}
-
-      <div class="featured-buttons" aria-label="{{ g.label }} items">
-        {# NOTE: avoid the key name `items` because Jinja may resolve `g.items` to the dict method. #}
-        {% for p in g.entries or [] %}
-          <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
-            {% set cover = p.thumb_image_url or p.cover_image_url %}
-            {% set emoji = p.emoji %}
-            {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
-            {% if cover %}
-              <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
-            {% elif (emoji or '')|length > 0 %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
-            {% elif p.slug == 'calendifier' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
-            {% elif p.slug == 'elevator' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
-            {% elif p.slug == 'audiodeck' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
-            {% elif p.slug == 'galacticunicorn' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
-            {% elif p.slug == '3D-printer-launcher' %}
-              <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
-            {% elif p.slug == 'fancy-clock' %}
-              <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
-            {% endif %}
-            <span class="btn-text">
-              {{ p.label }}
-              {% if p.blurb %}
-                <span class="btn-subtext">{{ p.blurb }}</span>
-              {% endif %}
-            </span>
-          </a>
-        {% endfor %}
-
-        {% if g.more_href %}
-          <a class="btn-link btn-link--all" href="{{ g.more_href }}" aria-label="More {{ g.label }}">
-            More
-          </a>
-        {% endif %}
-      </div>
+    <section class="section-panel" aria-label="Portfolio introduction">
+      <div class="post-content">{{ page_intro_html | safe }}</div>
     </section>
+  {% endif %}
+
+  {% for g in portfolio_groups or [] %}
+    {% if g.label != 'Desktop Applications' %}
+      <hr class="post-separator" aria-hidden="true" />
+
+      <section class="section-panel" aria-label="{{ g.label }}">
+        <h2 class="section-title section-title--accent">{{ g.label }}</h2>
+
+        {% if g.description %}
+          <p class="muted" style="margin: 0 0 10px 0;">
+            {{ g.description }}
+          </p>
+        {% endif %}
+
+        <div class="featured-buttons" aria-label="{{ g.label }} items">
+          {# NOTE: avoid the key name `items` because Jinja may resolve `g.items` to the dict method. #}
+          {% for p in g.entries or [] %}
+            <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
+              {% set cover = p.thumb_image_url or p.cover_image_url %}
+              {% set emoji = p.emoji %}
+              {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
+              {% if cover %}
+                <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
+              {% elif (emoji or '')|length > 0 %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
+              {% elif p.slug == 'calendifier' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
+              {% elif p.slug == 'elevator' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
+              {% elif p.slug == 'audiodeck' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
+              {% elif p.slug == 'galacticunicorn' %}
+                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
+              {% elif p.slug == '3D-printer-launcher' %}
+                <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
+              {% elif p.slug == 'fancy-clock' %}
+                <img class="btn-thumb" src="{{ asset_url('images/fancyclock-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
+              {% endif %}
+              <span class="btn-text">
+                {{ p.label }}
+                {% if p.blurb %}
+                  <span class="btn-subtext">{{ p.blurb }}</span>
+                {% endif %}
+              </span>
+            </a>
+          {% endfor %}
+
+          {% if g.more_href %}
+            <a class="btn-link btn-link--all" href="{{ g.more_href }}" aria-label="More {{ g.label }}">
+              More
+            </a>
+          {% endif %}
+        </div>
+      </section>
+    {% endif %}
   {% endfor %}
 {% endblock %}
 

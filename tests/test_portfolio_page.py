@@ -24,6 +24,23 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
         "Desktop Applications"
     )
 
+    # Proof before interpretation: Desktop Applications should appear before the intro copy.
+    assert 'aria-label="Portfolio introduction"' in resp.text
+    assert resp.text.index("Desktop Applications") < resp.text.index(
+        'aria-label="Portfolio introduction"'
+    )
+
+    # Ensure the explanatory phrase exists *inside* the intro block (not just in metadata).
+    import re
+
+    m = re.search(
+        r'<section class="section-panel" aria-label="Portfolio introduction"[\s\S]*?</section>',
+        resp.text,
+    )
+    assert m is not None
+    intro_block = m.group(0).lower()
+    assert "software systems and engineering experiments" in intro_block
+
     # Curated Desktop Applications group.
     assert 'href="/posts/fancy-clock"' in resp.text
     assert 'href="/posts/calendifier"' in resp.text
@@ -38,8 +55,8 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     assert "Data / ML" in resp.text
     assert "Gaming" in resp.text
 
-    # SEO phrase requirement.
-    assert "software systems and engineering experiments" in resp.text.lower()
+    # Featured label should make the lead proof point explicit.
+    assert "Featured system:" in resp.text
 
 
 def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
