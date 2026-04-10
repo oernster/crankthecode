@@ -1190,8 +1190,8 @@ def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
             "more_href": "/posts?cat=Hardware",
         },
         {
-            "label": "Tools",
-            "description": "Supporting tooling and utilities.",
+            "label": "Operational Tools",
+            "description": "Systems and tools designed to support real operational work under load.",
             "entries": tools_items_deduped,
             "more_href": "/posts?cat=Tools",
         },
