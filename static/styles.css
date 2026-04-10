@@ -1273,6 +1273,17 @@ ul {
   text-align: left;
 }
 
+/* Homepage Featured card: one-line context + slightly reduced empty feel. */
+.section-panel--featured {
+  padding-top: 14.4px;
+  padding-bottom: 16.8px;
+}
+
+.section-panel--featured .featured-lede {
+  margin: 0 0 12px;
+  color: var(--text-muted);
+}
+
 small {
   display: block;
   margin: 8px 0 16px;
@@ -1737,6 +1748,15 @@ a[href=\"/\"]:hover {
   margin: 4px 0 28px;
 }
 
+/* Homepage: tighten hero -> divider -> next section spacing (keep divider). */
+body.is-homepage .landing-intro {
+  margin-bottom: 18px;
+}
+
+body.is-homepage .landing-intro + .post-separator {
+  margin: 20px 0;
+}
+
 /* Homepage: remove the extra top offset so the first section aligns with the sidebar panel top. */
 body.is-homepage .landing-intro {
   margin-top: 0;
@@ -1799,6 +1819,11 @@ body.is-homepage .landing-intro {
 .hero__subline {
   margin: 0;
   color: var(--text-muted);
+}
+
+/* Homepage hero: slightly higher contrast for the support line (no size change). */
+body.is-homepage .hero__subline {
+  color: color-mix(in srgb, var(--text-color) 90%, var(--text-muted));
 }
 
 /* Homepage intro: quiet proof-of-execution cue (inline, not a new section). */
