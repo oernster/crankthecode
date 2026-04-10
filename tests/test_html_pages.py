@@ -185,6 +185,21 @@ def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
     m = re.search(r"/static/styles\.[0-9a-f]{8,}\.css", html.text)
     assert m is not None, html.text
 
+    # And fingerprinted JS assets referenced from the base template.
+    for name in ("search", "scroll-top", "copy-code"):
+        assert re.search(
+            rf"/static/{re.escape(name)}\.[0-9a-f]{{8,}}\.js",
+            html.text,
+        ), html.text
+
+    # Read-time is only included for some pages; assert it on a post detail page.
+    post = client.get("/posts/start-here")
+    assert post.status_code == 200
+    assert re.search(r"/static/read-time\.[0-9a-f]{8,}\.js", post.text), post.text
+
+    # LinkedIn icon should be fingerprinted too (was previously hard-coded).
+    assert re.search(r"/static/images/linkedin\.[0-9a-f]{8,}\.png", html.text), html.text
+
     css_url = m.group(0)
     css = client.get(css_url)
     assert css.status_code == 200
