@@ -630,13 +630,17 @@ def _base_context(request: Request) -> dict:
         "request": request,
         "site_url": site_url,
         "current_year": dt.datetime.now(dt.timezone.utc).year,
-        # Optional override for `<title>` in `base.html`.
-        "page_title": None,
+        # Always provide concrete metadata values.
+        # `templates/base.html` renders these without template-level fallbacks.
+        "page_title": "Crank The Code",
         "site_name": "Crank The Code",
         "robots_meta": "index,follow",
         "canonical_url": canonical_url_for_request(request, site_url=site_url),
         "og_title": "Crank The Code",
-        "og_description": None,
+        "og_description": (
+            "Crank The Code - Python engineering blog and technical write-ups by "
+            "Oliver Ernster."
+        ),
         "og_type": "website",
         "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
         "jsonld_extra_json": None,
@@ -674,20 +678,17 @@ def _person_jsonld_oliver_ernster(*, site_url: str) -> dict[str, object]:
         "url": home,
         "jobTitle": "Senior Python Developer",
         "description": (
-            "Senior Python Developer and CTO-level technologist focused on decision "
-            "systems, authority alignment and backend architecture."
+            "Senior Python Developer focused on decision architecture, structural system "
+            "design and backend engineering."
         ),
         "sameAs": [
             "https://github.com/oernster",
         ],
         "knowsAbout": [
-            "Python",
-            "FastAPI",
-            "AWS",
-            "Decision Systems",
-            "Backend Architecture",
-            "Authority Alignment",
-            "Organisational Design",
+            "Decision Architecture",
+            "Backend Systems Design",
+            "Organisational Systems",
+            "Software Architecture",
         ],
     }
 
@@ -1213,6 +1214,8 @@ async def homepage(
     blurb_index = _post_blurb_index(blog)
     emoji_index = _post_frontmatter_emoji_index(blog)
 
+    site_url = get_site_url(request)
+    canonical = canonical_url_for_request(request, site_url=site_url)
     homepage_meta = {
         "is_homepage": True,
         "page_title": (
@@ -1221,14 +1224,17 @@ async def homepage(
         "og_title": "Oliver Ernster | Crank The Code",
         "og_description": (
             "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
-            "writing about decision systems, authority alignment and backend "
-            "architecture."
+            "writing about decision architecture, structural system design and backend "
+            "engineering."
         ),
         "meta_description": (
             "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
-            "writing about decision systems, authority alignment and backend "
-            "architecture."
+            "writing about decision architecture, structural system design and backend "
+            "engineering."
         ),
+        "canonical_url": canonical,
+        # Keep OG image explicit to satisfy strict head mapping.
+        "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
     }
 
     ctx.update(
@@ -1248,7 +1254,6 @@ async def homepage(
 
     # Entity SEO: WebSite -> Person graph linking.
     # Keep homepage structured data stable and explicitly linked via @id.
-    site_url = get_site_url(request)
     home = absolute_url(site_url, "/")
     person_jsonld = _person_jsonld_oliver_ernster(site_url=site_url)
 

@@ -134,9 +134,12 @@ def create_app() -> FastAPI:
         static_dist_path = Path(static_dist_dir) / "cv-oliver-ernster.pdf"
         static_src_path = Path("static") / "cv-oliver-ernster.pdf"
 
-        if use_static_dist and static_dist_path.exists():
-            return FileResponse(static_dist_path)
-        return FileResponse(static_src_path)
+        path = (
+            static_dist_path
+            if (use_static_dist and static_dist_path.exists())
+            else static_src_path
+        )
+        return FileResponse(path)
 
     # Templates
     # - auto_reload + cache_size=0 ensures template edits are reflected without

@@ -3,47 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page_title or site_name }}</title>
+  <title>{{ page_title }}</title>
 
-  {# Meta description #}
-  {% if meta_description %}
-    <meta name="description" content="{{ meta_description }}">
-  {% elif post %}
-    <meta name="description" content="{{ post.blurb or post.one_liner }}">
-  {% elif is_homepage %}
-    <meta
-      name="description"
-      content="Python engineering / Decision Architecture Design by Oliver Ernster. Lead software developer building clean, efficient software; writing about Python, systems, FastAPI tooling and ideas that actually ship."
-    >
-  {% else %}
-    <meta
-      name="description"
-      content="Crank The Code ~ Software projects, tools, hardware and engineering ideas that ship."
-    >
-  {% endif %}
-
-  
-  {% if canonical_url %}
-    <link rel="canonical" href="{{ canonical_url | default(request.url) }}">
-  {% endif %}
+  {# Authoritative metadata mapping (single source of truth from route context). #}
+  <meta name="description" content="{{ meta_description }}">
+  <link rel="canonical" href="{{ canonical_url }}">
 
   {# OpenGraph / Twitter (non-visual, improves previews) #}
-  {% if og_title %}
-    <meta property="og:title" content="{{ og_title }}">
-  {% endif %}
-  {% if og_description %}
-    <meta property="og:description" content="{{ og_description }}">
-  {% elif meta_description %}
-    <meta property="og:description" content="{{ meta_description }}">
-  {% endif %}
-  {% if canonical_url %}
-    <meta property="og:url" content="{{ canonical_url }}">
-  {% endif %}
-  <meta property="og:type" content="{{ og_type or 'website' }}">
+  <meta property="og:title" content="{{ og_title }}">
+  <meta property="og:description" content="{{ og_description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ canonical_url }}">
   <meta property="og:site_name" content="Crank The Code">
-  {% if og_image_url %}
-    <meta property="og:image" content="{{ og_image_url }}">
-  {% endif %}
+  <meta property="og:image" content="{{ og_image_url }}">
   {% if og_image_alt %}
     <meta property="og:image:alt" content="{{ og_image_alt }}">
   {% endif %}
@@ -57,17 +29,9 @@
   {% endif %}
 
   <meta name="twitter:card" content="summary_large_image">
-  {% if og_title %}
-    <meta name="twitter:title" content="{{ og_title }}">
-  {% endif %}
-  {% if og_description %}
-    <meta name="twitter:description" content="{{ og_description }}">
-  {% elif meta_description %}
-    <meta name="twitter:description" content="{{ meta_description }}">
-  {% endif %}
-  {% if og_image_url %}
-    <meta name="twitter:image" content="{{ og_image_url }}">
-  {% endif %}
+  <meta name="twitter:title" content="{{ og_title }}">
+  <meta name="twitter:description" content="{{ og_description }}">
+  <meta name="twitter:image" content="{{ og_image_url }}">
 
   {% if robots_meta %}
     <meta name="robots" content="{{ robots_meta }}">
@@ -279,7 +243,7 @@
 
         <a class="site-title-link" href="/" aria-label="Homepage">
           {% if is_homepage %}
-            <h1 class="site-title">Crank The Code</h1>
+            <span class="site-title">Crank The Code</span>
           {% else %}
             <span class="site-title">Crank The Code</span>
           {% endif %}

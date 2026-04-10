@@ -7,6 +7,11 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+  {#
+    Semantic structure:
+    - base.html already provides a single <main id="main"> wrapper.
+    - This template must use <section> for major homepage blocks.
+  #}
   <section class="landing-intro" aria-label="Intro">
     <div class="section-panel section-panel--intro">
       <div class="hero">
@@ -40,19 +45,19 @@
            </p>
 
            <div class="hero-actions" aria-label="Primary actions">
-             <a class="cta-button" href="/#contact">✉ Work With Me</a>
-             <a
-               class="cta-button"
-               href="/cv-oliver-ernster.pdf"
-               download="Oliver-Ernster-CV.pdf"
-              >
-               ⬇️ Download CV
-             </a>
-           </div>
-         </div>
-       </div>
-     </div>
-   </section>
+              <a class="cta-button" href="/#contact">✉ Work With Me</a>
+              <a
+                class="cta-button"
+                href="/cv-oliver-ernster.pdf"
+                download="Oliver-Ernster-CV.pdf"
+               >
+                ⬇️ Download CV
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
   <hr class="post-separator" aria-hidden="true" />
 
@@ -158,7 +163,7 @@
 
       <hr class="post-separator post-separator--subtle" aria-hidden="true" />
 
-      <section class="open-source-note">
+      <section class="open-source-note" aria-label="Open source note">
         <p>
           Built deliberately. Structurally inspectable.<br>
           <a href="https://github.com/oernster/crankthecode" target="_blank" rel="noopener">
