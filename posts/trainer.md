@@ -38,8 +38,7 @@ A common pattern appears in travel tools. They optimise for finding a route, not
 **Solution:**  
 Trainer Travel Tracker provides a clean interface and backend for routing travel events, timestamps and offers weather to plan.
 
-**Impact:**  
-Simplifies trip management and streamlines journey tracking. Also supports astronomy data for fun!
+**Impact:** Journeys stayed consistent across planning and real travel: times, stops, weather and context were visible without bouncing between sites or losing state.
 
 ---
 

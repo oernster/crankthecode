@@ -1264,6 +1264,15 @@ ul {
   margin-bottom: 32px;
 }
 
+/* Homepage: visually center the "How I Work" bullet list block within its panel,
+   while keeping the list text left-aligned and bullets normal. */
+.section-panel--how-i-work .how-i-work-list {
+  margin: 0 auto;
+  max-width: 60ch;
+  padding-left: 18px;
+  text-align: left;
+}
+
 small {
   display: block;
   margin: 8px 0 16px;

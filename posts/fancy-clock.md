@@ -30,7 +30,7 @@ I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/Fanc
 
 **Solution:** FancyClock is a customisable desktop clock with additional display options and user-adjustable features.
 
-**Impact:** Gives users a visually rich and practical desktop enhancement while demonstrating real-time UI design.
+**Impact:** The clock stayed readable and responsive in real use, without UI jank or layout drift during long-running desktop sessions.
 
 # Rationale
 I wanted to knock something up quickly to show off to a friend using AI but got diverted into making it fully featured 

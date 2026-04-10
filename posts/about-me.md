@@ -78,3 +78,7 @@ Experience across startup and multinational contexts where delivery, risk and co
 | Tools | Docker, Ansible, Terraform, Git |
 | Operating systems | Linux, macOS, Windows |
 | Hardware | Klipper, MicroPython, Voron / other 3D printers |
+
+---
+
+[Download my CV](/docs/CV-Oliver.pdf)

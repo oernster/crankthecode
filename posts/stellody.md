@@ -30,7 +30,7 @@ title: Stellody
 
 **Solution:** Stellody uses sentiment-aware sequencing and custom logic to generate harmonically coherent playlists with smoother transitions and thematic flow.
 
-**Impact:** Delivers a more immersive listening experience and demonstrates the intersection of music theory, emotional modeling and automation.
+**Impact:** Listening sessions became coherent and repeatable, with playlists and transitions that matched the intended mood instead of feeling random.
 
 # Why Stellody? 🌟🎶
 

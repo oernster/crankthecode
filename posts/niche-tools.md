@@ -19,7 +19,7 @@ One-size-fits-most tools don’t cut it when you live on the edge cases.
 
 **Solution:** Write tiny, fast, personalised tools that do one thing well and fit the exact gap in your system.
 
-**Impact:** You gain confidence in your stack, reduce friction and sometimes others get lucky enough to benefit from your weird tools.
+**Impact:** The right tiny tool removed a repeated point of friction, so work continued without the constant context-switch tax.
 
 # Rationale
 

@@ -29,7 +29,7 @@ title: Calendifier
 
 **Solution:** Calendifier parses and generates RFC5545 calendar formats for event management.
 
-**Impact:** Saves time and reduces errors in building scheduling features for software projects.
+**Impact:** Scheduling features stopped drifting out of sync with real dates and edge cases, so shipping calendar-dependent behaviour became predictable.
 
 # Rationale
 I wanted a fun project that created a next-gen calendar for both desktop and Home Assistant.

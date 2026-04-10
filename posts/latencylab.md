@@ -38,8 +38,7 @@ LatencyLab executes explicit models of tasks, events, queues, delays and resourc
 
 Instead of attaching to running production code, LatencyLab makes delay and coordination visible before code exists.
 
-**Impact**  
-LatencyLab turns performance arguments into inspectable artifacts. It exposes counter-intuitive bottlenecks, often in coordination and feedback rather than raw execution. Systems do not necessarily become faster but they feel faster for reasons that can be explained, repeated and defended.
+**Impact:** Performance decisions became testable before code existed: teams could point to the model, see where time was actually spent, and stop shipping architectures that only worked on whiteboards.
 
 *This is how you find the latency problem before it is politically expensive.*
 

@@ -20,7 +20,7 @@ Curiosity-driven system exploration without setting off alarms.
 
 **Solution:** Reframe hacking as structured curiosity ~ understanding, modifying and exploring systems safely.
 
-**Impact:** Encourages more developers to explore without fear and builds respect for ethical system design.
+**Impact:** Developers could explore systems safely and deliberately, without accidentally causing damage or learning the wrong lessons.
 
 # Rationale
 

@@ -21,7 +21,7 @@ def test_homepage_renders():
     assert "All posts are listed in reverse chronological order." not in resp.text
     assert "Things I build with" not in resp.text
     assert "Featured Systems" not in resp.text
-    assert "docs/CV-Oliver.pdf" in resp.text
+    assert "docs/CV-Oliver.pdf" not in resp.text
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
     assert "🗺️ Start Here" in resp.text
@@ -33,32 +33,29 @@ def test_homepage_renders():
     assert "What is Decision Architecture?" in resp.text
     assert "🧩" in resp.text
 
-    # Primary homepage CTAs must not appear in the hero (manifesto-first reading).
+    # Primary homepage CTA should appear in the hero.
     assert '<div class="hero-actions" aria-label="Primary actions">' in resp.text
     m = re.search(r'<section class="landing-intro"[\s\S]*?</section>', resp.text)
     assert m is not None, resp.text
     hero_block = m.group(0)
     assert "📩 Hire Me" not in hero_block
     assert "Download my CV" not in hero_block
+    assert "✉ Work With Me" in hero_block
+    assert 'href="/#contact"' in hero_block
 
-    # Minimal proof-of-execution cue should live inside the homepage intro.
-    assert 'class="homepage-portfolio-cue"' in hero_block
-    assert 'href="/portfolio"' in hero_block
-    assert "Recent work: Production systems and applied tools" in hero_block
-    assert "View portfolio" in hero_block
+    # Hero should remain concise (no extra proof/portfolio cues inside the hero block).
+    assert 'class="homepage-portfolio-cue"' not in hero_block
+    assert 'class="homepage-selected-project"' not in hero_block
 
-    assert 'class="homepage-selected-project"' in hero_block
-    assert "Selected project:" in hero_block
-    assert 'href="/posts/narratex"' in hero_block
-    assert "NarrateX</a> - local audiobook system." in hero_block
-
-    # But the CTAs must appear in the contact section at the end.
+    # CTA should appear in the contact section at the end.
     m = re.search(r'<section id="contact"[\s\S]*?</section>', resp.text)
     assert m is not None, resp.text
     contact_block = m.group(0)
-    assert "Download my CV" in contact_block
+    assert "Download my CV" not in contact_block
     assert "📩 Hire Me" not in contact_block
     assert 'id="contact-email"' in contact_block
+    assert "✉ Work With Me" in contact_block
+    assert 'href="/#contact"' in contact_block
 
     # Email should not be present in static HTML (it is JS-injected via window.CTC_CONTACT).
     assert "oernster@codecrafter.uk" not in resp.text

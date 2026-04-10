@@ -28,7 +28,7 @@ title: SnarkAPI
 
 **Solution:** SnarkAPI provides a simple HTTP interface that returns sarcasm-infused messages for use in apps, bots and chat interfaces.
 
-**Impact:** Makes it easy to inject wit and attitude into user experiences without hand-coding text logic. [Live at snarkapi.com](https://www.snarkapi.com)
+**Impact:** Apps could ship consistent, reusable tone without hard-coding strings across the codebase. [Live at snarkapi.com](https://www.snarkapi.com)
 
 # Rationale
 I wanted to roast IT devs/operators and do it publicly!

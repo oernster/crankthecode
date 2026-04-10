@@ -25,7 +25,7 @@ title: Coin Analysis
 
 **Problem:** Few modern computer vision tools exist for identifying collectible coins.  
 **Solution:** This app uses machine learning and CV to recognise years and mint marks.  
-**Impact:** A working educational prototype for ML use cases in a niche hobby.
+**Impact:** Collectors could identify coins from imperfect photos without needing specialist knowledge or manual cross-referencing.
 
 ---
 

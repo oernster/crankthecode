@@ -20,7 +20,7 @@ Understanding machine behavior without mythologising it.
 
 **Solution:** Treat machines like what they are ~ rule-based input/output systems with zero awareness.
 
-**Impact:** Less frustration, better design, clearer expectations and a deeper understanding of tool limitations.
+**Impact:** People stopped expecting intention from a machine and started designing inputs and interfaces that produced predictable behaviour.
 
 # Rationale
 

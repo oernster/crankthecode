@@ -25,7 +25,7 @@ title: AxisDB
 
 **Solution:** AxisDB is a Python-native, atomic, multidimensional key-value JSON database with optional RESTful interface.
 
-**Impact:** Provides durable and minimal-effort local storage with modern developer ergonomics. [Install via PyPI](https://pypi.org/project/axisdb)
+**Impact:** Engineers could persist data locally without setting up a database or reinventing storage glue for each new tool. [Install via PyPI](https://pypi.org/project/axisdb)
 
 # Rationale
 Because everything else was too normal...

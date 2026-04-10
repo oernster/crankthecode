@@ -39,7 +39,7 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     )
     assert m is not None
     intro_block = m.group(0).lower()
-    assert "software systems and engineering experiments" in intro_block
+    assert "systems built to solve real problems" in intro_block
 
     # Curated Desktop Applications group.
     assert 'href="/posts/fancy-clock"' in resp.text

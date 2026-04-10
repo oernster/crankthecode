@@ -24,7 +24,7 @@ Musings on bots as communication layers, not novelty features.
 
 **Solution:** By treating bots as interfaces ~ bridging tools, APIs and humor ~ we can create more useful and usable automation.
 
-**Impact:** Brings personality and accessibility to technical functionality through conversational, purposeful design.
+**Impact:** Users could get real work done through a conversational interface without digging through commands, menus, or undocumented options.
 
 # Rationale
 

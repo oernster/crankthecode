@@ -21,7 +21,7 @@ A personal stash of micro-utilities that quietly fix annoyances.
 
 **Solution:** Curating and sharing a personal toolkit of small, well-scoped utilities.
 
-**Impact:** Helps others discover useful tools without wading through thousands of repos or blog spam.
+**Impact:** People could find small, working tools quickly without digging through noise or dead repos.
 
 # Rationale
 

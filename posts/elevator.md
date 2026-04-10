@@ -24,7 +24,7 @@ I knocked up a simple elevator control panel you can run locally as a website.
 
 **Solution:** This panel offers a live-reactive UI wired to backend logic that simulates elevator behavior.
 
-**Impact:** A flexible demo platform for teaching, prototyping, or gamifying state-driven UI systems.
+**Impact:** People could prototype and teach state-driven UI behaviour with a system that behaved consistently instead of collapsing into edge-case bugs.
 
 # Rationale
 A fun test of my, at the time, primitive React skillset.

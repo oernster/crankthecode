@@ -22,7 +22,7 @@ Lessons from the chaos of printer setup, upgrades and inevitable regret.
 
 **Solution:** Honest guides written post-failure serve as better references than pristine, manufacturer-style docs.
 
-**Impact:** They help others skip the pain and jump straight into printing, tuning and tweaking.
+**Impact:** People could get printers working without repeating the same failure loops, and changes stayed understandable when something went wrong later.
 
 # Rationale
 
