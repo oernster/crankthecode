@@ -3449,11 +3449,17 @@ html.theme-light .section-title {
   .header-topbar-actions-row {
     width: 100%;
     justify-content: space-between;
-    align-items: center;
+    /* Align contact links with the top row (theme/home) of the right-side grid. */
+    align-items: flex-start;
   }
 
   .header-contact--mobile {
     display: flex;
+    align-self: flex-start;
+  }
+
+  .header-actions {
+    align-self: flex-start;
   }
 
   .header-actions {
