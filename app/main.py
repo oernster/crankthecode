@@ -93,7 +93,10 @@ def create_app() -> FastAPI:
 
     static_dir = PROJECT_ROOT / ("static_dist" if use_static_dist else "static")
 
+    # Log once at startup; useful to prove which directory is mounted in prod.
     print(">>> STATIC DIR:", static_dir)
+    print(">>> ENV CTC_USE_STATIC_DIST:", os.getenv("CTC_USE_STATIC_DIST"))
+    print(">>> ENV CTC_STATIC_MANIFEST_PATH:", os.getenv("CTC_STATIC_MANIFEST_PATH"))
 
     fastapi_app.mount(
         "/static",
