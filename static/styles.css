@@ -691,6 +691,21 @@ body.is-homepage .read-time-bar {
   min-height: 44px;
 }
 
+/*
+  Mobile contact cluster (Email / GitHub / LinkedIn)
+  - Desktop uses the left gutter. On mobile we render an additional cluster
+    inside the topbar actions row.
+*/
+.header-topbar-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-contact--mobile {
+  display: none;
+}
+
 .header-actions--inline {
   display: inline-flex;
   align-items: center;
@@ -3356,6 +3371,15 @@ html.theme-light .section-title {
     gap: 8px;
   }
 
+  /* Make the contact cluster match the 44px icon cluster size on very small screens. */
+  .header-contact--mobile {
+    --btn-scale: 0.85;
+  }
+
+  .header-contact--mobile .header-email-row {
+    gap: 8px;
+  }
+
   .header-about-wrap {
     gap: 8px;
   }
@@ -3411,6 +3435,25 @@ html.theme-light .section-title {
   .header-topbar {
     grid-template-columns: 1fr;
     justify-items: center;
+  }
+
+  /*
+    On mobile the title stays centered, but the actions row should span the
+    full width so we can place Contact (left) and Header actions (right).
+  */
+  .header-topbar-right {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .header-topbar-actions-row {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-contact--mobile {
+    display: flex;
   }
 
   .header-actions {

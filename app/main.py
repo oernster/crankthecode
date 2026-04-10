@@ -89,7 +89,15 @@ def create_app() -> FastAPI:
     BASE_DIR = Path(__file__).resolve().parent
     PROJECT_ROOT = BASE_DIR.parent
 
-    use_static_dist = os.getenv("CTC_USE_STATIC_DIST") == "1"
+    # Keep this parsing tolerant (Render/UI env vars can sometimes contain
+    # whitespace depending on how they were entered).
+    use_static_dist = (os.getenv("CTC_USE_STATIC_DIST") or "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "y",
+        "on",
+    }
 
     static_dir = PROJECT_ROOT / ("static_dist" if use_static_dist else "static")
 

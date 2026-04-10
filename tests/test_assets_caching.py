@@ -163,6 +163,51 @@ def test_asset_manifest_cache_reset(tmp_path: Path, monkeypatch: pytest.MonkeyPa
     assert get_asset_manifest().static_url("styles.css") == "/static/styles.22222222.css"
 
 
+def test_asset_manifest_debug_logs_when_disabled(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]):
+    """Cover the debug-only logging branches.
+
+    The project enforces 100% coverage, so we keep these one-shot runtime logs
+    covered with a hermetic env-based test.
+    """
+
+    # Make the test hermetic even if the outer environment sets these.
+    monkeypatch.setenv("CTC_ASSET_MANIFEST_DEBUG", "1")
+    monkeypatch.delenv("CTC_USE_STATIC_DIST", raising=False)
+    monkeypatch.delenv("CTC_FORCE_STATIC_DIST_MANIFEST", raising=False)
+    monkeypatch.delenv("CTC_STATIC_MANIFEST_PATH", raising=False)
+
+    reset_asset_manifest_cache()
+    man = get_asset_manifest()
+    assert man.mapping == {}
+
+    out = capsys.readouterr().out
+    assert "ASSET_MANIFEST_DEBUG:" in out
+    assert "manifest rewriting disabled" in out
+
+
+def test_asset_manifest_debug_logs_when_manifest_loaded(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+):
+    """Cover debug logs that run after manifest load."""
+
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps({"styles.css": "styles.11111111.css"}), encoding="utf-8")
+
+    monkeypatch.setenv("CTC_ASSET_MANIFEST_DEBUG", "1")
+    monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
+    monkeypatch.setenv("CTC_STATIC_MANIFEST_PATH", str(path))
+
+    reset_asset_manifest_cache()
+    man = get_asset_manifest()
+    assert man.static_url("styles.css") == "/static/styles.11111111.css"
+
+    out = capsys.readouterr().out
+    assert "MANIFEST KEYS:" in out
+    assert "manifest_key_count" in out
+
+
 def test_caching_staticfiles_cache_headers(tmp_path: Path):
     static_dir = tmp_path / "static_dist"
     static_dir.mkdir()
