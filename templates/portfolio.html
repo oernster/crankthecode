@@ -3,13 +3,14 @@
 {% block title %}Portfolio | Crank The Code{% endblock %}
 
 {% block content %}
-  <section class="section-panel" aria-label="Portfolio">
-    <h1 class="section-title section-title--accent">
-      {% if (page_emoji or '')|length > 0 %}
-        <span class="post-title-emoji" aria-hidden="true">{{ page_emoji }}</span>
-      {% endif %}
-      {{ page_heading or "Portfolio" }}
-    </h1>
+  <h1 class="section-title section-title--accent">
+    {% if (page_emoji or '')|length > 0 %}
+      <span class="post-title-emoji" aria-hidden="true">{{ page_emoji }}</span>
+    {% endif %}
+    {{ page_heading or "Portfolio" }}
+  </h1>
+
+  <section class="section-panel" aria-label="Featured system">
 
     {% if flagship_entries %}
       {% set featured = (flagship_entries or [])[0] %}
