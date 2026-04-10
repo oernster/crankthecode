@@ -178,7 +178,8 @@ def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatc
     from app.services.blog_service import BlogService
 
     groups = html._portfolio_groups(cast(BlogService, FakeBlog()))
-    tools = next(g for g in groups if g.get("label") == "Tools")
+    # The group was renamed from "Tools" -> "Operational Tools".
+    tools = next(g for g in groups if g.get("label") == "Operational Tools")
     slugs = [e.get("slug") for e in (tools.get("entries") or [])]
     assert slugs == ["audiodeck"]
 

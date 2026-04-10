@@ -43,6 +43,11 @@ def test_homepage_renders():
     assert "✉ Work With Me" in hero_block
     assert 'href="/#contact"' in hero_block
 
+    # CV download CTA should appear alongside the primary CTA in the hero.
+    assert 'href="/cv-oliver-ernster.pdf"' in hero_block
+    assert 'download="Oliver-Ernster-CV.pdf"' in hero_block
+    assert "Download CV" in hero_block
+
     # Hero should remain concise (no extra proof/portfolio cues inside the hero block).
     assert 'class="homepage-portfolio-cue"' not in hero_block
     assert 'class="homepage-selected-project"' not in hero_block
@@ -56,6 +61,9 @@ def test_homepage_renders():
     assert 'id="contact-email"' in contact_block
     assert "✉ Work With Me" in contact_block
     assert 'href="/#contact"' in contact_block
+
+    # CV download CTA should not be duplicated into the contact section.
+    assert 'href="/cv-oliver-ernster.pdf"' not in contact_block
 
     # Email should not be present in static HTML (it is JS-injected via window.CTC_CONTACT).
     assert "oernster@codecrafter.uk" not in resp.text
@@ -118,6 +126,37 @@ def test_favicon_is_not_cached_forever():
     assert resp.headers.get("cache-control") == "no-cache, must-revalidate"
 
 
+def test_cv_pdf_is_served_from_stable_root_path():
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/cv-oliver-ernster.pdf")
+    assert resp.status_code == 200
+
+    content_type = (resp.headers.get("content-type") or "").lower()
+    assert "pdf" in content_type
+    assert resp.content.startswith(b"%PDF")
+
+
+def test_cv_pdf_prefers_static_dist_when_enabled(tmp_path: Path, monkeypatch):
+    dist = tmp_path / "static_dist"
+    dist.mkdir(parents=True, exist_ok=True)
+
+    # Ensure we can distinguish which file is served.
+    cv_bytes = b"%PDF-1.7\n% test static_dist\n"
+    (dist / "cv-oliver-ernster.pdf").write_bytes(cv_bytes)
+
+    monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
+    monkeypatch.setenv("CTC_STATIC_DIST_DIR", str(dist))
+
+    app = create_app()
+    client = TestClient(app, base_url="http://localhost")
+
+    resp = client.get("/cv-oliver-ernster.pdf")
+    assert resp.status_code == 200
+    assert resp.content == cv_bytes
+
+
 def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
     # Ensure the build output exists *before* app creation; `create_app()`
     # mounts `static_dist/` only if it exists.
@@ -161,6 +200,31 @@ def test_docs_epub_is_not_served():
 
     resp = client.get("/docs/Decision-Architecture.epub")
     assert resp.status_code == 404
+
+
+def test_docs_directory_can_be_present_without_exposing_epub_downloads():
+    """Cover the branch where `docs/` exists and is mounted.
+
+    This should still 404 for EPUBs.
+    """
+
+    import shutil
+
+    docs_dir = Path("docs")
+    pre_existing = docs_dir.exists()
+
+    if not pre_existing:
+        docs_dir.mkdir(parents=True, exist_ok=True)
+
+    try:
+        app = create_app()
+        client = TestClient(app, base_url="http://localhost")
+
+        resp = client.get("/docs/Decision-Architecture.epub")
+        assert resp.status_code == 404
+    finally:
+        if not pre_existing:
+            shutil.rmtree(docs_dir)
 
 
 def test_books_page_renders_and_links_to_amazon_uk():

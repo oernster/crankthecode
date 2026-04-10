@@ -121,7 +121,29 @@ def create_app() -> FastAPI:
         FallbackStaticFiles(directory=static_dir, fallback_directory=fallback_static_dir),
         name="static",
     )
-    fastapi_app.mount("/docs", CachingStaticFiles(directory="docs"), name="docs")
+
+    # `docs/` is optional. Only mount if it exists, otherwise `/docs/...` should 404.
+    if Path("docs").exists():
+        fastapi_app.mount(
+            "/docs",
+            CachingStaticFiles(directory="docs"),
+            name="docs",
+        )
+
+    @fastapi_app.get("/cv-oliver-ernster.pdf", include_in_schema=False)
+    async def cv_pdf() -> FileResponse:
+        """Serve the CV from a stable root URL.
+
+        The source-of-truth lives in `static/`, but production may serve from
+        `static_dist/` when `CTC_USE_STATIC_DIST=1`.
+        """
+
+        static_dist_path = Path(static_dist_dir) / "cv-oliver-ernster.pdf"
+        static_src_path = Path("static") / "cv-oliver-ernster.pdf"
+
+        if use_static_dist and static_dist_path.exists():
+            return FileResponse(static_dist_path)
+        return FileResponse(static_src_path)
 
     # Templates
     # - auto_reload + cache_size=0 ensures template edits are reflected without
