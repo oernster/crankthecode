@@ -42,6 +42,11 @@ def test_homepage_renders():
     assert "Download my CV" not in hero_block
 
     # Minimal proof-of-execution cue should live inside the homepage intro.
+    assert 'class="homepage-portfolio-cue"' in hero_block
+    assert 'href="/portfolio"' in hero_block
+    assert "Recent work: Production systems and applied tools" in hero_block
+    assert "View portfolio" in hero_block
+
     assert 'class="homepage-selected-project"' in hero_block
     assert "Selected project:" in hero_block
     assert 'href="/posts/narratex"' in hero_block
