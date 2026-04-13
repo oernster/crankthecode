@@ -3,7 +3,7 @@ title: Command Deck
 blurb: A session-driven operational board
 date: 2026-04-13 20:00
 type: project
-thumb_image: /static/images/CommandDeck-icon.png
+thumb_image: /static/images/CommandDeck-Icon.png
 social_image: /static/images/CommandDeck.png
 one_liner: A local-first operational board for moving work through live stages with task-bound focus sessions, outcomes and snapshots.
 tags:
