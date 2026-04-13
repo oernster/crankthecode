@@ -3,7 +3,7 @@ title: Command Deck
 blurb: An operational control surface
 date: 2026-04-12 20:00
 type: project
-emoji: 🟢
+thumb_image: /static/images/CommandDeck-icon.png
 social_image: /static/images/CommandDeck.png
 one_liner: A local-first command surface for structuring work as operational state rather than task-list clutter.
 tags:
