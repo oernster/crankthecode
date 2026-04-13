@@ -1,11 +1,11 @@
 ---
 title: Command Deck
-blurb: An operational control surface
-date: 2026-04-12 20:00
+blurb: A session-driven operational board
+date: 2026-04-13 20:00
 type: project
 thumb_image: /static/images/CommandDeck-icon.png
 social_image: /static/images/CommandDeck.png
-one_liner: A local-first command surface for structuring work as operational state rather than task-list clutter.
+one_liner: A local-first operational board for moving work through live stages with task-bound focus sessions, outcomes and snapshots.
 tags:
 - cat:Desktop Apps
 - operations
@@ -20,46 +20,57 @@ tags:
 ---
 
 [Command Deck](https://github.com/oernster/CommandDeck)  
-A local-first operational control surface for issuing intent, tracking execution and recording what actually happened.
+A local-first operational board for moving work through clear stages, running one focused session at a time and recording what actually happened.
 
 <div style="text-align:center; margin: 1.5rem 0;">
   <img src="/static/images/CommandDeck.png" alt="Command Deck screenshot" style="max-width:100%; border-radius:12px;" />
 </div>
 
 <div style="text-align:center; font-size:1.2em; margin: 1em 0;">
-  Not a task manager. A control surface for operational state.
+  Not a task manager. A live board for operational state.
 </div>
 
 ---
 
 ## Problem → Solution → Impact
 
-**Problem:** Most task tools collapse intent, activity and completion into the same flat list. That makes it harder to see what is actually in motion, what is blocked and where time is being spent.
+**Problem:** Most task tools flatten work into lists. They blur intent, execution and history together, which makes it harder to see what is active, what is blocked and where focused time is actually going.
 
-**Solution:** Command Deck treats work as operational state. Commands sit inside five categories - Design, Build, Review, Maintain and Recover - and move through a simple execution model: Not Started, In Progress, Blocked or Complete.
+**Solution:** Command Deck uses a fixed four-stage board and a session-driven model. Work items move through Design, Build, Review and Complete. Sessions are tied to specific tasks, outcomes record what happened and snapshots preserve board state.
 
-**Impact:** The result is a clearer surface for focused execution. You can see what is active, track category-level sessions and preserve a history of outcomes without turning the system into planning theatre.
+**Impact:** The result is a clearer operational surface. You can see the current board, run one active focus session, keep lightweight execution history and save meaningful states without turning the system into planning theatre.
 
 ---
 
 ## Overview
 
-Command Deck is an operational system built around execution rather than planning.
+Command Deck is built around execution rather than list maintenance.
 
-Work is organised into five persistent categories:
+The system uses **four fixed workflow stages**:
 
 - Design
 - Build
 - Review
-- Maintain
-- Recover
+- Complete
 
-Each command represents intent.  
-Each category can host active work.  
-Only one category is active at a time.  
-Sessions track focused operational time and outcomes record what really happened.
+Those stage identities remain stable internally, while the **display labels can be renamed per board**.
 
-That makes Command Deck useful for people who want to manage motion, not just maintain lists.
+In the UI, work items are presented as **Tasks**. Internally, the backend and database still refer to them as **Commands**.
+
+Each task carries a simple status model:
+
+- Not Started
+- In Progress
+- Blocked
+- Complete
+
+The board is intentionally single-screen and single-board.  
+Only one session can be active at a time.  
+Starting a session requires selecting a task.  
+Outcomes attach historical notes to tasks.  
+Snapshots let you save and reload named board states.
+
+That makes Command Deck useful for people who want to manage operational motion, not just curate lists.
 
 ---
 
@@ -69,11 +80,11 @@ Most tools ask you to maintain tasks.
 
 Command Deck asks a different set of questions:
 
-- What am I doing?
-- What is in motion?
+- What am I doing right now?
+- What is in motion on the board?
 - What actually happened?
 
-That shift matters. It makes the interface feel less like administration and more like a live operational board.
+That shift matters. It makes the interface feel less like administration and more like a control surface for real work.
 
 ---
 
@@ -84,11 +95,12 @@ That shift matters. It makes the interface feel less like administration and mor
 <div style="flex: 1; min-width: 250px;">
   <h3>Core ideas</h3>
   <ul>
-    <li>Five operational categories</li>
-    <li>Commands as active units of execution</li>
-    <li>Simple state model</li>
-    <li>Category-level session tracking</li>
-    <li>Outcome history for completed work</li>
+    <li>Four fixed workflow stages</li>
+    <li>Renameable stage labels per board</li>
+    <li>Tasks as active units of execution</li>
+    <li>One active task-bound session at a time</li>
+    <li>Outcomes for execution history</li>
+    <li>Named snapshots for saved board state</li>
   </ul>
 </div>
 
@@ -99,7 +111,8 @@ That shift matters. It makes the interface feel less like administration and mor
     <li>React + Vite frontend</li>
     <li>SQLite persistence</li>
     <li>Local-first runtime</li>
-    <li>Windows packaging and installer support</li>
+    <li>Windows tray launcher</li>
+    <li>Packaged Windows runtime and installer</li>
   </ul>
 </div>
 
@@ -107,11 +120,52 @@ That shift matters. It makes the interface feel less like administration and mor
 
 ---
 
+## Interface
+
+Command Deck is presented as a single board with four stage columns.
+
+Global controls live in the top bar:
+
+- **Start** - enters selection mode so you can choose a task to begin
+- **Add** - creates a task in the focused or active stage
+- **Stop** - stops the active session
+
+The board supports persisted drag-and-drop ordering within and across stages.
+
+The main interaction model stays deliberately small:
+
+- board view for live work
+- create-task modal
+- command detail drawer for editing and outcomes
+- session timer derived from the active session
+- snapshot actions for saving, loading and renaming saved states
+
+---
+
+## Sessions, outcomes and snapshots
+
+Command Deck tracks time at the **task level**, not the category level.
+
+A session stores the selected task and the task's stage at the moment the session begins. Only one session can remain active at once, which keeps the tool aligned with focused work rather than parallel activity theatre.
+
+Outcomes provide a lightweight historical trace by attaching notes directly to tasks.
+
+Snapshots add an extra layer of memory on top of the live board. You can save the current state, reload it later and rename saved snapshots. The implementation also deduplicates structurally identical snapshots so the system stays lightweight.
+
+---
+
 ## Architecture
 
 Command Deck is intentionally minimal.
 
-It uses a FastAPI backend, a React frontend and SQLite for persistence. The project is designed to run locally, with a development split between backend and frontend and also supports a packaged Windows runtime with installer flow for desktop use.
+The backend is a FastAPI application with a clean API → Services → Repositories → SQLite flow. The frontend is a single-screen React application built with Vite. When a production build exists, the backend can serve the frontend from the same address.
+
+The project is local-first by design:
+
+- SQLite persists the board locally
+- source development keeps backend and frontend separate
+- packaged Windows builds run as a desktop-style local runtime
+- the Windows release includes a tray flow, a packaged `CommandDeck.exe` runtime and a GUI installer
 
 That keeps the system lightweight, direct and aligned with the idea of a personal operational surface rather than a cloud platform.
 
@@ -119,6 +173,6 @@ That keeps the system lightweight, direct and aligned with the idea of a persona
 
 ## Closing note
 
-Command Deck is one of those projects where the interface reflects a deeper belief: work is not just a list of tasks. It is a changing operational state with intent, friction, flow and recovery all visible on the surface.
+Command Deck is built around a simple belief: work is not best represented as an ever-growing list. It is better understood as changing operational state across focus, execution, review and completion.
 
-That is the space this project is trying to serve.
+This project is an attempt to give that state a clearer surface - local, direct and grounded in what is actually happening.
