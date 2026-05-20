@@ -8,7 +8,7 @@ extra_images:
 image: /static/images/3D-printer-launcher.png
 one_liner: A launcher and monitoring overlay for Klipper printers, designed to be
   stream-friendly and information-dense.
-social_image: /static/images/3d-printer-launcher.png
+social_image: /static/images/3D-printer-launcher.png
 tags:
 - cat:Hardware
 - 3D

@@ -5,7 +5,7 @@ type: project
 image: /static/images/AxisDB.png
 one_liner: An embedded Python database that stores JSON documents with atomic commits
   and multidimensional keys.
-social_image: /static/images/axisdb-card.png
+social_image: /static/images/AxisDB.png
 tags:
 - cat:Data / Ml
 - python

@@ -1027,8 +1027,17 @@ def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
             if slug:
                 flagship_slugs.add(slug)
 
+    # Desktop Applications: strict curated order (portfolio UX depends on stable rows).
     desktop_items = _curated_portfolio_entries_from_slugs(
-        slugs=["fancy-clock", "calendifier", "elevator"],
+        slugs=[
+            "clearbudget",
+            "commanddeck",
+            "trainer",
+            "calendifier",
+            "stellody",
+            "fancy-clock",
+            "elevator",
+        ],
         index=index,
         hidden=hidden,
         emoji_map=emoji_map,
@@ -1123,15 +1132,6 @@ def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
 
     # Old category resurfacing (portfolio-only): the category sets that used to
     # live in the global sidebar.
-    desktop_items_auto = [
-        _portfolio_item_from_summary(
-            summary=p,
-            emoji_map=emoji_map,
-            frontmatter_emoji_index=emoji_index,
-        )
-        for p in desktop_summaries
-        if str(getattr(p, "slug", "") or "").strip().lower() != "audiodeck"
-    ]
     data_items = [
         _portfolio_item_from_summary(
             summary=p,
@@ -1157,13 +1157,12 @@ def _portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
         for p in webapi_summaries
     ]
 
-    desktop_all = [*desktop_items, *desktop_items_auto]
-
     return [
         {
             "label": "Desktop Applications",
             "description": "Independent desktop systems (UI + local operations).",
-            "entries": desktop_all,
+            # Important: curated-only to keep the button layout deterministic.
+            "entries": desktop_items,
             "more_href": "/posts?cat=Desktop%20Apps",
         },
         {

@@ -1340,7 +1340,7 @@ a {
   - Avoid layout shift: no padding/line-height changes; use inset box-shadow.
   - Scope to content links to avoid overriding nav/button-like links.
 */
-.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.books-compilation-card__link):hover {
+.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):hover {
   color: var(--cta-fg);
   text-decoration: none;
   text-shadow: none;
@@ -1349,9 +1349,28 @@ a {
 }
 
 /* Light mode: use brand mauve for link hover highlight instead of banana yellow. */
-html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.books-compilation-card__link):hover {
+html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):hover {
   color: #111827;
   box-shadow: inset 0 -1.1em 0 var(--brand-mauve);
+}
+
+/* Post cover image: avoid the banana "baseline" hover bar (it reads like a stray
+   annotation line under wide images). Keep cover hover calm + image-native. */
+.post-cover-link:hover {
+  box-shadow: none;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Post bodies: keep link hover treatment text-like.
+   The banana "baseline bar" effect is too visually heavy inside long-form posts
+   and can read like an annotation artifact when hovering near media. */
+.post-content a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.books-compilation-card__link):hover,
+.about-content a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.books-compilation-card__link):hover {
+  box-shadow: none;
+  border-radius: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
 }
 
 ul {
@@ -1671,6 +1690,10 @@ a[href=\"/\"]:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* Ensure explicit widths (e.g. grid layouts) include padding + border.
+     Without this, `width: 100%` can overflow its grid cell and visually overlap
+     adjacent buttons. */
+  box-sizing: border-box;
   min-height: calc(56px * var(--btn-scale));
   background: var(--primary-btn-bg);
   color: var(--primary-btn-fg);
@@ -1730,6 +1753,17 @@ a[href=\"/\"]:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* Ensure emoji glyphs render consistently across platforms/browsers.
+     Without an explicit emoji-capable font stack some environments will show
+     tofu ("broken" squares) for certain emoji codepoints/variation selectors. */
+  font-family:
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    "Twemoji Mozilla",
+    "Segoe UI Symbol",
+    sans-serif;
+  font-variant-emoji: emoji;
   font-size: calc(38px * var(--btn-scale));
   line-height: 1;
   background: rgba(255, 255, 255, 0.08);
@@ -3536,6 +3570,60 @@ html.theme-light .section-title {
   gap: 14.4px;
   justify-content: center;
   align-items: center;
+}
+
+/* Portfolio: Desktop Applications wants deterministic rows on desktop:
+   Row 1: 2 items, Row 2: 3 items, Row 3: 2 items + More.
+   Implement as a 6-column grid (3+3 then 2+2+2). */
+@media (min-width: 860px) {
+  .featured-buttons--desktop-apps {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    /* More separation is required because pill shapes + shadows read as
+       “overlap” when the gap is tight. */
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+    /* Keep the button block from becoming a wide, low-density strip. */
+    width: min(980px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Keep pills narrower than their grid cell so rounded ends and shadows never
+     visually collide. */
+  .featured-buttons--desktop-apps > a {
+    width: min(100%, 360px);
+    max-width: 100%;
+    /* Critical for CSS Grid: allow items to shrink within their column tracks.
+       Without this, long labels/subtext can force overflow and visually overlap
+       adjacent buttons. */
+    min-width: 0;
+    /* Prevent any descendants from painting outside the pill (belt-and-braces).
+       This avoids visual overlap even if a browser computes an odd min-content
+       width for nested flex items. */
+    overflow: hidden;
+  }
+
+  /* Also allow internal text stacks to shrink/wrap inside the pill. */
+  .featured-buttons--desktop-apps .btn-text {
+    min-width: 0;
+  }
+
+  .featured-buttons--desktop-apps .btn-text,
+  .featured-buttons--desktop-apps .btn-subtext {
+    overflow-wrap: anywhere;
+  }
+
+  .featured-buttons--desktop-apps > :nth-child(1),
+  .featured-buttons--desktop-apps > :nth-child(2) {
+    grid-column: span 3;
+    width: min(100%, 460px);
+  }
+
+  .featured-buttons--desktop-apps > :nth-child(n + 3) {
+    grid-column: span 2;
+  }
 }
 
 /* Slightly tighter layout for compact navigation rows. */

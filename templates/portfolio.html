@@ -67,7 +67,7 @@
           </p>
         {% endif %}
 
-        <div class="featured-buttons" aria-label="{{ g.label }} items">
+        <div class="featured-buttons featured-buttons--desktop-apps" aria-label="{{ g.label }} items">
           {# NOTE: avoid the key name `items` because Jinja may resolve `g.items` to the dict method. #}
           {% for p in g.entries or [] %}
             <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">

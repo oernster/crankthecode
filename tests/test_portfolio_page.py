@@ -41,10 +41,29 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     intro_block = m.group(0).lower()
     assert "systems built to solve real problems" in intro_block
 
-    # Curated Desktop Applications group.
-    assert 'href="/posts/fancy-clock"' in resp.text
-    assert 'href="/posts/calendifier"' in resp.text
-    assert 'href="/posts/elevator"' in resp.text
+    # Desktop Applications should be curated-only in a strict order.
+    m = re.search(
+        r'<section class="section-panel" aria-label="Desktop Applications"[\s\S]*?</section>',
+        resp.text,
+    )
+    assert m is not None
+    desktop_block = m.group(0)
+
+    slugs_in_order = re.findall(r'href="/posts/([a-z0-9\-]+)"', desktop_block)
+    assert slugs_in_order == [
+        "clearbudget",
+        "commanddeck",
+        "trainer",
+        "calendifier",
+        "stellody",
+        "fancy-clock",
+        "elevator",
+    ]
+
+    # The "More" button must come after Elevator.
+    assert desktop_block.index('href="/posts/elevator"') < desktop_block.index(
+        'href="/posts?cat=Desktop%20Apps"'
+    )
 
     # Category-derived groups.
     assert "Hardware / Embedded" in resp.text

@@ -23,9 +23,13 @@
   </div>
 
   {% if post.cover_image_url %}
-    <a class="post-cover-link" href="{{ post.cover_image_url }}" aria-label="Open full-size image: {{ post.title }}">
+    {% if post.slug == 'clearbudget' %}
       <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="eager" />
-    </a>
+    {% else %}
+      <a class="post-cover-link" href="{{ post.cover_image_url }}" aria-label="Open full-size image: {{ post.title }}">
+        <img class="post-cover" src="{{ post.cover_image_url }}" alt="{{ post.title }}" loading="eager" />
+      </a>
+    {% endif %}
   {% endif %}
 
   {# Per-post flourish: AxisDB install prompt above the cover image #}
