@@ -16,9 +16,6 @@
     <div class="featured-buttons featured-buttons--compact" aria-label="Pattern layers">
       {% for l in layers or [] %}
         <a class="btn-link btn-link--compact btn-link--subtle" href="{{ l.href }}">
-          {% if (l.emoji or '')|length > 0 %}
-            <span aria-hidden="true">{{ l.emoji }}</span>
-          {% endif %}
           {{ l.label }}
         </a>
       {% endfor %}

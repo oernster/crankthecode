@@ -13,9 +13,6 @@
       <div class="featured-buttons featured-buttons--compact" aria-label="Pattern layers" style="margin-top: 14px;">
         {% for l in patterns_layers or [] %}
           <a class="btn-link btn-link--compact" href="{{ l.href }}">
-            {% if (l.emoji or '')|length > 0 %}
-              <span aria-hidden="true">{{ l.emoji }}</span>
-            {% endif %}
             {{ l.label }}
           </a>
         {% endfor %}
@@ -26,9 +23,6 @@
       <div class="featured-buttons featured-buttons--compact" aria-label="Decision Architecture layers" style="margin-top: 14px;">
         {% for l in structures_layers or [] %}
           <a class="btn-link btn-link--compact" href="{{ l.href }}">
-            {% if (l.emoji or '')|length > 0 %}
-              <span aria-hidden="true">{{ l.emoji }}</span>
-            {% endif %}
             {{ l.label }}
           </a>
         {% endfor %}

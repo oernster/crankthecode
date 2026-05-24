@@ -43,7 +43,7 @@ def test_homepage_renders():
     assert 'download="Oliver-Ernster-CV.pdf"' in hero_block
     assert "Download CV" in hero_block
     assert 'id="contact-email-btn"' in hero_block
-    assert "✉ Work With Me" in hero_block
+    assert "📩 Work With Me" in hero_block
 
     # Hero should remain concise (no extra proof/portfolio cues inside the hero block).
     assert 'class="homepage-portfolio-cue"' not in hero_block

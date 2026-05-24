@@ -307,10 +307,7 @@ body.is-homepage .read-time-bar {
 }
 
 .sidebar-link__icon {
-  flex: 0 0 auto;
-  width: 1.2em;
-  line-height: 1.2;
-  margin-top: 0.8px;
+  display: none;
 }
 
 .sidebar-link__text {
@@ -432,7 +429,7 @@ body.is-homepage .read-time-bar {
 .sidebar-expand-btn::before {
   content: "›";
   display: block;
-  font-size: 1.1em;
+  font-size: 1.5em;
   line-height: 1;
   transition: transform 0.18s ease;
   transform: rotate(0deg);
@@ -949,11 +946,18 @@ body.is-homepage .read-time-bar {
   margin: 0 auto;
   padding: 6.4px 16px;
   border-radius: 999px;
-  background: var(--accent-green-bg);
-  border: 1px solid var(--accent-green-border);
-  color: var(--text-color);
+  background: var(--primary-btn-bg);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--primary-btn-fg);
   font-weight: 700;
   letter-spacing: 0.02em;
+  box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease,
+    color 0.18s ease;
 }
 
 .top-favicon-link {
@@ -995,9 +999,15 @@ body.is-homepage .read-time-bar {
 }
 
 .top-about-link:hover {
-  background: color-mix(in srgb, var(--accent-green-bg) 75%, transparent);
-  color: var(--text-color);
+  text-decoration: none;
+  transform: translateY(-1px);
+  background: var(--cta-bg-hover);
+  border-color: var(--cta-border-hover);
+  color: var(--cta-fg);
   text-shadow: none;
+  box-shadow:
+    0 14px 30px rgba(79, 140, 255, 0.14),
+    var(--hover-accent-shadow);
 }
 
 .top-about-link:focus-visible {
@@ -1837,11 +1847,15 @@ a[href=\"/\"]:hover {
   min-width: calc(88px * var(--btn-scale));
 }
 
-/* Button links with tiny thumbnails */
+/* Button links with tiny thumbnails: force same height as text-only btn-link (56px * scale).
+   Removes vertical padding so the thumb fills the available space without inflating the pill. */
 .btn-link--with-thumb {
   display: inline-flex;
   align-items: center;
   gap: calc(12.8px * var(--btn-scale));
+  padding-top: 0;
+  padding-bottom: 0;
+  height: calc(56px * var(--btn-scale));
 }
 
 /* Compact button variant (used for dense navigation rows like Start Here themes). */
@@ -1851,17 +1865,17 @@ a[href=\"/\"]:hover {
 }
 
 .btn-thumb {
-  width: calc(56px * var(--btn-scale));
-  height: calc(56px * var(--btn-scale));
-  border-radius: calc(12px * var(--btn-scale));
+  width: calc(32px * var(--btn-scale));
+  height: calc(32px * var(--btn-scale));
+  border-radius: calc(8px * var(--btn-scale));
   object-fit: cover;
   flex: 0 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
-/* Emoji thumbnail variant (used when we want an emoji instead of an image) */
+/* Emoji thumbnail variant: hidden — emoji thumbnails removed from button pills site-wide. */
 .btn-thumb--emoji {
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-content: center;
   /* Ensure emoji glyphs render consistently across platforms/browsers.
@@ -1875,7 +1889,7 @@ a[href=\"/\"]:hover {
     "Segoe UI Symbol",
     sans-serif;
   font-variant-emoji: emoji;
-  font-size: calc(38px * var(--btn-scale));
+  font-size: calc(22px * var(--btn-scale));
   line-height: 1;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -4329,9 +4343,7 @@ html.theme-light .section-title {
 }
 
 .post-pill__emoji {
-  font-size: 1.05em;
-  line-height: 1;
-  flex-shrink: 0;
+  display: none;
 }
 
 .post-pill__icon {
@@ -4411,11 +4423,11 @@ html.theme-light .section-title {
   justify-content: flex-start;
 }
 
-/* Smaller thumb inside the featured pill (inherits .btn-thumb shape) */
+/* Thumb inside the featured pill (inherits .btn-thumb shape, same size as base thumb) */
 .posts-featured-pill__thumb {
-  width: calc(40px * var(--btn-scale));
-  height: calc(40px * var(--btn-scale));
-  font-size: calc(26px * var(--btn-scale));
+  width: calc(32px * var(--btn-scale));
+  height: calc(32px * var(--btn-scale));
+  font-size: calc(22px * var(--btn-scale));
 }
 
 .posts-featured-pill__title {
