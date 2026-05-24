@@ -1,6 +1,6 @@
 ---
 date: 2026-02-11 16:30
-emoji: 🧭
+emoji: ⚙️
 one_liner: When authority is aligned, the CTO role collapses into a small number of quiet functions.
 tags:
 - cat:Leadership

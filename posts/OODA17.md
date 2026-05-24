@@ -2,7 +2,7 @@
 title: Decision facade
 one_liner: Complex organisational decision structures can be simplified through a single visible interface.
 date: 2026-03-16 20:40
-emoji: 🏛️
+emoji: 🎭
 tags:
 - cat:decision-architecture-patterns
 - layer:decision-interfaces

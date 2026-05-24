@@ -2,7 +2,7 @@
 title: Decision termination as a structural property
 one_liner: Decisions must have a defined termination point or they circulate endlessly through the organisation.
 date: 2026-03-16 15:30
-emoji: 🧱
+emoji: ⛔
 tags:
 - cat:decision-architecture-patterns
 - layer:decision-primitives

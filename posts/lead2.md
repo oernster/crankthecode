@@ -1,6 +1,6 @@
 ---
 date: 2026-02-07 19:00
-emoji: 🧱
+emoji: 🏗️
 one_liner: The decisions that lock in latency long before there is anything to measure.
 tags:
 - cat:Leadership

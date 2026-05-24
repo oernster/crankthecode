@@ -2,7 +2,7 @@
 title: Authority follows the shape of the decision
 one_liner: Authority functions best when it is assigned according to decision type rather than organisational hierarchy.
 date: 2026-03-16 16:00
-emoji: ⚖️
+emoji: 🔷
 tags:
 - cat:decision-architecture-patterns
 - layer:authority-models

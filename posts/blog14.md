@@ -1,6 +1,6 @@
 ---
 date: 2026-01-28 19:30
-emoji: ⚖️
+emoji: ✅
 one_liner: Higher coverage only matters if the tests survive refactors and real use.
 tags:
 - cat:Blog

@@ -34,7 +34,7 @@ def create_app() -> FastAPI:
     # Note:
     # - This only works when those hostnames route to this app.
     # - We bypass local dev hosts so `uvicorn` on 127.0.0.1/localhost behaves normally.
-    CANONICAL_HOST = "www.crankthecode.com"
+    CANONICAL_HOST = (os.getenv("CTC_CANONICAL_HOST") or "www.crankthecode.com").lower()
 
     @fastapi_app.middleware("http")
     async def enforce_canonical_host_and_scheme(
@@ -83,9 +83,6 @@ def create_app() -> FastAPI:
         return resp
 
     # Static and templates
-    import os
-    from pathlib import Path
-
     BASE_DIR = Path(__file__).resolve().parent
     PROJECT_ROOT = BASE_DIR.parent
 

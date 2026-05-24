@@ -2,7 +2,7 @@
 title: Decision inertia
 one_liner: Decisions accumulate resistance to change as systems adapt around them.
 date: 2026-04-08 21:30
-emoji: 🧱
+emoji: 🪨
 tags:
 - cat:decision-architecture-patterns
 - layer:system-dynamics

@@ -2,7 +2,7 @@
 title: Boundary guard
 one_liner: Decision boundaries require explicit guards that prevent decisions from leaking across domains unintentionally.
 date: 2026-03-17 01:00
-emoji: 🧱
+emoji: 🔒
 tags:
 - cat:decision-architecture-patterns
 - layer:decision-interfaces

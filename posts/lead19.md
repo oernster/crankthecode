@@ -1,6 +1,6 @@
 ---
 date: 2026-02-12 05:35
-emoji: 🛠️
+emoji: 🌱
 one_liner: If junior pipelines are structural capacity then they must be deliberately designed rather than culturally assumed.
 tags:
 - cat:leadership

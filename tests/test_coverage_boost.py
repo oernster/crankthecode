@@ -466,13 +466,13 @@ def test_excluded_slugs_blog_query_empty_set_branch_covered():
 
 
 def test_is_blog_post_by_cat_covers_branches():
-    from app.http.routers.html import _is_blog_post_by_cat
+    from app.http.view_models.sidebar import is_blog_post_by_cat
 
-    assert _is_blog_post_by_cat([]) is False
-    assert _is_blog_post_by_cat(["x"]) is False
-    assert _is_blog_post_by_cat(["cat:Blog"]) is True
-    assert _is_blog_post_by_cat(["cat:blog"]) is True
-    assert _is_blog_post_by_cat(["CAT:BLOG"]) is True
+    assert is_blog_post_by_cat([]) is False
+    assert is_blog_post_by_cat(["x"]) is False
+    assert is_blog_post_by_cat(["cat:Blog"]) is True
+    assert is_blog_post_by_cat(["cat:blog"]) is True
+    assert is_blog_post_by_cat(["CAT:BLOG"]) is True
 
 
 def test_homepage_leadership_missing_posts_is_tolerated(monkeypatch):
@@ -563,11 +563,11 @@ def test_posts_index_category_title_empty_is_tolerated(monkeypatch):
             return None
 
     from app.http.deps import get_blog_service
-    from app.http.routers import html as html_router
+    import app.http.routers.posts as posts_router
 
     # Force `cat_display` to become empty after `.strip()` so the code exercises
     # the `if cat_text:` false branch.
-    monkeypatch.setattr(html_router, "_category_label_for_query", lambda *a, **k: " ")
+    monkeypatch.setattr(posts_router, "category_label_for_query", lambda *a, **k: " ")
 
     app = create_app()
     app.dependency_overrides[get_blog_service] = lambda: FakeBlog()

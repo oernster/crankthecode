@@ -2,7 +2,7 @@
 title: AI does not remove the need for software engineers
 one_liner: Code generation accelerates implementation. Architecture still requires expertise.
 date: 2026-03-15 06:00
-emoji: 🧠
+emoji: 💻
 tags:
   - cat:Leadership
   - layer:structural-design

@@ -1,6 +1,6 @@
 ---
 date: 2026-02-14 06:00
-emoji: 🚧
+emoji: 💸
 one_liner: Delegating responsibility without decision rights is structural harm not empowerment.
 tags:
 - cat:leadership

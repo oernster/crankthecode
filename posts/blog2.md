@@ -1,6 +1,6 @@
 ---
 date: 2026-01-20 11:50
-emoji: "\U0001F9EA"
+emoji: 📟
 one_liner: Search autocomplete now works, the Help button is unhelpful and every post
   has just enough recruiter bait.
 tags:

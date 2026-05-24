@@ -2,7 +2,7 @@
 title: Optionality as a structural resource
 one_liner: Optionality strengthens organisations when it is deliberately constrained rather than preserved indefinitely.
 date: 2026-03-16 19:00
-emoji: 🧮
+emoji: 🎲
 tags:
 - cat:decision-architecture-patterns
 - layer:system-dynamics

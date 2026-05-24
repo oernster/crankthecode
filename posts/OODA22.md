@@ -2,7 +2,7 @@
 title: Decision router
 one_liner: Decisions must be routed to the correct authority domain before they can terminate.
 date: 2026-03-16 23:00
-emoji: 🧭
+emoji: 🔀
 tags:
 - cat:decision-architecture-patterns
 - layer:decision-interfaces

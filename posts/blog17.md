@@ -1,6 +1,6 @@
 ---
 date: 2026-02-07 14:30
-emoji: "\U0001F9E9"
+emoji: 🔖
 one_liner: Effective management of the crankthecode website.
 tags:
 - cat:Blog

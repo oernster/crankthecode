@@ -1,6 +1,6 @@
 ---
 date: 2026-02-11 09:00
-emoji: 🗂️
+emoji: 🔔
 one_liner: Exposure to requirements is not the same as authority over them.
 tags:
 - cat:Leadership

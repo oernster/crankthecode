@@ -1,6 +1,6 @@
 ---
 date: 2026-01-24 06:15
-emoji: "\U0001F317"
+emoji: 🎨
 one_liner: A tour through UI tweaks, CTA wrangling and why stopping matters more than
   starting.
 tags:

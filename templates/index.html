@@ -48,7 +48,28 @@
             >
               ⬇️ Download CV
             </a>
+            <button
+              id="contact-email-btn"
+              class="cta-button"
+              type="button"
+            >
+              ✉ Work With Me
+            </button>
           </div>
+          <script type="text/javascript">
+            (function () {
+              const btn = document.getElementById("contact-email-btn");
+              if (btn) {
+                btn.addEventListener("click", () => {
+                  const c = window.CTC_CONTACT;
+                  if (!c) {
+                    return;
+                  }
+                  window.location.href = c.link;
+                });
+              }
+            })();
+          </script>
         </div>
       </div>
     </div>
@@ -61,23 +82,15 @@
       <h2 class="section-title section-title--accent">Explore</h2>
     </div>
 
-    <div class="featured-buttons featured-buttons--compact" role="group" aria-label="Section gateways" style="margin-bottom: 16px;">
-      <a class="btn-link btn-link--compact" href="/decision-architecture" aria-label="Explore Decision Architecture">
+    <div class="featured-buttons" role="group" aria-label="Section gateways">
+      <a class="btn-link" href="/decision-architecture" aria-label="Explore Decision Architecture">
         Decision Architecture
       </a>
-      <a class="btn-link btn-link--compact" href="/patterns" aria-label="Explore Decision Architecture Patterns">
+      <a class="btn-link" href="/patterns" aria-label="Explore Decision Architecture Patterns">
         Patterns
       </a>
-      <a class="btn-link btn-link--compact" href="/portfolio" aria-label="View portfolio">
+      <a class="btn-link" href="/portfolio" aria-label="View portfolio">
         Portfolio
-      </a>
-    </div>
-
-    <p class="featured-lede" style="margin-bottom: 10px;">Start here if you're new:</p>
-    <div class="featured-buttons" aria-label="Featured post link">
-      <a class="btn-link btn-link--with-thumb" href="/posts/OODAIntro">
-        <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🧩</span>
-        <span class="btn-text">What is Decision Architecture?</span>
       </a>
     </div>
   </section>
@@ -92,34 +105,7 @@
         reducing decision latency and designing escalation surfaces
         that stabilise delivery in regulated and high-risk environments.
       </p>
-
-      <hr class="post-separator post-separator--subtle" aria-hidden="true" />
-
-      <section id="contact" aria-label="Contact">
-        <p>If the mandate is real, perhaps we should talk.</p>
-        <button
-          id="contact-email-btn"
-          class="cta-button cta-button--compact"
-          type="button"
-        >
-          ✉ Start a Conversation
-        </button>
-
-        <script type="text/javascript">
-          (function () {
-            const btn = document.getElementById("contact-email-btn");
-            if (btn) {
-              btn.addEventListener("click", () => {
-                const c = window.CTC_CONTACT;
-                if (!c) {
-                  return;
-                }
-                window.location.href = c.link;
-              });
-            }
-          })();
-        </script>
-      </section>
     </div>
   </section>
+
 {% endblock %}

@@ -155,10 +155,10 @@ def test_posts_projects_view_includes_type_project_even_without_portfolio_catego
 def test_posts_href_helpers_have_basic_coverage():
     """Pin coverage for tiny URL helpers in the HTML router."""
 
-    from app.http.routers.html import (
-        _posts_base_href,
-        _posts_href,
-        _posts_view_from_legacy_exclude_blog,
+    from app.http.view_models.sidebar import (
+        posts_base_href as _posts_base_href,
+        posts_href as _posts_href,
+        posts_view_from_legacy_exclude_blog as _posts_view_from_legacy_exclude_blog,
     )
 
     assert _posts_href(query="cat:Tools", exclude_blog=None) == "/posts?q=cat%3ATools"

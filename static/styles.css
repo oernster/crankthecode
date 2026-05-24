@@ -2137,9 +2137,16 @@ body.is-homepage .hero__subline {
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   gap: 12px;
   margin-top: 15.2px;
+}
+
+/* Force both hero CTAs to the same height as the pill buttons (btn-link = 56px). */
+.hero-actions .cta-button {
+  min-height: calc(56px * var(--btn-scale));
+  height: calc(56px * var(--btn-scale));
+  box-sizing: border-box;
 }
 
 /* CTA button styling (used on homepage hero). */
@@ -2196,6 +2203,20 @@ body.is-homepage .hero__subline {
 .cta-button--compact {
   min-height: calc(44px * var(--btn-scale));
   padding: calc(9.6px * var(--btn-scale)) calc(16px * var(--btn-scale));
+}
+
+/* Secondary CTA: same size as primary but ghost/outline treatment. */
+.cta-button--secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: var(--text-primary, #e2e8f0);
+  box-shadow: none;
+}
+
+.cta-button--secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--cta-fg);
 }
 
 @media (max-width: 680px) {
@@ -3731,9 +3752,26 @@ html.theme-light .section-title {
   margin-bottom: 16px;
 }
 
+.post-meta--standalone {
+  margin-bottom: 12px;
+}
+
 .post-date,
 .post-tags {
   display: block;
+}
+
+.post-read-time {
+  display: inline-block;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--accent-muted, rgba(99, 102, 241, 0.12));
+  color: var(--accent, #6366f1);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 @media (prefers-reduced-motion: reduce) {

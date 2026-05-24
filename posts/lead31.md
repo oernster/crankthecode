@@ -2,7 +2,7 @@
 title: What extensive experience across organisations teaches you
 one_liner: Decades of software work reveal the same structural failure modes again and again
 date: 2026-03-15 10:00
-emoji: 🧩
+emoji: 🌐
 tags:
   - cat:Leadership
   - layer:structural-design

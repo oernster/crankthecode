@@ -263,11 +263,11 @@ def test_category_posts_grouped_by_layer_tolerates_empty_cat_tag():
 
     from typing import cast
 
-    from app.http.routers.html import _category_posts_grouped_by_layer
+    from app.http.view_models.leadership import category_posts_grouped_by_layer
     from app.services.blog_service import BlogService
 
     assert (
-        _category_posts_grouped_by_layer(
+        category_posts_grouped_by_layer(
             cast(BlogService, FakeBlog()),
             cat_tag="",
             layer_label_overrides=None,

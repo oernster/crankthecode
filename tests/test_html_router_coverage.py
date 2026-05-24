@@ -1,18 +1,20 @@
 from __future__ import annotations
 
+import app.http.view_models.context as context_vm
+import app.http.view_models.leadership as leadership_vm
+from app.http.view_models.posts import category_label_for_query
 from fastapi.testclient import TestClient
 
-from app.http.routers import html as html_module
 from app.main import create_app
 
 
 def test_category_label_for_query_returns_label_and_none():
     assert (
-        html_module._category_label_for_query("api|apis|fastapi|django|rest|web")
+        category_label_for_query("api|apis|fastapi|django|rest|web")
         == "🌐 Web APIs"
     )
-    assert html_module._category_label_for_query("") is None
-    assert html_module._category_label_for_query("not-a-real-category") is None
+    assert category_label_for_query("") is None
+    assert category_label_for_query("not-a-real-category") is None
 
 
 def test_load_about_html_fail_open_for_missing_post_and_exception(monkeypatch):
@@ -23,15 +25,15 @@ def test_load_about_html_fail_open_for_missing_post_and_exception(monkeypatch):
         def get_post(self, slug: str):
             return None
 
-    monkeypatch.setattr(html_module, "FilesystemPostsRepository", FakeRepoMissing)
-    assert html_module._load_about_html() == ""
+    monkeypatch.setattr(context_vm, "FilesystemPostsRepository", FakeRepoMissing)
+    assert context_vm.load_about_html() == ""
 
     class FakeRepoExplodes:
         def __init__(self, *args, **kwargs):
             raise RuntimeError("boom")
 
-    monkeypatch.setattr(html_module, "FilesystemPostsRepository", FakeRepoExplodes)
-    assert html_module._load_about_html() == ""
+    monkeypatch.setattr(context_vm, "FilesystemPostsRepository", FakeRepoExplodes)
+    assert context_vm.load_about_html() == ""
 
 
 def test_read_post_renders_non_project_post_without_date_or_cover_image():
@@ -75,13 +77,9 @@ def test_read_post_renders_non_project_post_without_date_or_cover_image():
 
 
 def test_extract_category_queries_from_tags_skips_empty_and_cat_colon_only():
-    from app.http.routers.html import _extract_category_queries_from_tags
+    from app.http.view_models.sidebar import extract_category_queries_from_tags
 
-    # Covers:
-    # - empty/whitespace tags
-    # - `cat:` with no label
-    # - normalization (whitespace collapse + Title Case)
-    out = _extract_category_queries_from_tags(
+    out = extract_category_queries_from_tags(
         [
             "",
             "   ",
@@ -95,14 +93,7 @@ def test_extract_category_queries_from_tags_skips_empty_and_cat_colon_only():
 
 
 def test_topic_helpers_cover_general_hub_route_normalization_and_general_exclusion():
-    """Coverage for topic hub helper branches.
-
-    This covers:
-    - leadership posts with no `layer:` -> become the `general` hub
-    - route normalization for empty/"general"
-    - general-topic post selection excludes posts that *do* have a layer
-    - fallback hub sorting for an unknown layer slug
-    """
+    """Coverage for topic hub helper branches."""
 
     from app.domain.models import PostSummary
 
@@ -158,30 +149,29 @@ def test_topic_helpers_cover_general_hub_route_normalization_and_general_exclusi
         def get_post(self, slug: str):
             return None
 
-    hubs = html_module._leadership_topic_hubs(FakeBlog())
+    hubs = leadership_vm.build_leadership_topic_hubs(FakeBlog())
     assert any(h.get("layer") == "general" for h in hubs)
     assert any(h.get("layer") == "weird-layer" for h in hubs)
 
-    assert html_module._topic_layer_slug_for_route("") == "general"
-    assert html_module._topic_layer_slug_for_route("general") == "general"
+    assert leadership_vm.topic_layer_slug_for_route("") == "general"
+    assert leadership_vm.topic_layer_slug_for_route("general") == "general"
 
-    general_posts = html_module._topic_posts_for_layer(FakeBlog(), layer_slug="general")
+    general_posts = leadership_vm.topic_posts_for_layer(FakeBlog(), layer_slug="general")
     slugs = {p.get("slug") for p in general_posts}
     assert "no-layer" in slugs
-    # Posts with any layer must be excluded from the general hub.
     assert "known-layer" not in slugs
 
 
 def test_sidebar_label_with_emoji_maps_known_labels_and_passes_through_unknowns():
-    from app.http.routers.html import _sidebar_label_with_emoji
+    from app.http.view_models.sidebar import sidebar_label_with_emoji
 
-    assert _sidebar_label_with_emoji("Tools") == "🧰 Tools"
-    assert _sidebar_label_with_emoji("Hardware") == "🔧 Hardware"
-    assert _sidebar_label_with_emoji("Governance") == "🏛️ Governance"
-    assert _sidebar_label_with_emoji("Leadership") == "♟️ Decision Architecture"
-    assert _sidebar_label_with_emoji("Web Apis") == "🌐 Web APIs"
-    assert _sidebar_label_with_emoji("Unmapped") == "Unmapped"
-    assert _sidebar_label_with_emoji("") == ""
+    assert sidebar_label_with_emoji("Tools") == "🧰 Tools"
+    assert sidebar_label_with_emoji("Hardware") == "🔧 Hardware"
+    assert sidebar_label_with_emoji("Governance") == "🏛️ Governance"
+    assert sidebar_label_with_emoji("Leadership") == "♟️ Decision Architecture"
+    assert sidebar_label_with_emoji("Web Apis") == "🌐 Web APIs"
+    assert sidebar_label_with_emoji("Unmapped") == "Unmapped"
+    assert sidebar_label_with_emoji("") == ""
 
 
 def test_legacy_leadership_blog_posts_redirect_to_leadership_slugs():

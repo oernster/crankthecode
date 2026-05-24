@@ -1,6 +1,6 @@
 ---
 date: 2026-02-08 14:00
-emoji: 🧠
+emoji: 💡
 one_liner: Performance problems begin with product decisions and organisational behaviour long before code exists.
 tags:
 - cat:Leadership

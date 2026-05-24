@@ -2,7 +2,7 @@
 title: The core primitives of decision architecture
 one_liner: Organisations repeatedly generate the same decision objects regardless of industry or structure.
 date: 2026-03-16 06:10
-emoji: 🧩
+emoji: 🔑
 tags:
 - cat:decision-architecture-patterns
 - layer:system-dynamics

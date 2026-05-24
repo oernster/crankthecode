@@ -2,7 +2,7 @@
 title: Decision reversibility
 one_liner: The cost of reversing a decision determines how cautiously it should be made.
 date: 2026-04-09 01:30
-emoji: 🔄
+emoji: ↩️
 tags:
 - cat:decision-architecture-patterns
 - layer:decision-primitives

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from app.domain.tags import extract_layer_slugs_from_tags
 from app.domain.tags import primary_layer_slug_from_tags
-from app.http.routers.html import _category_label_for_query
-from app.http.routers.html import _extract_category_queries_from_tags
+from app.http.view_models.posts import category_label_for_query as _category_label_for_query
+from app.http.view_models.sidebar import extract_category_queries_from_tags as _extract_category_queries_from_tags
 
 
 def test_extract_layer_slugs_normalizes_and_ignores_invalid_entries():

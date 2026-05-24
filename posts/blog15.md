@@ -1,6 +1,6 @@
 ---
 date: 2026-01-31 10:00
-emoji: "\U0001F9F9"
+emoji: 🚀
 one_liner: Nothing screams freedom like deleting the last line of PHP from your life.
 tags:
 - cat:Blog

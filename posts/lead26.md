@@ -1,6 +1,6 @@
 ---
 date: 2026-02-14 22:00
-emoji: 🛰️
+emoji: 🌪️
 one_liner: Frequent direction changes erase structural compounding even when output appears strong.
 tags:
 - cat:leadership

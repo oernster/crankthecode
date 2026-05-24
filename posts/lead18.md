@@ -1,6 +1,6 @@
 ---
 date: 2026-02-12 03:00
-emoji: 🧬
+emoji: 🌿
 one_liner: Removing junior pipelines optimises short term output while increasing long term structural risk.
 tags:
 - cat:leadership

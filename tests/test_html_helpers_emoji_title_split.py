@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.http.routers.html import _display_title_parts, _split_leading_emoji_from_title
+from app.http.view_models.posts import display_title_parts as _display_title_parts, split_leading_emoji_from_title as _split_leading_emoji_from_title
 
 
 def test_split_leading_emoji_from_title_handles_blank_and_non_emoji():

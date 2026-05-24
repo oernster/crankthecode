@@ -1,6 +1,6 @@
 ---
 date: 2026-01-21 01:45
-emoji: "\U0001F9E0"
+emoji: 🖥️
 one_liner: Added hero and battlestation sections.
 tags:
 - cat:Blog

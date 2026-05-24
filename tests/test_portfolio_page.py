@@ -85,23 +85,24 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
     fail-open behavior (missing post, empty slug, exceptions).
     """
 
-    import app.http.routers.html as html
+    import app.http.view_models.portfolio as portfolio_vm
+    from app.http.view_models.posts import post_summary_index
 
-    # `_load_portfolio_post()` should fail open.
+    # `load_portfolio_post()` should fail open.
     def _boom(*args, **kwargs):
         raise RuntimeError("boom")
 
-    monkeypatch.setattr(html.FilesystemPostsRepository, "get_post", _boom)
-    assert html._load_portfolio_post() is None
+    monkeypatch.setattr(portfolio_vm.FilesystemPostsRepository, "get_post", _boom)
+    assert portfolio_vm.load_portfolio_post() is None
 
-    # `_render_portfolio_intro_html()` should return empty when the post is missing.
-    monkeypatch.setattr(html, "_load_portfolio_post", lambda: None)
-    assert html._render_portfolio_intro_html() == ""
+    # `render_portfolio_intro_html()` should return empty when the post is missing.
+    monkeypatch.setattr(portfolio_vm, "load_portfolio_post", lambda: None)
+    assert portfolio_vm.render_portfolio_intro_html() == ""
 
     # And it should fail open if markdown rendering raises.
     monkeypatch.setattr(
-        html,
-        "_load_portfolio_post",
+        portfolio_vm,
+        "load_portfolio_post",
         lambda: SimpleNamespace(content_markdown="Hello"),
     )
 
@@ -109,10 +110,10 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
         def render(self, *_args, **_kwargs):
             raise RuntimeError("boom")
 
-    monkeypatch.setattr(html, "PythonMarkdownRenderer", lambda: _BadRenderer())
-    assert html._render_portfolio_intro_html() == ""
+    monkeypatch.setattr(portfolio_vm, "PythonMarkdownRenderer", lambda: _BadRenderer())
+    assert portfolio_vm.render_portfolio_intro_html() == ""
 
-    # `_post_summary_index()` should ignore empty slugs.
+    # `post_summary_index()` should ignore empty slugs.
     from app.domain.models import PostSummary
 
     empty = PostSummary(
@@ -141,10 +142,10 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
 
     from app.services.blog_service import BlogService
 
-    assert html._post_summary_index(cast(BlogService, FakeBlog())) == {}
+    assert post_summary_index(cast(BlogService, FakeBlog())) == {}
 
     # Curated helper should ignore empty, hidden and missing slugs.
-    out = html._curated_portfolio_entries_from_slugs(
+    out = portfolio_vm.curated_portfolio_entries_from_slugs(
         slugs=["", "portfolio", "missing"],
         index={},
         hidden={"portfolio"},
@@ -158,12 +159,12 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
 def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatch):
     """Hit the defensive branches inside the tools de-dupe loop in `_portfolio_groups()`."""
 
-    import app.http.routers.html as html
+    import app.http.view_models.portfolio as portfolio_vm
 
     # Make the pinned tools list include a blank slug and a real slug.
     monkeypatch.setattr(
-        html,
-        "_curated_portfolio_entries_from_slugs",
+        portfolio_vm,
+        "curated_portfolio_entries_from_slugs",
         lambda **_kwargs: [{"slug": ""}, {"slug": "audiodeck", "label": "Audio Deck"}],
     )
 
@@ -196,7 +197,7 @@ def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatc
 
     from app.services.blog_service import BlogService
 
-    groups = html._portfolio_groups(cast(BlogService, FakeBlog()))
+    groups = portfolio_vm.portfolio_groups(cast(BlogService, FakeBlog()))
     # The group was renamed from "Tools" -> "Operational Tools".
     tools = next(g for g in groups if g.get("label") == "Operational Tools")
     slugs = [e.get("slug") for e in (tools.get("entries") or [])]
@@ -208,7 +209,7 @@ def test_portfolio_groups_ignores_flagship_posts_with_blank_slug():
 
     from typing import cast
 
-    import app.http.routers.html as html
+    import app.http.view_models.portfolio as portfolio_vm
     from app.domain.models import PostSummary
     from app.services.blog_service import BlogService
 
@@ -234,19 +235,19 @@ def test_portfolio_groups_ignores_flagship_posts_with_blank_slug():
         def get_post(self, slug: str):
             return None
 
-    groups = html._portfolio_groups(cast(BlogService, FakeBlog()))
+    groups = portfolio_vm.portfolio_groups(cast(BlogService, FakeBlog()))
     assert isinstance(groups, list)
 
 
 def test_portfolio_meta_description_branch_when_phrase_already_present(monkeypatch):
     """Cover the portfolio meta-description branch where no append is needed."""
 
-    import app.http.routers.html as html
+    import app.http.routers.portfolio as portfolio_router
 
     # Provide a synthetic portfolio page where the one-liner already includes the phrase.
     monkeypatch.setattr(
-        html,
-        "_load_portfolio_post",
+        portfolio_router,
+        "load_portfolio_post",
         lambda: SimpleNamespace(
             title="Portfolio",
             emoji="🧩",
@@ -254,7 +255,7 @@ def test_portfolio_meta_description_branch_when_phrase_already_present(monkeypat
             content_markdown="Intro",
         ),
     )
-    monkeypatch.setattr(html, "_render_portfolio_intro_html", lambda: "<p>Intro</p>")
+    monkeypatch.setattr(portfolio_router, "render_portfolio_intro_html", lambda: "<p>Intro</p>")
 
     app = create_app()
     client = TestClient(app)

@@ -1,6 +1,6 @@
 ---
 date: 2026-01-28 15:30
-emoji: "\U0001F9F1"
+emoji: ♻️
 one_liner: Before making code cleaner make sure it can stop cancel and shut down correctly
   every single time.
 tags:

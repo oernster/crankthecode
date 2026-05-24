@@ -1,6 +1,6 @@
 ---
 title: Portfolio
-emoji: 🧩
+emoji: 📁
 one_liner: Independent engineering systems and software experiments.
 date: 2026-03-15 00:00
 tags:
@@ -15,3 +15,5 @@ Each project focuses on:
 - what works now
 
 No dashboards. No vanity metrics. Systems that behave properly.
+
+Some of this is serious production software. Some of it is curiosity-driven tinkering. Both are honest representations of how I think.

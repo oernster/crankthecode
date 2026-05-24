@@ -2,7 +2,7 @@
 title: Decision queue
 one_liner: Decision latency accumulates when unresolved decisions form invisible queues inside authority boundaries.
 date: 2026-03-16 23:30
-emoji: 🧵
+emoji: 🎫
 tags:
 - cat:decision-architecture-patterns
 - layer:system-dynamics

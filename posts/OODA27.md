@@ -2,7 +2,7 @@
 title: Decision quorum
 one_liner: Some decisions require collective authority where resolution emerges only when a threshold of actors agree.
 date: 2026-03-17 01:30
-emoji: 🧮
+emoji: 🗳️
 tags:
 - cat:decision-architecture-patterns
 - layer:authority-models

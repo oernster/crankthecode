@@ -27,40 +27,32 @@ def test_homepage_renders():
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
 
-    # Featured essay (single CTA) should appear in the Explore section.
-    assert 'href="/posts/OODAIntro"' in resp.text
-    assert "What is Decision Architecture?" in resp.text
-    assert "🧩" in resp.text
+    # Explore section navigation pills should appear.
+    assert 'href="/decision-architecture"' in resp.text
+    assert 'href="/patterns"' in resp.text
+    assert 'href="/portfolio"' in resp.text
 
-    # Primary homepage CTA should appear in the hero.
+    # Primary homepage CTAs should appear in the hero.
     assert '<div class="hero-actions" aria-label="Primary actions">' in resp.text
     m = re.search(r'<section class="landing-intro"[\s\S]*?</section>', resp.text)
     assert m is not None, resp.text
     hero_block = m.group(0)
     assert "📩 Hire Me" not in hero_block
     assert "Download my CV" not in hero_block
-    assert "✉ Work With Me" not in hero_block
 
-    # CV download CTA should be the sole CTA in the hero.
+    # CV download and Work With Me should both be in the hero.
     assert 'href="/cv-oliver-ernster.pdf"' in hero_block
     assert 'download="Oliver-Ernster-CV.pdf"' in hero_block
     assert "Download CV" in hero_block
+    assert 'id="contact-email-btn"' in hero_block
+    assert "✉ Work With Me" in hero_block
 
     # Hero should remain concise (no extra proof/portfolio cues inside the hero block).
     assert 'class="homepage-portfolio-cue"' not in hero_block
     assert 'class="homepage-selected-project"' not in hero_block
 
-    # CTA should appear in the contact section at the end.
-    m = re.search(r'<section id="contact"[\s\S]*?</section>', resp.text)
-    assert m is not None, resp.text
-    contact_block = m.group(0)
-    assert "Download my CV" not in contact_block
-    assert "📩 Hire Me" not in contact_block
-    assert 'id="contact-email-btn"' in contact_block
-    assert "✉ Start a Conversation" in contact_block
-
-    # CV download CTA should not be duplicated into the contact section.
-    assert 'href="/cv-oliver-ernster.pdf"' not in contact_block
+    # No separate contact section at the bottom.
+    assert 'If the mandate is real' not in resp.text
 
     # Email should not be present in static HTML (it is JS-injected via window.CTC_CONTACT).
     assert "oernster@codecrafter.uk" not in resp.text
@@ -345,7 +337,7 @@ def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld
     assert resp.status_code == 200
 
     # Title and OG title must begin with Oliver Ernster (avoid generic fallbacks).
-    assert "<title>Oliver Ernster - Senior Python Developer" in resp.text, resp.text
+    assert "<title>Oliver Ernster - Engineering Lead" in resp.text, resp.text
     assert (
         '<meta property="og:title" content="Oliver Ernster | Crank The Code">'
         in resp.text
