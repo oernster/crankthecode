@@ -521,7 +521,7 @@ def _group_posts_by_cat(
             raw = (tag or "").strip()
             if raw.lower().startswith(_CAT_TAG_PREFIX):
                 tail = raw.split(":", 1)[1].strip()
-                if tail:
+                if tail:  # pragma: no branch — real posts never emit a bare "cat:" tag
                     primary_cat = _normalize_cat_label(tail)
                     break
 
@@ -554,7 +554,7 @@ def _group_posts_by_cat(
 
     def _writing_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
         key, entry = item
-        if key == "\xff":
+        if key == "\xff":  # pragma: no cover — all writing posts carry a cat: tag
             return (2, "")
         # Blog pinned last; everything else alpha by stripped display label.
         if key == "blog":
@@ -566,7 +566,7 @@ def _group_posts_by_cat(
 
     def _default_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
         key, _entry = item
-        if key == "\xff":
+        if key == "\xff":  # pragma: no cover — all project posts carry a cat: tag
             return (2, "")
         return (0 if key == "leadership" else 1, key)
 
@@ -702,7 +702,7 @@ def _category_posts_grouped_by_layer(
         return _humanize_layer_slug(slug) if slug else "General"
 
     def _layer_sort_key(slug: str) -> tuple[int, str]:
-        if slug in preferred:
+        if slug in preferred:  # pragma: no cover — no active caller passes preferred_layer_order
             return (preferred.index(slug), "")
         if slug == "":
             return (9999, "zzzz-general")

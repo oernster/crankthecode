@@ -200,6 +200,20 @@ body.is-homepage .header-cta {
   margin-right: auto;
 }
 
+/* Footer: mirror the page-layout grid so the copyright sits inside the content column. */
+.site-footer {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.site-footer__copy {
+  grid-column: 2;
+  text-align: center;
+  color: var(--text-muted);
+}
+
 /* Read time (post pages only; the element is present globally but stays hidden unless .post-content exists) */
 .read-time-bar {
   margin: 0 0 12px;
@@ -3701,6 +3715,14 @@ html.theme-light .section-title {
 
   .sidebar {
     position: static;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__copy {
+    grid-column: 1;
   }
 }
 

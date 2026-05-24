@@ -676,3 +676,28 @@ def test_get_post_appends_screenshots_when_body_markdown_empty_covers_else_branc
     assert detail is not None
     assert detail.content_html.startswith("## Screenshots")
     assert "/static/images/one.png" in detail.content_html
+
+
+# ---------------------------------------------------------------------------
+# Real integration tests to cover portfolio section filter paths
+# ---------------------------------------------------------------------------
+
+
+def test_portfolio_section_filter_valid_and_invalid():
+    """Lines 2073, 2097-2104: portfolio section filter.
+
+    - A valid `?section=` param must filter to that group only.
+    - An invalid `?section=` param must return 404.
+    """
+
+    app = create_app()
+    client = TestClient(app, raise_server_exceptions=False)
+
+    # Valid section: "Desktop Applications" → slug "desktop-applications"
+    resp = client.get("/portfolio?section=desktop-applications")
+    assert resp.status_code == 200
+    assert "Desktop Applications" in resp.text
+
+    # Invalid section: must 404
+    resp_bad = client.get("/portfolio?section=nonexistent-xyz-section")
+    assert resp_bad.status_code == 404

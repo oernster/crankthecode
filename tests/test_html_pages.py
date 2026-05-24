@@ -39,10 +39,9 @@ def test_homepage_renders():
     hero_block = m.group(0)
     assert "📩 Hire Me" not in hero_block
     assert "Download my CV" not in hero_block
-    assert "✉ Work With Me" in hero_block
-    assert 'href="/#contact"' in hero_block
+    assert "✉ Work With Me" not in hero_block
 
-    # CV download CTA should appear alongside the primary CTA in the hero.
+    # CV download CTA should be the sole CTA in the hero.
     assert 'href="/cv-oliver-ernster.pdf"' in hero_block
     assert 'download="Oliver-Ernster-CV.pdf"' in hero_block
     assert "Download CV" in hero_block
