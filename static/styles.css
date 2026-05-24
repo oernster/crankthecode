@@ -942,9 +942,13 @@ body.is-homepage .read-time-bar {
 
 .top-about-link {
   display: block;
+  box-sizing: border-box;
   width: fit-content;
   margin: 0 auto;
-  padding: 6.4px 16px;
+  min-height: calc(56px * var(--btn-scale));
+  padding: calc(12.5px * var(--btn-scale)) calc(21.6px * var(--btn-scale));
+  font-size: calc(1em * var(--btn-scale));
+  line-height: 1.2;
   border-radius: 999px;
   background: var(--primary-btn-bg);
   border: 1px solid rgba(255, 255, 255, 0.18);
