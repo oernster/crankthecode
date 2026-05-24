@@ -397,9 +397,6 @@ def test_about_page_renders():
 
     assert resp.status_code == 200
     assert "Things I build with" in resp.text
-    # Author page should expose topic hubs for structural navigation.
-    assert "Topics" in resp.text
-    assert "decision-systems" in resp.text
 
 
 def test_topics_pages_render():

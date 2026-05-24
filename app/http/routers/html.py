@@ -821,11 +821,41 @@ def _person_jsonld_oliver_ernster(*, site_url: str) -> dict[str, object]:
         "sameAs": [
             "https://github.com/oernster",
         ],
+        # Typed Things with URLs signal topical authority to crawlers and
+        # AI knowledge graphs — far stronger than bare strings.
         "knowsAbout": [
-            "Decision Architecture",
-            "Backend Systems Design",
-            "Organisational Systems",
-            "Software Architecture",
+            {
+                "@type": "Thing",
+                "name": "Decision Architecture",
+                "url": absolute_url(site_url, "/decision-architecture"),
+            },
+            {
+                "@type": "Thing",
+                "name": "Decision Systems",
+                "url": absolute_url(site_url, "/topics/decision-systems"),
+            },
+            {
+                "@type": "Thing",
+                "name": "CTO Operating Model",
+                "url": absolute_url(site_url, "/topics/cto-operating-model"),
+            },
+            {
+                "@type": "Thing",
+                "name": "Organisational Structure",
+                "url": absolute_url(site_url, "/topics/organisational-structure"),
+            },
+            {
+                "@type": "Thing",
+                "name": "Structural Design",
+                "url": absolute_url(site_url, "/topics/structural-design"),
+            },
+            {
+                "@type": "Thing",
+                "name": "Architecture",
+                "url": absolute_url(site_url, "/topics/architecture"),
+            },
+            {"@type": "Thing", "name": "Software Architecture"},
+            {"@type": "Thing", "name": "Backend Systems Design"},
         ],
     }
 
@@ -2211,8 +2241,7 @@ async def topics_index(
         ],
     }
 
-    jsonld = {
-        "@context": "https://schema.org",
+    collection_page = {
         "@type": "CollectionPage",
         "@id": f"{canonical}#collection",
         "url": canonical,
@@ -2220,6 +2249,36 @@ async def topics_index(
         "about": {"@id": f"{home}#oliver-ernster"},
         "isPartOf": {"@id": f"{home}#website"},
         "mainEntity": item_list,
+    }
+
+    # DefinedTermSet signals the full topic taxonomy as a machine-readable
+    # vocabulary — stronger than a plain CollectionPage for topical authority.
+    defined_term_set = {
+        "@type": "DefinedTermSet",
+        "@id": f"{canonical}#taxonomy",
+        "name": "Decision Architecture Topics",
+        "url": canonical,
+        "hasDefinedTerm": [
+            {
+                "@type": "DefinedTerm",
+                "name": layer["label"],
+                "url": absolute_url(site_url, str(layer["href"])),
+            }
+            for layer in structures_layers
+        ]
+        + [
+            {
+                "@type": "DefinedTerm",
+                "name": layer["label"],
+                "url": absolute_url(site_url, str(layer["href"])),
+            }
+            for layer in patterns_layers
+        ],
+    }
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@graph": [collection_page, defined_term_set],
     }
 
     breadcrumb_jsonld = {
@@ -2654,29 +2713,34 @@ async def read_post(
     if tags:
         jsonld["keywords"] = ", ".join(tags)
 
+    # For leadership posts with a layer tag, route the JSON-LD breadcrumb
+    # through the topic hub. This creates a hub-and-spoke graph that Google
+    # uses to infer topical clusters — invisible to users, high signal to crawlers.
+    post_tags_for_layer = [str(t) for t in (detail.tags or [])]
+    _is_leadership = _is_leadership_post(post_tags_for_layer)
+    _primary_layer = (
+        primary_layer_slug_from_tags(post_tags_for_layer) if _is_leadership else None
+    )
+
+    if _primary_layer:
+        _layer_label = humanize_layer_slug(_primary_layer)
+        breadcrumb_items_jsonld = [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": absolute_url(site_url, "/")},
+            {"@type": "ListItem", "position": 2, "name": "Topics", "item": absolute_url(site_url, "/topics")},
+            {"@type": "ListItem", "position": 3, "name": _layer_label, "item": absolute_url(site_url, f"/topics/{_primary_layer}")},
+            {"@type": "ListItem", "position": 4, "name": detail.title, "item": canonical},
+        ]
+    else:
+        breadcrumb_items_jsonld = [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": absolute_url(site_url, "/")},
+            {"@type": "ListItem", "position": 2, "name": "Posts", "item": absolute_url(site_url, "/posts")},
+            {"@type": "ListItem", "position": 3, "name": detail.title, "item": canonical},
+        ]
+
     breadcrumb_jsonld = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": absolute_url(site_url, "/"),
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Posts",
-                "item": absolute_url(site_url, "/posts"),
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "name": detail.title,
-                "item": canonical,
-            },
-        ],
+        "itemListElement": breadcrumb_items_jsonld,
     }
 
     ctx.update(
