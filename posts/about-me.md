@@ -57,9 +57,9 @@ Technical governance in regulated and high-risk environments.
 
 ## Technical depth
 
-Python, C++, JavaScript and TypeScript.  
+Python, C++, C, React, TypeScript and JavaScript.  
 Distributed systems, APIs and cloud-native platforms.  
-Automation-first delivery, infrastructure as code, AWS and Linux.  
+Automation-first delivery, infrastructure as code, AWS, Windows, macOS and Linux.  
 Legacy modernisation under real operational constraints.
 
 ## Systems foundations
@@ -73,12 +73,10 @@ Experience across startup and multinational contexts where delivery, risk and co
 
 | Category | Tools |
 | --- | --- |
-| Backend | Python, FastAPI, Django, Flask |
+| Backend | Python, FastAPI, Django, Flask, PyQt |
 | Frontend | React, TypeScript, HTML/CSS |
 | Tools | Docker, Ansible, Terraform, Git |
 | Operating systems | Linux, macOS, Windows |
 | Hardware | Klipper, MicroPython, Voron / other 3D printers |
 
 ---
-
-[Download my CV](/docs/CV-Oliver.pdf)

@@ -26,7 +26,7 @@ title: EDColonisation Assistant
 
 **Solution:** A browser-based cockpit tool that tracks infrastructure requirements, build-out progress, system / station 'shopping lists' and real-time carrier inventory.
 
-**Impact:** Commanders could plan builds and logistics without losing track of materials, routes, and station state between sessions.
+**Impact:** Commanders could plan builds and logistics without losing track of materials, routes and station state between sessions.
 
 ---
 

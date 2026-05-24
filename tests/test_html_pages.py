@@ -27,8 +27,7 @@ def test_homepage_renders():
     assert "🗺️ Start Here" in resp.text
     assert 'href="/posts/start-here"' in resp.text
 
-    # Featured essay (single CTA) should appear between hero and gateways.
-    assert 'aria-label="Featured essay"' in resp.text
+    # Featured essay (single CTA) should appear in the Explore section.
     assert 'href="/posts/OODAIntro"' in resp.text
     assert "What is Decision Architecture?" in resp.text
     assert "🧩" in resp.text
@@ -143,7 +142,7 @@ def test_cv_pdf_prefers_static_dist_when_enabled(tmp_path: Path, monkeypatch):
 
     # Ensure we can distinguish which file is served.
     cv_bytes = b"%PDF-1.7\n% test static_dist\n"
-    (dist / "cv-oliver-ernster.pdf").write_bytes(cv_bytes)
+    (dist / "CV-Oliver.pdf").write_bytes(cv_bytes)
 
     monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
     monkeypatch.setenv("CTC_STATIC_DIST_DIR", str(dist))

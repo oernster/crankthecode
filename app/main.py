@@ -127,12 +127,12 @@ def create_app() -> FastAPI:
     async def cv_pdf() -> FileResponse:
         """Serve the CV from a stable root URL.
 
-        The source-of-truth lives in `static/`, but production may serve from
+        The source-of-truth lives in `static/` but production may serve from
         `static_dist/` when `CTC_USE_STATIC_DIST=1`.
         """
 
-        static_dist_path = Path(static_dist_dir) / "cv-oliver-ernster.pdf"
-        static_src_path = Path("static") / "cv-oliver-ernster.pdf"
+        static_dist_path = Path(static_dist_dir) / "CV-Oliver.pdf"
+        static_src_path = Path("static") / "CV-Oliver.pdf"
 
         path = (
             static_dist_path

@@ -45,7 +45,7 @@ class FallbackStaticFiles(CachingStaticFiles):
 
     Why this exists:
     - In local development we sometimes have a stale `static_dist/` directory.
-      The app will mount it (because it exists), but it may not contain newly
+      The app will mount it (because it exists) but it may not contain newly
       added images.
     - This wrapper keeps the production behaviour (prefer `static_dist/`) while
       ensuring missing files can still be served from `static/`.

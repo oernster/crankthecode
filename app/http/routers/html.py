@@ -97,7 +97,7 @@ _LEGACY_POST_REDIRECTS: dict[str, str] = {}
 #
 # Use-case:
 # - We renamed/merged posts but want existing inbound links to keep working.
-# - We do NOT want an HTTP redirect (user requested alias), but we DO want SEO
+# - We do NOT want an HTTP redirect (user requested alias) but we DO want SEO
 #   consolidation (canonical URL points at the new slug).
 #
 # Keys are compared case-insensitively.
@@ -462,7 +462,7 @@ _PILL_GROUP_SIZE = 10
 # Bucket 2 = Decision Architecture Patterns.
 # Bucket 3 = Governance.
 # Bucket 4 = Blog and any other writing categories (alpha within bucket).
-# Bucket 5 = uncategorised ("Other") — always last.
+# Bucket 5 = uncategorised ("Other") - always last.
 _ARCHIVE_CAT_BUCKETS: dict[str, int] = {
     "desktop apps": 0,
     "data / ml": 0,
@@ -482,7 +482,7 @@ _ARCHIVE_CAT_BUCKETS: dict[str, int] = {
 # Bucket 2 = Governance.
 # Bucket 3 = Blog.
 # Bucket 4 = anything else (alpha within bucket).
-# Bucket 5 = uncategorised ("Other") — always last.
+# Bucket 5 = uncategorised ("Other") - always last.
 _WRITING_CAT_BUCKETS: dict[str, int] = {
     "leadership": 0,
     "decision-architecture-patterns": 1,
@@ -498,7 +498,7 @@ def _group_posts_by_cat(
 ) -> list[dict[str, object]]:
     """Group a filtered post list by primary `cat:` tag for the pills index.
 
-    Each post appears in exactly one group — the first `cat:` tag found in its
+    Each post appears in exactly one group - the first `cat:` tag found in its
     tag list.  Posts with no `cat:` tag land in an "Other" bucket at the end.
 
     Default sort order (writing / projects views):
@@ -651,7 +651,7 @@ def _category_posts_grouped_by_layer(
 ) -> list[dict[str, object]]:
     """Group posts for a given `cat:` tag under their `layer:` slugs.
 
-    This mirrors the homepage Leadership grouping semantics, but lets us reuse the
+    This mirrors the homepage Leadership grouping semantics but lets us reuse the
     UI for other primary sections (e.g. Decision Architecture Patterns).
 
     Ordering:
@@ -733,9 +733,9 @@ def _post_emoji_map() -> dict[str, str]:
         "hardware-guides-are-accidental-bios": "🔧",
         "tiny-tools": "🧩",
         "the-led-problem-the-virpil-community-had": "💡",
-        # 3D printing info has no dedicated icon asset — 🖨️ is literal, not guessed
+        # 3D printing info has no dedicated icon asset - 🖨️ is literal, not guessed
         "3D-printing-info": "🖨️",
-        # Pre-existing emojis from old template hardcodes — restored, not invented
+        # Pre-existing emojis from old template hardcodes - restored, not invented
         "audiodeck": "🔊",      # thumb_image is a screenshot, not an icon; keep emoji
         "calendifier": "📅",    # no dedicated icon asset
         "elevator": "🛗",       # no dedicated icon asset
@@ -1359,12 +1359,12 @@ async def homepage(
         ),
         "og_title": "Oliver Ernster | Crank The Code",
         "og_description": (
-            "Oliver Ernster is a Senior/Lead Python Developer and CTO-level technologist "
+            "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
             "writing about decision architecture, structural system design and backend "
             "engineering."
         ),
         "meta_description": (
-            "Oliver Ernster is a Senior/Lead Python Developer and CTO-level technologist "
+            "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
             "writing about decision architecture, structural system design and backend "
             "engineering."
         ),
@@ -1724,7 +1724,7 @@ async def posts_index(
     current_layer_raw = (ctx.get("current_layer", "") or "").strip()
 
     # Sidebar categories are tag-driven (legacy). The global sidebar is now
-    # conceptual and template-driven, but we keep this populated for backwards
+    # conceptual and template-driven but we keep this populated for backwards
     # compatibility with any templates that still reference it.
     ctx["sidebar_categories"] = _sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
 

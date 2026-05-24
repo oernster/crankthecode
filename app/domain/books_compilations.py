@@ -16,7 +16,7 @@ class CompilationEdition:
     def alt_text(self) -> str:
         support = (self.support_line or "").strip()
         if support:
-            return f"{self.title} — {support}"
+            return f"{self.title} - {support}"
         return self.title
 
 

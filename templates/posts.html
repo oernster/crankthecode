@@ -6,7 +6,7 @@
   <div class="posts-index" aria-label="All posts">
 
     {% if current_cat|lower == 'governance' %}
-      {# Governance: featured list — large pill + date + description per post #}
+      {# Governance: featured list - large pill + date + description per post #}
       <div class="posts-featured-list">
         {% set all_gov_posts = [] %}
         {% for group in posts_grouped %}{% for post in group.posts %}{% set _ = all_gov_posts.append(post) %}{% endfor %}{% endfor %}
@@ -50,7 +50,7 @@
               >
                 <a class="btn-link btn-link--subtle post-pill" href="/posts/{{ post.slug }}">
                   {% if (post.emoji or '')|length > 0 %}
-                    {# Pre-existing emoji from frontmatter or emoji_map — keep as-is #}
+                    {# Pre-existing emoji from frontmatter or emoji_map - keep as-is #}
                     <span class="post-pill__emoji" aria-hidden="true">{{ post.emoji }}</span>
                   {% elif pill_icon %}
                     {# Use real icon asset (prefers *-icon.png via thumb_image_url) #}

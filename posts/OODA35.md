@@ -71,6 +71,6 @@ A mature organisation recognises which decisions should no longer be decisions.
 
 They become part of the system itself.
 
-The organisation moves faster not by deciding more quickly, but by deciding less often.
+The organisation moves faster not by deciding more quickly but by deciding less often.
 
 *Efficiency emerges when repeated decisions are removed from the system.*

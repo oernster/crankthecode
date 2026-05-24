@@ -84,7 +84,7 @@
 
       // Phase 2: apply pagination over the matched set.
       // Pagination is opt-in: only active when the More… button exists in the DOM.
-      // Grouped pill layouts omit the button intentionally — all items show.
+      // Grouped pill layouts omit the button intentionally - all items show.
       const paginate = !!moreBtn;
       const visibleItems = [];
       for (let i = 0; i < matched.length; i += 1) {

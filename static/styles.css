@@ -353,7 +353,7 @@ body.is-homepage .read-time-bar {
   color: var(--text-color);
 }
 
-/* Sidebar: collapsible child group — hidden unless section is active. */
+/* Sidebar: collapsible child group - hidden unless section is active. */
 .sidebar-group {
   display: none;
 }
@@ -362,7 +362,7 @@ body.is-homepage .read-time-bar {
   display: block;
 }
 
-/* Expand/collapse wrapper — acts as the styled row (holds icon, chevron, nav link) */
+/* Expand/collapse wrapper - acts as the styled row (holds icon, chevron, nav link) */
 .sidebar-expandable {
   display: flex;
   align-items: stretch;
@@ -373,7 +373,7 @@ body.is-homepage .read-time-bar {
   align-items: center;
 }
 
-/* Inner navigation link (text only — no background, inherits row colour) */
+/* Inner navigation link (text only - no background, inherits row colour) */
 .sidebar-expandable__nav {
   flex: 1 1 auto;
   min-width: 0;
@@ -2824,7 +2824,7 @@ html.theme-light .section-title {
   }
 }
 
-/* Install terminal: scoped overrides — one 30s cycle, steps(143) = 0.21s/char like run terminal.
+/* Install terminal: scoped overrides - one 30s cycle, steps(143) = 0.21s/char like run terminal.
    Typing windows sized proportionally to each command's character count.
    S1 (20ch): 1.60%→15.60%  S2 (24ch): 17.20%→34.00%
    S3 (25ch): 35.60%→53.10%  S4 (18ch): 54.70%→67.30%  rest 67.30%→100% */
@@ -2848,7 +2848,7 @@ html.theme-light .section-title {
   animation: ft-install-type-s4 var(--ft-install-cycle) steps(143, end) infinite;
 }
 
-/* Cursor tracks typed text — same steps() as typing animation. */
+/* Cursor tracks typed text - same steps() as typing animation. */
 .fake-terminal--axisdb-install .fake-terminal__typed--1::after {
   animation:
     ft-install-cursor-s1 var(--ft-install-cycle) steps(143, end) infinite,
@@ -2873,7 +2873,7 @@ html.theme-light .section-title {
     fake-terminal-blink 1s steps(2, end) infinite;
 }
 
-/* Install terminal typing keyframes — identical structure to ft-run-type.
+/* Install terminal typing keyframes - identical structure to ft-run-type.
    Each: hidden until command's slot start, then clip from 100%→0% in the typing window. */
 @keyframes ft-install-type-s1 {
   0%,
@@ -3663,7 +3663,7 @@ html.theme-light .section-title {
   }
 
   /*
-    On mobile the title stays centered, but the actions row should span the
+    On mobile the title stays centered but the actions row should span the
     full width so we can place Contact (left) and Header actions (right).
   */
   .header-topbar-right {

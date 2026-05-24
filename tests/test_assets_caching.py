@@ -281,7 +281,7 @@ def test_fallback_staticfiles_uses_fallback_when_primary_returns_404_response(
 ):
     """Cover the non-exception 404 path.
 
-    Starlette can raise for 404s, but our wrapper also handles a plain 404 Response
+    Starlette can raise for 404s but our wrapper also handles a plain 404 Response
     defensively.
     """
 

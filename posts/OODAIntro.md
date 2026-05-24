@@ -73,7 +73,7 @@ Who has the right to make which decisions. Authority must be explicit and bounde
 The edges between decisions. Poor boundaries create coupling and delay.
 
 **Information flow**  
-What information arrives where, and when. Late or distorted information corrupts decisions.
+What information arrives where and when. Late or distorted information corrupts decisions.
 
 **Coordination paths**  
 How decisions that depend on each other are sequenced or resolved.
@@ -174,7 +174,7 @@ Identifies common structural patterns and their consequences
 Introduces a positional model of organisational change and decision movement
 
 **Relativistic Decision Architecture**  
-Explores how perspective, context, and scale affect decision systems
+Explores how perspective, context and scale affect decision systems
 
 These are not separate topics. They are different views of the same system.
 

@@ -24,7 +24,7 @@ class BookCatalogueEntry:
     def alt_text(self) -> str:
         subtitle = self.subtitle
         if subtitle:
-            return f"{self.title} — {subtitle}"
+            return f"{self.title} - {subtitle}"
         return self.title
 
 

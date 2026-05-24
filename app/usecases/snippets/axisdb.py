@@ -11,7 +11,7 @@ def axisdb_install_prompt_markdown() -> str:
     # must be on a single line with no extra whitespace between spans.  A <pre> element
     # preserves ALL whitespace (newlines, leading spaces) as visible text, so any
     # indentation or line-breaks inside the <code> block appear as blank lines in the
-    # rendered terminal — breaking the animation effect.
+    # rendered terminal - breaking the animation effect.
     svg_path_d = (
         "M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1"
         "Zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9"
@@ -64,7 +64,7 @@ def axisdb_install_prompt_markdown() -> str:
         "    <span>bash</span>",
         copy_btn,
         "  </div>",
-        # No whitespace inside <pre><code> — all ft-step spans on one line.
+        # No whitespace inside <pre><code> - all ft-step spans on one line.
         f'  <pre class="fake-terminal__body"><code>{steps}</code></pre>',
         "",
         '  <pre class="visually-hidden"><code id="axisdb-install-commands">',

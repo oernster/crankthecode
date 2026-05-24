@@ -93,7 +93,7 @@ def test_posts_legacy_exclude_blog_mapping_is_supported():
 def test_posts_projects_view_includes_type_project_even_without_portfolio_category():
     """`type: project` is the primary structural marker for Projects view.
 
-    During transition we still support category inference, but `type` must win even
+    During transition we still support category inference but `type` must win even
     when category would otherwise classify as writing.
     """
 
