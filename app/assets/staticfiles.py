@@ -32,8 +32,11 @@ class CachingStaticFiles(StaticFiles):
         if self._is_fingerprinted(path):
             resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
         else:
-            # Safe fallback: browsers/CDNs can cache but must revalidate.
-            resp.headers["Cache-Control"] = "no-cache, must-revalidate"
+            # Non-fingerprinted assets: never cache. Using no-store (not just
+            # no-cache) avoids the same-second mtime edge case where the server
+            # returns 304 for a file that actually changed within the same second.
+            # In production all assets are fingerprinted so this path is a fallback.
+            resp.headers["Cache-Control"] = "no-store"
         return resp
 
 

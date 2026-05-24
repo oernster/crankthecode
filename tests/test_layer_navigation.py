@@ -139,7 +139,9 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
     assert resp.status_code == 200
 
     # Global sidebar is now conceptual, not category-driven.
-    assert "Decision Architecture Patterns" in resp.text
+    # "Decision Architecture Patterns" heading merged into single "Decision Architecture" section;
+    # "Patterns" sublabel still present as a divider link.
+    assert "Patterns" in resp.text
     assert 'href="/patterns"' in resp.text
     assert 'href="/patterns/decision-primitives"' in resp.text
     assert 'href="/patterns/decision-interfaces"' in resp.text
@@ -155,7 +157,7 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
     assert 'href="/topics/architecture"' in resp.text
     assert 'href="/posts?view=writing&cat=Governance"' in resp.text
     assert 'href="/portfolio"' in resp.text
-    assert 'href="/posts?view=archive"' in resp.text
+    assert 'href="/posts?view=writing"' in resp.text
 
 
 def test_layer_slug_normalization_collapses_spaces_underscores_and_punctuation():

@@ -453,6 +453,136 @@ def _sidebar_categories(
     return out
 
 
+# Max pills shown per category group before a per-group "More…" button appears.
+_PILL_GROUP_SIZE = 10
+
+# Archive view: explicit category sort buckets.
+# Bucket 0 = portfolio/project categories (alpha within bucket).
+# Bucket 1 = Decision Architecture (Leadership).
+# Bucket 2 = Decision Architecture Patterns.
+# Bucket 3 = Governance.
+# Bucket 4 = Blog and any other writing categories (alpha within bucket).
+# Bucket 5 = uncategorised ("Other") — always last.
+_ARCHIVE_CAT_BUCKETS: dict[str, int] = {
+    "desktop apps": 0,
+    "data / ml": 0,
+    "gaming": 0,
+    "hardware": 0,
+    "tools": 0,
+    "web apis": 0,
+    "leadership": 1,
+    "decision-architecture-patterns": 2,
+    "governance": 3,
+    "blog": 4,
+}
+
+# Writing view: explicit category sort buckets.
+# Bucket 0 = Decision Architecture (Leadership).
+# Bucket 1 = Decision Architecture Patterns.
+# Bucket 2 = Governance.
+# Bucket 3 = Blog.
+# Bucket 4 = anything else (alpha within bucket).
+# Bucket 5 = uncategorised ("Other") — always last.
+_WRITING_CAT_BUCKETS: dict[str, int] = {
+    "leadership": 0,
+    "decision-architecture-patterns": 1,
+    "governance": 2,
+    "blog": 3,
+}
+
+
+def _group_posts_by_cat(
+    posts: list[dict[str, object]],
+    *,
+    view: str = "",
+) -> list[dict[str, object]]:
+    """Group a filtered post list by primary `cat:` tag for the pills index.
+
+    Each post appears in exactly one group — the first `cat:` tag found in its
+    tag list.  Posts with no `cat:` tag land in an "Other" bucket at the end.
+
+    Default sort order (writing / projects views):
+    - Leadership (Decision Architecture) pinned first.
+    - Everything else alphabetically by normalised cat label.
+    - "Other" always last.
+
+    Archive sort order:
+    - Portfolio/project categories (alpha within group) first.
+    - Decision Architecture, DA Patterns, Governance, Blog in that order.
+    - "Other" always last.
+    """
+
+    groups: dict[str, dict[str, object]] = {}  # cat_key -> {label, cat, posts}
+
+    for post in posts:
+        tags = [str(t) for t in (post.get("tags") or [])]
+        primary_cat: str | None = None
+        for tag in tags:
+            raw = (tag or "").strip()
+            if raw.lower().startswith(_CAT_TAG_PREFIX):
+                tail = raw.split(":", 1)[1].strip()
+                if tail:
+                    primary_cat = _normalize_cat_label(tail)
+                    break
+
+        key = primary_cat.lower() if primary_cat else "\xff"  # "\xff" sorts last
+        if key not in groups:
+            if primary_cat:
+                groups[key] = {
+                    "label": _sidebar_label_with_emoji(primary_cat),
+                    "cat": primary_cat,
+                    "posts": [],
+                }
+            else:
+                groups[key] = {
+                    "label": "Other",
+                    "cat": "",
+                    "posts": [],
+                }
+        cast(list[dict[str, object]], groups[key]["posts"]).append(post)
+
+    view_norm = (view or "").strip().lower()
+    is_archive = view_norm == _POSTS_VIEW_ARCHIVE
+    is_writing = view_norm == _POSTS_VIEW_WRITING
+
+    def _archive_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
+        key, _entry = item
+        if key == "\xff":
+            return (5, "")
+        bucket = _ARCHIVE_CAT_BUCKETS.get(key, 4)
+        return (bucket, key)
+
+    def _writing_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
+        key, entry = item
+        if key == "\xff":
+            return (2, "")
+        # Blog pinned last; everything else alpha by stripped display label.
+        if key == "blog":
+            return (1, "")
+        raw_label = str(entry.get("label") or entry.get("cat") or key)
+        _emoji_part, text_part = _split_leading_emoji_from_title(raw_label)
+        sort_label = (text_part or raw_label).strip().lower()
+        return (0, sort_label)
+
+    def _default_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
+        key, _entry = item
+        if key == "\xff":
+            return (2, "")
+        return (0 if key == "leadership" else 1, key)
+
+    if is_archive:
+        sort_key = _archive_sort_key
+    elif is_writing:
+        sort_key = _writing_sort_key
+    else:
+        sort_key = _default_sort_key
+
+    return [
+        entry
+        for _, entry in sorted(groups.items(), key=sort_key)
+    ]
+
+
 def _homepage_leadership_items(blog: BlogService) -> list[dict[str, object]]:
     """Homepage Leadership content grouped by `layer:`.
 
@@ -603,6 +733,13 @@ def _post_emoji_map() -> dict[str, str]:
         "hardware-guides-are-accidental-bios": "🔧",
         "tiny-tools": "🧩",
         "the-led-problem-the-virpil-community-had": "💡",
+        # 3D printing info has no dedicated icon asset — 🖨️ is literal, not guessed
+        "3D-printing-info": "🖨️",
+        # Pre-existing emojis from old template hardcodes — restored, not invented
+        "audiodeck": "🔊",      # thumb_image is a screenshot, not an icon; keep emoji
+        "calendifier": "📅",    # no dedicated icon asset
+        "elevator": "🛗",       # no dedicated icon asset
+        "galacticunicorn": "🦄",  # no dedicated icon asset
     }
 
 
@@ -1222,12 +1359,12 @@ async def homepage(
         ),
         "og_title": "Oliver Ernster | Crank The Code",
         "og_description": (
-            "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
+            "Oliver Ernster is a Senior/Lead Python Developer and CTO-level technologist "
             "writing about decision architecture, structural system design and backend "
             "engineering."
         ),
         "meta_description": (
-            "Oliver Ernster is a Senior Python Developer and CTO-level technologist "
+            "Oliver Ernster is a Senior/Lead Python Developer and CTO-level technologist "
             "writing about decision architecture, structural system design and backend "
             "engineering."
         ),
@@ -1307,15 +1444,18 @@ async def decision_architecture_gateway(
 
     # Keep the "All structures" page conceptually aligned with the Patterns
     # gateway page by always rendering a stable layer pill row.
-    layers = [
-        {
-            "layer": slug,
-            "label": humanize_layer_slug(slug),
-            "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
-            "href": f"/topics/{slug}",
-        }
-        for slug in _STRUCTURES_LAYER_ORDER
-    ]
+    layers = sorted(
+        [
+            {
+                "layer": slug,
+                "label": humanize_layer_slug(slug),
+                "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
+                "href": f"/topics/{slug}",
+            }
+            for slug in _STRUCTURES_LAYER_ORDER
+        ],
+        key=lambda d: d["label"].lower(),
+    )
 
     ctx.update(
         {
@@ -1434,18 +1574,20 @@ async def patterns_index(
         blog,
         cat_tag=_PATTERNS_CAT_TAG,
         layer_label_overrides=_PATTERNS_LAYER_LABELS,
-        preferred_layer_order=_PATTERNS_LAYER_ORDER,
     )
 
-    layers = [
-        {
-            "layer": slug,
-            "label": _PATTERNS_LAYER_LABELS[slug],
-            "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
-            "href": f"/patterns/{slug}",
-        }
-        for slug in _PATTERNS_LAYER_ORDER
-    ]
+    layers = sorted(
+        [
+            {
+                "layer": slug,
+                "label": _PATTERNS_LAYER_LABELS[slug],
+                "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
+                "href": f"/patterns/{slug}",
+            }
+            for slug in _PATTERNS_LAYER_ORDER
+        ],
+        key=lambda d: d["label"].lower(),
+    )
 
     ctx.update(
         {
@@ -1508,15 +1650,18 @@ async def patterns_layer_page(
                 {"label": label, "href": canonical_path},
             ],
             "hub": {"layer": cleaned, "label": label, "description": ""},
-            "layers": [
-                {
-                    "layer": slug,
-                    "label": _PATTERNS_LAYER_LABELS[slug],
-                    "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
-                    "href": f"/patterns/{slug}",
-                }
-                for slug in _PATTERNS_LAYER_ORDER
-            ],
+            "layers": sorted(
+                [
+                    {
+                        "layer": slug,
+                        "label": _PATTERNS_LAYER_LABELS[slug],
+                        "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
+                        "href": f"/patterns/{slug}",
+                    }
+                    for slug in _PATTERNS_LAYER_ORDER
+                ],
+                key=lambda d: d["label"].lower(),
+            ),
             "current_layer": cleaned,
             "posts": posts,
         }
@@ -1742,6 +1887,8 @@ async def posts_index(
     ctx.update(
         {
             "posts": posts,
+            "posts_grouped": _group_posts_by_cat(posts, view=current_view),
+            "pill_group_size": _PILL_GROUP_SIZE,
             "is_homepage": False,
             "page_title": page_title,
             "og_title": og_title,
@@ -1921,11 +2068,17 @@ async def about_page(
     return templates.TemplateResponse(request, "about.html", ctx)
 
 
+def _portfolio_label_to_slug(label: str) -> str:
+    """Convert a portfolio group label to a URL-safe slug."""
+    return label.lower().replace(" / ", "-").replace(" ", "-")
+
+
 @router.get("/portfolio", response_class=HTMLResponse)
 async def portfolio_page(
     request: Request,
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
+    section: str | None = None,
 ):
     ctx = _base_context(request)
     ctx["sidebar_categories"] = _sidebar_categories(
@@ -1936,7 +2089,24 @@ async def portfolio_page(
     title = str(getattr(md, "title", "Portfolio") if md is not None else "Portfolio")
     emoji = str(getattr(md, "emoji", "") if md is not None else "").strip()
     one_liner = str(getattr(md, "one_liner", "") if md is not None else "").strip()
-    intro_html = _render_portfolio_intro_html()
+
+    all_groups = _portfolio_groups(blog)
+
+    # Section filter: show only the requested group.
+    if section:
+        matched = [g for g in all_groups if _portfolio_label_to_slug(str(g.get("label", ""))) == section]
+        if not matched:
+            from fastapi import HTTPException
+            raise HTTPException(status_code=404, detail="Portfolio section not found")
+        groups = matched
+        page_heading = str(matched[0].get("label", title))
+        intro_html = None
+        flagship = []
+    else:
+        groups = all_groups
+        page_heading = title
+        intro_html = _render_portfolio_intro_html()
+        flagship = _portfolio_flagship_entries(blog)
 
     # SEO: include the target phrase explicitly.
     meta_description = (
@@ -1952,8 +2122,8 @@ async def portfolio_page(
     ctx.update(
         {
             "is_homepage": False,
-            "page_title": f"{title} | Crank The Code",
-            "og_title": f"{title} | Crank The Code",
+            "page_title": f"{page_heading} | Crank The Code",
+            "og_title": f"{page_heading} | Crank The Code",
             "og_description": meta_description,
             "meta_description": meta_description,
             "canonical_url": absolute_url(get_site_url(request), "/portfolio"),
@@ -1961,11 +2131,11 @@ async def portfolio_page(
                 {"label": "Home", "href": "/"},
                 {"label": "Portfolio", "href": "/portfolio"},
             ],
-            "page_heading": title,
+            "page_heading": page_heading,
             "page_emoji": emoji or "🧩",
             "page_intro_html": intro_html,
-            "flagship_entries": _portfolio_flagship_entries(blog),
-            "portfolio_groups": _portfolio_groups(blog),
+            "flagship_entries": flagship,
+            "portfolio_groups": groups,
         }
     )
 
@@ -1997,25 +2167,31 @@ async def topics_index(
 
     # Provide both layer pill sets so `/topics` can act as the single
     # "View all layers" destination for both Structures and Patterns.
-    structures_layers = [
-        {
-            "layer": slug,
-            "label": humanize_layer_slug(slug),
-            "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
-            "href": f"/topics/{slug}",
-        }
-        for slug in _STRUCTURES_LAYER_ORDER
-    ]
+    structures_layers = sorted(
+        [
+            {
+                "layer": slug,
+                "label": humanize_layer_slug(slug),
+                "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
+                "href": f"/topics/{slug}",
+            }
+            for slug in _STRUCTURES_LAYER_ORDER
+        ],
+        key=lambda d: d["label"].lower(),
+    )
 
-    patterns_layers = [
-        {
-            "layer": slug,
-            "label": _PATTERNS_LAYER_LABELS.get(slug, humanize_layer_slug(slug)),
-            "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
-            "href": f"/patterns/{slug}",
-        }
-        for slug in _PATTERNS_LAYER_ORDER
-    ]
+    patterns_layers = sorted(
+        [
+            {
+                "layer": slug,
+                "label": _PATTERNS_LAYER_LABELS.get(slug, humanize_layer_slug(slug)),
+                "emoji": _PATTERNS_LAYER_EMOJIS.get(slug, ""),
+                "href": f"/patterns/{slug}",
+            }
+            for slug in _PATTERNS_LAYER_ORDER
+        ],
+        key=lambda d: d["label"].lower(),
+    )
 
     site_url = get_site_url(request)
     canonical = absolute_url(site_url, "/topics")
@@ -2114,15 +2290,18 @@ async def topic_hub_page(
 
     posts = _topic_posts_for_layer(blog, layer_slug=topic_slug)
 
-    layers = [
-        {
-            "layer": slug,
-            "label": humanize_layer_slug(slug),
-            "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
-            "href": f"/topics/{slug}",
-        }
-        for slug in _STRUCTURES_LAYER_ORDER
-    ]
+    layers = sorted(
+        [
+            {
+                "layer": slug,
+                "label": humanize_layer_slug(slug),
+                "emoji": _STRUCTURES_LAYER_EMOJIS.get(slug, ""),
+                "href": f"/topics/{slug}",
+            }
+            for slug in _STRUCTURES_LAYER_ORDER
+        ],
+        key=lambda d: d["label"].lower(),
+    )
 
     site_url = get_site_url(request)
     canonical_path = f"/topics/{topic_slug}"

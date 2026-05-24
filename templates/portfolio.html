@@ -10,6 +10,14 @@
     {{ page_heading or "Portfolio" }}
   </h1>
 
+  {% if page_intro_html %}
+    <section class="section-panel" aria-label="Portfolio introduction">
+      <div class="post-content">{{ page_intro_html | safe }}</div>
+    </section>
+
+    <hr class="post-separator" aria-hidden="true" />
+  {% endif %}
+
   <section class="section-panel" aria-label="Featured system">
 
     {% if flagship_entries %}
@@ -58,7 +66,7 @@
     {% if g.label == 'Desktop Applications' %}
       <hr class="post-separator" aria-hidden="true" />
 
-      <section class="section-panel" aria-label="{{ g.label }}">
+      <section class="section-panel" id="desktop-applications" aria-label="{{ g.label }}">
         <h2 class="section-title section-title--accent">{{ g.label }}</h2>
 
         {% if g.description %}
@@ -110,19 +118,11 @@
     {% endif %}
   {% endfor %}
 
-  {% if page_intro_html %}
-    <hr class="post-separator" aria-hidden="true" />
-
-    <section class="section-panel" aria-label="Portfolio introduction">
-      <div class="post-content">{{ page_intro_html | safe }}</div>
-    </section>
-  {% endif %}
-
   {% for g in portfolio_groups or [] %}
     {% if g.label != 'Desktop Applications' %}
       <hr class="post-separator" aria-hidden="true" />
 
-      <section class="section-panel" aria-label="{{ g.label }}">
+      <section class="section-panel" id="{{ g.label | lower | replace(' / ', '-') | replace(' ', '-') }}" aria-label="{{ g.label }}">
         <h2 class="section-title section-title--accent">{{ g.label }}</h2>
 
         {% if g.description %}

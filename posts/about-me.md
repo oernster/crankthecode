@@ -12,7 +12,7 @@ title: About Me
 
 ## Role and focus
 
-I am a CTO-level technical leader focused on reducing organisational and technical risk through earlier, clearer decisions.
+I am a technical leader focused on reducing organisational and technical risk through earlier, clearer decisions.
 
 I work at the intersection of architecture, product ambition and organisational structure. Most systemic failure is not caused by poor code. 
 It is caused by unclear authority, delayed decisions and trade-offs that no one is explicitly accountable for. 

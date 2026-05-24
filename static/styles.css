@@ -353,6 +353,94 @@ body.is-homepage .read-time-bar {
   color: var(--text-color);
 }
 
+/* Sidebar: collapsible child group — hidden unless section is active. */
+.sidebar-group {
+  display: none;
+}
+
+.sidebar-group.is-expanded {
+  display: block;
+}
+
+/* Expand/collapse wrapper — acts as the styled row (holds icon, chevron, nav link) */
+.sidebar-expandable {
+  display: flex;
+  align-items: stretch;
+}
+
+/* When the wrapper carries sidebar-link styles, centre children vertically */
+.sidebar-expandable.sidebar-link {
+  align-items: center;
+}
+
+/* Inner navigation link (text only — no background, inherits row colour) */
+.sidebar-expandable__nav {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+  font-size: inherit;
+  line-height: 1.25;
+}
+
+.sidebar-expandable__nav:hover,
+.sidebar-expandable__nav:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Chevron toggle button */
+.sidebar-expand-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0 6px 0 8px;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.sidebar-expand-btn::before {
+  content: "›";
+  display: block;
+  font-size: 1.1em;
+  line-height: 1;
+  transition: transform 0.18s ease;
+  transform: rotate(0deg);
+}
+
+.sidebar-expand-btn.is-open::before {
+  transform: rotate(90deg);
+}
+
+.sidebar-expand-btn:hover {
+  opacity: 1;
+}
+
+.sidebar-expand-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Sidebar: subtle sublabel divider between child groups (e.g. Patterns). */
+.sidebar-link--sublabel {
+  margin: 10px 0 4px 22px;
+  font-size: 0.75em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sidebar-sublabel-text {
+  display: block;
+}
+
 .sidebar-link--section .sidebar-link__text {
   gap: 0;
 }
@@ -1837,6 +1925,12 @@ a[href=\"/\"]:hover {
   box-shadow: none;
 }
 
+/* Posts toolbar: inactive view pills need more contrast against the dark page bg. */
+.posts-toolbar .btn-link--subtle {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
 .btn-link--subtle:hover {
   background: rgba(255, 255, 255, 0.14);
 }
@@ -2396,8 +2490,10 @@ html.theme-light .section-title {
 
 /* Faster feeds */
 .fake-terminal--axisdb-install {
-  /* Total loop time (includes a ~3s “rest” where the finished commands remain visible) */
-  /* Typing completes at ~13.8s, then rests ~3s, then immediately restarts. */
+  /* Per-command cycle: 0.21s/char identical to run terminal; 30s total (typing + 3s rest). */
+  /* S1 0–15.6%  S2 15.6–34%  S3 34–53.1%  S4 53.1–67.3%  rest 67.3–100% */
+  --ft-install-cycle: 30s;
+  /* Retain for any remaining shared keyframes that still reference --ft-cycle */
   --ft-cycle: 16.8s;
 }
 
@@ -2510,60 +2606,67 @@ html.theme-light .section-title {
   overflow: visible;
 }
 
-@keyframes ft-axisdb-show-s1 {
+@keyframes ft-install-show-s1 {
   0%,
   100% {
     opacity: 1;
+    max-height: 60em;
   }
 }
 
-@keyframes ft-axisdb-show-s2 {
+@keyframes ft-install-show-s2 {
   0%,
-  20.71% {
+  15.60% {
     opacity: 0;
+    max-height: 0;
   }
-  20.72%,
+  15.61%,
   100% {
     opacity: 1;
+    max-height: 60em;
   }
 }
 
-@keyframes ft-axisdb-show-s3 {
+@keyframes ft-install-show-s3 {
   0%,
-  38.57% {
+  34.00% {
     opacity: 0;
+    max-height: 0;
   }
-  38.58%,
+  34.01%,
   100% {
     opacity: 1;
+    max-height: 60em;
   }
 }
 
-@keyframes ft-axisdb-show-s4 {
+@keyframes ft-install-show-s4 {
   0%,
-  56.43% {
+  53.10% {
     opacity: 0;
+    max-height: 0;
   }
-  56.44%,
+  53.11%,
   100% {
     opacity: 1;
+    max-height: 60em;
   }
 }
 
 .fake-terminal--axisdb-install .fake-terminal__body .ft-step--1 {
-  animation: ft-axisdb-show-s1 var(--ft-cycle) linear infinite;
+  animation: ft-install-show-s1 var(--ft-install-cycle) linear infinite;
 }
 
 .fake-terminal--axisdb-install .fake-terminal__body .ft-step--2 {
-  animation: ft-axisdb-show-s2 var(--ft-cycle) linear infinite;
+  animation: ft-install-show-s2 var(--ft-install-cycle) linear infinite;
 }
 
 .fake-terminal--axisdb-install .fake-terminal__body .ft-step--3 {
-  animation: ft-axisdb-show-s3 var(--ft-cycle) linear infinite;
+  animation: ft-install-show-s3 var(--ft-install-cycle) linear infinite;
 }
 
 .fake-terminal--axisdb-install .fake-terminal__body .ft-step--4 {
-  animation: ft-axisdb-show-s4 var(--ft-cycle) linear infinite;
+  animation: ft-install-show-s4 var(--ft-install-cycle) linear infinite;
 }
 
 @keyframes ft-axisdb-run-show-step-1 {
@@ -2637,112 +2740,191 @@ html.theme-light .section-title {
   animation: fake-terminal-blink 1s steps(2, end) infinite;
 }
 
-@keyframes ft-axisdb-cursor-move-s1 {
+@keyframes ft-install-cursor-s1 {
   0%,
-  2.86% {
+  1.60% {
     opacity: 0;
     transform: translateX(0);
   }
-  2.861% {
+  1.601% {
     opacity: 1;
     transform: translateX(0);
   }
-  20.71% {
+  15.60% {
     opacity: 1;
     transform: translateX(var(--ft-line-width));
   }
-  20.711%,
+  15.601%,
   100% {
     opacity: 0;
     transform: translateX(var(--ft-line-width));
   }
 }
 
-@keyframes ft-axisdb-cursor-move-s2 {
+@keyframes ft-install-cursor-s2 {
   0%,
-  20.71% {
+  17.20% {
     opacity: 0;
     transform: translateX(0);
   }
-  20.72% {
+  17.201% {
     opacity: 1;
     transform: translateX(0);
   }
-  38.57% {
+  34.00% {
     opacity: 1;
     transform: translateX(var(--ft-line-width));
   }
-  38.58%,
+  34.001%,
   100% {
     opacity: 0;
     transform: translateX(var(--ft-line-width));
   }
 }
 
-@keyframes ft-axisdb-cursor-move-s3 {
+@keyframes ft-install-cursor-s3 {
   0%,
-  38.57% {
+  35.60% {
     opacity: 0;
     transform: translateX(0);
   }
-  38.58% {
+  35.601% {
     opacity: 1;
     transform: translateX(0);
   }
-  56.43% {
+  53.10% {
     opacity: 1;
     transform: translateX(var(--ft-line-width));
   }
-  56.44%,
+  53.101%,
   100% {
     opacity: 0;
     transform: translateX(var(--ft-line-width));
   }
 }
 
-@keyframes ft-axisdb-cursor-move-s4 {
+@keyframes ft-install-cursor-s4 {
   0%,
-  56.43% {
+  54.70% {
     opacity: 0;
     transform: translateX(0);
   }
-  56.44% {
+  54.701% {
     opacity: 1;
     transform: translateX(0);
   }
-  82.14% {
+  67.30% {
     opacity: 1;
     transform: translateX(var(--ft-line-width));
   }
-  82.15%,
+  67.301%,
   100% {
     opacity: 0;
     transform: translateX(var(--ft-line-width));
   }
 }
 
+/* Install terminal: scoped overrides — one 30s cycle, steps(143) = 0.21s/char like run terminal.
+   Typing windows sized proportionally to each command's character count.
+   S1 (20ch): 1.60%→15.60%  S2 (24ch): 17.20%→34.00%
+   S3 (25ch): 35.60%→53.10%  S4 (18ch): 54.70%→67.30%  rest 67.30%→100% */
+.fake-terminal--axisdb-install .fake-terminal__typed--1 {
+  --ft-line-width: 20ch;
+  animation: ft-install-type-s1 var(--ft-install-cycle) steps(143, end) infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed--2 {
+  --ft-line-width: 24ch;
+  animation: ft-install-type-s2 var(--ft-install-cycle) steps(143, end) infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed--3 {
+  --ft-line-width: 25ch;
+  animation: ft-install-type-s3 var(--ft-install-cycle) steps(143, end) infinite;
+}
+
+.fake-terminal--axisdb-install .fake-terminal__typed--4 {
+  --ft-line-width: 18ch;
+  animation: ft-install-type-s4 var(--ft-install-cycle) steps(143, end) infinite;
+}
+
+/* Cursor tracks typed text — same steps() as typing animation. */
 .fake-terminal--axisdb-install .fake-terminal__typed--1::after {
   animation:
-    ft-axisdb-cursor-move-s1 var(--ft-cycle) steps(20, end) infinite,
+    ft-install-cursor-s1 var(--ft-install-cycle) steps(143, end) infinite,
     fake-terminal-blink 1s steps(2, end) infinite;
 }
 
 .fake-terminal--axisdb-install .fake-terminal__typed--2::after {
   animation:
-    ft-axisdb-cursor-move-s2 var(--ft-cycle) steps(24, end) infinite,
+    ft-install-cursor-s2 var(--ft-install-cycle) steps(143, end) infinite,
     fake-terminal-blink 1s steps(2, end) infinite;
 }
 
 .fake-terminal--axisdb-install .fake-terminal__typed--3::after {
   animation:
-    ft-axisdb-cursor-move-s3 var(--ft-cycle) steps(25, end) infinite,
+    ft-install-cursor-s3 var(--ft-install-cycle) steps(143, end) infinite,
     fake-terminal-blink 1s steps(2, end) infinite;
 }
 
 .fake-terminal--axisdb-install .fake-terminal__typed--4::after {
   animation:
-    ft-axisdb-cursor-move-s4 var(--ft-cycle) steps(18, end) infinite,
+    ft-install-cursor-s4 var(--ft-install-cycle) steps(143, end) infinite,
     fake-terminal-blink 1s steps(2, end) infinite;
+}
+
+/* Install terminal typing keyframes — identical structure to ft-run-type.
+   Each: hidden until command's slot start, then clip from 100%→0% in the typing window. */
+@keyframes ft-install-type-s1 {
+  0%,
+  1.60% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
+  15.60%,
+  100% {
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes ft-install-type-s2 {
+  0%,
+  17.20% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
+  34.00%,
+  100% {
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes ft-install-type-s3 {
+  0%,
+  35.60% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
+  53.10%,
+  100% {
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes ft-install-type-s4 {
+  0%,
+  54.70% {
+    -webkit-clip-path: inset(0 100% 0 0);
+    clip-path: inset(0 100% 0 0);
+  }
+  67.30%,
+  100% {
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 @keyframes ft-axisdb-run-cursor-move {
@@ -2808,10 +2990,17 @@ html.theme-light .section-title {
 .fake-terminal__body .ft-step--15 { animation: ft-show-s15 var(--ft-cycle) linear infinite; }
 
 /* Typing windows (one line at a time). */
-.fake-terminal__typed--1 { --ft-line-width: 20ch; animation: ft-type-s1  var(--ft-cycle) steps(20, end) infinite; }
-.fake-terminal__typed--2 { --ft-line-width: 24ch; animation: ft-type-s2  var(--ft-cycle) steps(24, end) infinite; }
-.fake-terminal__typed--3 { --ft-line-width: 25ch; animation: ft-type-s3  var(--ft-cycle) steps(25, end) infinite; }
-.fake-terminal__typed--4 { --ft-line-width: 18ch; animation: ft-type-s4  var(--ft-cycle) steps(18, end) infinite; }
+/* steps(N) must produce one character reveal per step within each line's typing window.
+   Formula: N = chars × (--ft-cycle ÷ typing_window_duration)
+   With --ft-cycle: 16.8s:
+     s1: 20ch in 3.0s  → steps(112)
+     s2: 24ch in 3.0s  → steps(134)
+     s3: 25ch in 3.0s  → steps(140)
+     s4: 18ch in 4.32s → steps(70)                                          */
+.fake-terminal__typed--1 { --ft-line-width: 20ch; animation: ft-type-s1  var(--ft-cycle) steps(112, end) infinite; }
+.fake-terminal__typed--2 { --ft-line-width: 24ch; animation: ft-type-s2  var(--ft-cycle) steps(134, end) infinite; }
+.fake-terminal__typed--3 { --ft-line-width: 25ch; animation: ft-type-s3  var(--ft-cycle) steps(140, end) infinite; }
+.fake-terminal__typed--4 { --ft-line-width: 18ch; animation: ft-type-s4  var(--ft-cycle) steps(70,  end) infinite; }
 .fake-terminal__typed--5 { --ft-line-width: 23ch; animation: ft-type-s5  var(--ft-cycle) steps(23, end) infinite; }
 .fake-terminal__typed--6 { --ft-line-width: 52ch; animation: ft-type-s13 var(--ft-cycle) steps(52, end) infinite; }
 
@@ -3995,12 +4184,96 @@ html.theme-light .section-title {
   }
 }
 
-/* Posts index: treat each post entry like a discrete row/card for easier scanning */
-.posts-index .post-item {
-  padding: 14.4px 14.4px 17.6px;
-  border-radius: 18px;
-  background: var(--panel-bg-subtle);
-  border: 1px solid var(--panel-border);
+/* Posts pill index: category group wrapper */
+.posts-cat-group {
+  margin: 0 0 28px;
+}
+
+.posts-cat-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Posts pill index: category group heading */
+.posts-cat-label {
+  margin: 0 0 12px;
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* Posts index: pill grid wraps all post items */
+.posts-pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 8px 0 16px;
+  align-content: flex-start;
+}
+
+/* Posts pill index: overflow items hidden until group is expanded */
+.post-pill--overflow {
+  display: none;
+}
+
+.posts-cat-group.is-expanded .post-pill--overflow {
+  display: block;
+}
+
+/* Per-group More… button */
+.posts-cat-more-btn {
+  margin-top: 10px;
+  min-height: 0;
+  padding: 7px 16px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+/* .btn-link sets display:inline-flex which overrides the UA [hidden] rule.
+   Restore correct behaviour so this.hidden = true actually hides the button. */
+.posts-cat-more-btn[hidden] {
+  display: none;
+}
+
+/* Posts index: each post item is a transparent wrapper for search.js pagination */
+.posts-pill-grid .post-item {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  border: none;
+}
+
+.posts-pill-grid .post-item:hover {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Individual pill link */
+.post-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 0;
+  padding: 9px 16px;
+  font-weight: 500;
+  font-size: 0.9em;
+  justify-content: flex-start;
+}
+
+.post-pill__emoji {
+  font-size: 1.05em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.post-pill__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
 /* Posts index: filter/toggle row (Projects only <-> Include Blog) */
@@ -4049,6 +4322,61 @@ html.theme-light .section-title {
 
 .posts-more-btn[hidden] {
   display: none !important;
+}
+
+/* Posts featured list: single-category view (e.g. Governance) */
+.posts-featured-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.posts-featured-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px 0;
+}
+
+/* Pill link: cap width and left-align icon+text within the pill */
+.posts-featured-pill {
+  max-width: 380px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* Smaller thumb inside the featured pill (inherits .btn-thumb shape) */
+.posts-featured-pill__thumb {
+  width: calc(40px * var(--btn-scale));
+  height: calc(40px * var(--btn-scale));
+  font-size: calc(26px * var(--btn-scale));
+}
+
+.posts-featured-pill__title {
+  font-weight: 700;
+}
+
+.posts-featured-item__date {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.84em;
+  color: rgba(233, 231, 255, 0.5);
+  letter-spacing: 0.02em;
+}
+
+.posts-featured-item__desc {
+  margin: 7px auto 0;
+  max-width: 520px;
+  font-size: 0.9em;
+  color: rgba(233, 231, 255, 0.72);
+  line-height: 1.55;
+}
+
+.posts-featured-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0;
+  width: 100%;
 }
 
 /* Homepage: featured project highlight (subtle, not larger). */

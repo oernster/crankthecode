@@ -17,17 +17,17 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     # Page heading.
     assert "Portfolio" in resp.text
 
-    # Flagship entry should appear before the first category section.
+    # Flagship entry should appear before the first category section (main content only).
     assert 'href="/posts/narratex"' in resp.text
-    assert "Desktop Applications" in resp.text
+    assert 'aria-label="Desktop Applications"' in resp.text
     assert resp.text.index('href="/posts/narratex"') < resp.text.index(
-        "Desktop Applications"
+        'aria-label="Desktop Applications"'
     )
 
-    # Proof before interpretation: Desktop Applications should appear before the intro copy.
+    # Intro copy appears first (above Desktop Applications).
     assert 'aria-label="Portfolio introduction"' in resp.text
-    assert resp.text.index("Desktop Applications") < resp.text.index(
-        'aria-label="Portfolio introduction"'
+    assert resp.text.index('aria-label="Portfolio introduction"') < resp.text.index(
+        'aria-label="Desktop Applications"'
     )
 
     # Ensure the explanatory phrase exists *inside* the intro block (not just in metadata).
@@ -43,7 +43,7 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
 
     # Desktop Applications should be curated-only in a strict order.
     m = re.search(
-        r'<section class="section-panel" aria-label="Desktop Applications"[\s\S]*?</section>',
+        r'<section class="section-panel"[^>]*aria-label="Desktop Applications"[\s\S]*?</section>',
         resp.text,
     )
     assert m is not None

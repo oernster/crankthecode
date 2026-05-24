@@ -224,7 +224,7 @@ def test_caching_staticfiles_cache_headers(tmp_path: Path):
 
     plain = client.get("/static/app.js")
     assert plain.status_code == 200
-    assert plain.headers.get("cache-control") == "no-cache, must-revalidate"
+    assert plain.headers.get("cache-control") == "no-store"
 
     missing = client.get("/static/missing.js")
     assert missing.status_code == 404

@@ -398,95 +398,110 @@
     <nav class="sidebar" aria-label="Navigation">
       <h2 class="sidebar-title">Navigation</h2>
 
-      <a
-        class="sidebar-link sidebar-link--section{% if request.url.path == '/decision-architecture' or request.url.path == '/topics' or request.url.path.startswith('/topics/') %} is-active{% endif %}"
-        href="/decision-architecture"
-      >
-        <span class="sidebar-link__text">
+      {% set _da_exp = request.url.path == '/decision-architecture' or request.url.path == '/topics' or request.url.path.startswith('/topics/') %}
+      {% set _pat_exp = request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %}
+
+      <div class="sidebar-expandable sidebar-link{% if _da_exp %} is-active{% endif %}">
+        <span class="sidebar-link__icon" aria-hidden="true">⚖️</span>
+        <button
+          class="sidebar-expand-btn{% if _da_exp %} is-open{% endif %}"
+          type="button"
+          aria-expanded="{{ 'true' if _da_exp else 'false' }}"
+          aria-label="Toggle Decision Architecture"
+          onclick="(function(b){var g=b.closest('.sidebar-expandable').nextElementSibling;var e=g.classList.toggle('is-expanded');b.classList.toggle('is-open',e);b.setAttribute('aria-expanded',e);})(this)"
+        ></button>
+        <a class="sidebar-expandable__nav" href="/decision-architecture">
           <span class="sidebar-link__text-main">Decision Architecture</span>
-        </span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/architecture' %} is-active{% endif %}"
-        href="/topics/architecture"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Architecture</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/cto-operating-model' %} is-active{% endif %}"
-        href="/topics/cto-operating-model"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">CTO Operating Model</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/decision-systems' %} is-active{% endif %}"
-        href="/topics/decision-systems"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Decision Systems</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/organisational-structure' %} is-active{% endif %}"
-        href="/topics/organisational-structure"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Organisational Structure</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/structural-design' %} is-active{% endif %}"
-        href="/topics/structural-design"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Structural Design</span>
-      </a>
+        </a>
+      </div>
+      <div class="sidebar-group{% if _da_exp %} is-expanded{% endif %}">
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/architecture' %} is-active{% endif %}"
+          href="/topics/architecture"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Architecture</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/cto-operating-model' %} is-active{% endif %}"
+          href="/topics/cto-operating-model"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">CTO Operating Model</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/decision-systems' %} is-active{% endif %}"
+          href="/topics/decision-systems"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Decision Systems</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/organisational-structure' %} is-active{% endif %}"
+          href="/topics/organisational-structure"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Organisational Structure</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/structural-design' %} is-active{% endif %}"
+          href="/topics/structural-design"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Structural Design</span>
+        </a>
+      </div>
 
-      <a
-        class="sidebar-link sidebar-link--section{% if request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %} is-active{% endif %}"
-        href="/patterns"
-      >
-        <span class="sidebar-link__text">
-          <span class="sidebar-link__text-main">Decision Architecture Patterns</span>
-        </span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-primitives' %} is-active{% endif %}"
-        href="/patterns/decision-primitives"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Decision Objects</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-interfaces' %} is-active{% endif %}"
-        href="/patterns/decision-interfaces"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Decision Interfaces</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/authority-models' %} is-active{% endif %}"
-        href="/patterns/authority-models"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Authority Patterns</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/system-dynamics' %} is-active{% endif %}"
-        href="/patterns/system-dynamics"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">Behaviour Patterns</span>
-      </a>
-      <a
-        class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/pattern-catalogue' %} is-active{% endif %}"
-        href="/patterns/pattern-catalogue"
-      >
-        <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-        <span class="sidebar-layer-text">System Patterns</span>
-      </a>
-
-      <hr class="post-separator post-separator--subtle" aria-hidden="true" />
+      <div class="sidebar-expandable sidebar-link{% if _pat_exp %} is-active{% endif %}">
+        <span class="sidebar-link__icon" aria-hidden="true">♾️</span>
+        <button
+          class="sidebar-expand-btn{% if _pat_exp %} is-open{% endif %}"
+          type="button"
+          aria-expanded="{{ 'true' if _pat_exp else 'false' }}"
+          aria-label="Toggle Patterns"
+          onclick="(function(b){var g=b.closest('.sidebar-expandable').nextElementSibling;var e=g.classList.toggle('is-expanded');b.classList.toggle('is-open',e);b.setAttribute('aria-expanded',e);})(this)"
+        ></button>
+        <a class="sidebar-expandable__nav" href="/patterns">
+          <span class="sidebar-link__text-main">Patterns</span>
+        </a>
+      </div>
+      <div class="sidebar-group{% if _pat_exp %} is-expanded{% endif %}">
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/authority-models' %} is-active{% endif %}"
+          href="/patterns/authority-models"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Authority Patterns</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/system-dynamics' %} is-active{% endif %}"
+          href="/patterns/system-dynamics"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Behaviour Patterns</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-interfaces' %} is-active{% endif %}"
+          href="/patterns/decision-interfaces"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Decision Interfaces</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/decision-primitives' %} is-active{% endif %}"
+          href="/patterns/decision-primitives"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Decision Objects</span>
+        </a>
+        <a
+          class="sidebar-link sidebar-link--layer{% if request.url.path == '/patterns/pattern-catalogue' %} is-active{% endif %}"
+          href="/patterns/pattern-catalogue"
+        >
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">System Patterns</span>
+        </a>
+      </div>
 
       <a
         class="sidebar-link{% if request.url.path == '/books' %} is-active{% endif %}"
@@ -499,16 +514,46 @@
         </span>
       </a>
 
-      <a
-        class="sidebar-link{% if request.url.path == '/portfolio' %} is-active{% endif %}"
-        href="/portfolio"
-      >
+      {% set _port_exp = request.url.path == '/portfolio' %}
+      <div class="sidebar-expandable sidebar-link{% if _port_exp %} is-active{% endif %}">
         <span class="sidebar-link__icon" aria-hidden="true">🧩</span>
-        <span class="sidebar-link__text">
+        <button
+          class="sidebar-expand-btn{% if _port_exp %} is-open{% endif %}"
+          type="button"
+          aria-expanded="{{ 'true' if _port_exp else 'false' }}"
+          aria-label="Toggle Portfolio"
+          onclick="(function(b){var g=b.closest('.sidebar-expandable').nextElementSibling;var e=g.classList.toggle('is-expanded');b.classList.toggle('is-open',e);b.setAttribute('aria-expanded',e);})(this)"
+        ></button>
+        <a class="sidebar-expandable__nav" href="/portfolio">
           <span class="sidebar-link__text-main">Portfolio</span>
-          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
-        </span>
-      </a>
+        </a>
+      </div>
+      <div class="sidebar-group{% if _port_exp %} is-expanded{% endif %}">
+        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=desktop-applications">
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Desktop Applications</span>
+        </a>
+        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=web-apis">
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Web APIs</span>
+        </a>
+        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=data-ml">
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Data / ML</span>
+        </a>
+        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=gaming">
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Gaming</span>
+        </a>
+        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=hardware-embedded">
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Hardware / Embedded</span>
+        </a>
+        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=operational-tools">
+          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
+          <span class="sidebar-layer-text">Operational Tools</span>
+        </a>
+      </div>
 
       <a
         class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
@@ -522,12 +567,12 @@
       </a>
 
       <a
-        class="sidebar-link sidebar-link--all-posts{% if request.url.path == '/posts' and (current_view or '') == 'archive' and (current_q or '')|length == 0 %} is-active{% endif %}"
-        href="/posts?view=archive"
+        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '') == '' %} is-active{% endif %}"
+        href="/posts?view=writing"
       >
-        <span class="sidebar-link__icon" aria-hidden="true">🧰</span>
-        <span class="sidebar-link__text" aria-label="All">
-          <span class="sidebar-link__text-main">All</span>
+        <span class="sidebar-link__icon" aria-hidden="true">✍️</span>
+        <span class="sidebar-link__text" aria-label="Writing">
+          <span class="sidebar-link__text-main">Writing</span>
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
         </span>
       </a>
