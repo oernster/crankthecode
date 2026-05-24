@@ -229,11 +229,20 @@ def test_caching_staticfiles_cache_headers(tmp_path: Path):
     missing = client.get("/static/missing.js")
     assert missing.status_code == 404
 
-    # Conditional request should yield 304, exercising the non-200 early return.
+    # Conditional request must yield 304 *and* carry the correct Cache-Control
+    # header so old browser cache entries are updated on this transition response.
     lm = fp.headers.get("last-modified")
-    if lm:
-        not_modified = client.get("/static/app.1234abcd.js", headers={"if-modified-since": lm})
-        assert not_modified.status_code == 304
+    assert lm is not None, "StaticFiles must set last-modified for ETag-based revalidation"
+    not_modified = client.get("/static/app.1234abcd.js", headers={"if-modified-since": lm})
+    assert not_modified.status_code == 304
+    assert not_modified.headers.get("cache-control") == "public, max-age=31536000, immutable"
+
+    # Non-fingerprinted 304 must also propagate no-store.
+    plain_lm = plain.headers.get("last-modified")
+    assert plain_lm is not None
+    plain_304 = client.get("/static/app.js", headers={"if-modified-since": plain_lm})
+    assert plain_304.status_code == 304
+    assert plain_304.headers.get("cache-control") == "no-store"
 
 
 def test_fallback_staticfiles_serves_from_fallback_on_404(tmp_path: Path):

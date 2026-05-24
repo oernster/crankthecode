@@ -677,6 +677,19 @@
       });
     })();
   </script>
+
+  <script>
+    // Detect back/forward cache (bfcache) restores and reload immediately.
+    // bfcache freezes the page state at navigate-away time; if a deploy happened
+    // while the page was frozen, the restored snapshot is stale.
+    // Cache-Control: no-store should exclude the page from bfcache in modern
+    // browsers, but some (notably Safari) restore it anyway.
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    });
+  </script>
 </body>
 </html>
 

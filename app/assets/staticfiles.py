@@ -24,8 +24,15 @@ class CachingStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope) -> Response:
         resp = await super().get_response(path, scope)
 
-        # Only apply policy to successful static responses.
-        if resp.status_code != 200:
+        # Apply cache policy to both 200 (fresh) and 304 (conditional) responses.
+        #
+        # Setting Cache-Control on 304 is important for the transition period:
+        # if a browser has an old cache entry (from a previous deploy that used
+        # different headers), it will send a conditional GET and receive 304.
+        # Without Cache-Control on the 304, the browser keeps its stale cache
+        # semantics; with it, the browser updates the stored headers so the
+        # next request uses the correct policy.
+        if resp.status_code not in (200, 304):  # pragma: no cover — Starlette raises HTTPException for other codes
             return resp
 
         # Immutable caching for fingerprinted filenames.
