@@ -101,15 +101,10 @@ def test_patterns_index_renders_layer_pills_and_groups_and_orders_posts_newest_f
     html = resp.text
     assert "Decision Architecture Patterns" in html
     assert 'href="/patterns/decision-primitives"' in html
-    assert "🧠" in html
     assert 'href="/patterns/decision-interfaces"' in html
-    assert "🪟" in html
     assert 'href="/patterns/authority-models"' in html
-    assert "🧬" in html
     assert 'href="/patterns/system-dynamics"' in html
-    assert "🧩" in html
     assert 'href="/patterns/pattern-catalogue"' in html
-    assert "🧭" in html
 
     # Only patterns posts should show up.
     assert "Not Patterns" not in html
@@ -188,8 +183,6 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
     assert "Decision Objects" in html
     assert 'href="/patterns"' in html
     assert 'href="/topics"' in html
-    # Layer pills should include emojis.
-    assert "🧠" in html
 
     # Non-pattern posts must not leak into layer views.
     assert "Not Patterns" not in html

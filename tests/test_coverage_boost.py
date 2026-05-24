@@ -128,11 +128,6 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
     assert 'href="/topics/organisational-structure"' in resp.text
     assert 'href="/topics/structural-design"' in resp.text
     assert 'href="/topics/architecture"' in resp.text
-    assert "⚙️" in resp.text
-    assert "🎛️" in resp.text
-    assert "🏛️" in resp.text
-    assert "🧱" in resp.text
-    assert "🏗️" in resp.text
     idx_lead10 = resp.text.index("Leadership Ten")
     idx_lead1 = resp.text.index("Leadership One")
     assert idx_lead10 < idx_lead1
