@@ -10,6 +10,7 @@ from fastapi import Request
 from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
 from jinja2 import Environment, FileSystemLoader
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 from app.assets.manifest import asset_url
 from app.assets.staticfiles import CachingStaticFiles, FallbackStaticFiles
@@ -17,6 +18,79 @@ from app.http.routers.api import router as api_router
 from app.http.routers.html import router as html_router
 from app.http.routers.rss import router as rss_router
 from app.http.routers.sitemap import router as sitemap_router
+
+
+class _CachePolicyMiddleware:
+    """Pure-ASGI cache-control middleware.
+
+    Intercepts the ``http.response.start`` event and injects ``Cache-Control``
+    headers at the ASGI protocol level — before any bytes reach the wire.
+
+    This is more reliable than FastAPI's higher-level ``call_next`` middleware,
+    which reconstructs the response object and can lose header mutations in
+    some Starlette versions.
+
+    Rules
+    -----
+    - ``text/html`` responses: ``no-store`` (never cache; forces fresh fetch on
+      every navigation, even in CDN/proxy layers via ``CDN-Cache-Control`` and
+      ``Surrogate-Control``).
+    - ``application/rss+xml``, ``application/xml``, ``text/plain``: ``no-cache,
+      must-revalidate`` (revalidate each time but allow conditional GETs).
+    - Everything else: headers left as-is (static assets are handled by
+      ``CachingStaticFiles`` with fingerprint-based immutable caching).
+    """
+
+    _HTML_HEADERS: list[tuple[bytes, bytes]] = [
+        (b"cache-control", b"no-store"),
+        (b"cdn-cache-control", b"no-store"),
+        (b"surrogate-control", b"no-store"),
+        (b"pragma", b"no-cache"),
+        (b"expires", b"0"),
+    ]
+
+    _DYNAMIC_CC: bytes = b"no-cache, must-revalidate"
+
+    _DYNAMIC_PREFIXES = (
+        b"application/rss+xml",
+        b"application/xml",
+        b"text/plain",
+    )
+
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        async def send_with_cache_policy(message: dict) -> None:
+            if message["type"] == "http.response.start":
+                headers: list[tuple[bytes, bytes]] = list(message.get("headers", []))
+                content_type = b""
+                for k, v in headers:
+                    if k.lower() == b"content-type":
+                        content_type = v.lower()
+                        break
+
+                if content_type.startswith(b"text/html"):
+                    # Strip any existing Cache-Control / Pragma / Expires so our
+                    # directives are the sole authority on this response.
+                    _strip = {b"cache-control", b"cdn-cache-control", b"surrogate-control", b"pragma", b"expires"}
+                    headers = [(k, v) for k, v in headers if k.lower() not in _strip]
+                    headers.extend(self._HTML_HEADERS)
+                    message = {**message, "headers": headers}
+
+                elif any(content_type.startswith(p) for p in self._DYNAMIC_PREFIXES):
+                    has_cc = any(k.lower() == b"cache-control" for k, _ in headers)
+                    if not has_cc:
+                        headers = list(headers) + [(b"cache-control", self._DYNAMIC_CC)]
+                        message = {**message, "headers": headers}
+
+            await send(message)
+
+        await self.app(scope, receive, send_with_cache_policy)
 
 
 def create_app() -> FastAPI:
@@ -55,32 +129,6 @@ def create_app() -> FastAPI:
             return RedirectResponse(url=target, status_code=301)
 
         return await call_next(request)
-
-    @fastapi_app.middleware("http")
-    async def cache_policy_middleware(
-        request: Request,
-        call_next: Callable[[Request], Awaitable[Response]],
-    ) -> Response:
-        resp = await call_next(request)
-
-        # Apply cache policy based on response content type.
-        content_type = (resp.headers.get("content-type") or "").lower()
-
-        if content_type.startswith("text/html"):
-            resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-            resp.headers["Pragma"] = "no-cache"
-            resp.headers["Expires"] = "0"
-            return resp
-
-        # Dynamic text endpoints (RSS, sitemap, robots) must be revalidated.
-        if (
-            content_type.startswith("application/rss+xml")
-            or content_type.startswith("application/xml")
-            or content_type.startswith("text/plain")
-        ):
-            resp.headers.setdefault("Cache-Control", "no-cache, must-revalidate")
-
-        return resp
 
     # Static and templates
     BASE_DIR = Path(__file__).resolve().parent
@@ -157,6 +205,10 @@ def create_app() -> FastAPI:
         # Favicons are often cached aggressively by browsers; force revalidation.
         resp.headers["Cache-Control"] = "no-cache, must-revalidate"
         return resp
+
+    # Pure-ASGI cache middleware: intercepts http.response.start before any bytes
+    # hit the wire — more reliable than call_next which can lose header mutations.
+    fastapi_app.add_middleware(_CachePolicyMiddleware)
 
     fastapi_app.include_router(html_router)
     fastapi_app.include_router(api_router)

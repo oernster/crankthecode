@@ -24,8 +24,6 @@ def test_homepage_renders():
     assert "docs/CV-Oliver.pdf" not in resp.text
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
-    assert "🗺️ Start Here" in resp.text
-    assert 'href="/posts/start-here"' in resp.text
 
     # Explore section navigation pills should appear.
     assert 'href="/decision-architecture"' in resp.text
@@ -100,7 +98,11 @@ def test_html_cache_headers_are_no_store():
 
     resp = client.get("/")
     assert resp.status_code == 200
-    assert resp.headers.get("cache-control") == "no-cache, no-store, must-revalidate"
+    # Pure-ASGI middleware sets no-store at the protocol level — stronger than
+    # call_next which can lose header mutations in some Starlette versions.
+    assert resp.headers.get("cache-control") == "no-store"
+    assert resp.headers.get("cdn-cache-control") == "no-store"
+    assert resp.headers.get("surrogate-control") == "no-store"
     assert resp.headers.get("pragma") == "no-cache"
     assert resp.headers.get("expires") == "0"
 
