@@ -4,69 +4,79 @@
   /* Default content width was 840px; widened ~1.5x. */
   --content-max: 1260px;
 
-  /* Brand (must be the same in light/dark). */
-  --brand-mauve: #c7a3c9;
+  /*
+    2026 palette: 4 colours only.
+    Dark: #09090d (bg) | #f0f0f4 (text) | #4f8cff (accent) | #16161e (surface)
+    Light: #fafafa (bg) | #111118 (text) | #2563eb (accent) | #f0f0f5 (surface)
+
+    Token --brand-mauve kept for selector compatibility but now maps to accent blue.
+  */
+  --brand-mauve: #4f8cff;
 
   /*
     Theme tokens (dark defaults).
     Light mode overrides live in `.theme-light` below.
+    Background uses three identical stops so the radial-gradient resolves to flat.
   */
-  --bg-gradient-start: #2a2640;
-  --bg-gradient-mid: #171827;
-  --bg-gradient-end: #121321;
+  --bg-gradient-start: #09090d;
+  --bg-gradient-mid: #09090d;
+  --bg-gradient-end: #09090d;
 
-  --text-color: #e9e7ff;
-  --text-muted: rgba(233, 231, 255, 0.82);
-  --text-subtle: rgba(233, 231, 255, 0.7);
+  --text-color: #f0f0f4;
+  --text-muted: rgba(240, 240, 244, 0.72);
+  --text-subtle: rgba(240, 240, 244, 0.5);
 
-  --heading-color: rgba(255, 242, 168, 0.92);
-  --accent-purple: #cbb6ff;
+  --heading-color: #ffffff;
+  --accent-purple: #4f8cff;
 
-  --link-color: #8bb3ff;
+  --link-color: #4f8cff;
   --link-hover-color: #ffffff;
-  --link-hover-shadow: 0 0 10px rgba(139, 179, 255, 0.35);
+  --link-hover-shadow: none;
 
-  --panel-bg: rgba(255, 255, 255, 0.04);
-  --panel-bg-subtle: rgba(255, 255, 255, 0.03);
-  --panel-border: rgba(255, 255, 255, 0.08);
-  --panel-border-strong: rgba(255, 255, 255, 0.12);
-  --panel-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+  --panel-bg: rgba(255, 255, 255, 0.045);
+  --panel-bg-subtle: rgba(255, 255, 255, 0.028);
+  --panel-border: rgba(255, 255, 255, 0.07);
+  --panel-border-strong: rgba(255, 255, 255, 0.10);
+  --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 
-  --input-bg: rgba(255, 255, 255, 0.06);
-  --input-border: rgba(255, 255, 255, 0.12);
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.08);
 
-  --icon-surface-bg: rgba(255, 242, 168, 0.92);
-  --icon-surface-border: rgba(255, 242, 168, 0.55);
-  --icon-fg: #ff4d4d;
-  --icon-fg-hover: #ff2f2f;
+  --icon-surface-bg: rgba(79, 140, 255, 0.10);
+  --icon-surface-border: rgba(79, 140, 255, 0.22);
+  --icon-fg: #4f8cff;
+  --icon-fg-hover: #7aaaff;
 
-  --accent-green-bg: rgba(178, 255, 178, 0.2);
-  --accent-green-border: rgba(178, 255, 178, 0.55);
+  /* Accent-blue tint replaces green accent (kept token names for compat). */
+  --accent-green-bg: rgba(79, 140, 255, 0.10);
+  --accent-green-border: rgba(79, 140, 255, 0.22);
 
-  --focus-ring: rgba(203, 182, 255, 0.65);
-  --focus-ring-strong: rgba(203, 182, 255, 0.75);
+  --focus-ring: rgba(79, 140, 255, 0.65);
+  --focus-ring-strong: rgba(79, 140, 255, 0.80);
 
-  --code-bg: rgba(255, 255, 255, 0.08);
-  --code-color: #f7f6ff;
+  --code-bg: rgba(255, 255, 255, 0.07);
+  --code-color: #f0f0f4;
 
-  --cta-bg: rgba(255, 242, 168, 0.92);
-  --cta-bg-hover: rgba(255, 242, 168, 1);
-  --cta-border: rgba(255, 242, 168, 0.55);
-  --cta-border-hover: rgba(255, 242, 168, 0.75);
-  --cta-fg: #171827;
+  /* CTA hover is a translucent blue tint used for link underlines + nav hovers.
+     Primary solid buttons use --primary-btn-bg instead. */
+  --cta-bg: rgba(79, 140, 255, 0.08);
+  --cta-bg-hover: rgba(79, 140, 255, 0.16);
+  --cta-border: rgba(79, 140, 255, 0.22);
+  --cta-border-hover: rgba(79, 140, 255, 0.40);
+  --cta-fg: #f0f0f4;
 
   /* Legacy tokens (kept for compatibility with older styles). */
-  --sticky-cta-bg: #007acc;
-  --sticky-cta-bg-hover: #005fa3;
+  --sticky-cta-bg: #4f8cff;
+  --sticky-cta-bg-hover: #3a7aff;
 
-  /* Hover highlight accent (keeps the dark theme but makes hover states obvious). */
-  --hover-accent-bg: rgba(203, 182, 255, 0.18);
-  --hover-accent-border: rgba(203, 182, 255, 0.45);
-  --hover-accent-shadow: 0 0 0 3px rgba(203, 182, 255, 0.14);
+  /* Hover highlight accent. */
+  --hover-accent-bg: rgba(79, 140, 255, 0.08);
+  --hover-accent-border: rgba(79, 140, 255, 0.25);
+  --hover-accent-shadow: 0 0 0 3px rgba(79, 140, 255, 0.10);
 
   /* Buttons / CTAs (explicit contrast across themes). */
-  --primary-btn-bg: #2563eb;
-  --primary-btn-bg-hover: #1e40af;
+  --primary-btn-bg: #4f8cff;
+  --primary-btn-bg-hover: #3a7aff;
   --primary-btn-fg: #ffffff;
 
   /*
@@ -78,61 +88,62 @@
 }
 
 .theme-light {
-  --bg-gradient-start: #f3f6ff;
-  --bg-gradient-mid: #ffffff;
-  --bg-gradient-end: #eef2ff;
+  --brand-mauve: #2563eb;
 
-  --text-color: #1f2937;
-  --text-muted: rgba(31, 41, 55, 0.82);
-  --text-subtle: rgba(31, 41, 55, 0.65);
+  --bg-gradient-start: #fafafa;
+  --bg-gradient-mid: #fafafa;
+  --bg-gradient-end: #fafafa;
 
-  --heading-color: #6d28d9;
-  --accent-purple: #6d28d9;
+  --text-color: #111118;
+  --text-muted: rgba(17, 17, 24, 0.72);
+  --text-subtle: rgba(17, 17, 24, 0.5);
+
+  --heading-color: #111118;
+  --accent-purple: #2563eb;
 
   --link-color: #2563eb;
   --link-hover-color: #1d4ed8;
   --link-hover-shadow: none;
 
-  --panel-bg: rgba(255, 255, 255, 0.7);
-  --panel-bg-subtle: rgba(255, 255, 255, 0.55);
-  --panel-border: rgba(31, 41, 55, 0.12);
-  --panel-border-strong: rgba(31, 41, 55, 0.18);
-  --panel-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+  --panel-bg: rgba(255, 255, 255, 0.82);
+  --panel-bg-subtle: rgba(255, 255, 255, 0.62);
+  --panel-border: rgba(17, 17, 24, 0.08);
+  --panel-border-strong: rgba(17, 17, 24, 0.13);
+  --panel-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 
-  --input-bg: rgba(17, 24, 39, 0.04);
-  --input-border: rgba(17, 24, 39, 0.12);
+  --input-bg: rgba(17, 17, 24, 0.04);
+  --input-border: rgba(17, 17, 24, 0.10);
 
-  --icon-surface-bg: rgba(250, 204, 21, 0.28);
-  --icon-surface-border: rgba(250, 204, 21, 0.5);
-  --icon-fg: #b91c1c;
-  --icon-fg-hover: #991b1b;
+  --icon-surface-bg: rgba(37, 99, 235, 0.08);
+  --icon-surface-border: rgba(37, 99, 235, 0.20);
+  --icon-fg: #2563eb;
+  --icon-fg-hover: #1d4ed8;
 
-  --accent-green-bg: rgba(34, 197, 94, 0.12);
-  --accent-green-border: rgba(34, 197, 94, 0.35);
+  --accent-green-bg: rgba(37, 99, 235, 0.08);
+  --accent-green-border: rgba(37, 99, 235, 0.20);
 
   --focus-ring: rgba(37, 99, 235, 0.55);
-  --focus-ring-strong: rgba(37, 99, 235, 0.7);
+  --focus-ring-strong: rgba(37, 99, 235, 0.70);
 
-  --code-bg: rgba(17, 24, 39, 0.06);
-  --code-color: #111827;
+  --code-bg: rgba(17, 17, 24, 0.06);
+  --code-color: #111118;
 
-  --cta-bg: rgba(250, 204, 21, 0.35);
-  --cta-bg-hover: rgba(250, 204, 21, 0.45);
-  --cta-border: rgba(250, 204, 21, 0.55);
-  --cta-border-hover: rgba(250, 204, 21, 0.75);
-  --cta-fg: #111827;
+  --cta-bg: rgba(37, 99, 235, 0.07);
+  --cta-bg-hover: rgba(37, 99, 235, 0.12);
+  --cta-border: rgba(37, 99, 235, 0.20);
+  --cta-border-hover: rgba(37, 99, 235, 0.35);
+  --cta-fg: #111118;
 
   /* Legacy tokens (kept for compatibility with older styles). */
   --sticky-cta-bg: #2563eb;
   --sticky-cta-bg-hover: #1d4ed8;
 
-  --hover-accent-bg: rgba(99, 102, 241, 0.12);
-  --hover-accent-border: rgba(99, 102, 241, 0.25);
-  --hover-accent-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  --hover-accent-bg: rgba(37, 99, 235, 0.08);
+  --hover-accent-border: rgba(37, 99, 235, 0.20);
+  --hover-accent-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
 
-  /* Keep consistent CTA contrast in light mode too. */
   --primary-btn-bg: #2563eb;
-  --primary-btn-bg-hover: #1e40af;
+  --primary-btn-bg-hover: #1d4ed8;
   --primary-btn-fg: #ffffff;
 }
 
@@ -275,7 +286,7 @@ body.is-homepage .read-time-bar {
 .sidebar-title {
   margin: 0 0 12px;
   font-size: 17.6px;
-  color: var(--brand-mauve);
+  color: var(--text-muted);
 }
 
 .sidebar-link {
@@ -617,8 +628,8 @@ body.is-homepage .read-time-bar {
   background: var(--cta-bg-hover);
   border: 1px solid var(--cta-border-hover);
   box-sizing: border-box;
-  /* GitHub SVG uses currentColor; make it dark in the default state. */
-  color: #111827;
+  /* GitHub SVG uses currentColor; inherit from theme text so it works in both modes. */
+  color: var(--text-muted);
   /* Ensure the background matches other CTA surfaces (avoid inherited fade). */
   opacity: 1;
   transition:
@@ -631,11 +642,11 @@ body.is-homepage .read-time-bar {
 
 .header-social-link:hover,
 .header-social-link:focus-visible {
-  background: var(--brand-mauve);
-  border-color: color-mix(in srgb, var(--brand-mauve) 72%, white);
-  color: #111827;
+  background: var(--primary-btn-bg);
+  border-color: var(--primary-btn-bg);
+  color: #ffffff;
   opacity: 1;
-  box-shadow: 0 14px 30px rgba(203, 182, 255, 0.18);
+  box-shadow: 0 14px 30px rgba(79, 140, 255, 0.22);
 }
 
 .header-social-link:focus-visible {
@@ -694,10 +705,10 @@ body.is-homepage .read-time-bar {
 }
 
 .header-email-button:hover {
-  background: var(--brand-mauve);
-  border-color: color-mix(in srgb, var(--brand-mauve) 72%, white);
-  color: #111827;
-  box-shadow: 0 14px 30px rgba(203, 182, 255, 0.18);
+  background: var(--primary-btn-bg);
+  border-color: var(--primary-btn-bg);
+  color: #ffffff;
+  box-shadow: 0 14px 30px rgba(79, 140, 255, 0.22);
 }
 
 .header-email-button:focus-visible {
@@ -730,8 +741,8 @@ body.is-homepage .read-time-bar {
 /* Visual separation between the masthead and the quick-link pills. */
 .masthead-separator {
   height: 1px;
-  background: rgba(178, 255, 178, 0.38);
-  box-shadow: 0 0 0 1px rgba(178, 255, 178, 0.08);
+  background: rgba(79, 140, 255, 0.20);
+  box-shadow: 0 0 0 1px rgba(79, 140, 255, 0.06);
   margin: 10px 0 14px;
   border-radius: 999px;
 }
@@ -861,10 +872,10 @@ body.is-homepage .read-time-bar {
 .header-actions .icon-btn:hover,
 .header-actions .rss-link:hover,
 .header-actions .home-favicon-link:hover {
-  background: var(--brand-mauve);
-  border-color: color-mix(in srgb, var(--brand-mauve) 72%, white);
-  color: #111827;
-  box-shadow: 0 14px 30px rgba(203, 182, 255, 0.18);
+  background: var(--primary-btn-bg);
+  border-color: var(--primary-btn-bg);
+  color: #ffffff;
+  box-shadow: 0 14px 30px rgba(79, 140, 255, 0.22);
 }
 
 .header-actions .icon-btn:focus-visible,
@@ -1019,7 +1030,7 @@ body.is-homepage .read-time-bar {
 .site-title {
   margin: 0;
   text-align: center;
-  color: var(--brand-mauve);
+  color: var(--heading-color);
   font-weight: 700;
   font-size: 38px;
   line-height: 1.15;
@@ -1382,8 +1393,7 @@ body.is-homepage .read-time-bar {
 }
 
 h1, h2, h3 {
-  /* Major titles must be brand mauve across light/dark. */
-  color: var(--brand-mauve);
+  color: var(--heading-color);
   font-weight: 700;
   margin-bottom: 24px;
 }
@@ -1395,8 +1405,7 @@ h1, h2, h3 {
 }
 
 .section-title--accent {
-  /* Keep section titles on-brand. */
-  color: var(--brand-mauve);
+  color: var(--heading-color);
 }
 
 h1 {
@@ -1450,10 +1459,10 @@ a {
   border-radius: 6px;
 }
 
-/* Light mode: use brand mauve for link hover highlight instead of banana yellow. */
+/* Light mode: use accent blue tint for link hover highlight. */
 html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):hover {
-  color: #111827;
-  box-shadow: inset 0 -1.1em 0 var(--brand-mauve);
+  color: #111118;
+  box-shadow: inset 0 -1.1em 0 var(--cta-bg-hover);
 }
 
 /* Post cover image: avoid the banana "baseline" hover bar (it reads like a stray
@@ -1741,8 +1750,8 @@ a[href=\"/\"] {
 }
 
 .axisdb-run-note .code-copy--icon[data-copied="true"] {
-  background: rgba(178, 255, 178, 0.22);
-  border-color: rgba(178, 255, 178, 0.55);
+  background: rgba(79, 140, 255, 0.18);
+  border-color: rgba(79, 140, 255, 0.42);
 }
 
 .axisdb-run-note .code-copy--icon[data-copied="true"] .code-copy__icon {
@@ -1894,10 +1903,9 @@ a[href=\"/\"]:hover {
   color: var(--text-muted);
 }
 
-/* On hover buttons switch to banana-yellow. Ensure the subtext remains readable
-   (dark) in *both* themes instead of staying light/washed out in dark mode. */
+/* On hover keep subtext readable against the accent-tint background. */
 .btn-link:hover .btn-subtext {
-  color: rgba(17, 24, 39, 0.82);
+  color: var(--text-muted);
 }
 
 .post-one-liner {
@@ -1925,7 +1933,7 @@ a[href=\"/\"]:hover {
 .featured-primary.btn-link--primary {
   background: var(--primary-btn-bg);
   border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
+  box-shadow: 0 12px 26px rgba(79, 140, 255, 0.18);
 }
 
 .btn-link--primary:hover {
@@ -1952,13 +1960,12 @@ a[href=\"/\"]:hover {
 .btn-link:hover {
   text-decoration: none;
   transform: translateY(-1px);
-  /* Banana-yellow hover to match the rest of the UI. */
   background: var(--cta-bg-hover);
   border-color: var(--cta-border-hover);
   color: var(--cta-fg);
   text-shadow: none;
   box-shadow:
-    0 14px 30px rgba(139, 179, 255, 0.14),
+    0 14px 30px rgba(79, 140, 255, 0.14),
     var(--hover-accent-shadow);
 }
 
@@ -1970,11 +1977,11 @@ a[href=\"/\"]:hover {
 }
 
 /* Subtle/primary button variants: keep the original variant color but add a more
-   obvious hover highlight via the purple accent ring. */
+   obvious hover highlight via the accent ring. */
 .btn-link--primary:hover,
 .btn-link--subtle:hover {
   box-shadow:
-    0 14px 30px rgba(139, 179, 255, 0.16),
+    0 14px 30px rgba(79, 140, 255, 0.16),
     var(--hover-accent-shadow);
 }
 
@@ -2050,7 +2057,7 @@ body.is-homepage .landing-intro {
 
 .hero__headline {
   margin: 0 0 10.4px;
-  color: var(--brand-mauve);
+  color: var(--heading-color);
   font-size: 34px;
   line-height: 1.22;
   font-weight: 750;
@@ -2285,17 +2292,16 @@ body.is-homepage .hero__subline {
 .build-with-title {
   margin: 0 0 5.6px;
   font-size: 16.8px;
-  color: var(--brand-mauve);
+  color: var(--text-color);
 }
 
-/* Improve perceived contrast for brand-mauve titles in light mode without
-   changing the actual brand color token. */
+/* Improve perceived contrast for headings in light mode. */
 html.theme-light .site-title,
 html.theme-light h1,
 html.theme-light h2,
 html.theme-light h3,
 html.theme-light .section-title {
-  text-shadow: 0 1px 0 rgba(17, 24, 39, 0.25);
+  text-shadow: none;
 }
 
 .build-with-items {
@@ -2381,8 +2387,8 @@ html.theme-light .section-title {
 }
 
 .fake-terminal__title .code-copy--icon[data-copied="true"] {
-  background: rgba(178, 255, 178, 0.22);
-  border-color: rgba(178, 255, 178, 0.55);
+  background: rgba(79, 140, 255, 0.18);
+  border-color: rgba(79, 140, 255, 0.42);
 }
 
 .fake-terminal__body {
@@ -2479,8 +2485,8 @@ html.theme-light .section-title {
 
 /* When the icon copy button is in “copied” state, give it a subtle highlight. */
 .code-copy--icon[data-copied="true"] {
-  background: rgba(178, 255, 178, 0.22);
-  border-color: rgba(178, 255, 178, 0.55);
+  background: rgba(79, 140, 255, 0.18);
+  border-color: rgba(79, 140, 255, 0.42);
 }
 
 .code-copy:hover {
@@ -3767,8 +3773,8 @@ html.theme-light .section-title {
   margin-bottom: 4px;
   padding: 2px 8px;
   border-radius: 12px;
-  background: var(--accent-muted, rgba(99, 102, 241, 0.12));
-  color: var(--accent, #6366f1);
+  background: var(--accent-green-bg);
+  color: var(--link-color);
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -4109,8 +4115,8 @@ html.theme-light .section-title {
 
 .book-cover-link:hover .book-cover,
 .book-cover-link:focus-visible .book-cover {
-  border-color: rgba(255, 246, 200, 0.9);
-  box-shadow: 0 0 0 3px rgba(255, 246, 200, 0.55);
+  border-color: rgba(79, 140, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.22);
 }
 
 /* Books: subtle series label (quiet, curated tone). */
@@ -4205,13 +4211,13 @@ html.theme-light .section-title {
 
 .books-compilation-card__link:hover .books-compilation-card__cover,
 .books-compilation-card__link:focus-visible .books-compilation-card__cover {
-  border-color: rgba(255, 246, 200, 0.9);
-  box-shadow: 0 0 0 3px rgba(255, 246, 200, 0.55);
+  border-color: rgba(79, 140, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.22);
 }
 
 .books-compilation-card__link:active .books-compilation-card__cover {
-  border-color: rgba(255, 246, 200, 0.9);
-  box-shadow: 0 0 0 3px rgba(255, 246, 200, 0.55);
+  border-color: rgba(79, 140, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.22);
 }
 
 .books-compilation-card__link:focus-visible {
