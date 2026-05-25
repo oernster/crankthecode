@@ -2123,10 +2123,18 @@ body.is-homepage .landing-intro {
 }
 
 .hero__subtext {
-  margin: 0 0 22px;
+  margin: 0 0 14px;
   color: var(--text-muted);
   font-size: 15.2px;
   line-height: 1.6;
+}
+
+.hero__positioning {
+  margin: 0 0 22px;
+  color: var(--text-color);
+  font-size: 15.6px;
+  font-style: italic;
+  line-height: 1.55;
 }
 
 .hero__subline {

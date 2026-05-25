@@ -65,21 +65,13 @@ It is a property of the system.
 
 ## How to navigate
 
-If you want the full model:
+👉 If you want the full model: [Read the books](https://www.crankthecode.com/books)
 
-👉 [Read the books](https://www.crankthecode.com/books)
+👉 If you want reusable components: [Explore patterns](https://www.crankthecode.com/patterns)
 
-If you want reusable components:
+👉 If you want applied thinking: [Read posts](https://www.crankthecode.com/writing)
 
-👉 [Explore patterns](https://www.crankthecode.com/patterns)
-
-If you want applied thinking:
-
-👉 [Read posts](https://www.crankthecode.com/writing)
-
-To see this applied in real systems:
-
-👉 [Consult my portfolio](https://www.crankthecode.com/portfolio)
+👉 If you want to see it applied to real systems: [Consult my portfolio](https://www.crankthecode.com/portfolio)
 
 
 ---
