@@ -259,16 +259,12 @@
       {% endif %}
 
       <div class="header-topbar header-topbar--masthead" aria-label="Masthead">
-        <div class="header-topbar-left" aria-label="Breadcrumbs">
+        <div class="header-topbar-left">
           {# Breadcrumbs now live in `.breadcrumb-bar` above, aligned to the content panel. #}
         </div>
 
         <a class="site-title-link" href="/" aria-label="Homepage">
-          {% if is_homepage %}
-            <span class="site-title">Crank The Code</span>
-          {% else %}
-            <span class="site-title">Crank The Code</span>
-          {% endif %}
+          <span class="site-title">Crank The Code</span>
         </a>
 
         <div class="header-topbar-right" aria-label="Primary actions">

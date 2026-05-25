@@ -157,10 +157,10 @@ async def about_page(
             "is_homepage": False,
             "page_title": "About Oliver Ernster | Engineering Lead & Technical Advisor",
             "og_title": "About Oliver Ernster",
-            "og_description": "About Oliver Ernster, Engineering Lead and Technical Advisor.",
-            "meta_description": "About Oliver Ernster, Engineering Lead and Technical Advisor.",
+            "og_description": "Oliver Ernster is an Engineering Lead and Technical Advisor focused on reducing organisational and technical risk through earlier, clearer decisions.",
+            "meta_description": "Oliver Ernster is an Engineering Lead and Technical Advisor focused on reducing organisational and technical risk through earlier, clearer decisions.",
             "back_link_href": "/",
-            "back_link_label": "← Back to posts",
+            "back_link_label": "← Back to home",
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
                 {"label": "About", "href": "/about"},
