@@ -16,12 +16,7 @@
             class="posts-featured-item"
             data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}"
           >
-            <a class="btn-link btn-link--primary btn-link--with-thumb posts-featured-pill" href="/posts/{{ post.slug }}">
-              {% if (post.emoji or '')|length > 0 %}
-                <span class="btn-thumb btn-thumb--emoji posts-featured-pill__thumb" aria-hidden="true">{{ post.emoji }}</span>
-              {% elif pill_icon %}
-                <img class="btn-thumb posts-featured-pill__thumb" src="{{ pill_icon }}" alt="" aria-hidden="true" loading="lazy" />
-              {% endif %}
+            <a class="btn-link btn-link--primary posts-featured-pill" href="/posts/{{ post.slug }}">
               <span class="posts-featured-pill__title">{{ post.title_text or post.title }}</span>
             </a>
             {# Hidden tags preserve search-autocomplete tag matching via search.js #}
