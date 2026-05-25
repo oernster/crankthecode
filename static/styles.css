@@ -882,15 +882,12 @@ body.is-homepage .read-time-bar {
   justify-self: center;
 }
 
-/* Icon cluster (top-right): favicon above RSS (aligned right), search next to RSS below */
+/* Icon cluster (top-right): single row of 4 icons so the header row height matches the title */
 .header-actions {
   justify-self: end;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "theme home"
-    "search rss";
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 8px;
   align-items: center;
 }
@@ -950,21 +947,7 @@ body.is-homepage .read-time-bar {
   height: calc(32px * var(--btn-scale));
 }
 
-.header-actions .home-favicon-link {
-  grid-area: home;
-}
-
-.header-actions .theme-toggle {
-  grid-area: theme;
-}
-
-.header-actions .search-toggle {
-  grid-area: search;
-}
-
-.header-actions .rss-link {
-  grid-area: rss;
-}
+/* grid-area assignments removed: icons now in a flex row, no named areas needed */
 
 /* Home favicon in the topbar should match the original landing-page styling */
 .header-home-link {
@@ -1098,26 +1081,18 @@ body.is-homepage .read-time-bar {
   color: var(--heading-color);
   font-weight: 700;
   font-size: 38px;
-  line-height: 1.15;
+  line-height: 1;
 }
 
 .site-title-link {
   justify-self: center;
+  display: flex;
+  align-items: center;
   color: inherit;
-}
-
-.site-title {
-  margin: 0;
-  text-align: center;
 }
 
 .header-spacer {
   min-width: 1px;
-}
-
-.site-title-link {
-  justify-self: center;
-  color: inherit;
 }
 
 .site-title-link:hover {

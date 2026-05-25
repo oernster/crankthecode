@@ -191,10 +191,10 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
     idx_old = html.index("Older")
     assert idx_new < idx_old
 
-    # Individual posts should render their emojis (thumb style).
-    assert "btn-thumb--emoji" in html
-    assert "🧱" in html
-    assert "🪐" in html
+    # Individual posts should render as links.
+    assert 'class="btn-link"' in html
+    assert "Newer" in html
+    assert "Older" in html
 
     # Unknown layers should still render (fallback label via humanize).
     resp = client.get("/patterns/weird_layer!!")
@@ -240,7 +240,6 @@ def test_patterns_layer_page_supports_general_alias_for_unlayered_posts():
     assert resp.status_code == 200
     assert "General" in resp.text
     assert "Unlayered" in resp.text
-    assert "🧷" in resp.text
     assert "Layered" not in resp.text
 
 

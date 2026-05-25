@@ -48,8 +48,8 @@ def test_topic_hub_page_lists_posts_and_emits_jsonld_and_canonical():
 
         # Ensure at least one known decision-systems leadership post is listed.
         assert 'href="/posts/lead1"' in html
-        # Topic hub post items should render with the thumb/emoji wrapper.
-        assert 'btn-link--with-thumb' in html
+        # Topic hub post items should render as links.
+        assert 'class="btn-link"' in html
 
         # Structures UI parity: layer pills + "All structures" link.
         assert "All structures" in html

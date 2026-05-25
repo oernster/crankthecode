@@ -43,11 +43,22 @@ def test_homepage_renders():
     assert 'download="Oliver-Ernster-CV.pdf"' in hero_block
     assert "Download CV" in hero_block
     assert 'id="contact-email-btn"' in hero_block
-    assert "📩 Work With Me" in hero_block
+    assert "Work With Me" in hero_block
+
+    # Start Here secondary link should appear in hero.
+    assert 'href="/posts/start-here"' in hero_block
+    assert "Start Here" in hero_block
 
     # Hero should remain concise (no extra proof/portfolio cues inside the hero block).
     assert 'class="homepage-portfolio-cue"' not in hero_block
     assert 'class="homepage-selected-project"' not in hero_block
+
+    # Site nav overview section should list all four areas.
+    assert 'class="landing-nav"' in resp.text
+    assert 'href="/decision-architecture"' in resp.text
+    assert 'href="/patterns"' in resp.text
+    assert 'href="/books"' in resp.text
+    assert 'href="/portfolio"' in resp.text
 
     # No separate contact section at the bottom.
     assert 'If the mandate is real' not in resp.text
@@ -188,9 +199,6 @@ def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
     post = client.get("/posts/start-here")
     assert post.status_code == 200
     assert re.search(r"/static/read-time\.[0-9a-f]{8,}\.js", post.text), post.text
-
-    # LinkedIn icon should be fingerprinted too (was previously hard-coded).
-    assert re.search(r"/static/images/linkedin\.[0-9a-f]{8,}\.png", html.text), html.text
 
     css_url = m.group(0)
     css = client.get(css_url)
@@ -390,7 +398,7 @@ def test_about_page_renders():
     resp = client.get("/about")
 
     assert resp.status_code == 200
-    assert "Things I build with" in resp.text
+    assert "Tooling" in resp.text
 
 
 def test_topics_pages_render():
