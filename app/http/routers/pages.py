@@ -211,6 +211,12 @@ async def governance_redirect(request: Request):
     return RedirectResponse(url="/posts?view=writing&cat=Governance", status_code=301)
 
 
+@router.get("/writing", include_in_schema=False)
+async def writing_redirect(request: Request):
+    """Guessable top-level alias for the Writing section."""
+    return RedirectResponse(url="/posts?view=writing", status_code=301)
+
+
 @router.get("/help", response_class=HTMLResponse)
 async def help_page(
     request: Request,

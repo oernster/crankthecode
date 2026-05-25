@@ -56,7 +56,8 @@ _LEGACY_POST_REDIRECTS: dict[str, str] = {}
 # Legacy post aliases: serve the *new* post content at an old public slug.
 # Keys are compared case-insensitively.
 _LEGACY_POST_ALIASES: dict[str, str] = {
-    "oodathesisdistilled": "OODAIntro",
+    "oodathesisdistilled": "what-is-decision-architecture",
+    "oodaintro": "what-is-decision-architecture",
 }
 
 _CAT_TAG_PREFIX = "cat:"

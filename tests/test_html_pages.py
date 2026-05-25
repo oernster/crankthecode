@@ -486,7 +486,7 @@ def test_leadership_post_back_link_targets_decision_architecture_gateway():
     app = create_app()
     client = TestClient(app)
 
-    resp = client.get("/posts/OODAIntro")
+    resp = client.get("/posts/what-is-decision-architecture")
     assert resp.status_code == 200
 
     # Leadership/Decision Architecture posts should route back to the gateway.

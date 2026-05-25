@@ -216,7 +216,7 @@ body.is-homepage .header-cta {
   display: grid;
   grid-template-columns: 360px 1fr;
   gap: 24px;
-  margin-top: 24px;
+  margin-top: 0;
 }
 
 .site-footer__links {
@@ -4551,7 +4551,7 @@ html.theme-light .section-title {
 
 /* Homepage: site overview navigation section */
 .landing-nav {
-  margin: 0 0 24px;
+  margin: 0 0 4px;
 }
 
 .site-nav-preview {

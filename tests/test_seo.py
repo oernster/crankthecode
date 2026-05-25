@@ -67,7 +67,7 @@ def test_legacy_post_alias_serves_content_but_canonical_points_to_new_slug():
 
         html = resp.text
         assert (
-            '<link rel="canonical" href="https://example.com/posts/OODAIntro"' in html
+            '<link rel="canonical" href="https://example.com/posts/what-is-decision-architecture"' in html
         )
         assert '<meta name="robots" content="noindex,follow">' in html
         assert "What is Decision Architecture?" in html

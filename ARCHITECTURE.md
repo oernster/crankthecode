@@ -86,8 +86,8 @@ The homepage is intentionally a gateway (not a post listing).
 It contains:
 
 - A featured single-post CTA for the thesis post:
-  - Source post: [`posts/OODAIntro.md`](posts/OODAIntro.md:1)
-  - Link target: `/posts/OODAIntro`
+  - Source post: [`posts/what-is-decision-architecture.md`](posts/what-is-decision-architecture.md:1)
+  - Link target: `/posts/what-is-decision-architecture`
 - Two gateway cards routing users into the two Decision Architecture ecosystems:
 
 - Decision Architecture (Structures) → `/decision-architecture`
