@@ -38,12 +38,7 @@
         {% for p in posts %}
           <div class="post-item">
             <div class="post-heading">
-              <a class="btn-link btn-link--with-thumb" href="/posts/{{ p.slug }}">
-                {% if (p.emoji or '')|length > 0 %}
-                  <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ p.emoji }}</span>
-                {% else %}
-                  <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">♟️</span>
-                {% endif %}
+              <a class="btn-link" href="/posts/{{ p.slug }}">
                 <span class="btn-text">{{ p.title }}</span>
               </a>
               <div class="post-meta">

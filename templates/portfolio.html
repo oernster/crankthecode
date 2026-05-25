@@ -34,16 +34,6 @@
             {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
             {% if cover %}
               <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
-            {% elif (emoji or '')|length > 0 %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
-            {% elif p.slug == 'calendifier' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
-            {% elif p.slug == 'elevator' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
-            {% elif p.slug == 'audiodeck' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
-            {% elif p.slug == 'galacticunicorn' %}
-              <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
             {% elif p.slug == '3D-printer-launcher' %}
               <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
             {% elif p.slug == 'fancy-clock' %}
@@ -84,16 +74,6 @@
               {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
               {% if cover %}
                 <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
-              {% elif (emoji or '')|length > 0 %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
-              {% elif p.slug == 'calendifier' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
-              {% elif p.slug == 'elevator' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
-              {% elif p.slug == 'audiodeck' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
-              {% elif p.slug == 'galacticunicorn' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
               {% elif p.slug == '3D-printer-launcher' %}
                 <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
               {% elif p.slug == 'fancy-clock' %}
@@ -140,16 +120,6 @@
               {# Prefer an explicit thumbnail/cover image over emoji glyphs. #}
               {% if cover %}
                 <img class="btn-thumb" src="{{ cover }}" alt="{{ p.label }}" loading="lazy" />
-              {% elif (emoji or '')|length > 0 %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">{{ emoji }}</span>
-              {% elif p.slug == 'calendifier' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">📅</span>
-              {% elif p.slug == 'elevator' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🛗</span>
-              {% elif p.slug == 'audiodeck' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🔊</span>
-              {% elif p.slug == 'galacticunicorn' %}
-                <span class="btn-thumb btn-thumb--emoji" aria-hidden="true">🦄</span>
               {% elif p.slug == '3D-printer-launcher' %}
                 <img class="btn-thumb" src="{{ asset_url('images/3dprinterlauncher-icon.png') }}" alt="{{ p.label }}" loading="lazy" />
               {% elif p.slug == 'fancy-clock' %}

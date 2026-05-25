@@ -402,7 +402,6 @@
       {% set _pat_exp = request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %}
 
       <div class="sidebar-expandable sidebar-link{% if _da_exp %} is-active{% endif %}">
-        <span class="sidebar-link__icon" aria-hidden="true">⚖️</span>
         <button
           class="sidebar-expand-btn{% if _da_exp %} is-open{% endif %}"
           type="button"
@@ -453,7 +452,6 @@
       </div>
 
       <div class="sidebar-expandable sidebar-link{% if _pat_exp %} is-active{% endif %}">
-        <span class="sidebar-link__icon" aria-hidden="true">♾️</span>
         <button
           class="sidebar-expand-btn{% if _pat_exp %} is-open{% endif %}"
           type="button"
@@ -507,7 +505,6 @@
         class="sidebar-link{% if request.url.path == '/books' %} is-active{% endif %}"
         href="/books"
       >
-        <span class="sidebar-link__icon" aria-hidden="true">📚</span>
         <span class="sidebar-link__text">
           <span class="sidebar-link__text-main">Books</span>
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
@@ -516,7 +513,6 @@
 
       {% set _port_exp = request.url.path == '/portfolio' %}
       <div class="sidebar-expandable sidebar-link{% if _port_exp %} is-active{% endif %}">
-        <span class="sidebar-link__icon" aria-hidden="true">🧩</span>
         <button
           class="sidebar-expand-btn{% if _port_exp %} is-open{% endif %}"
           type="button"
@@ -559,7 +555,6 @@
         class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
         href="/posts?view=writing&cat=Governance"
       >
-        <span class="sidebar-link__icon" aria-hidden="true">🏛️</span>
         <span class="sidebar-link__text">
           <span class="sidebar-link__text-main">Governance</span>
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
@@ -570,7 +565,6 @@
         class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '') == '' %} is-active{% endif %}"
         href="/posts?view=writing"
       >
-        <span class="sidebar-link__icon" aria-hidden="true">✍️</span>
         <span class="sidebar-link__text" aria-label="Writing">
           <span class="sidebar-link__text-main">Writing</span>
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
@@ -583,7 +577,7 @@
       {% if show_read_time %}
         <div class="read-time-bar">
           <small class="read-time" aria-label="Estimated read time" hidden>
-            🕒 Calculating…
+            Calculating…
           </small>
         </div>
       {% endif %}
@@ -606,7 +600,7 @@
       title="Scroll to top"
       hidden
     >
-      ⬆️
+      ↑
     </button>
   </div>
 
