@@ -3845,7 +3845,7 @@ html.theme-light .section-title {
   /* More breathing room between discrete items */
   gap: 14.4px;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 }
 
 /* Portfolio: Desktop Applications wants deterministic rows on desktop:
@@ -3858,8 +3858,8 @@ html.theme-light .section-title {
     /* More separation is required because pill shapes + shadows read as
        “overlap” when the gap is tight. */
     gap: 20px;
-    align-items: center;
-    justify-items: center;
+    align-items: stretch;
+    justify-items: stretch;
     /* Keep the button block from becoming a wide, low-density strip. */
     width: min(980px, 100%);
     margin-left: auto;
