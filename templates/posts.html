@@ -11,7 +11,6 @@
         {% set all_gov_posts = [] %}
         {% for group in posts_grouped %}{% for post in group.posts %}{% set _ = all_gov_posts.append(post) %}{% endfor %}{% endfor %}
         {% for post in all_gov_posts %}
-          {% set pill_icon = post.thumb_image_url or post.cover_image_url %}
           <div
             class="posts-featured-item"
             data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}"
@@ -38,19 +37,11 @@
           {% endif %}
           <div class="posts-pill-grid">
             {% for post in group.posts %}
-              {% set pill_icon = post.thumb_image_url or post.cover_image_url %}
               <div
                 class="post-item{% if loop.index0 >= pill_group_size %} post-pill--overflow{% endif %}"
                 data-search="{{ (post.title ~ ' ' ~ (post.tags | join(' '))) | lower }}"
               >
                 <a class="btn-link btn-link--subtle post-pill" href="/posts/{{ post.slug }}">
-                  {% if (post.emoji or '')|length > 0 %}
-                    {# Pre-existing emoji from frontmatter or emoji_map - keep as-is #}
-                    <span class="post-pill__emoji" aria-hidden="true">{{ post.emoji }}</span>
-                  {% elif pill_icon %}
-                    {# Use real icon asset (prefers *-icon.png via thumb_image_url) #}
-                    <img class="post-pill__icon" src="{{ pill_icon }}" alt="" aria-hidden="true" loading="lazy" />
-                  {% endif %}
                   <span class="post-pill__title">{{ post.title_text or post.title }}</span>
                 </a>
                 {# Hidden tags preserve search-autocomplete tag matching via search.js #}
