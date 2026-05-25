@@ -38,12 +38,16 @@ def test_homepage_renders():
     assert "📩 Hire Me" not in hero_block
     assert "Download my CV" not in hero_block
 
-    # CV download and Work With Me should both be in the hero.
+    # CV download should be in the hero; Work With Me moved to sidebar.
     assert 'href="/cv-oliver-ernster.pdf"' in hero_block
     assert 'download="Oliver-Ernster-CV.pdf"' in hero_block
     assert "Download CV" in hero_block
-    assert 'id="contact-email-btn"' in hero_block
-    assert "Work With Me" in hero_block
+    assert 'id="contact-email-btn"' not in hero_block
+    assert "Work With Me" not in hero_block
+
+    # Work With Me CTA should appear in the sidebar nav (not the hero).
+    assert 'id="sidebar-work-with-me-btn"' in resp.text
+    assert "Work With Me" in resp.text
 
     # Start Here secondary link should appear in hero.
     assert 'href="/posts/start-here"' in hero_block

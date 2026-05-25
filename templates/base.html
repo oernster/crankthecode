@@ -243,25 +243,8 @@
       <noscript>Email visible with JavaScript enabled; or reach me via GitHub.</noscript>
     </div>
     <div class="header-main">
-      {% if (breadcrumb_items or []) and not is_homepage %}
-        <div class="breadcrumb-bar" aria-label="Breadcrumbs">
-          <nav class="breadcrumbs" aria-label="Breadcrumb">
-            {% for bc in breadcrumb_items or [] %}
-              {% if loop.last %}
-                <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
-              {% else %}
-                <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
-                <span class="breadcrumb-sep" aria-hidden="true">›</span>
-              {% endif %}
-            {% endfor %}
-          </nav>
-        </div>
-      {% endif %}
-
       <div class="header-topbar header-topbar--masthead" aria-label="Masthead">
-        <div class="header-topbar-left">
-          {# Breadcrumbs now live in `.breadcrumb-bar` above, aligned to the content panel. #}
-        </div>
+        <div class="header-topbar-left"></div>
 
         <a class="site-title-link" href="/" aria-label="Homepage">
           <span class="site-title">Crank The Code</span>
@@ -402,6 +385,20 @@
 
       <div class="masthead-separator" aria-hidden="true"></div>
 
+      {% if (breadcrumb_items or []) and not is_homepage %}
+        <div class="breadcrumb-bar" aria-label="Breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            {% for bc in breadcrumb_items or [] %}
+              {% if loop.last %}
+                <span class="breadcrumb-current" aria-current="page">{{ bc.label }}</span>
+              {% else %}
+                <a class="breadcrumb-link" href="{{ bc.href }}">{{ bc.label }}</a>
+                <span class="breadcrumb-sep" aria-hidden="true">›</span>
+              {% endif %}
+            {% endfor %}
+          </nav>
+        </div>
+      {% endif %}
 
       <div id="search-panel" class="search-panel" hidden>
         <label class="visually-hidden" for="site-search">Search posts</label>
@@ -611,17 +608,6 @@
       </div>
 
       <a
-        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
-        href="/posts?view=writing&cat=Governance"
-        title="Writing on technical governance, authority structures and regulated environments"
-      >
-        <span class="sidebar-link__text">
-          <span class="sidebar-link__text-main">Governance</span>
-          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
-        </span>
-      </a>
-
-      <a
         class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '') == '' %} is-active{% endif %}"
         href="/posts?view=writing"
       >
@@ -630,6 +616,42 @@
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
         </span>
       </a>
+
+      <a
+        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'blog' %} is-active{% endif %}"
+        href="/posts?view=writing&cat=Blog"
+        title="Technical projects, tools and personal builds"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Blog</span>
+        </span>
+      </a>
+
+      <hr class="sidebar-section-divider" aria-hidden="true" />
+
+      <div class="sidebar-sticky-cta">
+        <button
+          id="sidebar-work-with-me-btn"
+          class="cta-button"
+          type="button"
+          aria-label="Work With Me (opens mail client)"
+        >
+          Work With Me
+        </button>
+        <script type="text/javascript">
+          (function () {
+            window.addEventListener("DOMContentLoaded", function () {
+              var btn = document.getElementById("sidebar-work-with-me-btn");
+              if (!btn) { return; }
+              btn.addEventListener("click", function () {
+                var c = window.CTC_CONTACT;
+                if (!c) { return; }
+                window.location.href = c.link;
+              });
+            });
+          })();
+        </script>
+      </div>
 
     </nav>
 
