@@ -7,6 +7,16 @@ one_liner: A guide to navigating the ideas and systems explored on Crank The Cod
 
 # Start Here
 
+You have probably seen it.
+
+A capable team. A clear goal. Strong intent from the top. And still, the same problems surface every quarter: delayed decisions, unclear ownership, coordination that costs more than it should.
+
+The instinct is to blame the people, the process, or the tooling.
+
+But the structure was the problem all along.
+
+---
+
 This site is built around a single idea:
 
 Structure determines outcomes.

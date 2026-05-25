@@ -34,9 +34,13 @@ That mindset informs how I approach software organisations. Not as collections o
 
 Failure tends to occur at boundaries rather than within components. The same is true of teams.
 
-## Practical grounding
+## How I got here
 
-I have led teams on mission-critical programmes, acted as sole technical owner in startup contexts and modernised legacy systems under commercial and regulatory pressure.
+I started in C and C++ in defence and research environments, working on systems where failure had real consequences. A decade in telecoms followed across a large organisation where I moved from integration through development, project management and team leadership and where I began to understand how authority and decision flow shape delivery outcomes as much as any technical choice.
+
+From there, a sustained move toward Python-centric backend and API work: cloud platforms, fintech, regulated environments, startups. At each stage the technical problems were different. The structural problems were the same.
+
+Over time, the centre of gravity shifted. Not just building systems but designing the conditions under which they can be built and sustained. That is what Decision Architecture formalises.
 
 I continue to build real systems under real constraints. Working across hardware, firmware and software keeps judgement anchored in implementation reality.
 
@@ -47,38 +51,11 @@ It is an exploration of how technical organisations scale without losing coheren
 
 ---
 
-Below is a breakdown of where I operate and what I build with.
-
 ## Decision design and governance
 
 Architectural direction across domains.  
 Trade-off modelling between product ambition and technical constraint.  
 Escalation surface design and authority definition.  
-Performance, latency and scalability modelling.  
 Technical governance in regulated and high-risk environments.
-
-## Technical depth
-
-Python, C++, C, React, TypeScript and JavaScript.  
-Distributed systems, APIs and cloud-native platforms.  
-Automation-first delivery, infrastructure as code, AWS, Windows, macOS and Linux.  
-Legacy modernisation under real operational constraints.
-
-## Systems foundations
-
-Long-term exposure to lower-level systems, networking, databases and performance-sensitive environments.  
-Experience across startup and multinational contexts where delivery, risk and commercial reality intersect.
-
----
-
-## Tooling
-
-| Category | Tools |
-| --- | --- |
-| Backend | Python, FastAPI, Django, Flask, PyQt |
-| Frontend | React, TypeScript, HTML/CSS |
-| Tools | Docker, Ansible, Terraform, Git |
-| Operating systems | Linux, macOS, Windows |
-| Hardware | Klipper, MicroPython, Voron / other 3D printers |
 
 ---

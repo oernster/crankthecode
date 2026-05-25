@@ -272,7 +272,7 @@ def test_books_page_renders_and_links_to_amazon_uk():
         resp.text,
     ), resp.text
 
-    # Canonical Amazon UK links (no link switching)
+    # Canonical Amazon UK links (no link switching).
     assert "https://www.amazon.co.uk/dp/B0GT4JNMGK" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GT4CZ327" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GT7D4P8G" in resp.text
@@ -391,6 +391,18 @@ def test_posts_index_renders_and_supports_query_filter():
     assert "All posts" in filtered.text
 
 
+def test_writing_alias_redirects_to_posts_writing_view():
+    app = create_app()
+    # Use the canonical host+scheme so the canonical-redirect middleware passes through
+    # and the /writing alias route handler fires.
+    client = TestClient(app, base_url="https://www.crankthecode.com", follow_redirects=False)
+
+    resp = client.get("/writing")
+
+    assert resp.status_code == 301
+    assert resp.headers["location"] == "/posts?view=writing"
+
+
 def test_about_page_renders():
     app = create_app()
     client = TestClient(app)
@@ -398,7 +410,7 @@ def test_about_page_renders():
     resp = client.get("/about")
 
     assert resp.status_code == 200
-    assert "Tooling" in resp.text
+    assert "How I got here" in resp.text
 
 
 def test_topics_pages_render():

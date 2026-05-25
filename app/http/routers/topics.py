@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Topics, patterns, and decision architecture routes."""
+"""Topics, patterns and decision architecture routes."""
 
 import json
 
