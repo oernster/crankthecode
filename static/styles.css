@@ -941,12 +941,14 @@ body.is-homepage .read-time-bar {
 }
 
 .top-about-link {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: fit-content;
   margin: 0 auto;
   min-height: calc(56px * var(--btn-scale));
-  padding: calc(12.5px * var(--btn-scale)) calc(21.6px * var(--btn-scale));
+  padding: 0 calc(21.6px * var(--btn-scale));
   font-size: calc(1em * var(--btn-scale));
   line-height: 1.2;
   border-radius: 999px;
