@@ -270,37 +270,7 @@ async def explore_page(
     return templates.TemplateResponse(request, "explore.html", ctx)
 
 
-@router.get("/battlestation", response_class=HTMLResponse)
-async def battlestation_page(
-    request: Request,
-    blog: BlogService = Depends(get_blog_service),
-    templates: Jinja2Templates = Depends(get_templates),
-):
-    ctx = build_base_context(request)
-    ctx["sidebar_categories"] = build_sidebar_categories(
-        blog, exclude_blog=bool(ctx.get("exclude_blog"))
-    )
-    ctx.update(
-        {
-            "is_homepage": False,
-            "page_title": "🖥️ The Battlestation That Ships | Crank The Code",
-            "og_title": "🖥️ The Battlestation That Ships | Crank The Code",
-            "og_description": "The Command Battlestation - dev cockpit + 3D printer room.",
-            "meta_description": (
-                "A look at my Command Battlestation: daily driver workstation + "
-                "3D printer room."
-            ),
-            "back_link_href": "/",
-            "back_link_label": "← Back to home",
-            "breadcrumb_items": [
-                {"label": "Home", "href": "/"},
-                {"label": "My battlestation", "href": "/battlestation"},
-            ],
-            "og_image_url": absolute_url(
-                get_site_url(request), "/static/images/command-battlestation1.jpg"
-            ),
-            "show_read_time": True,
-            "read_time_minutes": estimate_read_time_from_template("battlestation.html"),
-        }
-    )
-    return templates.TemplateResponse(request, "battlestation.html", ctx)
+@router.get("/battlestation", include_in_schema=False)
+async def battlestation_redirect(request: Request):
+    """Legacy URL. Canonical post now lives at /posts/battlestation."""
+    return RedirectResponse(url="/posts/battlestation", status_code=301)

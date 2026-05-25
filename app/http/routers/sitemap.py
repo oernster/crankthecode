@@ -41,7 +41,7 @@ async def sitemap_xml(
     _add_url("/about")
     _add_url("/about/oliver-ernster")
     _add_url("/posts/start-here")
-    _add_url("/battlestation")
+    _add_url("/posts/battlestation")
     _add_url("/topics")
     _add_url("/decision-architecture")
     _add_url("/patterns")

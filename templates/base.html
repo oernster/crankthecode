@@ -224,6 +224,14 @@
                 L341.91,330.654L341.91,330.654z"/>
             </svg>
           </a>
+
+          <a
+            href="/about"
+            class="header-about-gutter-link"
+            aria-label="About Oliver Ernster"
+          >
+            About
+          </a>
         </div>
 
       {% if back_link_href %}
@@ -398,14 +406,6 @@
 
       <div class="masthead-separator" aria-hidden="true"></div>
 
-      <div class="header-about-row" aria-label="Quick links">
-        <div class="header-about-wrap">
-          <a class="top-about-link" href="/posts/start-here">Start Here</a>
-          <a class="top-about-link" href="/about">About me</a>
-          <a class="top-about-link" href="/battlestation">My battlestation</a>
-
-        </div>
-      </div>
 
       <div id="search-panel" class="search-panel" hidden>
         <label class="visually-hidden" for="site-search">Search posts</label>
@@ -450,6 +450,15 @@
   <div class="page-layout">
     <nav class="sidebar" aria-label="Navigation">
       <h2 class="sidebar-title">Navigation</h2>
+
+      <a
+        class="sidebar-link{% if request.url.path == '/posts/start-here' %} is-active{% endif %}"
+        href="/posts/start-here"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Start Here</span>
+        </span>
+      </a>
 
       {% set _da_exp = request.url.path == '/decision-architecture' or request.url.path == '/topics' or request.url.path.startswith('/topics/') %}
       {% set _pat_exp = request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %}
