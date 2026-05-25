@@ -193,6 +193,24 @@ async def about_oliver_ernster_redirect(request: Request):
     return RedirectResponse(url="/about", status_code=301)
 
 
+@router.get("/about-me", include_in_schema=False)
+async def about_me_redirect(request: Request):
+    """Common URL guess for the about page. Canonical remains `/about`."""
+    return RedirectResponse(url="/about", status_code=301)
+
+
+@router.get("/start-here", include_in_schema=False)
+async def start_here_redirect(request: Request):
+    """Guessable top-level alias. Canonical lives at `/posts/start-here`."""
+    return RedirectResponse(url="/posts/start-here", status_code=301)
+
+
+@router.get("/governance", include_in_schema=False)
+async def governance_redirect(request: Request):
+    """Guessable top-level alias for the Governance writing section."""
+    return RedirectResponse(url="/posts?view=writing&cat=Governance", status_code=301)
+
+
 @router.get("/help", response_class=HTMLResponse)
 async def help_page(
     request: Request,

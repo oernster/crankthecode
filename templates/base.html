@@ -511,6 +511,7 @@
         </span>
       </a>
 
+      {% set _port_section = request.query_params.get('section') or '' %}
       {% set _port_exp = request.url.path == '/portfolio' %}
       <div class="sidebar-expandable sidebar-link{% if _port_exp %} is-active{% endif %}">
         <button
@@ -525,27 +526,27 @@
         </a>
       </div>
       <div class="sidebar-group{% if _port_exp %} is-expanded{% endif %}">
-        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=desktop-applications">
+        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'desktop-applications' %} is-active{% endif %}" href="/portfolio?section=desktop-applications">
           <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
           <span class="sidebar-layer-text">Desktop Applications</span>
         </a>
-        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=web-apis">
+        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'web-apis' %} is-active{% endif %}" href="/portfolio?section=web-apis">
           <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
           <span class="sidebar-layer-text">Web APIs</span>
         </a>
-        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=data-ml">
+        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'data-ml' %} is-active{% endif %}" href="/portfolio?section=data-ml">
           <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
           <span class="sidebar-layer-text">Data / ML</span>
         </a>
-        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=gaming">
+        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'gaming' %} is-active{% endif %}" href="/portfolio?section=gaming">
           <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
           <span class="sidebar-layer-text">Gaming</span>
         </a>
-        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=hardware-embedded">
+        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'hardware-embedded' %} is-active{% endif %}" href="/portfolio?section=hardware-embedded">
           <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
           <span class="sidebar-layer-text">Hardware / Embedded</span>
         </a>
-        <a class="sidebar-link sidebar-link--layer" href="/portfolio?section=operational-tools">
+        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'operational-tools' %} is-active{% endif %}" href="/portfolio?section=operational-tools">
           <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
           <span class="sidebar-layer-text">Operational Tools</span>
         </a>
