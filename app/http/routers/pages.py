@@ -63,7 +63,7 @@ async def homepage(
             "engineering."
         ),
         "canonical_url": canonical,
-        "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
+        "og_image_url": "",
     }
 
     ctx.update(
