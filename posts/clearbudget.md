@@ -15,7 +15,7 @@ tags:
 - pyside6
 - sqlite
 thumb_image: /static/images/clearbudget-icon.png
-title: ClearBudget
+title: Clear Budget
 
 ---
 
