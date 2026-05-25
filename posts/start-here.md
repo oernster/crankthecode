@@ -37,7 +37,7 @@ Each system has:
 * observable signals
 * a constrained set of possible actions
 
-That set is the move space.
+That set is the move space: the decisions a leader can actually make from their current position, like the legal moves available to a chess player from a given board state. Structure determines which moves exist.
 
 ---
 
@@ -65,7 +65,7 @@ If you want reusable components:
 
 If you want applied thinking:
 
-👉 [Read posts](https://www.crankthecode.com/decision-architecture)
+👉 [Read posts](https://www.crankthecode.com/writing)
 
 To see this applied in real systems:
 

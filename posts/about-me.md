@@ -18,12 +18,14 @@ I work at the intersection of architecture, product ambition and organisational 
 It is caused by unclear authority, delayed decisions and trade-offs that no one is explicitly accountable for. 
 My role is to design those decision surfaces before they fracture delivery.
 
+*I do not just build software. I design the conditions under which it can be built well.*
+
 ## How organisations fail
 
-Across defence, telecoms, fintech and startup environments I have operated in systems where constraints are real and ambiguity is unavoidable. The consistent pattern is structural. 
+Across defence, telecoms, fintech and startup environments, I have operated in systems where constraints are real and ambiguity is unavoidable. The consistent pattern is structural. 
 When authority aligns with accountability, delivery stabilises. When it does not, coordination cost compounds.
 
-Over time my centre of gravity shifted from implementation to direction, governance and operating model design, while remaining close enough to engineering reality to keep judgement grounded.
+Over time, my centre of gravity shifted from implementation to direction, governance and operating model design. I stay close enough to engineering reality to keep judgement grounded.
 
 ## Systems thinking
 
@@ -42,8 +44,6 @@ I continue to build real systems under real constraints. Working across hardware
 
 This site, [CrankTheCode](https://www.crankthecode.com), is where I think in public about authority, decision design and structural clarity. It is not a collection of opinions. 
 It is an exploration of how technical organisations scale without losing coherence.
-
-*I do not just build software. I design the conditions under which it can be built well.*
 
 ---
 
