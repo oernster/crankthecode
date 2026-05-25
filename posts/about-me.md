@@ -21,9 +21,9 @@ My role is to design those decision surfaces before they fracture delivery.
 ## How organisations fail
 
 Across defence, telecoms, fintech and startup environments I have operated in systems where constraints are real and ambiguity is unavoidable. The consistent pattern is structural. 
-When authority aligns with accountability delivery stabilises. When it does not coordination cost compounds.
+When authority aligns with accountability, delivery stabilises. When it does not, coordination cost compounds.
 
-Over time my centre of gravity shifted from implementation to direction, governance and operating model design, while remaining close enough to engineering reality to keep judgement honest.
+Over time my centre of gravity shifted from implementation to direction, governance and operating model design, while remaining close enough to engineering reality to keep judgement grounded.
 
 ## Systems thinking
 
@@ -47,6 +47,8 @@ It is an exploration of how technical organisations scale without losing coheren
 
 ---
 
+Below is a breakdown of where I operate and what I build with.
+
 ## Decision design and governance
 
 Architectural direction across domains.  
@@ -69,7 +71,7 @@ Experience across startup and multinational contexts where delivery, risk and co
 
 ---
 
-## Things I build with
+## Tooling
 
 | Category | Tools |
 | --- | --- |

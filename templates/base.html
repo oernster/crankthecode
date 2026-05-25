@@ -240,7 +240,7 @@
         </a>
       {% endif %}
 
-      <noscript>Email visible with JavaScript enabled ~ or reach me via GitHub.</noscript>
+      <noscript>Email visible with JavaScript enabled; or reach me via GitHub.</noscript>
     </div>
     <div class="header-main">
       {% if (breadcrumb_items or []) and not is_homepage %}
@@ -617,6 +617,7 @@
       <a
         class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'governance' %} is-active{% endif %}"
         href="/posts?view=writing&cat=Governance"
+        title="Writing on technical governance, authority structures and regulated environments"
       >
         <span class="sidebar-link__text">
           <span class="sidebar-link__text-main">Governance</span>
@@ -650,7 +651,7 @@
 
   <div class="site-footer" aria-label="Footer">
     <small class="site-footer__copy">
-      © {{ current_year }} Oliver Ernster - Engineering Lead & Technical Advisor
+      © {{ current_year }} Oliver Ernster - <a href="/about" class="footer-about-link">Engineering Lead &amp; Technical Advisor</a>
     </small>
   </div>
 

@@ -1516,7 +1516,7 @@ a {
   - Avoid layout shift: no padding/line-height changes; use inset box-shadow.
   - Scope to content links to avoid overriding nav/button-like links.
 */
-.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):hover {
+.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):hover {
   color: var(--cta-fg);
   text-decoration: none;
   text-shadow: none;
@@ -1525,7 +1525,7 @@ a {
 }
 
 /* Light mode: use accent blue tint for link hover highlight. */
-html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):hover {
+html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):hover {
   color: #111118;
   box-shadow: inset 0 -1.1em 0 var(--cta-bg-hover);
 }
@@ -4554,4 +4554,81 @@ html.theme-light .section-title {
 .open-source-note a {
   text-decoration: none;
   font-weight: 500;
+}
+
+/* Homepage: "New here? Start Here" secondary text link below hero CTAs */
+.hero-secondary-action {
+  margin-top: 12px;
+}
+
+.cta-link {
+  color: var(--text-muted);
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--panel-border);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.cta-link:hover {
+  color: var(--text-color);
+  border-bottom-color: var(--text-muted);
+}
+
+/* Homepage: site overview navigation section */
+.landing-nav {
+  margin: 0 0 24px;
+}
+
+.site-nav-preview {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.site-nav-preview li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.site-nav-preview li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.site-nav-preview li:first-child {
+  padding-top: 0;
+}
+
+.site-nav-preview-link {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--heading-color);
+  text-decoration: none;
+}
+
+.site-nav-preview-link:hover {
+  color: var(--cta-fg);
+  text-decoration: underline;
+}
+
+.site-nav-preview span {
+  font-size: 13.6px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Footer: about link */
+.footer-about-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.footer-about-link:hover {
+  border-bottom-color: currentColor;
 }
