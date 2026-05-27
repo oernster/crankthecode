@@ -17,13 +17,6 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     # Page heading.
     assert "Portfolio" in resp.text
 
-    # Flagship entry should appear before the first category section (main content only).
-    assert 'href="/posts/narratex"' in resp.text
-    assert 'aria-label="Desktop Applications"' in resp.text
-    assert resp.text.index('href="/posts/narratex"') < resp.text.index(
-        'aria-label="Desktop Applications"'
-    )
-
     # Intro copy appears first (above Desktop Applications).
     assert 'aria-label="Portfolio introduction"' in resp.text
     assert resp.text.index('aria-label="Portfolio introduction"') < resp.text.index(
@@ -41,7 +34,7 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     intro_block = m.group(0).lower()
     assert "systems built to solve real problems" in intro_block
 
-    # Desktop Applications should be curated-only in a strict order.
+    # Desktop Applications should be date-desc sorted (no pinning/curation).
     m = re.search(
         r'<section class="section-panel"[^>]*aria-label="Desktop Applications"[\s\S]*?</section>',
         resp.text,
@@ -49,21 +42,24 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     assert m is not None
     desktop_block = m.group(0)
 
-    slugs_in_order = re.findall(r'href="/posts/([a-z0-9\-]+)"', desktop_block)
-    assert slugs_in_order == [
-        "clearbudget",
-        "commanddeck",
-        "trainer",
-        "calendifier",
-        "stellody",
-        "fancy-clock",
-        "elevator",
-    ]
+    # Presence checks (avoid relying on the full universe of posts).
+    assert 'href="/posts/locus"' in desktop_block
+    assert 'href="/posts/clearbudget"' in desktop_block
+    assert 'href="/posts/narratex"' in desktop_block
 
-    # The "More" button must come after Elevator.
-    assert desktop_block.index('href="/posts/elevator"') < desktop_block.index(
-        'href="/posts?cat=Desktop%20Apps"'
+    # Ordering check (newest first).
+    # Based on current post dates:
+    # - Locus: 2026-05-27
+    # - Clear Budget: 2026-05-22
+    # - NarrateX: 2026-04-05
+    assert desktop_block.index('href="/posts/locus"') < desktop_block.index(
+        'href="/posts/clearbudget"'
     )
+    assert desktop_block.index('href="/posts/clearbudget"') < desktop_block.index(
+        'href="/posts/narratex"'
+    )
+
+    # Note: there is no per-section "More" link on /portfolio.
 
     # Category-derived groups.
     assert "Hardware / Embedded" in resp.text
@@ -103,8 +99,8 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     ]
     assert sidebar_indices == sorted(sidebar_indices)
 
-    # Featured label should make the lead proof point explicit.
-    assert "Featured system:" in resp.text
+    # No featured/pinning block on portfolio.
+    assert "Featured system:" not in resp.text
 
 
 def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
@@ -160,9 +156,24 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
         role=None,
     )
 
+    nonempty = PostSummary(
+        slug="ok",
+        title="Ok",
+        date="2026-02-01 12:00",
+        tags=("cat:Tools",),
+        blurb=None,
+        one_liner=None,
+        cover_image_url=None,
+        thumb_image_url=None,
+        summary_html="",
+        emoji=None,
+        post_type=None,
+        role=None,
+    )
+
     class FakeBlog:
         def list_posts(self):
-            return (empty,)
+            return (empty, nonempty)
 
         def get_post(self, slug: str):
             return None
@@ -171,34 +182,17 @@ def test_portfolio_helpers_are_defensive_and_cover_edge_branches(monkeypatch):
 
     from app.services.blog_service import BlogService
 
-    assert post_summary_index(cast(BlogService, FakeBlog())) == {}
-
-    # Curated helper should ignore empty, hidden and missing slugs.
-    out = portfolio_vm.curated_portfolio_entries_from_slugs(
-        slugs=["", "portfolio", "missing"],
-        index={},
-        hidden={"portfolio"},
-        emoji_map={},
-        emoji_index={},
-    )
-    assert out == []
+    idx = post_summary_index(cast(BlogService, FakeBlog()))
+    assert set(idx.keys()) == {"ok"}
 
 
 
-def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatch):
-    """Hit the defensive branches inside the tools de-dupe loop in `_portfolio_groups()`."""
-
+def test_portfolio_groups_excludes_non_project_posts_by_tags():
     import app.http.view_models.portfolio as portfolio_vm
 
-    # Make the pinned tools list include a blank slug and a real slug.
-    monkeypatch.setattr(
-        portfolio_vm,
-        "curated_portfolio_entries_from_slugs",
-        lambda **_kwargs: [{"slug": ""}, {"slug": "audiodeck", "label": "Audio Deck"}],
-    )
-
-    # Ensure category-derived Tools includes a duplicate slug.
     from app.domain.models import PostSummary
+    from app.services.blog_service import BlogService
+    from typing import cast
 
     tools_post = PostSummary(
         slug="audiodeck",
@@ -214,27 +208,36 @@ def test_portfolio_groups_tools_dedup_skips_blank_and_duplicate_slugs(monkeypatc
         post_type=None,
         role=None,
     )
+    blog_post = PostSummary(
+        slug="blog-post",
+        title="Blog",
+        date="2026-02-01 12:00",
+        tags=("cat:Blog",),
+        blurb=None,
+        one_liner=None,
+        cover_image_url=None,
+        thumb_image_url=None,
+        summary_html="",
+        emoji=None,
+        post_type=None,
+        role=None,
+    )
 
     class FakeBlog:
         def list_posts(self):
-            return (tools_post,)
+            return (tools_post, blog_post)
 
         def get_post(self, slug: str):
             return None
 
-    from typing import cast
-
-    from app.services.blog_service import BlogService
-
     groups = portfolio_vm.portfolio_groups(cast(BlogService, FakeBlog()))
-    # The group was renamed from "Tools" -> "Operational Tools".
     tools = next(g for g in groups if g.get("label") == "Operational Tools")
     slugs = [e.get("slug") for e in (tools.get("entries") or [])]
     assert slugs == ["audiodeck"]
 
 
-def test_portfolio_groups_ignores_flagship_posts_with_blank_slug():
-    """Cover the defensive branch where a flagship post has an empty slug."""
+def test_portfolio_groups_ignores_posts_with_blank_slug():
+    """Cover the defensive branch where a post has an empty slug."""
 
     from typing import cast
 
@@ -242,11 +245,11 @@ def test_portfolio_groups_ignores_flagship_posts_with_blank_slug():
     from app.domain.models import PostSummary
     from app.services.blog_service import BlogService
 
-    empty_flagship = PostSummary(
+    empty_post = PostSummary(
         slug="",
         title="X",
         date="2026-02-01 12:00",
-        tags=(),
+        tags=("cat:Tools",),
         blurb=None,
         one_liner=None,
         cover_image_url=None,
@@ -254,18 +257,25 @@ def test_portfolio_groups_ignores_flagship_posts_with_blank_slug():
         summary_html="",
         emoji=None,
         post_type="project",
-        role="flagship",
+        role=None,
     )
 
     class FakeBlog:
         def list_posts(self):
-            return (empty_flagship,)
+            return (empty_post,)
 
         def get_post(self, slug: str):
             return None
 
     groups = portfolio_vm.portfolio_groups(cast(BlogService, FakeBlog()))
     assert isinstance(groups, list)
+    all_slugs = [
+        e.get("slug")
+        for g in groups
+        for e in (g.get("entries") or [])
+        if isinstance(g, dict)
+    ]
+    assert all_slugs == []
 
 
 def test_portfolio_meta_description_branch_when_phrase_already_present(monkeypatch):

@@ -11,7 +11,6 @@ from app.http.seo import absolute_url, get_site_url
 from app.http.view_models.context import build_base_context
 from app.http.view_models.portfolio import (
     load_portfolio_post,
-    portfolio_flagship_entries,
     portfolio_groups,
     portfolio_label_to_slug,
     render_portfolio_intro_html,
@@ -54,7 +53,7 @@ async def portfolio_page(
         groups = all_groups
         page_heading = title
         intro_html = render_portfolio_intro_html()
-        flagship = portfolio_flagship_entries(blog)
+        flagship = []
 
     meta_description = (
         one_liner

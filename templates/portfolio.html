@@ -15,29 +15,6 @@
     <hr class="post-separator" aria-hidden="true" />
   {% endif %}
 
-  <section class="section-panel" aria-label="Featured system">
-
-    {% if flagship_entries %}
-      {% set featured = (flagship_entries or [])[0] %}
-      <p class="portfolio-featured-label">
-        Featured system: <span class="portfolio-featured-label__name">{{ featured.label }}</span>
-      </p>
-
-      <div class="featured-buttons" aria-label="Portfolio flagship items">
-        {% for p in flagship_entries or [] %}
-          <a class="btn-link" href="/posts/{{ p.slug }}">
-            <span class="btn-text">
-              {{ p.label }}
-              {% if p.blurb %}
-                <span class="btn-subtext">{{ p.blurb }}</span>
-              {% endif %}
-            </span>
-          </a>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </section>
-
   {# Proof before interpretation: show Desktop Applications before the intro copy. #}
   {% for g in portfolio_groups or [] %}
     {% if g.label == 'Desktop Applications' %}
@@ -64,12 +41,6 @@
               </span>
             </a>
           {% endfor %}
-
-          {% if g.more_href %}
-            <a class="btn-link btn-link--all" href="{{ g.more_href }}" aria-label="More {{ g.label }}">
-              More
-            </a>
-          {% endif %}
         </div>
       </section>
     {% endif %}
@@ -100,12 +71,6 @@
               </span>
             </a>
           {% endfor %}
-
-          {% if g.more_href %}
-            <a class="btn-link btn-link--all" href="{{ g.more_href }}" aria-label="More {{ g.label }}">
-              More
-            </a>
-          {% endif %}
         </div>
       </section>
     {% endif %}

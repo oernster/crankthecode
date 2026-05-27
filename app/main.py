@@ -187,20 +187,16 @@ def create_app() -> FastAPI:
         return FileResponse(path)
 
     # Templates
-    # - auto_reload + cache_size=0 ensures template edits are reflected without
-    #   restarting the server
-    #   (useful during local dev; acceptable overhead for this small site).
-    env = Environment(
-        loader=FileSystemLoader("templates"),
-        autoescape=True,
-        auto_reload=True,
-        cache_size=0,
-    )
-    env.globals["asset_url"] = asset_url
-
-    # Starlette's Jinja2Templates asserts XOR(directory, env). To avoid the
-    # deprecation warning about passing extra env_options, we pass only `env`.
-    fastapi_app.state.templates = Jinja2Templates(env=env)
+    #
+    # We prefer a custom Jinja2 environment for fast local iteration, but
+    # Starlette's `Jinja2Templates` signature differs across versions.
+    #
+    # To stay compatible (and keep tests runnable), instantiate via `directory=`
+    # and then apply minimal environment tweaks.
+    templates = Jinja2Templates(directory="templates")
+    templates.env.auto_reload = True
+    templates.env.globals["asset_url"] = asset_url
+    fastapi_app.state.templates = templates
 
     @fastapi_app.get("/favicon.ico", include_in_schema=False)
     async def favicon():

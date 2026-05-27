@@ -7,9 +7,9 @@ from pathlib import Path
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
 from app.http.view_models.posts import (
+    is_project_post_by_tags,
     post_emoji_map,
     post_frontmatter_emoji_index,
-    post_summary_index,
 )
 from app.services.blog_service import BlogService
 
@@ -46,94 +46,33 @@ def portfolio_item_from_summary(
     }
 
 
-def curated_portfolio_entries_from_slugs(
+def _items_from_summaries(
     *,
-    slugs: list[str],
-    index: dict[str, object],
-    hidden: set[str],
+    summaries: list[object],
     emoji_map: dict[str, str],
     emoji_index: dict[str, str],
 ) -> list[dict[str, object]]:
-    """Convert a curated list of slugs into Portfolio entries."""
-    entries: list[dict[str, object]] = []
-    for raw in slugs:
-        key = (str(raw or "")).strip().lower()
-        if not key or key in hidden:
-            continue
-        summary = index.get(key)
-        if summary is None:
-            continue
-        entries.append(
-            portfolio_item_from_summary(
-                summary=summary,
-                emoji_map=emoji_map,
-                frontmatter_emoji_index=emoji_index,
-            )
+    return [
+        portfolio_item_from_summary(
+            summary=p,
+            emoji_map=emoji_map,
+            frontmatter_emoji_index=emoji_index,
         )
-    return entries
-
-
-def portfolio_flagship_entries(blog: BlogService) -> list[dict[str, object]]:
-    """Return portfolio entries for any project(s) with `role: flagship`."""
-    emoji_map = post_emoji_map()
-    emoji_index = post_frontmatter_emoji_index(blog)
-
-    out: list[dict[str, object]] = []
-    for p in blog.list_posts():
-        post_type = str(getattr(p, "post_type", "") or "").strip().lower()
-        if post_type != "project":
-            continue
-        role = str(getattr(p, "role", "") or "").strip().lower()
-        if role != "flagship":
-            continue
-        out.append(
-            portfolio_item_from_summary(
-                summary=p,
-                emoji_map=emoji_map,
-                frontmatter_emoji_index=emoji_index,
-            )
-        )
-    return out
+        for p in summaries
+    ]
 
 
 def portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
-    """Build the curated Portfolio page groups."""
+    """Build the Portfolio page groups.
+
+    Requirements:
+    - no pinning/curation (purely derived from post metadata)
+    - each section is date-desc sorted
+    """
     emoji_map = post_emoji_map()
     emoji_index = post_frontmatter_emoji_index(blog)
-    index = post_summary_index(blog)
 
     hidden = {"about-me", "start-here", "portfolio"}
-
-    flagship_slugs: set[str] = set()
-    for p in blog.list_posts():
-        post_type = str(getattr(p, "post_type", "") or "").strip().lower()
-        if post_type != "project":
-            continue
-        role = str(getattr(p, "role", "") or "").strip().lower()
-        if role == "flagship":
-            slug = str(getattr(p, "slug", "") or "").strip().lower()
-            if slug:
-                flagship_slugs.add(slug)
-
-    desktop_items = curated_portfolio_entries_from_slugs(
-        slugs=[
-            "clearbudget",
-            "commanddeck",
-            "trainer",
-            "calendifier",
-            "stellody",
-            "fancy-clock",
-            "elevator",
-        ],
-        index=index,
-        hidden=hidden,
-        emoji_map=emoji_map,
-        emoji_index=emoji_index,
-    )
-
-    curated_slugs = {e.get("slug", "") for e in [*desktop_items]}
-    curated_slugs = {str(s).strip().lower() for s in curated_slugs if str(s).strip()}
-    curated_slugs |= flagship_slugs
 
     data_summaries: list[object] = []
     desktop_summaries: list[object] = []
@@ -143,9 +82,14 @@ def portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
     webapi_summaries: list[object] = []
     for p in blog.list_posts():
         slug = str(getattr(p, "slug", "") or "").strip().lower()
-        if not slug or slug in hidden or slug in curated_slugs:
+        if not slug or slug in hidden:
             continue
+
         tags = [str(t) for t in (getattr(p, "tags", []) or [])]
+        post_type = str(getattr(p, "post_type", "") or "")
+        if not is_project_post_by_tags(post_type, tags):
+            continue
+
         if has_cat_tag(tags, "Desktop Apps"):
             desktop_summaries.append(p)
         if has_any_cat_tag(tags, ["Data / Ml", "Data / ML"]):
@@ -169,108 +113,67 @@ def portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
     tools_summaries.sort(key=date_key, reverse=True)
     webapi_summaries.sort(key=date_key, reverse=True)
 
-    pinned_hardware = []
-    rest_hardware = []
-    for p in hardware_summaries:
-        if str(getattr(p, "slug", "") or "").strip().lower() == "galacticunicorn":
-            pinned_hardware.append(p)
-        else:
-            rest_hardware.append(p)
-    hardware_items = [
-        portfolio_item_from_summary(
-            summary=p,
-            emoji_map=emoji_map,
-            frontmatter_emoji_index=emoji_index,
-        )
-        for p in (pinned_hardware + rest_hardware)
-    ]
-
-    pinned_tools = curated_portfolio_entries_from_slugs(
-        slugs=["audiodeck"],
-        index=index,
-        hidden=hidden,
+    desktop_items = _items_from_summaries(
+        summaries=desktop_summaries,
         emoji_map=emoji_map,
         emoji_index=emoji_index,
     )
-    tools_items = pinned_tools + [
-        portfolio_item_from_summary(
-            summary=p,
-            emoji_map=emoji_map,
-            frontmatter_emoji_index=emoji_index,
-        )
-        for p in tools_summaries
-    ]
-
-    seen: set[str] = set()
-    tools_items_deduped: list[dict[str, object]] = []
-    for it in tools_items:
-        slug = str(it.get("slug") or "").strip().lower()
-        if not slug or slug in seen:
-            continue
-        seen.add(slug)
-        tools_items_deduped.append(it)
-
-    data_items = [
-        portfolio_item_from_summary(
-            summary=p,
-            emoji_map=emoji_map,
-            frontmatter_emoji_index=emoji_index,
-        )
-        for p in data_summaries
-    ]
-    gaming_items = [
-        portfolio_item_from_summary(
-            summary=p,
-            emoji_map=emoji_map,
-            frontmatter_emoji_index=emoji_index,
-        )
-        for p in gaming_summaries
-    ]
-    webapi_items = [
-        portfolio_item_from_summary(
-            summary=p,
-            emoji_map=emoji_map,
-            frontmatter_emoji_index=emoji_index,
-        )
-        for p in webapi_summaries
-    ]
+    tools_items = _items_from_summaries(
+        summaries=tools_summaries,
+        emoji_map=emoji_map,
+        emoji_index=emoji_index,
+    )
+    hardware_items = _items_from_summaries(
+        summaries=hardware_summaries,
+        emoji_map=emoji_map,
+        emoji_index=emoji_index,
+    )
+    data_items = _items_from_summaries(
+        summaries=data_summaries,
+        emoji_map=emoji_map,
+        emoji_index=emoji_index,
+    )
+    gaming_items = _items_from_summaries(
+        summaries=gaming_summaries,
+        emoji_map=emoji_map,
+        emoji_index=emoji_index,
+    )
+    webapi_items = _items_from_summaries(
+        summaries=webapi_summaries,
+        emoji_map=emoji_map,
+        emoji_index=emoji_index,
+    )
 
     return [
         {
             "label": "Desktop Applications",
             "description": "Independent desktop systems (UI + local operations).",
             "entries": desktop_items,
-            "more_href": "/posts?cat=Desktop%20Apps",
         },
         {
             "label": "Operational Tools",
             "description": "Systems and tools designed to support real operational work under load.",
-            "entries": tools_items_deduped,
-            "more_href": "/posts?cat=Tools",
+            "entries": tools_items,
         },
         {
             "label": "Data / ML",
             "description": "Data-oriented experiments (small, focused systems).",
             "entries": data_items,
-            "more_href": "/posts?cat=Data%20/%20Ml",
         },
         {
             "label": "Gaming",
             "description": "Gaming-adjacent systems and community tooling.",
             "entries": gaming_items,
-            "more_href": "/posts?cat=Gaming",
         },
         {
             "label": "Hardware / Embedded",
             "description": "Embedded and physical-system experiments; practical boundary work.",
             "entries": hardware_items,
-            "more_href": "/posts?cat=Hardware",
         },
         {
             "label": "Web APIs",
             "description": "Small APIs and backend experiments.",
             "entries": webapi_items,
-            "more_href": "/posts?cat=Web%20Apis",
         },
     ]
 
