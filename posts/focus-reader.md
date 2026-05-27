@@ -20,6 +20,8 @@ social_image: /static/images/focus-reader.png
 
 # Understanding Attention Through Focus Tracking
 
+[Focus Reader](https://github.com/oernster/focus-reader)
+
 Most productivity tooling focuses on tasks, timers or behavioural dashboards.
 
 Focus Reader started from a much smaller idea:

@@ -18,6 +18,8 @@ title: Command Fixer
 
 # A Small Tool for When Humans Type Faster Than They Think
 
+[Command Fixer](https://github.com/oernster/CommandFixer)
+
 Terminals are precise. Humans are not.
 
 Most command line mistakes are not complicated failures of understanding. They are tiny mismatches between intent and syntax: a forgotten flag, a transposed command, a mistyped binary or a command recalled from memory slightly incorrectly after months away from a tool.
