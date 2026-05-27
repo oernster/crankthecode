@@ -67,12 +67,25 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
 
     # Category-derived groups.
     assert "Hardware / Embedded" in resp.text
-    assert "Tools" in resp.text
+    assert "Operational Tools" in resp.text
 
     # Old categories are surfaced inside portfolio (portfolio-only).
     assert "Web APIs" in resp.text
     assert "Data / ML" in resp.text
     assert "Gaming" in resp.text
+
+    # Portfolio group order should match the curated layout.
+    # NOTE: match only the section aria-labels (not the "items" or "More" aria-labels).
+    ordered_labels = [
+        "Desktop Applications",
+        "Operational Tools",
+        "Data / ML",
+        "Gaming",
+        "Hardware / Embedded",
+        "Web APIs",
+    ]
+    indices = [resp.text.index(f'aria-label="{lbl}"') for lbl in ordered_labels]
+    assert indices == sorted(indices)
 
     # Featured label should make the lead proof point explicit.
     assert "Featured system:" in resp.text

@@ -243,10 +243,10 @@ def portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
             "more_href": "/posts?cat=Desktop%20Apps",
         },
         {
-            "label": "Web APIs",
-            "description": "Small APIs and backend experiments.",
-            "entries": webapi_items,
-            "more_href": "/posts?cat=Web%20Apis",
+            "label": "Operational Tools",
+            "description": "Systems and tools designed to support real operational work under load.",
+            "entries": tools_items_deduped,
+            "more_href": "/posts?cat=Tools",
         },
         {
             "label": "Data / ML",
@@ -267,10 +267,10 @@ def portfolio_groups(blog: BlogService) -> list[dict[str, object]]:
             "more_href": "/posts?cat=Hardware",
         },
         {
-            "label": "Operational Tools",
-            "description": "Systems and tools designed to support real operational work under load.",
-            "entries": tools_items_deduped,
-            "more_href": "/posts?cat=Tools",
+            "label": "Web APIs",
+            "description": "Small APIs and backend experiments.",
+            "entries": webapi_items,
+            "more_href": "/posts?cat=Web%20Apis",
         },
     ]
 
