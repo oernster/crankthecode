@@ -4,6 +4,7 @@ blurb: A local-first focus and operational awareness surface for Windows
 date: 2026-05-27 20:00
 type: project
 social_image: /static/images/locus.png
+image: /static/images/locus.png
 one_liner: A background focus tracking and operational board system combining execution flow, deep work tracking and lightweight task state management.
 tags:
 - cat:Desktop Apps
