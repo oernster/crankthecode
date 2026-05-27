@@ -197,6 +197,9 @@ def create_app() -> FastAPI:
         cache_size=0,
     )
     env.globals["asset_url"] = asset_url
+
+    # Starlette's Jinja2Templates asserts XOR(directory, env). To avoid the
+    # deprecation warning about passing extra env_options, we pass only `env`.
     fastapi_app.state.templates = Jinja2Templates(env=env)
 
     @fastapi_app.get("/favicon.ico", include_in_schema=False)

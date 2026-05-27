@@ -87,6 +87,22 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
     indices = [resp.text.index(f'aria-label="{lbl}"') for lbl in ordered_labels]
     assert indices == sorted(indices)
 
+    # Sidebar (menu) order should match the on-page section title order.
+    # NOTE: scope to the portfolio sidebar group, and match the section querystring.
+    sidebar_portfolio_labels = [
+        "desktop-applications",
+        "operational-tools",
+        "data-ml",
+        "gaming",
+        "hardware-embedded",
+        "web-apis",
+    ]
+    sidebar_indices = [
+        resp.text.index(f'href="/portfolio?section={slug}"')
+        for slug in sidebar_portfolio_labels
+    ]
+    assert sidebar_indices == sorted(sidebar_indices)
+
     # Featured label should make the lead proof point explicit.
     assert "Featured system:" in resp.text
 
