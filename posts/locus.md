@@ -1,101 +1,139 @@
----
+--- 
 title: Locus
-blurb: A local-first focus and operational awareness surface for Windows
-date: 2026-05-27 20:00
+blurb: Persistent local project memory and focus tracking for Claude Code workflows
+date: 2026-05-28 20:00
 type: project
 social_image: /static/images/locus.png
 image: /static/images/locus.png
-one_liner: A background focus tracking and operational board system combining execution flow, deep work tracking and lightweight task state management.
+one_liner: A local-first MCP memory and focus tracking layer for Claude Code.
 tags:
 - cat:Desktop Apps
 - golang
-- productivity
+- claude
+- mcp
+- memory
 - focus-tracking
-- operational-state
-- windows
+- developer-tools
 - local-first
+- cli
 - sqlite
-- tray-app
-- deep-work
+- windows
 ---
 
-[Locus](https://github.com/oernster/locus)  
-A local-first operational focus system that combines live task flow, focus history and background session tracking into a single lightweight Windows runtime. 
+[Locus](https://github.com/oernster/locus)
 
-<div style="text-align:center; margin: 1.5rem 0;">
-  <img src="/static/images/Locus.png" alt="Locus screenshot" style="max-width:100%; border-radius:12px;" />
-</div>
+A local-first memory and operational awareness system for Claude Code workflows and Windows focus tracking.
 
 <div style="text-align:center; font-size:1.2em; margin: 1em 0;">
-  Not a productivity dashboard. A live surface for operational focus and execution state.
+  Persistent project context and operational focus history across long-running development sessions.
 </div>
-
----
-
-## Problem → Solution → Impact
-
-**Problem:** Most productivity tools either become passive task graveyards or noisy analytics systems. Focus tracking, operational state and execution flow are usually fragmented across timers, kanban tools and browser reports.
-
-**Solution:** Locus combines lightweight operational flow management with background focus tracking. The system runs as a persistent local Windows service, tracks real application usage, records deep work sessions and provides a fixed operational board for moving active work through execution stages.
-
-**Impact:** The result is a calmer operational surface that reflects what is actually happening. You can see where time went, what is actively moving and what meaningful focused work occurred without turning the system into administrative overhead.
 
 ---
 
 ## Overview
 
-Locus is the convergence of two ideas:
+Locus combines two ideas:
 
-- operational task flow
-- real focus visibility
+- persistent project memory
+- operational focus tracking
 
-The application combines concepts from earlier projects including CommandDeck and focus-reader into a single integrated runtime.
+The system captures and resurfaces high-level project context across Claude Code sessions while also tracking real operational activity on Windows over time.
 
-The board uses **four fixed workflow stages**:
+Instead of storing full transcripts, Locus records structured concepts such as:
 
-- Plan
-- Execute
-- Check
-- Done
+- architectural decisions
+- implementation summaries
+- project conventions
+- rejected approaches
+- workflow notes
+- operational context
 
-Tasks move across those stages while the background runtime independently tracks application focus history and deep work sessions.
+Alongside that, the runtime continuously tracks focus activity including:
 
-Unlike traditional kanban tools, the board is intentionally minimal and operational rather than managerial.
+- active applications
+- focus duration
+- session timing
+- operational patterns
+- historical activity trends
 
-The upper section of the interface focuses on:
+The goal is simple:
 
-- application usage history
-- deep work duration
-- focus session visibility
-- current operational state
-
-The lower section acts as a lightweight execution board where tasks can move through live operational stages.
-
-Only one active focus session can exist at once.
-
-That constraint is deliberate.
-
-*Locus is designed around focused execution rather than simulated parallelism.*
+*Important project context and operational state should not disappear between sessions.*
 
 ---
 
-## Why it is different
+## Claude Code integration
 
-Most productivity systems ask users to maintain structure manually.
+Locus integrates directly with Claude Code through MCP.
 
-Locus instead tries to expose operational reality:
+This allows Claude workflows to:
 
-- What actually received attention?
-- What consumed focused time?
-- What is currently active?
-- What moved forward?
-- What remained idle?
+- search project memory
+- review previous decisions
+- inspect earlier implementation context
+- recover workflow history
+- continue long-running work more easily
 
-That changes the feel of the system.
+Locus does not modify the model.
 
-The board becomes less like project administration and more like a lightweight operational console for real work.
+*It provides a persistent local context layer that developers can review and reuse across sessions.*
 
-*The focus history also matters because it grounds the system in observed activity instead of intention alone.*
+---
+
+## Focus tracking
+
+Locus also operates as a persistent Windows focus tracking runtime.
+
+The system records operational activity across:
+
+- sessions
+- days
+- weeks
+- longer-running workflows
+
+This creates a lightweight historical operational surface showing:
+
+- what received attention
+- how long focus lasted
+- what applications were active
+- how work patterns changed over time
+
+The focus system is intentionally passive and local-first.
+
+*It is designed to expose operational reality rather than create productivity theatre.*
+
+---
+
+## Memory model
+
+Locus focuses on structured contextual recall rather than transcript persistence.
+
+Captured memory remains:
+
+- local-first
+- inspectable
+- reviewable
+- searchable
+- developer-controlled
+
+*The emphasis is on preserving useful project concepts and operational continuity rather than simulating persistent agent memory.*
+
+---
+
+## Diagnostics
+
+Locus is designed to be diagnosable rather than opaque.
+
+The system exposes tooling for:
+
+- memory status
+- project scanning
+- import visibility
+- recall inspection
+- focus history inspection
+- diagnostic workflows
+
+*Developers can see what has been captured, what is available and how the system is behaving over time.*
 
 ---
 
@@ -106,25 +144,26 @@ The board becomes less like project administration and more like a lightweight o
 <div style="flex: 1; min-width: 250px;">
   <h3>Core ideas</h3>
   <ul>
-    <li>Fixed operational workflow stages</li>
-    <li>Integrated background focus tracking</li>
-    <li>Single active focus session model</li>
-    <li>Deep work duration tracking</li>
-    <li>Application usage visibility</li>
-    <li>Snapshot-based operational memory</li>
-    <li>Local-first persistent runtime</li>
+    <li>Persistent local project memory</li>
+    <li>Claude Code integration</li>
+    <li>MCP-based tooling</li>
+    <li>Structured concept capture</li>
+    <li>Operational focus tracking</li>
+    <li>Historical focus visibility</li>
+    <li>Developer-reviewable memory</li>
+    <li>Diagnosable system state</li>
   </ul>
 </div>
 
 <div style="flex: 1; min-width: 250px;">
   <h3>Technical stack</h3>
   <ul>
-    <li>Golang backend/runtime</li>
-    <li>Windows background service model</li>
+    <li>Go runtime</li>
+    <li>MCP server</li>
+    <li>CLI tooling</li>
     <li>SQLite persistence</li>
-    <li>System tray integration</li>
-    <li>Desktop operational interface</li>
-    <li>Packaged Windows installer/runtime</li>
+    <li>Windows focus tracking</li>
+    <li>Project scanning</li>
     <li>Local-first architecture</li>
   </ul>
 </div>
@@ -133,132 +172,26 @@ The board becomes less like project administration and more like a lightweight o
 
 ---
 
-## Interface
+## Why it is different
 
-Locus is intentionally presented as a single operational surface.
+Most AI coding workflows lose context between sessions and most productivity tools fail to capture real operational activity.
 
-The top section focuses on live focus visibility:
+Locus combines both:
 
-- application usage history
-- deep work totals
-- active session visibility
-- lightweight operational metrics
+- persistent project memory
+- long-term operational focus tracking
 
-The bottom section presents the execution board:
+The result is a lightweight local system that preserves both project understanding and historical execution state over time.
 
-- Plan
-- Execute
-- Check
-- Done
-
-Tasks can be moved between stages through drag-and-drop interaction.
-
-Global controls remain intentionally small:
-
-- **Start** - begins a focused session
-- **Add** - creates a new task
-- **Snapshots** - stores or reloads operational board states
-
-The interface is designed to remain calm and low-noise.
-
-There are no large reporting surfaces, dashboards or KPI-style management layers.
-
-*The emphasis stays on live operational clarity.*
-
----
-
-## Focus tracking and deep work
-
-Locus continuously tracks application focus activity in the background while running locally on Windows.
-
-That creates a lightweight historical record of:
-
-- active applications
-- focused work duration
-- session timing
-- operational activity patterns
-
-Deep work time is calculated independently from idle duration, allowing the system to distinguish meaningful active engagement from passive machine time.
-
-This is important because most time tracking systems measure presence rather than attention.
-
-Locus attempts to measure operational focus more honestly.
-
-The runtime is designed to stay lightweight and persistent:
-
-- runs quietly in the Windows tray
-- maintains local persistence
-- survives across sessions
-- keeps operational history local to the machine
-
----
-
-## Snapshots and operational memory
-
-Locus includes snapshot support for preserving named board states.
-
-Snapshots allow the operational surface to function more like a working state machine than a disposable task list.
-
-That means you can:
-
-- preserve meaningful execution states
-- restore previous board configurations
-- maintain lightweight operational continuity
-- avoid rebuilding working context repeatedly
-
-The snapshot model complements the focus history system by preserving both:
-
-- what the board looked like
-- what operational activity occurred
-
----
-
-## Architecture
-
-Locus is intentionally local-first and runtime-focused.
-
-The system is written in Go and designed to operate as a lightweight persistent Windows background runtime rather than a cloud platform.
-
-The architecture focuses on:
-
-- low operational overhead
-- local persistence
-- simple deployment
-- background execution
-- responsive desktop interaction
-
-The runtime integrates:
-
-- focus tracking
-- operational state management
-- task flow
-- snapshot persistence
-- tray lifecycle management
-
-SQLite persistence keeps the system self-contained and portable.
-
-The result is a lightweight operational environment that behaves more like a personal execution surface than a SaaS productivity platform.
+*The memory belongs to the developer and the project rather than the model itself.*
 
 ---
 
 ## Relationship to earlier projects
 
-Locus effectively combines ideas from two earlier systems:
+Locus originally evolved from earlier operational tooling projects including CommandDeck and focus-reader.
 
-- CommandDeck
-- focus-reader
-
-CommandDeck provided the operational board and execution flow concepts.
-
-focus-reader provided focus visibility and activity tracking ideas.
-
-Locus merges both into a single runtime with a more coherent operational model.
-
-That integration matters because operational state and actual focus history are tightly connected in practice.
-
-Most systems separate them.
-
-*Locus treats them as part of the same execution surface.*
+*The current version combines those operational awareness ideas with persistent memory tooling for Claude Code workflows.*
 
 ---
 
@@ -266,8 +199,8 @@ Most systems separate them.
 
 Locus is built around a simple idea:
 
-focus is operational state.
+important project context and operational history should remain accessible across long-running development workflows.
 
-Work is not just tasks on a board and it is not just passive time tracking. Real execution sits somewhere between the two.
+The focus is not transcript persistence or artificial agent memory.
 
-*This project attempts to expose that space directly through a lightweight local runtime that tracks motion, focus and operational flow without turning work into administrative theatre.*
+*The focus is preserving useful project-level concepts and operational visibility in a structured local system that developers can inspect, search and reuse over time.*
