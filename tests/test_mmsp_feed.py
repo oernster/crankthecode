@@ -96,14 +96,14 @@ def test_mmsp_excludes_hidden_and_special_posts():
     assert "portfolio" not in slugs
 
 
-def test_mmsp_max_twenty_items():
+def test_mmsp_serves_all_items():
     app = create_app()
     client = TestClient(app)
 
     resp = client.get("/.well-known/mmsp.json")
     items = resp.json()["items"]
 
-    assert len(items) <= 20
+    assert len(items) > 0
 
 
 def test_mmsp_poll_guidance_present():

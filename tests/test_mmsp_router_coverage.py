@@ -204,11 +204,11 @@ def test_mmsp_feed_handler_excludes_hidden_posts():
     assert "real-post" in slugs
 
 
-def test_mmsp_feed_handler_caps_at_twenty_items():
+def test_mmsp_feed_handler_serves_all_eligible_items():
     posts = [_Post(slug=f"post-{i}") for i in range(30)]
     items = json.loads(_run(posts).body)["items"]
 
-    assert len(items) == 20
+    assert len(items) == 30
 
 
 def test_mmsp_feed_handler_empty_posts():

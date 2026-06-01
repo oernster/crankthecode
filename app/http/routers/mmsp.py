@@ -67,8 +67,7 @@ async def mmsp_feed(
     about_url = urljoin(base_url, "about")
     icon_url = urljoin(base_url, "static/images/meridian-icon.png")
 
-    eligible = [p for p in blog.list_posts() if not _is_excluded(p)]
-    posts = eligible[:20]
+    posts = [p for p in blog.list_posts() if not _is_excluded(p)]
 
     items = []
     for post in posts:
