@@ -16,6 +16,7 @@ from app.assets.manifest import asset_url
 from app.assets.staticfiles import CachingStaticFiles, FallbackStaticFiles
 from app.http.routers.api import router as api_router
 from app.http.routers.html import router as html_router
+from app.http.routers.mmsp import router as mmsp_router
 from app.http.routers.rss import router as rss_router
 from app.http.routers.sitemap import router as sitemap_router
 
@@ -53,7 +54,9 @@ class _CachePolicyMiddleware:
 
     _DYNAMIC_PREFIXES = (
         b"application/rss+xml",
+        b"application/mmsp+json",
         b"application/xml",
+        b"application/json",
         b"text/plain",
     )
 
@@ -212,6 +215,7 @@ def create_app() -> FastAPI:
     fastapi_app.include_router(html_router)
     fastapi_app.include_router(api_router)
     fastapi_app.include_router(rss_router)
+    fastapi_app.include_router(mmsp_router)
     fastapi_app.include_router(sitemap_router)
 
     return fastapi_app

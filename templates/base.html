@@ -104,6 +104,7 @@
   <link rel="stylesheet" href="{{ asset_url('styles.css') }}">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="Crank The Code RSS" href="/rss.xml">
+  <link rel="alternate" type="application/mmsp+json" title="Crank The Code MMSP Feed" href="https://www.crankthecode.com/.well-known/mmsp.json">
 </head>
 <body{% if is_homepage %} class="is-homepage"{% endif %}>
   <a id="skip-link" class="skip-link" href="#main">Skip to content</a>
@@ -377,6 +378,9 @@
                 <path d="M4 13a7 7 0 0 1 7 7"/>
                 <path d="M4 7a13 13 0 0 1 13 13"/>
               </svg>
+            </a>
+            <a class="meridian-link" href="/.well-known/mmsp.json" aria-label="Meridian feed (MMSP)" title="Meridian: structured multimedia feed powered by MMSP">
+              <img class="meridian-icon" src="/static/images/meridian-icon.png" alt="Meridian" aria-hidden="true">
             </a>
             </div>
           </div>

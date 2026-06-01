@@ -906,6 +906,7 @@ body.is-homepage .read-time-bar {
 */
 .header-actions .icon-btn,
 .header-actions .rss-link,
+.header-actions .meridian-link,
 .header-actions .home-favicon-link {
   opacity: 1;
   background: var(--cta-bg-hover);
@@ -921,6 +922,7 @@ body.is-homepage .read-time-bar {
 
 .header-actions .icon-btn:hover,
 .header-actions .rss-link:hover,
+.header-actions .meridian-link:hover,
 .header-actions .home-favicon-link:hover {
   background: var(--primary-btn-bg);
   border-color: var(--primary-btn-bg);
@@ -930,13 +932,15 @@ body.is-homepage .read-time-bar {
 
 .header-actions .icon-btn:focus-visible,
 .header-actions .rss-link:focus-visible,
+.header-actions .meridian-link:focus-visible,
 .header-actions .home-favicon-link:focus-visible {
   opacity: 1;
 }
 
-/* Make search + RSS controls match the favicon (crank icon) size */
+/* Make search + RSS + Meridian controls match the favicon (crank icon) size */
 .header-actions .icon-btn,
-.header-actions .rss-link {
+.header-actions .rss-link,
+.header-actions .meridian-link {
   width: calc(52px * var(--btn-scale));
   height: calc(52px * var(--btn-scale));
   display: inline-flex;
@@ -949,7 +953,8 @@ body.is-homepage .read-time-bar {
   line-height: 1;
 }
 
-.header-actions .rss-icon {
+.header-actions .rss-icon,
+.header-actions .meridian-icon {
   width: calc(32px * var(--btn-scale));
   height: calc(32px * var(--btn-scale));
 }
@@ -1112,7 +1117,8 @@ body.is-homepage .read-time-bar {
 }
 
 .icon-btn,
-.rss-link {
+.rss-link,
+.meridian-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1168,7 +1174,8 @@ body.is-homepage .read-time-bar {
 }
 
 .icon-btn:hover,
-.rss-link:hover {
+.rss-link:hover,
+.meridian-link:hover {
   color: var(--icon-fg-hover);
   background: var(--cta-bg-hover);
   text-shadow: none;
@@ -1178,7 +1185,8 @@ body.is-homepage .read-time-bar {
    block above. Keep a single source of truth for these buttons. */
 
 .icon-btn:focus-visible,
-.rss-link:focus-visible {
+.rss-link:focus-visible,
+.meridian-link:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
 }
@@ -1193,10 +1201,15 @@ body.is-homepage .read-time-bar {
   opacity: 0;
 }
 
-.rss-icon {
+.rss-icon,
+.meridian-icon {
   width: calc(26px * var(--btn-scale));
   height: calc(26px * var(--btn-scale));
   display: block;
+}
+
+.meridian-icon {
+  object-fit: contain;
 }
 
 .search-panel {
@@ -3690,12 +3703,14 @@ html.theme-light .section-title {
   /* Mobile header: prevent button clusters from overflowing the viewport. */
   .header-actions .icon-btn,
   .header-actions .rss-link,
+  .header-actions .meridian-link,
   .home-favicon-link {
     width: 44px;
     height: 44px;
   }
 
-  .header-actions .rss-icon {
+  .header-actions .rss-icon,
+  .header-actions .meridian-icon {
     width: 26px;
     height: 26px;
   }
