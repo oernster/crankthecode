@@ -73,16 +73,13 @@ The MMSP specification is available at: [MMSP-Spec](https://oernster.github.io/M
 
 ## Core behaviour
 
-* RSS feed support
-* Atom feed support
-* MMSP feed support
+* RSS, Atom and MMSP feed support
 * Unified subscription management
-* Feed discovery
-* Feed filtering
+* Topic-based feed discovery
+* Feed filtering and sorting
 * Unread tracking
-* Feed sorting
-* Content rendering
-* Media-aware feed support
+* Content rendering and media support
+* Full keyboard accessibility
 * Import and export
 * Local SQLite persistence
 * Dark theme desktop interface
@@ -138,6 +135,16 @@ The goal was simple:
 
 ---
 
+### Feed discovery
+
+Finding a feed should not require knowing a feed URL.
+
+Meridian ships a discovery panel backed by the Feedly search index. Searching by topic or keyword returns a ranked list of matching feeds. Any of them can be subscribed to immediately, individually or in bulk, without leaving the application.
+
+The discovery layer runs on a dedicated async event loop in a background thread, completely isolated from the reader and poll scheduler. In-flight searches can be cancelled at any point.
+
+---
+
 ### Desktop workflow
 
 Meridian focuses on direct consumption rather than engagement.
@@ -146,18 +153,14 @@ Features include:
 
 * feed management
 * unread tracking
-* feed filtering
-* item sorting
+* feed filtering and sorting
 * bulk actions
 * content viewing
 * browser handoff
 * subscription import and export
+* full keyboard navigation
 
-The interface follows a traditional three-pane reader model:
-
-* feeds
-* items
-* content
+The interface follows a traditional three-pane reader model: feeds, items, content. Every control is reachable and operable by keyboard. Tab order is consistent throughout; list views are single tab stops with arrow-key navigation within them.
 
 This keeps navigation predictable even with large subscription collections.
 
@@ -240,16 +243,14 @@ A protocol only becomes useful when independent publishers and clients can commu
 <div style="flex: 1; min-width: 250px;">
   <h3>Capabilities</h3>
   <ul>
-    <li>RSS support</li>
-    <li>Atom support</li>
-    <li>MMSP support</li>
+    <li>RSS, Atom and MMSP support</li>
+    <li>Topic-based feed discovery</li>
     <li>Subscription management</li>
-    <li>Feed discovery</li>
     <li>Unread tracking</li>
-    <li>Feed filtering</li>
-    <li>Feed sorting</li>
+    <li>Feed filtering and sorting</li>
     <li>Bulk actions</li>
     <li>Content rendering</li>
+    <li>Full keyboard accessibility</li>
     <li>Import and export</li>
     <li>Dark theme desktop interface</li>
     <li>Local SQLite storage</li>
