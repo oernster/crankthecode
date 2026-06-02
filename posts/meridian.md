@@ -161,7 +161,9 @@ Features include:
 * subscription import and export
 * full keyboard navigation
 
-The interface follows a traditional three-pane reader model: feeds, items, content. Every control is reachable and operable by keyboard. Tab order is consistent throughout; list views are single tab stops with arrow-key navigation within them.
+The interface follows a traditional three-pane reader model: feeds, items, content. Every control is reachable and operable by keyboard. Tab order is consistent throughout; list views are single tab stops with arrow-key navigation within them. Enter and Space activate any focused control. Left and Right navigate between dialog actions without lifting a hand.
+
+Per-feed filters are managed through a dedicated dialog. When a filter already exists, it opens pre-populated with each active term displayed as a toggleable row. Terms can be deactivated individually. New terms are appended. The result is saved as a single expression.
 
 This keeps navigation predictable even with large subscription collections.
 
