@@ -12,7 +12,7 @@ tags:
 - feeds
 - rss
 - atom
-- mfeed
+- mmsp
 - protocol
 - pyside6
 thumb_image: /static/images/meridian-icon.png
