@@ -1,6 +1,6 @@
 ---
 blurb: A local solvency model for personal cashflow, bills and credit card pressure
-date: 2026-05-22 08:30
+date: 2026-06-11 08:30
 type: project
 role: project
 image: /static/images/clearbudget.png
@@ -73,16 +73,18 @@ The result is not a prettier ledger.
 
 * Month-by-month budget planning
 * Income tracking with reliability markers
+* Per-month income overrides, skips and one-off entries
 * Bill tracking with categories and due days
-* Per-bill active and skip controls
+* Per-bill active, skip and paid controls
 * One-month bill skips without deleting templates
 * Bank and credit card payment methods
 * Credit card balances, limits, APRs and due dates
 * Minimum payment modelling
-* Month-end card balance projection
+* Live, pro-rated credit card balance projection
 * Forward solvency projection
-* Mid-month overdraft detection
+* Mid-month overdraft dip warnings, with an optional overdraft facility
 * Archive snapshots for completed months
+* Read-only viewer accounts and viewer packages
 * Local SQLite persistence
 * Database import and export
 
@@ -95,15 +97,35 @@ ClearBudget now supports isolated user accounts with secure authentication.
 Features include:
 
 * first-run admin setup wizard
+* self-service account creation from the login screen
 * per-user encrypted login credentials
 * isolated user databases
 * password recovery codes
 * user switching without restarting
 * admin-only user management
+* read-only viewer accounts
+* secure account deletion, data is always removed with the account
 
 The goal was simple:
 
 *Multiple people should be able to use the application on the same machine without sharing financial state.*
+
+Only the very first account ever created is an admin. Every account created afterwards, whether from the login screen or via user management, is non-admin by default.
+
+---
+
+### Read-only viewer access
+
+Sometimes someone needs visibility without edit rights. A partner. An accountant. A future version of yourself, checking in.
+
+ClearBudget supports read-only viewer accounts:
+
+* an admin can export a snapshot of the budget database as a viewer package
+* a viewer imports that package directly from the login screen
+* a viewer sees the full Monthly Budget, Solvency and Credit Card views
+* every destructive or editing action is disabled and visually marked
+
+*Read-only mode is read-only everywhere, not just on one screen.*
 
 ---
 
@@ -128,11 +150,15 @@ Currency changes apply immediately across:
 
 Several usability improvements were added to make the application feel more like a polished desktop tool rather than a prototype:
 
-* database import/export moved into the File menu
+* Import / Export grouped into its own File menu submenu
 * live database reload after import
 * automatic table column sizing
 * destructive action confirmations
 * fresh-start "New Budget" workflow
+* "How It Works" help dialog covering pro-rating, balances and archiving
+* reworked navigation header with centred month controls
+* dark theme contrast and colour rework
+* sensible default window size and position
 
 ---
 
@@ -159,7 +185,13 @@ The solvency system tracks:
 * utilisation pressure
 * minimum payments
 * interest drag
+* overdraft facility headroom and interest cost
 * six-month forward risk
+
+If the projected balance dips below zero at any point in the month, even when the month ends positive, the panel raises a warning:
+
+* amber, with the day it happens and an estimated daily interest cost, when an overdraft facility covers the dip
+* red, when there is no facility, or when the dip would exceed the facility limit
 
 This turns vague financial anxiety into explicit state.
 
@@ -191,6 +223,8 @@ It is:
 * minimum payment drag
 * reduced headroom
 * compressed future cashflow
+
+The credit card view itself moved from a single wide table to a scrollable list of per-card panels, each showing status, limits, utilisation and this month's activity, with edits handled through one consistent dialog.
 
 *ClearBudget keeps those pressures visible before they become irreversible.*
 
@@ -246,16 +280,20 @@ A projection system that produces false confidence is worse than no projection a
     <li>Month-by-month budget planning</li>
     <li>Income and bill management</li>
     <li>Reliable income markers</li>
-    <li>Bill categories and due days</li>
+    <li>Per-month income and bill overrides</li>
+    <li>Bill categories, due days and paid tracking</li>
     <li>Per-month bill skips</li>
     <li>Bank and credit card payment methods</li>
     <li>Solvency status calculation</li>
-    <li>Mid-month overdraft detection</li>
+    <li>Mid-month overdraft dip warnings</li>
+    <li>Optional overdraft facility modelling</li>
     <li>Credit card utilisation tracking</li>
     <li>Interest and minimum payment modelling</li>
+    <li>Live, pro-rated card balance projection</li>
     <li>Forward balance projection</li>
     <li>Archive snapshots</li>
     <li>Database import/export</li>
+    <li>Read-only viewer accounts</li>
     <li>Multi-user authentication</li>
     <li>Per-user budget isolation</li>
     <li>Display currency selection</li>
