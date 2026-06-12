@@ -1,6 +1,6 @@
 ---
 blurb: A local solvency model for personal cashflow, bills and credit card pressure
-date: 2026-06-11 08:30
+date: 2026-06-12 20:00
 type: project
 role: project
 image: /static/images/clearbudget.png
@@ -19,254 +19,74 @@ title: Clear Budget
 
 ---
 
-[ClearBudget](https://github.com/oernster/ClearBudget/releases) is a private desktop budget planner focused on solvency rather than expense tracking.
+[ClearBudget](https://github.com/oernster/ClearBudget) is a private desktop budget planner built around a question rather than a ledger.
 
-Most budgeting software answers a retrospective question:
+Most budgeting software is retrospective. It answers *where did the money go?* ClearBudget answers a forward question instead: *will the month survive?*
 
-*Where did the money go?*
+Not in aggregate. Not once every payment has landed. Day by day, bill by bill, card by card.
 
-ClearBudget was built to answer a different one:
-
-*Will the month survive?*
-
-Not in aggregate.
-Not once all income has landed.
-Not after the damage is done.
-
-*Day by day.
-Bill by bill.
-Card by card.*
+[Releases](https://github.com/oernster/ClearBudget/releases)
 
 ---
 
-## Why this exists
+## Why it exists
 
 A monthly total can look safe while the month itself is structurally unsafe.
 
-Income may arrive late.
-Bills may cluster early.
-Credit card minimum payments may hide rising balances.
-A payment may be affordable at month end but impossible on the day it lands.
+Income arrives late. Bills cluster early. A card stays under its limit while its trajectory points the wrong way. A payment is affordable at month end and impossible on the day it actually lands.
 
-That is the gap ClearBudget was built to expose.
-
-The application models the operational shape of a month rather than treating money as a flat number.
-
-It tracks:
-
-* expected income
-* bill timing
-* skipped obligations
-* bank vs credit card payments
-* credit card utilisation
-* minimum payment pressure
-* future balance projection
-* mid-month solvency risk
-
-The result is not a prettier ledger.
+ClearBudget models the operational shape of a month instead of treating money as a flat number. The result is not a prettier ledger.
 
 *It is a local decision system for personal solvency.*
 
 ---
 
-## Core behaviour
+## The decision-architecture lens
 
-* Month-by-month budget planning
-* Income tracking with reliability markers
-* Per-month income overrides, skips and one-off entries
-* Bill tracking with categories and due days
-* Per-bill active, skip and paid controls
-* One-month bill skips without deleting templates
-* Bank and credit card payment methods
-* Credit card balances, limits, APRs and due dates
-* Minimum payment modelling
-* Live, pro-rated credit card balance projection
-* Forward solvency projection
-* Mid-month overdraft dip warnings, with an optional overdraft facility
-* Archive snapshots for completed months
-* Read-only viewer accounts and viewer packages
-* Local SQLite persistence
-* Database import and export
+I write about decision architecture: the idea that organisations behave according to how decisions are structured, constrained and allowed to interact. Software is the same problem at a smaller scale. A codebase is a frozen record of past decisions; a personal budget is a live one.
+
+So I built ClearBudget the way I think. Each feature is a decision made explicit and given somewhere to resolve:
+
+- a per-month **skip** or **override** is the decision *"this obligation does not apply this month"*, made first-class instead of held in your head
+- a **paid** flag is *"this money has already left"*, so a settled bill stops distorting what is still due
+- a **read-only viewer package** is an authority boundary: full visibility, no edit rights, enforced on every screen rather than one
+- the **solvency panel** is the termination point, where scattered obligations resolve into a single answer
+
+*Once state is explicit, the decisions on top of it become smaller.*
 
 ---
 
-### Multi-user login system
+## What it does
 
-ClearBudget now supports isolated user accounts with secure authentication.
+**Solvency, day by day.** The solvency panel is the core. It projects the balance forward and flags the tightest moment in the month, not just the month-end figure. If the balance dips below zero at any point it warns: amber, with the day and an estimated daily interest cost, when an overdraft facility (limit and APR) covers the dip; red when there is no facility or the dip would exceed it. Forward risk runs six months out.
 
-Features include:
+**Credit cards as pressure systems.** A card balance is not a static number owed; it is future interest, minimum-payment drag and shrinking headroom. Each card models its limit, APR, due day, minimum payment and utilisation, with a live pro-rated balance that accrues through the month and a projected closing balance for months ahead. Cards display as scannable per-card panels rather than one unreadably wide table.
 
-* first-run admin setup wizard
-* self-service account creation from the login screen
-* per-user encrypted login credentials
-* isolated user databases
-* password recovery codes
-* user switching without restarting
-* admin-only user management
-* read-only viewer accounts
-* secure account deletion, data is always removed with the account
+**Per-month flexibility, bills and income at parity.** Overrides, skips, a "paid" flag for bills and a "received" flag for income, plus one-off *"this month only"* income that never touches your recurring templates. Real months are irregular; the model lets you say so without editing the underlying plan.
 
-The goal was simple:
+**Multiple people, isolated state.** First-run admin setup, self-service account creation, per-user databases, bcrypt-hashed credentials with recovery codes, user switching without a restart, and admin management. Deleting an account always deletes its data with it, so destroyed credentials can never be recreated to reach data left orphaned behind them.
 
-*Multiple people should be able to use the application on the same machine without sharing financial state.*
+**Local-first, now cross-platform.** The database lives on your machine. No bank integrations, no hosted infrastructure: personal finance is sensitive behavioural data even without account numbers, and this problem never needed the cloud. The same codebase now ships natively on Windows, macOS and Linux, with the identical model on each. Add 25 per-user display currencies, archive snapshots of completed months, and validated database import and export.
 
-Only the very first account ever created is an admin. Every account created afterwards, whether from the login screen or via user management, is non-admin by default.
+**A finished tool, not a prototype.** A built-in "How It Works" guide explains the pro-rating and projection logic in plain English; a consistent dark theme and a unified navigation header colour-code the current month by financial health (green, amber, red); and the layout stays readable from a 13-inch laptop to a 4K display.
 
 ---
 
-### Read-only viewer access
+## I use it every day
 
-Sometimes someone needs visibility without edit rights. A partner. An accountant. A future version of yourself, checking in.
-
-ClearBudget supports read-only viewer accounts:
-
-* an admin can export a snapshot of the budget database as a viewer package
-* a viewer imports that package directly from the login screen
-* a viewer sees the full Monthly Budget, Solvency and Credit Card views
-* every destructive or editing action is disabled and visually marked
-
-*Read-only mode is read-only everywhere, not just on one screen.*
+This is dogfood, in the full sense of the expression. ClearBudget is not a portfolio piece I built and walked away from; it is the application I open to decide whether my own month holds together. The failure modes it models are ones I have hit. The features exist because I needed them, not because they demonstrated well. A solvency tool that produces false confidence is worse than none at all, and the surest way I know to keep one honest is to depend on it myself.
 
 ---
 
-### Display currency selection
+## What it taught me
 
-The application now supports 25 display currencies covering major English-speaking territories.
+A tool becomes useful when it models the real decision boundary.
 
-Currency changes apply immediately across:
+A monthly total hides timing risk. A transaction list arrives too late. A category breakdown does not expose pressure. A balance without a projection hides its own trajectory.
 
-* tables
-* labels
-* solvency panels
-* credit card projections
-* dialogs
-* projections
+The useful model is the one that surfaces the failure mode early enough to act on it. That is why ClearBudget tracks solvency rather than accounting. It is not trying to describe money perfectly; it is trying to answer the only operational question that matters in the moment:
 
-*The setting is stored per-user inside the local database.*
-
----
-
-### Desktop workflow improvements
-
-Several usability improvements were added to make the application feel more like a polished desktop tool rather than a prototype:
-
-* Import / Export grouped into its own File menu submenu
-* live database reload after import
-* automatic table column sizing
-* destructive action confirmations
-* fresh-start "New Budget" workflow
-* "How It Works" help dialog covering pro-rating, balances and archiving
-* reworked navigation header with centred month controls
-* dark theme contrast and colour rework
-* sensible default window size and position
-
----
-
-## Solvency
-
-The solvency panel is the heart of the application.
-
-It answers the question the budget view alone cannot:
-
-*Does this month actually hold together?*
-
-A month can have enough total income while still containing a temporary overdraft.
-A card can remain under its limit while still moving toward failure.
-A payment can be affordable overall while landing on the wrong day.
-
-ClearBudget models those conditions directly.
-
-The solvency system tracks:
-
-* projected balances
-* committed obligations
-* remaining bank payments
-* remaining card payments
-* utilisation pressure
-* minimum payments
-* interest drag
-* overdraft facility headroom and interest cost
-* six-month forward risk
-
-If the projected balance dips below zero at any point in the month, even when the month ends positive, the panel raises a warning:
-
-* amber, with the day it happens and an estimated daily interest cost, when an overdraft facility covers the dip
-* red, when there is no facility, or when the dip would exceed the facility limit
-
-This turns vague financial anxiety into explicit state.
-
-*Once the state is explicit, decisions become smaller.*
-
----
-
-## Credit cards
-
-Credit cards are not treated as static debt numbers.
-
-They are treated as pressure systems.
-
-Each card tracks:
-
-* current balance
-* credit limit
-* APR
-* due day
-* minimum payment rules
-* projected closing balances
-* utilisation trend
-
-That distinction matters because a credit card balance is not only money owed.
-
-It is:
-
-* future interest
-* minimum payment drag
-* reduced headroom
-* compressed future cashflow
-
-The credit card view itself moved from a single wide table to a scrollable list of per-card panels, each showing status, limits, utilisation and this month's activity, with edits handled through one consistent dialog.
-
-*ClearBudget keeps those pressures visible before they become irreversible.*
-
----
-
-## Local first
-
-ClearBudget is intentionally local software.
-
-The database lives on the machine.
-The interface runs as a desktop application.
-The model does not depend on bank integrations or hosted infrastructure.
-
-That decision was deliberate.
-
-Personal finance contains highly sensitive behavioural data even when account numbers are absent.
-
-Income timing, debt pressure, payment sequencing and solvency risk are private operational information.
-
-The problem did not require cloud infrastructure.
-
-*It required explicit state and predictable behaviour.*
-
----
-
-## Architecture
-
-ClearBudget is built with:
-
-* Python 3.11+
-* PySide6
-* SQLite
-* bcrypt password hashing
-* local-first persistence
-
-The complexity is not scale.
-
-The complexity is correctness.
-
-A projection system that produces false confidence is worse than no projection at all.
-
-*The application therefore focuses heavily on explicit state transitions, timing correctness and predictable month modelling.*
+*What breaks next, and when?*
 
 ---
 
@@ -277,39 +97,30 @@ A projection system that produces false confidence is worse than no projection a
 <div style="flex: 1; min-width: 250px;">
   <h3>Capabilities</h3>
   <ul>
-    <li>Month-by-month budget planning</li>
-    <li>Income and bill management</li>
-    <li>Reliable income markers</li>
-    <li>Per-month income and bill overrides</li>
-    <li>Bill categories, due days and paid tracking</li>
-    <li>Per-month bill skips</li>
-    <li>Bank and credit card payment methods</li>
-    <li>Solvency status calculation</li>
+    <li>Day-by-day solvency projection</li>
     <li>Mid-month overdraft dip warnings</li>
-    <li>Optional overdraft facility modelling</li>
-    <li>Credit card utilisation tracking</li>
-    <li>Interest and minimum payment modelling</li>
+    <li>Optional overdraft facility (limit, APR, interest cost)</li>
+    <li>Six-month forward risk</li>
+    <li>Credit card pressure modelling</li>
     <li>Live, pro-rated card balance projection</li>
-    <li>Forward balance projection</li>
-    <li>Archive snapshots</li>
-    <li>Database import/export</li>
-    <li>Read-only viewer accounts</li>
-    <li>Multi-user authentication</li>
-    <li>Per-user budget isolation</li>
-    <li>Display currency selection</li>
+    <li>Per-month bill and income overrides, skips, paid/received</li>
+    <li>One-off "this month only" income</li>
+    <li>Archive snapshots for completed months</li>
+    <li>Multi-user accounts with per-user isolation</li>
+    <li>Read-only viewer packages</li>
+    <li>25 display currencies; database import/export</li>
   </ul>
 </div>
 
 <div style="flex: 1; min-width: 250px;">
-  <h3>Technology</h3>
+  <h3>Built with</h3>
   <ul>
     <li>Python 3.11+</li>
     <li>PySide6 desktop interface</li>
-    <li>SQLite local database</li>
-    <li>bcrypt password hashing</li>
-    <li>Dark theme UI</li>
-    <li>Local-first architecture</li>
-    <li>Open source repository</li>
+    <li>SQLite, local-first</li>
+    <li>bcrypt authentication</li>
+    <li>Windows, macOS and Linux</li>
+    <li>Dark theme; open source</li>
   </ul>
 </div>
 
@@ -317,31 +128,6 @@ A projection system that produces false confidence is worse than no projection a
 
 ---
 
-## What this taught me
+The value is not that ClearBudget stores financial data.
 
-ClearBudget reinforced a familiar engineering lesson:
-
-A tool becomes useful when it models the real decision boundary.
-
-A monthly total hides timing risk.
-A transaction list arrives too late.
-A category breakdown does not expose pressure.
-A credit card balance without projection hides trajectory.
-
-The useful model is the one that exposes the failure mode early enough to act.
-
-That is why ClearBudget focuses on solvency rather than accounting.
-
-It is not trying to describe money perfectly.
-
-It is trying to answer the operational question:
-
-*What breaks next and when?*
-
----
-
-ClearBudget is a working example of software built around structural clarity.
-
-The value is not that it stores financial data.
-
-*The value is that it turns scattered obligation into an explicit operational model.*
+*The value is that it turns scattered obligation into an explicit operational model, the kind you can actually make a decision against.*
