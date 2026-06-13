@@ -25,7 +25,7 @@ Most budgeting software is retrospective. It answers *where did the money go?* C
 
 Not in aggregate. Not once every payment has landed. Day by day, bill by bill, card by card.
 
-[Releases](https://github.com/oernster/ClearBudget/releases)
+[Website](https://oernster.github.io/ClearBudget/)
 
 ---
 
