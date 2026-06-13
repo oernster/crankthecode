@@ -129,8 +129,8 @@ def test_mmsp_feed_handler_manifest_structure():
     assert body["title"] == "Crank The Code"
     assert body["language"] == "en"
     assert body["authors"][0]["name"] == "Oliver Ernster"
-    assert body["poll"]["min"] == 300
-    assert body["poll"]["recommended"] == 3600
+    assert body["poll"]["min_interval_seconds"] == 300
+    assert body["poll"]["recommended_interval_seconds"] == 3600
     assert "application/mmsp+json" in resp.media_type
 
 

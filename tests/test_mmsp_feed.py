@@ -114,4 +114,4 @@ def test_mmsp_poll_guidance_present():
     body = resp.json()
 
     poll = body.get("poll", {})
-    assert poll.get("min", 0) >= 300
+    assert poll.get("min_interval_seconds", 0) >= 300

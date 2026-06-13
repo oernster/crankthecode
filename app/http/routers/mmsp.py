@@ -120,8 +120,8 @@ async def mmsp_feed(
         "tags": ["engineering", "python", "architecture", "software", "open-source"],
         "contact": "oernster@codecrafter.uk",
         "poll": {
-            "min": 300,
-            "recommended": 3600,
+            "min_interval_seconds": 300,
+            "recommended_interval_seconds": 3600,
         },
         "items": items,
     }
