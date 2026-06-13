@@ -19,13 +19,11 @@ title: Clear Budget
 
 ---
 
-[ClearBudget](https://github.com/oernster/ClearBudget) is a private desktop budget planner built around a question rather than a ledger.
+[ClearBudget](https://oernster.github.io/ClearBudget/) is a private desktop budget planner built around a question rather than a ledger.
 
 Most budgeting software is retrospective. It answers *where did the money go?* ClearBudget answers a forward question instead: *will the month survive?*
 
 Not in aggregate. Not once every payment has landed. Day by day, bill by bill, card by card.
-
-[Website](https://oernster.github.io/ClearBudget/)
 
 ---
 
