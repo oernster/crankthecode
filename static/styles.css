@@ -2169,7 +2169,7 @@ body.is-homepage .hero__subline {
   text-align: center;
 }
 
-.hero-books__tagline {
+.landing-books .hero-books__tagline {
   margin: 0 auto 18px;
   max-width: 56ch;
   font-size: 14.4px;
