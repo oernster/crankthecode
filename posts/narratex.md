@@ -20,7 +20,7 @@ title: NarrateX
 
 ---
 
-[NarrateX](https://narratex.co.uk/) is a structured desktop reading system that converts books and documents into continuous audio playback.
+[NarrateX](https://www.narratex.co.uk/) is a structured desktop reading system that converts books and documents into continuous audio playback.
 
 ---
 
