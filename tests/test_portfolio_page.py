@@ -49,13 +49,13 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
 
     # Ordering check (newest first).
     # Based on current post dates:
+    # - Clear Budget: 2026-06-12
     # - Locus: 2026-05-27
-    # - Clear Budget: 2026-05-22
     # - NarrateX: 2026-04-05
-    assert desktop_block.index('href="/posts/locus"') < desktop_block.index(
-        'href="/posts/clearbudget"'
-    )
     assert desktop_block.index('href="/posts/clearbudget"') < desktop_block.index(
+        'href="/posts/locus"'
+    )
+    assert desktop_block.index('href="/posts/locus"') < desktop_block.index(
         'href="/posts/narratex"'
     )
 
