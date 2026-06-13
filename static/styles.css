@@ -2309,6 +2309,7 @@ body.is-homepage .hero__subline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   min-height: calc(52px * var(--btn-scale));
   padding: calc(11.2px * var(--btn-scale)) calc(19.2px * var(--btn-scale));
   border-radius: 999px;
