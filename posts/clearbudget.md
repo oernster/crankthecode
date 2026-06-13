@@ -27,6 +27,16 @@ Not in aggregate. Not once every payment has landed. Day by day, bill by bill, c
 
 ---
 
+## Problem → System → Outcome
+
+**Problem.** Budgeting tools are retrospective: they tell you where the money went, long after a healthy monthly total has hidden a structurally unsafe month, one where income lands late, bills cluster early and an affordable month-end payment is impossible on the day it falls.
+
+**System.** A local-first desktop model that projects the balance forward day by day, bill by bill and card by card: credit cards as pressure systems, per-month overrides, isolated multi-user state, the projection logic in a pure domain on a four-layer architecture.
+
+**Outcome.** You see the tightest day of the month and any mid-month overdraft dip before it arrives, up to six months out, early enough to act. I open it to decide whether my own month holds.
+
+---
+
 ## Why it exists
 
 A monthly total can look safe while the month itself is structurally unsafe.

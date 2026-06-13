@@ -10,6 +10,24 @@ from app.main import create_app
 from app.domain.books_catalogue import BookCatalogueEntry
 
 
+def test_axisdb_post_injects_install_flourish():
+    """Regression: the AxisDB install console must inject on /posts/axisdb.
+
+    It is gated on detecting the framing heading, which was renamed from
+    "Problem -> Solution -> Impact" to "Problem -> System -> Outcome"; the gate
+    must keep matching after such a rename.
+    """
+
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/posts/axisdb")
+
+    assert resp.status_code == 200
+    assert "fake-terminal--axisdb-install" in resp.text
+    assert "pip install axisdb" in resp.text
+
+
 def test_homepage_renders():
     app = create_app()
     client = TestClient(app)

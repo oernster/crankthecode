@@ -33,13 +33,13 @@ A professional audio device switcher for Windows with Stream Deck integration.
 
 ---
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Switching between multiple audio inputs/outputs in hardware or desktop setups is awkward.
+**Problem.** Switching between multiple audio inputs/outputs in hardware or desktop setups is awkward.
 
-**Solution:** AudioDeck is a programmable audio routing manager for streamlining device switching.
+**System.** AudioDeck is a programmable audio routing manager for streamlining device switching.
 
-**Impact:** Users could switch audio routes quickly and reliably without fighting Windows device settings mid-session.
+**Outcome.** Users could switch audio routes quickly and reliably without fighting Windows device settings mid-session.
 
 ---
 

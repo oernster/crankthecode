@@ -21,11 +21,11 @@ title: Coin Analysis
 
 [Coin Analysis](https://github.com/oernster/coin-analysis) 🪙
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Few modern computer vision tools exist for identifying collectible coins.  
-**Solution:** This app uses machine learning and CV to recognise years and mint marks.  
-**Impact:** Collectors could identify coins from imperfect photos without needing specialist knowledge or manual cross-referencing.
+**Problem.** Few modern computer vision tools exist for identifying collectible coins.  
+**System.** This app uses machine learning and CV to recognise years and mint marks.  
+**Outcome.** Collectors could identify coins from imperfect photos without needing specialist knowledge or manual cross-referencing.
 
 ---
 

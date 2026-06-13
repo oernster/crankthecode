@@ -18,13 +18,13 @@ title: Elevator
 
 I knocked up a simple elevator control panel you can run locally as a website.
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Real-time simulation and control of elevator logic through the browser is rarely intuitive.
+**Problem.** Real-time simulation and control of elevator logic through the browser is rarely intuitive.
 
-**Solution:** This panel offers a live-reactive UI wired to backend logic that simulates elevator behavior.
+**System.** This panel offers a live-reactive UI wired to backend logic that simulates elevator behavior.
 
-**Impact:** People could prototype and teach state-driven UI behaviour with a system that behaved consistently instead of collapsing into edge-case bugs.
+**Outcome.** People could prototype and teach state-driven UI behaviour with a system that behaved consistently instead of collapsing into edge-case bugs.
 
 # Rationale
 A fun test of my, at the time, primitive React skillset.

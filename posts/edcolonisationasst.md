@@ -20,13 +20,13 @@ title: EDColonisation Assistant
 
 [EDColonisation Assistant](https://github.com/oernster/EDColonisationAsst) 🛰  
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralised, structured tool ~ especially during station build-outs.
+**Problem.** Coordinating colonisation efforts and managing fleet carriers in *Elite Dangerous* lacks a centralised, structured tool ~ especially during station build-outs.
 
-**Solution:** A browser-based cockpit tool that tracks infrastructure requirements, build-out progress, system / station 'shopping lists' and real-time carrier inventory.
+**System.** A browser-based cockpit tool that tracks infrastructure requirements, build-out progress, system / station 'shopping lists' and real-time carrier inventory.
 
-**Impact:** Commanders could plan builds and logistics without losing track of materials, routes and station state between sessions.
+**Outcome.** Commanders could plan builds and logistics without losing track of materials, routes and station state between sessions.
 
 ---
 

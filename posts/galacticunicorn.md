@@ -15,13 +15,13 @@ title: Galactic Unicorn Timer
 
 [GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn)  🦄
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** LED animation projects for MicroPython often lack structured, beginner-friendly examples.
+**Problem.** LED animation projects for MicroPython often lack structured, beginner-friendly examples.
 
-**Solution:** This project showcases MicroPython control of the Galactic Unicorn LED board with reusable patterns.
+**System.** This project showcases MicroPython control of the Galactic Unicorn LED board with reusable patterns.
 
-**Impact:** People could get LEDs running and iterating on real hardware quickly, without the usual stalled setup cycle.
+**Outcome.** People could get LEDs running and iterating on real hardware quickly, without the usual stalled setup cycle.
 
 # Rationale
 I bought a GalacticUnicorn as a fun device to play with and wanted a project to work on rather than simply

@@ -24,13 +24,13 @@ title: Stellody
 
 [Stellody live site](https://www.stellody.com)
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Music playlist generators often lack emotional logic and harmonic context, resulting in disjointed or bland playback experiences.
+**Problem.** Music playlist generators often lack emotional logic and harmonic context, resulting in disjointed or bland playback experiences.
 
-**Solution:** Stellody uses sentiment-aware sequencing and custom logic to generate harmonically coherent playlists with smoother transitions and thematic flow.
+**System.** Stellody uses sentiment-aware sequencing and custom logic to generate harmonically coherent playlists with smoother transitions and thematic flow.
 
-**Impact:** Listening sessions became coherent and repeatable, with playlists and transitions that matched the intended mood instead of feeling random.
+**Outcome.** Listening sessions became coherent and repeatable, with playlists and transitions that matched the intended mood instead of feeling random.
 
 # Why Stellody? 🌟🎶
 

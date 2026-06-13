@@ -22,13 +22,13 @@ title: SnarkAPI
 # Snark-as-a-service API
 [SnarkAPI live site](https://snarkapi.com/)
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Building humour or personality into software interfaces is time-consuming and often skipped.
+**Problem.** Building humour or personality into software interfaces is time-consuming and often skipped.
 
-**Solution:** SnarkAPI provides a simple HTTP interface that returns sarcasm-infused messages for use in apps, bots and chat interfaces.
+**System.** SnarkAPI provides a simple HTTP interface that returns sarcasm-infused messages for use in apps, bots and chat interfaces.
 
-**Impact:** Apps could ship consistent, reusable tone without hard-coding strings across the codebase. [Live at snarkapi.com](https://www.snarkapi.com)
+**Outcome.** Apps could ship consistent, reusable tone without hard-coding strings across the codebase. [Live at snarkapi.com](https://www.snarkapi.com)
 
 # Rationale
 I wanted to roast IT devs/operators and do it publicly!

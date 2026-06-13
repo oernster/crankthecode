@@ -41,6 +41,16 @@ Machine-generated content.*
 
 ---
 
+## Problem → System → Outcome
+
+**Problem.** Modern publishing spans articles, podcasts, video, software releases and machine-generated content across disconnected platforms; RSS and Atom only partially cover it and most readers optimise for engagement rather than calm consumption.
+
+**System.** A local-first desktop reader plus an open protocol, MMSP, that defines a machine-readable publication and discovery contract; Meridian is its reference implementation, unifying RSS, Atom and MMSP through one model with disciplined polling and full keyboard control.
+
+**Outcome.** A consistent, calm, format-agnostic subscription experience and a working reference client that gives the protocol the authority a spec needs.
+
+---
+
 ## Why this exists
 
 RSS remains one of the most successful open standards on the web.

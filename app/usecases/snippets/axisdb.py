@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 def axisdb_install_prompt_markdown() -> str:
-    """AxisDB: HTML block injected after the Problem→Solution→Impact section."""
+    """AxisDB: HTML block injected after the Problem → X → Y framing section."""
 
     # Keep this as line-wrapped Python source for Flake8 while still emitting
     # stable HTML.

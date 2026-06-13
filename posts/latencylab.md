@@ -29,7 +29,7 @@ If this output surprises you, that is the point.
 
 The UI shows exactly what the model produced and nothing it did not.
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
 **Problem**  
 Most performance discussions happen too late and with too much confidence. By the time a system is observable, architectural decisions about concurrency, feedback and sequencing have already hardened. Profiling can explain where time went but it struggles to explain why the system felt slow to a user.
@@ -39,7 +39,7 @@ LatencyLab executes explicit models of tasks, events, queues, delays and resourc
 
 Instead of attaching to running production code, LatencyLab makes delay and coordination visible before code exists.
 
-**Impact:** Performance decisions became testable before code existed: teams could point to the model, see where time was actually spent and stop shipping architectures that only worked on whiteboards.
+**Outcome.** Performance decisions became testable before code existed: teams could point to the model, see where time was actually spent and stop shipping architectures that only worked on whiteboards.
 
 *This is how you find the latency problem before it is politically expensive.*
 

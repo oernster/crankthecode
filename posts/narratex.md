@@ -34,6 +34,23 @@ It has been validated against real Kindle EPUBs, paperback PDFs and multi-book c
 
 ---
 
+## Problem → System → Outcome
+
+**Problem.**
+Most reading tools treat documents as linear text streams.
+This leads to incorrect navigation, unreliable playback and inconsistent behaviour across formats.
+
+**System.**
+NarrateX treats books as structured systems.
+Structure is preserved, navigation is derived from it and playback follows it.
+
+**Outcome.**
+Navigation becomes reliable.
+Playback becomes predictable.
+Books behave consistently regardless of source format.
+
+---
+
 ## Core behaviour
 
 * Playback follows document structure rather than file order
@@ -87,23 +104,6 @@ Bookmarks follow a consistent format and are easy to scan.
 A hidden resume position is always maintained.
 
 *This ensures that playback remains stable even when navigation changes.*
-
----
-
-## Problem → system → outcome
-
-**Problem:**
-Most reading tools treat documents as linear text streams.
-This leads to incorrect navigation, unreliable playback and inconsistent behaviour across formats.
-
-**System:**
-NarrateX treats books as structured systems.
-Structure is preserved, navigation is derived from it and playback follows it.
-
-**Outcome:**
-Navigation becomes reliable.
-Playback becomes predictable.
-Books behave consistently regardless of source format.
 
 ---
 

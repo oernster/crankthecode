@@ -75,7 +75,7 @@ def _insert_screenshots_after_problem_solution_impact(
     *,
     screenshots_markdown: str,
 ) -> str:
-    """Insert `screenshots_markdown` after the Problem→Solution→Impact section.
+    """Insert `screenshots_markdown` after the Problem → X → Y framing section.
 
     If the section isn't found, fall back to appending at the end.
     """
@@ -89,9 +89,9 @@ def _insert_screenshots_after_problem_solution_impact(
 
     lines = markdown_text.splitlines()
 
-    # Accept both → and -> variants.
+    # Match the framing heading (Problem → ... → ...), accepting → or -> variants.
     psi_title_re = re.compile(
-        r"^problem\s*(?:→|->)\s*solution\s*(?:→|->)\s*impact$",
+        r"^problem\s*(?:→|->)\s*\w+\s*(?:→|->)\s*\w+$",
         re.IGNORECASE,
     )
 
@@ -131,19 +131,19 @@ def _insert_screenshots_after_problem_solution_impact(
 
 
 def _axisdb_install_prompt_markdown() -> str:
-    """AxisDB: HTML block injected after the Problem→Solution→Impact section."""
+    """AxisDB: HTML block injected after the Problem → X → Y framing section."""
 
     return axisdb_install_prompt_markdown()
 
 
 def _has_problem_solution_impact_section(markdown_text: str) -> bool:
-    """Return True if markdown contains a Problem→Solution→Impact heading."""
+    """Return True if markdown contains a Problem → X → Y framing heading."""
 
     if not markdown_text.strip():
         return False
 
     psi_title_re = re.compile(
-        r"^problem\s*(?:→|->)\s*solution\s*(?:→|->)\s*impact$",
+        r"^problem\s*(?:→|->)\s*\w+\s*(?:→|->)\s*\w+$",
         re.IGNORECASE,
     )
     for line in markdown_text.splitlines():

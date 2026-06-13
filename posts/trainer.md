@@ -28,17 +28,17 @@ I developed: [Trainer](https://github.com/oernster/Trainer).
 Train Times with Weather Integration & Astronomical Events  
 [Releases](https://github.com/oernster/Trainer/releases/)
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:**  
+**Problem.**  
 Regular travelers (e.g., consultants/trainers) often have messy or inconsistent travel logging.
 
 A common pattern appears in travel tools. They optimise for finding a route, not for staying aligned with a real journey as it unfolds.
 
-**Solution:**  
+**System.**  
 Trainer Travel Tracker provides a clean interface and backend for routing travel events, timestamps and offers weather to plan.
 
-**Impact:** Journeys stayed consistent across planning and real travel: times, stops, weather and context were visible without bouncing between sites or losing state.
+**Outcome.** Journeys stayed consistent across planning and real travel: times, stops, weather and context were visible without bouncing between sites or losing state.
 
 ---
 

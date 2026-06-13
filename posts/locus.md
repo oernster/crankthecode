@@ -30,6 +30,16 @@ A local-first memory and operational awareness system for Claude Code workflows 
 
 ---
 
+## Problem → System → Outcome
+
+**Problem.** AI coding sessions lose project context between runs and most productivity tools fail to capture real operational activity; the reasoning behind past decisions and where the time went both evaporate.
+
+**System.** A local-first Go runtime that captures structured project memory (decisions, conventions, rejected approaches) for Claude Code over MCP, alongside passive Windows focus tracking, all inspectable and developer-controlled.
+
+**Outcome.** Project context and operational history persist across long-running sessions, owned by the developer and the project rather than the model, so work resumes without re-explaining itself.
+
+---
+
 ## Overview
 
 Locus combines two ideas:

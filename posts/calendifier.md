@@ -23,13 +23,13 @@ title: Calendifier
 
 # Calendifier  📅
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Implementing RFC-compliant calendars manually is tedious and error-prone.
+**Problem.** Implementing RFC-compliant calendars manually is tedious and error-prone.
 
-**Solution:** Calendifier parses and generates RFC5545 calendar formats for event management.
+**System.** Calendifier parses and generates RFC5545 calendar formats for event management.
 
-**Impact:** Scheduling features stopped drifting out of sync with real dates and edge cases, so shipping calendar-dependent behaviour became predictable.
+**Outcome.** Scheduling features stopped drifting out of sync with real dates and edge cases, so shipping calendar-dependent behaviour became predictable.
 
 # Rationale
 I wanted a fun project that created a next-gen calendar for both desktop and Home Assistant.

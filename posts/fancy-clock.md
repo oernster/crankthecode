@@ -24,13 +24,13 @@ title: Fancy Clock
 
 I wrote a FancyClock app for fun: [Fancy Clock](https://github.com/oernster/FancyClock)
 
-## Problem → Solution → Impact
+## Problem → System → Outcome
 
-**Problem:** Default desktop clocks are boring, inflexible and lack meaningful utility.
+**Problem.** Default desktop clocks are boring, inflexible and lack meaningful utility.
 
-**Solution:** FancyClock is a customisable desktop clock with additional display options and user-adjustable features.
+**System.** FancyClock is a customisable desktop clock with additional display options and user-adjustable features.
 
-**Impact:** The clock stayed readable and responsive in real use, without UI jank or layout drift during long-running desktop sessions.
+**Outcome.** The clock stayed readable and responsive in real use, without UI jank or layout drift during long-running desktop sessions.
 
 # Rationale
 I wanted to knock something up quickly to show off to a friend using AI but got diverted into making it fully featured 
