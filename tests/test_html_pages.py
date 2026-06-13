@@ -57,8 +57,7 @@ def test_homepage_renders():
     assert 'class="homepage-portfolio-cue"' not in hero_block
     assert 'class="homepage-selected-project"' not in hero_block
 
-    # Site nav overview section should list all four areas.
-    assert 'class="landing-nav"' in resp.text
+    # All four areas should remain reachable from the homepage (via the sidebar nav).
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
     assert 'href="/books"' in resp.text
