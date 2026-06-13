@@ -17,7 +17,7 @@ router = APIRouter(tags=["mmsp"])
 _SITE_TITLE = "Crank The Code"
 _SITE_DESCRIPTION = (
     "Engineering blog by Oliver Ernster. Principal engineer, Python specialist, "
-    "technical advisor. Decision Architecture, software craft, and open-source tools."
+    "decision architect. Decision Architecture, software craft and open-source tools."
 )
 _AUTHOR_NAME = "Oliver Ernster"
 

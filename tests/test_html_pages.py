@@ -351,7 +351,7 @@ def test_homepage_metadata_prioritises_oliver_and_links_website_to_person_jsonld
     assert resp.status_code == 200
 
     # Title and OG title must begin with Oliver Ernster (avoid generic fallbacks).
-    assert "<title>Oliver Ernster - Engineering Lead" in resp.text, resp.text
+    assert "<title>Oliver Ernster - Principal Engineer" in resp.text, resp.text
     assert (
         '<meta property="og:title" content="Oliver Ernster | Crank The Code">'
         in resp.text

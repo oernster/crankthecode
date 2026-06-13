@@ -8,6 +8,8 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from app.domain.books_catalogue import BOOKS_CATALOGUE
+from app.domain.books_compilations import COMPLETE_SERIES_EDITION
 from app.http.deps import get_blog_service, get_templates
 from app.http.jsonld import build_person_jsonld
 from app.http.seo import absolute_url, canonical_url_for_request, get_site_url
@@ -50,16 +52,16 @@ async def homepage(
     canonical = canonical_url_for_request(request, site_url=site_url)
     homepage_meta = {
         "is_homepage": True,
-        "page_title": "Oliver Ernster - Engineering Lead & Technical Advisor",
+        "page_title": "Oliver Ernster - Principal Engineer and Decision Architect",
         "og_title": "Oliver Ernster | Crank The Code",
         "og_description": (
-            "Oliver Ernster is an Engineering Lead and Technical Advisor "
-            "writing about decision architecture, structural system design and backend "
+            "Oliver Ernster is a principal engineer and decision architect "
+            "writing on structural system design, authority boundaries and backend "
             "engineering."
         ),
         "meta_description": (
-            "Oliver Ernster is an Engineering Lead and Technical Advisor "
-            "writing about decision architecture, structural system design and backend "
+            "Oliver Ernster is a principal engineer and decision architect "
+            "writing on structural system design, authority boundaries and backend "
             "engineering."
         ),
         "canonical_url": canonical,
@@ -76,6 +78,8 @@ async def homepage(
             "homepage_thumb_index": thumb_index,
             "homepage_blurb_index": blurb_index,
             "homepage_emoji_index": emoji_index,
+            "books": BOOKS_CATALOGUE,
+            "complete_series_edition": COMPLETE_SERIES_EDITION,
         }
     )
 
@@ -155,10 +159,10 @@ async def about_page(
             "about_html": about_html,
             "topic_hubs": build_leadership_topic_hubs(blog),
             "is_homepage": False,
-            "page_title": "About Oliver Ernster | Engineering Lead & Technical Advisor",
+            "page_title": "About Oliver Ernster | Principal Engineer and Decision Architect",
             "og_title": "About Oliver Ernster",
-            "og_description": "Oliver Ernster is an Engineering Lead and Technical Advisor focused on reducing organisational and technical risk through earlier, clearer decisions.",
-            "meta_description": "Oliver Ernster is an Engineering Lead and Technical Advisor focused on reducing organisational and technical risk through earlier, clearer decisions.",
+            "og_description": "Oliver Ernster is a principal engineer and decision architect focused on reducing organisational and technical risk through earlier, clearer decisions.",
+            "meta_description": "Oliver Ernster is a principal engineer and decision architect focused on reducing organisational and technical risk through earlier, clearer decisions.",
             "back_link_href": "/",
             "back_link_label": "← Back to home",
             "breadcrumb_items": [

@@ -23,10 +23,10 @@ def build_person_jsonld(*, site_url: str) -> dict[str, object]:
         "@id": f"{home}#oliver-ernster",
         "name": "Oliver Ernster",
         "url": home,
-        "jobTitle": "Engineering Lead & Technical Advisor",
+        "jobTitle": "Principal Engineer and Decision Architect",
         "description": (
-            "Engineering Lead and Technical Advisor focused on decision architecture, structural system "
-            "design and backend engineering."
+            "Principal engineer and decision architect focused on structural system "
+            "design, authority boundaries and backend engineering."
         ),
         "sameAs": [
             "https://github.com/oernster",

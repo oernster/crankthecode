@@ -21,12 +21,14 @@
           </p>
 
           <h1 class="hero__headline">
-            I fix the structural failures that make<br />
-            software slow, fragile and hard to deliver.
+            I don't just write about architecture.<br />
+            I ship it.
           </h1>
 
           <p class="hero__tagline">
-            Architecture that holds under real operational constraints.
+            A published protocol, its reference client and a portfolio spanning
+            full-stack web, desktop applications, libraries and developer tooling,
+            always clean architecture throughout.
           </p>
 
           <p class="hero__subtext">
@@ -39,8 +41,11 @@
           </p>
 
           <div class="hero-actions" aria-label="Primary actions">
+            <a class="cta-button" href="/portfolio">
+              See what I ship
+            </a>
             <a
-              class="cta-button"
+              class="cta-button cta-button--secondary"
               href="/cv-oliver-ernster.pdf"
               download="Oliver-Ernster-CV.pdf"
             >
@@ -51,6 +56,50 @@
             <a class="cta-link" href="/posts/start-here">New here? Start Here →</a>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-books" aria-label="Books">
+    <div class="section-panel section-panel--intro">
+      <p class="hero-books__label">The Decision Architecture series of books</p>
+      <div class="hero-books">
+        {% for b in books or [] %}
+          <a
+            class="hero-books__item"
+            href="{{ b.amazon_uk_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="{{ b.title }}"
+            aria-label="{{ b.alt_text }} (Amazon UK)"
+          >
+            <img
+              class="hero-books__cover"
+              src="{{ asset_url(b.cover_asset) }}"
+              alt="{{ b.alt_text }}"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        {% endfor %}
+        {% if complete_series_edition %}
+          <a
+            class="hero-books__item hero-books__item--series"
+            href="{{ complete_series_edition.amazon_uk_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="{{ complete_series_edition.title }}"
+            aria-label="{{ complete_series_edition.alt_text }} (Amazon UK)"
+          >
+            <img
+              class="hero-books__cover"
+              src="{{ asset_url(complete_series_edition.cover_asset) }}"
+              alt="{{ complete_series_edition.alt_text }}"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        {% endif %}
       </div>
     </div>
   </section>
