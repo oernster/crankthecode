@@ -20,7 +20,7 @@ title: Meridian
 
 ---
 
-[Meridian](https://github.com/oernster/meridian) is a desktop feed reader built around an open publication protocol called MMSP.
+[Meridian](https://oernster.github.io/meridian/) is a desktop feed reader built around an open publication protocol called MMSP.
 
 Most feed readers answer a simple question:
 
