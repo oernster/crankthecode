@@ -84,6 +84,28 @@
           <div class="hero-secondary-action">
             <a class="cta-link" href="/posts/start-here">New here? Start Here →</a>
           </div>
+
+          {#
+            Quiet "this running site is itself the work" signal: the page you are
+            reading is an inspectable FastAPI service, not a static export. Reuses
+            the site's pill + accent tokens; no inline styles.
+          #}
+          <div class="hero-meta" aria-label="About this site">
+            <span class="hero-meta__lead">This site is itself the work:</span>
+            <span class="hero-meta__pill"><span class="dot" aria-hidden="true"></span>Built with FastAPI</span>
+            <span class="hero-meta__pill">Deployed on Render</span>
+            <a
+              class="hero-meta__pill hero-meta__link"
+              href="https://github.com/oernster/crankthecode"
+              target="_blank"
+              rel="noopener"
+            >
+              Source on GitHub
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>

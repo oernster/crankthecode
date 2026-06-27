@@ -2337,6 +2337,75 @@ body.is-homepage .hero__subline {
   outline-offset: 3px;
 }
 
+/* Homepage hero: quiet "this running site is itself an inspectable FastAPI app"
+   strip. Understated, engineer-to-engineer; mirrors the .tag pill but softer so
+   it never competes with the hero or the CTAs. Tokens only, no hard-coded hex. */
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.hero-meta__lead {
+  color: var(--text-subtle);
+  font-size: 13.6px;
+  line-height: 1.5;
+}
+
+.hero-meta__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6.4px;
+  background: color-mix(in srgb, var(--link-color) 10%, transparent);
+  color: var(--text-muted);
+  padding: 5.6px 12px;
+  border-radius: 999px;
+  font-size: 13.2px;
+  letter-spacing: 0.01em;
+  border: 1px solid color-mix(in srgb, var(--link-color) 22%, transparent);
+}
+
+/* Status dot: the site has no green/success token (--accent-green maps to blue),
+   so per spec the dot falls back to the accent colour. */
+.hero-meta__pill .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--link-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--link-color) 18%, transparent);
+}
+
+.hero-meta__link {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.hero-meta__link svg {
+  margin-left: 1.6px;
+}
+
+.hero-meta__link:hover,
+.hero-meta__link:focus-visible {
+  background: color-mix(in srgb, var(--link-color) 18%, transparent);
+  border-color: var(--cta-border-hover);
+  color: var(--link-hover-color);
+}
+
+/* Narrow viewports: let the lead sit on its own line so the pills wrap cleanly
+   underneath with no horizontal overflow. */
+@media (max-width: 520px) {
+  .hero-meta {
+    gap: 6.4px;
+  }
+
+  .hero-meta__lead {
+    flex-basis: 100%;
+  }
+}
+
 .section-panel--intro p {
   margin: 0 0 14.4px;
 }
