@@ -693,6 +693,25 @@ body.is-homepage .read-time-bar {
   height: calc(24px * var(--btn-scale));
 }
 
+/* Project-hub / ID-badge link: a real photo, not a monochrome glyph, so it
+   reads as a personal badge. The photo should dominate the button, so it fills
+   almost the whole surface leaving only a thin (1px) ring, and both the button
+   and the photo are fully round. The hover tint on the button surface should
+   not recolour the photo itself. */
+.header-hub-link {
+  padding: 0;
+  border-radius: 50%;
+}
+
+.header-hub-link .header-hub-icon {
+  /* Fill the button's content box (52px square minus the 1px border each side),
+     so the photo is large and the visible border stays minimal. */
+  width: calc(50px * var(--btn-scale));
+  height: calc(50px * var(--btn-scale));
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .header-email-link {
   color: var(--link-color);
 }

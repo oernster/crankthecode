@@ -222,3 +222,6 @@ features.json
 Decision-Architecture.tmp_da.pdf
 Decision-Architecture.tmp_da_print.pdf
 .playwright-cli/
+
+# Claude Code local session files (launch config, scratch)
+.claude/
