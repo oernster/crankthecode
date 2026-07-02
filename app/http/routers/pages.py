@@ -8,8 +8,6 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from app.domain.books_catalogue import BOOKS_CATALOGUE
-from app.domain.books_compilations import COMPLETE_SERIES_EDITION
 from app.http.deps import get_blog_service, get_templates
 from app.http.jsonld import build_person_jsonld
 from app.http.seo import absolute_url, canonical_url_for_request, get_site_url
@@ -78,8 +76,6 @@ async def homepage(
             "homepage_thumb_index": thumb_index,
             "homepage_blurb_index": blurb_index,
             "homepage_emoji_index": emoji_index,
-            "books": BOOKS_CATALOGUE,
-            "complete_series_edition": COMPLETE_SERIES_EDITION,
         }
     )
 

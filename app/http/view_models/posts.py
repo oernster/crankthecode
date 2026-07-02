@@ -274,7 +274,7 @@ def category_label_for_query(
             "automation|monitoring|obs|script|ansible|terraform": "🤖 Automation",
             "machine learning|computer vision|ml|data": "🧠 Data / ML",
             "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|"
-            "stellody|trainer": "🖥️ Desktop Apps",
+            "trainer": "🖥️ Desktop Apps",
             "gaming|game|elite|dangerous|frontier|colonisation": "🎮 Gaming",
             "tool|tools|cli|utility|utilities|launcher|database|db": "🧰 Tools",
             "api|apis|fastapi|django|rest|web": "🌐 Web APIs",

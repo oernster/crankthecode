@@ -40,32 +40,125 @@
             I do not just build software. I design the conditions under which it can be built well.
           </p>
 
+          {#
+            Selected artifacts: a protocol, its reference client, and this page
+            proving both. Leads the visual hierarchy so the proof matches the
+            thesis stated in the hero copy above.
+          #}
+          <div class="showcase" role="group" aria-label="Selected artifacts">
+            <p class="showcase__label">
+              Selected artifacts
+              <span class="showcase__label-sub">a protocol, its reference client, and this page proving both</span>
+            </p>
+
+            <div class="showcase__grid">
+              <a
+                class="showcase-card"
+                href="https://oernster.github.io/MMSP-Spec/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="MMSP: a published protocol"
+                aria-label="Read the MMSP specification, opens in a new tab"
+              >
+                <span class="showcase-card__icon showcase-card__icon--spec" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="30" height="30" fill="none"
+                       stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 3 14 8 19 8"/>
+                    <line x1="8.5" y1="13" x2="15.5" y2="13"/>
+                    <line x1="8.5" y1="16.5" x2="13" y2="16.5"/>
+                  </svg>
+                </span>
+                <span class="showcase-card__copy">
+                  <span class="showcase-card__eyebrow">Open protocol &middot; spec</span>
+                  <span class="showcase-card__title">MMSP</span>
+                  <span class="showcase-card__text">
+                    A published protocol for structured multimedia feeds, an evolution of RSS.
+                    I did not adopt a standard. I authored one.
+                  </span>
+                  <span class="showcase-card__cta">Read the spec &rarr;</span>
+                </span>
+              </a>
+
+              <a
+                class="showcase-card"
+                href="https://oernster.github.io/meridian/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Meridian: the reference client for MMSP"
+                aria-label="See Meridian, the reference client for MMSP, opens in a new tab"
+              >
+                <img
+                  class="showcase-card__icon showcase-card__icon--img"
+                  src="/static/images/meridian-icon.png"
+                  alt="Meridian icon"
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="showcase-card__copy">
+                  <span class="showcase-card__eyebrow">Reference implementation</span>
+                  <span class="showcase-card__title">Meridian</span>
+                  <span class="showcase-card__text">
+                    The reference client for MMSP: the protocol shipped as a desktop
+                    application that people actually run.
+                  </span>
+                  <span class="showcase-card__cta">See the client &rarr;</span>
+                </span>
+              </a>
+            </div>
+
+            {#
+              Live proof: this very page publishes an MMSP feed. Closes the loop
+              spec -> client -> running instance, all on one screen.
+            #}
+            <a
+              class="showcase-proof"
+              href="/.well-known/mmsp.json"
+              title="This page's live MMSP feed"
+              aria-label="View this page's live MMSP feed"
+            >
+              <span class="showcase-proof__pulse" aria-hidden="true"><span class="dot"></span></span>
+              <span class="showcase-proof__copy">
+                <span class="showcase-proof__lead">This page is itself an MMSP publisher.</span>
+                <span class="showcase-proof__text">
+                  The feed you would open in Meridian is served live from this site:
+                  spec, client and a running instance, all here.
+                </span>
+              </span>
+              <span class="showcase-proof__cta">
+                View feed <code>/.well-known/mmsp.json</code> &rarr;
+              </span>
+            </a>
+          </div>
+
           <a
-            class="fulcrum-banner"
+            class="fulcrum-card"
             href="https://oernster.github.io/fulcrum/"
             target="_blank"
             rel="noopener noreferrer"
-            title="Decision Architecture incarnate"
-            aria-label="Open Fulcrum, Decision Architecture incarnate, opens in a new tab"
+            title="Fulcrum: Decision Architecture incarnate"
+            aria-label="Open Fulcrum, Decision Architecture as an engine you operate, opens in a new tab"
           >
             <img
-              class="fulcrum-banner__icon"
-              src="https://oernster.github.io/fulcrum/assets/fulcrum.png"
+              class="fulcrum-card__icon"
+              src="/static/images/fulcrum-icon.png"
               alt="Fulcrum icon"
-              width="72"
-              height="72"
+              width="64"
+              height="64"
               loading="lazy"
               decoding="async"
             />
-            <span class="fulcrum-banner__copy">
-              <span class="fulcrum-banner__eyebrow">Decision-support / simulation tool</span>
-              <span class="fulcrum-banner__title">Fulcrum: Decision Architecture incarnate</span>
-              <span class="fulcrum-banner__text">
+            <span class="fulcrum-card__copy">
+              <span class="fulcrum-card__eyebrow">Decision-support / simulation tool</span>
+              <span class="fulcrum-card__title">Fulcrum: Decision Architecture as an engine you operate</span>
+              <span class="fulcrum-card__text">
                 Model any organisation, score its structural health from 0 to 100 and
-                find the moves that make it stronger. The Decision Architecture series,
-                turned into an engine you operate.
+                find the moves that make it stronger.
               </span>
-              <span class="fulcrum-banner__cta">Open Fulcrum &rarr;</span>
+              <span class="fulcrum-card__cta">Open Fulcrum &rarr;</span>
             </span>
           </a>
 
@@ -80,9 +173,6 @@
             >
               Download CV
             </a>
-          </div>
-          <div class="hero-secondary-action">
-            <a class="cta-link" href="/posts/start-here">New here? Start Here →</a>
           </div>
 
           {#
@@ -107,51 +197,6 @@
             </a>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="landing-books" aria-label="Books">
-    <div class="section-panel section-panel--intro">
-      <p class="hero-books__label">The Decision Architecture series of <a href="/books">books</a></p>
-      <p class="hero-books__tagline">The complete framework: from why technical organisations fracture to the model that explains it.</p>
-      <div class="hero-books">
-        {% for b in books or [] %}
-          <a
-            class="hero-books__item"
-            href="{{ b.amazon_uk_url }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="{{ b.title }}"
-            aria-label="{{ b.alt_text }} (Amazon UK)"
-          >
-            <img
-              class="hero-books__cover"
-              src="{{ asset_url(b.cover_asset) }}"
-              alt="{{ b.alt_text }}"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-        {% endfor %}
-        {% if complete_series_edition %}
-          <a
-            class="hero-books__item hero-books__item--series"
-            href="{{ complete_series_edition.amazon_uk_url }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="{{ complete_series_edition.title }}"
-            aria-label="{{ complete_series_edition.alt_text }} (Amazon UK)"
-          >
-            <img
-              class="hero-books__cover"
-              src="{{ asset_url(complete_series_edition.cover_asset) }}"
-              alt="{{ complete_series_edition.alt_text }}"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-        {% endif %}
       </div>
     </div>
   </section>

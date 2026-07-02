@@ -44,7 +44,7 @@ Search indexing is now in a good place with clean previews predictable URLs and 
 | Read time flash removed                   | “Calculating…” no longer appears on load                  |
 | Base.html crash resolved                  | Meta tags now safe even on non-post pages                 |
 | About page layout refined                 | Skill lists spaced and aligned for readability             |
-| Post images corrected                    | Dual image bug fixed for Stellody and EDColonisationAsst  |
+| Post images corrected                    | Dual image bug fixed for EDColonisationAsst               |
 | Duplicate entries removed                | 3D Printer Launcher now appears only once                 |
 
 Typography alignment and responsiveness continue to improve incrementally. Nothing dramatic just fewer rough edges.

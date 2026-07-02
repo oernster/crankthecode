@@ -42,7 +42,7 @@ def test_filesystem_repository_normalizes_string_tags_and_infers_blog_tag_for_bl
         "---\n"
         "title: Blog\n"
         "date: 2024-01-01\n"
-        "tags: stellody\n"
+        "tags: sampletag\n"
         "---\n"
         "Body\n",
         encoding="utf-8",
@@ -53,7 +53,7 @@ def test_filesystem_repository_normalizes_string_tags_and_infers_blog_tag_for_bl
     assert post is not None
 
     # Normalized tags should include the scalar tag.
-    assert "stellody" in list(post.tags)
+    assert "sampletag" in list(post.tags)
     # Blog slugs should always include the blog category tag.
     assert "cat:blog" in [t.lower() for t in post.tags]
 

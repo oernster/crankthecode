@@ -151,8 +151,8 @@ def test_posts_index_excludes_about_me_from_all_lists(monkeypatch):
             tags=("db",),
         ),
         _mk_summary(
-            slug="stellody",
-            title="Stellody",
+            slug="demoapp",
+            title="DemoApp",
             date="2026-01-19 13:45",
             tags=("desktop",),
         ),
@@ -186,8 +186,8 @@ def test_posts_index_excludes_axisdb_from_tools_category_view(monkeypatch):
             tags=("db",),
         ),
         _mk_summary(
-            slug="stellody",
-            title="Stellody",
+            slug="demoapp",
+            title="DemoApp",
             date="2026-01-19 13:45",
             tags=("desktop", "cat:Tools"),
         ),
@@ -209,7 +209,7 @@ def test_posts_index_excludes_axisdb_from_tools_category_view(monkeypatch):
     resp = client.get("/posts?q=cat:Tools")
     assert resp.status_code == 200
     assert "AxisDB" not in resp.text
-    assert "Stellody" in resp.text
+    assert "DemoApp" in resp.text
 
 
 def test_battlestation_page_renders(monkeypatch):

@@ -50,9 +50,6 @@ However, here we are. Highlights below.
 - **Calendifier post cleaned up**  
   Tables were reformatted so they can survive a meeting with a product manager without causing immediate concern.
 
-- **Stellody post improved with competitive commentary**  
-  Additional commentary was added comparing Stellody with certain online music engines that mostly reshuffle Spotify playlists and invoice you for the privilege.
-
 ---
 
 ## 🔎 Search Autocomplete (yes, seriously)

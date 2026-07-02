@@ -1,6 +1,6 @@
 ---
 blurb: Klipper launcher
-date: 2026-01-19 10:15
+date: 2026-07-02 09:30
 type: project
 extra_images:
 - /static/images/qidi.png

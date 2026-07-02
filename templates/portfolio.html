@@ -15,11 +15,11 @@
     <hr class="post-separator" aria-hidden="true" />
   {% endif %}
 
-  {# Proof before interpretation: show Desktop Applications before the intro copy. #}
+  {# Proof before interpretation: show Desktop Applications before the intro copy.
+     No leading separator here: the intro block above already emits the seam
+     (and when there is no intro, Desktop leads and needs no rule under the H1). #}
   {% for g in portfolio_groups or [] %}
     {% if g.label == 'Desktop Applications' %}
-      <hr class="post-separator" aria-hidden="true" />
-
       <section class="section-panel" id="desktop-applications" aria-label="{{ g.label }}">
         <h2 class="section-title section-title--accent">{{ g.label }}</h2>
 

@@ -446,7 +446,7 @@
 
     setupListEndObserver();
 
-    // Posts index: support deep-links like /posts?q=stellody.
+    // Posts index: support deep-links like /posts?q=trainer.
     // When navigating via the sidebar, we want the filtering but we *don't* want
     // to auto-open the search UI or populate the search field.
     if (isPostsIndex && initialQuery.length > 0) {

@@ -81,9 +81,9 @@ The fastest way to understand what LatencyLab does is to start with a system eve
 
 A user clicks a button. Background work starts. Progress updates appear. Eventually the result renders.
 
-This example comes from a real application I wrote and shipped called Stellody, a professional music discovery app. The exact model used to explore this flow lives in the LatencyLab repository:
+This example comes from a real application I wrote and shipped, a professional music discovery app. The exact model used to explore this flow lives in the LatencyLab repository:
 
-[stellody_music_discovery.json ingest file](https://github.com/oernster/latencylab/edit/main/stellody_music_discovery.json)
+[the music discovery ingest file](https://github.com/oernster/latencylab)
 
 This is not a toy example. I use LatencyLab on my own software.
 

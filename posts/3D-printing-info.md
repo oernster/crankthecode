@@ -1,6 +1,6 @@
 ---
 blurb: Print guide
-date: 2026-01-19 09:55
+date: 2026-07-02 10:00
 type: project
 image: /static/images/3D-printing-info.png
 one_liner: Practical notes and guides from my 3D-printing journey, including settings,

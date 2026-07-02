@@ -70,3 +70,24 @@ Some text.
     remaining, bodies = _extract_markdown_sections(md, title="Screenshots")
     assert "SCREENSHOTS" not in remaining
     assert len(bodies) == 1
+
+
+def test_extract_markdown_sections_skips_matching_heading_with_empty_body():
+    # A heading matching the title but with no body before the next same-level
+    # heading is removed without contributing an (empty) body entry.
+    md = "\n".join(
+        [
+            "Intro",
+            "",
+            "## Screenshots",
+            "## Rationale",
+            "",
+            "Body text.",
+        ]
+    )
+
+    remaining, bodies = _extract_markdown_sections(md, title="Screenshots")
+
+    assert "## Screenshots" not in remaining
+    assert "## Rationale" in remaining
+    assert bodies == []

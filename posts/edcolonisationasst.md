@@ -15,10 +15,10 @@ tags:
 - in-game tool
 - python
 thumb_image: /static/images/edcolonisationasst-icon.png
-title: EDColonisation Assistant
+title: E:D Colonisation Assistant
 ---
 
-[EDColonisation Assistant](https://github.com/oernster/EDColonisationAsst) 🛰  
+[E:D Colonisation Assistant](https://github.com/oernster/EDColonisationAsst) 🛰  
 
 ## Problem → System → Outcome
 

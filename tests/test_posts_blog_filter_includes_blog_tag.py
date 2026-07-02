@@ -17,7 +17,7 @@ def test_posts_blog_view_has_cat_blog_in_data_search(tmp_path: Path):
         "---\n"
         "title: Some Blog Post\n"
         "date: 2026-01-01\n"
-        "tags: [cat:Blog, stellody]\n"
+        "tags: [cat:Blog, sample]\n"
         "---\n\n"
         "Body\n",
         encoding="utf-8",

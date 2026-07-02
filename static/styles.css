@@ -157,7 +157,7 @@ html.theme-light {
 
 body {
   font-family: 'Inter', sans-serif;
-  /* Stellody-esque dark theme */
+  /* Dark theme base */
   background: radial-gradient(
     circle at top left,
     var(--bg-gradient-start),
@@ -1530,7 +1530,7 @@ a {
   - Avoid layout shift: no padding/line-height changes; use inset box-shadow.
   - Scope to content links to avoid overriding nav/button-like links.
 */
-.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.fulcrum-banner):hover {
+.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):hover {
   color: var(--cta-fg);
   text-decoration: none;
   text-shadow: none;
@@ -1539,7 +1539,7 @@ a {
 }
 
 /* Light mode: use accent blue tint for link hover highlight. */
-html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.fulcrum-banner):hover {
+html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):hover {
   color: #111118;
   box-shadow: inset 0 -1.1em 0 var(--cta-bg-hover);
 }
@@ -2010,7 +2010,7 @@ a[href=\"/\"]:hover {
   box-shadow: 0 16px 34px rgba(37, 99, 235, 0.18);
 }
 
-/* Homepage: the wide first featured button (Stellody) should start with the same
+/* Homepage: the wide first featured button should start with the same
    background as other buttons, so the hover colour change is obvious.
    This is intentionally scoped to `.featured-primary` to avoid affecting other
    potential uses of `.btn-link--primary`. */
@@ -2177,74 +2177,6 @@ body.is-homepage .landing-intro {
 /* Homepage hero: slightly higher contrast for the support line (no size change). */
 body.is-homepage .hero__subline {
   color: color-mix(in srgb, var(--text-color) 90%, var(--text-muted));
-}
-
-/* Homepage: compact book strip below the hero (covers link direct to Amazon). */
-.hero-books__label {
-  margin: 0 0 8px;
-  font-size: 14.4px;
-  line-height: 1.45;
-  color: var(--text-subtle);
-  text-align: center;
-}
-
-.landing-books .hero-books__tagline {
-  margin: 0 auto 18px;
-  max-width: 56ch;
-  font-size: 14.4px;
-  line-height: 1.5;
-  color: var(--text-muted);
-  text-align: center;
-}
-
-.hero-books {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 14px;
-}
-
-.hero-books__item {
-  display: inline-flex;
-  border-radius: 6px;
-}
-
-.hero-books__item:focus-visible {
-  outline: 2px solid var(--link-color);
-  outline-offset: 3px;
-}
-
-.hero-books__cover {
-  display: block;
-  height: 92px;
-  width: auto;
-  border-radius: 6px;
-  border: 1px solid var(--panel-border);
-  box-shadow: none;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-/* On hover or focus, mirror the books page: blue accent border and shadow. */
-.hero-books__item:hover .hero-books__cover,
-.hero-books__item:focus-visible .hero-books__cover {
-  border-color: var(--hover-accent-border);
-  box-shadow: var(--hover-accent-shadow);
-}
-
-/* The combined hardback is the primary book surface: render it larger. */
-.hero-books__item--series .hero-books__cover {
-  height: 116px;
-}
-
-@media (max-width: 520px) {
-  .hero-books__cover {
-    height: 72px;
-  }
-
-  .hero-books__item--series .hero-books__cover {
-    height: 92px;
-  }
 }
 
 /* Homepage intro: quiet proof-of-execution cue (inline, not a new section). */
@@ -4725,97 +4657,321 @@ html.theme-light .section-title {
   font-weight: 500;
 }
 
-/* Homepage: "New here? Start Here" secondary text link below hero CTAs */
-.hero-secondary-action {
-  margin-top: 12px;
+/* ------------------------------------------------------------------ *
+ * Selected artifacts showcase: protocol (MMSP) + reference client
+ * (Meridian) + this page's live MMSP feed as dogfooding proof.
+ * ------------------------------------------------------------------ */
+.showcase {
+  margin: 4px 0 14px;
 }
 
-/* Homepage hero: prominent callout linking to Fulcrum (Decision Architecture incarnate). */
-.fulcrum-banner {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin: 4px 0 20px;
-  padding: 16px 20px;
-  border: 2px solid var(--link-color);
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--link-color) 12%, transparent);
-  text-decoration: none;
-  transition: background 0.15s ease;
-}
-
-.fulcrum-banner:hover,
-.fulcrum-banner:focus-visible {
-  background: color-mix(in srgb, var(--link-color) 18%, transparent);
-}
-
-.fulcrum-banner__icon {
-  flex: 0 0 auto;
-  width: 72px;
-  height: 72px;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  padding: 4px;
-  transition: border-color 0.15s ease;
-}
-
-/* On hover, ring the icon with a single clean rectangle (no shadow layer). */
-.fulcrum-banner:hover .fulcrum-banner__icon,
-.fulcrum-banner:focus-visible .fulcrum-banner__icon {
-  border-color: var(--link-color);
-}
-
-.fulcrum-banner__copy {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.fulcrum-banner__eyebrow {
-  display: block;
-  margin: 0 0 4px;
-  color: var(--link-color);
+.showcase__label {
+  margin: 0 0 12px;
+  color: var(--text-subtle);
   font-size: 12.8px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.fulcrum-banner__title {
+.showcase__label-sub {
+  display: inline;
+  margin-left: 8px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+.showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.showcase-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 2px solid var(--link-color);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--link-color) 10%, transparent);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.showcase-card:hover,
+.showcase-card:focus-visible {
+  background: color-mix(in srgb, var(--link-color) 16%, transparent);
+}
+
+.showcase-card__icon {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+}
+
+.showcase-card__icon--spec {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--link-color);
+  border: 2px solid color-mix(in srgb, var(--link-color) 40%, transparent);
+  background: color-mix(in srgb, var(--link-color) 12%, transparent);
+}
+
+.showcase-card__icon--img {
+  border: 2px solid transparent;
+  padding: 2px;
+  transition: border-color 0.15s ease;
+}
+
+.showcase-card:hover .showcase-card__icon--img,
+.showcase-card:focus-visible .showcase-card__icon--img {
+  border-color: var(--link-color);
+}
+
+.showcase-card__copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.showcase-card__eyebrow {
+  display: block;
+  margin: 0 0 3px;
+  color: var(--link-color);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.showcase-card__title {
   display: block;
   margin: 0 0 6px;
   color: var(--heading-color);
-  font-size: 22.4px;
+  font-size: 20.8px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.showcase-card__text {
+  display: block;
+  margin: 0 0 10px;
+  color: var(--text-color);
+  font-size: 14.4px;
+  line-height: 1.5;
+}
+
+.showcase-card__cta {
+  display: inline-block;
+  margin-top: auto;
+  color: var(--link-color);
+  font-size: 14.4px;
+  font-weight: 700;
+}
+
+/* Live-proof strip: binds the two artifacts to this running page. */
+.showcase-proof {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 12px 18px;
+  border: 1px solid color-mix(in srgb, var(--link-color) 30%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--link-color) 7%, transparent);
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.showcase-proof:hover,
+.showcase-proof:focus-visible {
+  background: color-mix(in srgb, var(--link-color) 13%, transparent);
+  border-color: var(--cta-border-hover);
+}
+
+.showcase-proof__pulse {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.showcase-proof__pulse .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--link-color);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--link-color) 18%, transparent);
+  animation: showcase-proof-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes showcase-proof-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--link-color) 22%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--link-color) 8%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-proof__pulse .dot {
+    animation: none;
+  }
+}
+
+.showcase-proof__copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.showcase-proof__lead {
+  color: var(--heading-color);
+  font-size: 14.8px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.showcase-proof__text {
+  color: var(--text-muted);
+  font-size: 13.6px;
+  line-height: 1.45;
+}
+
+.showcase-proof__cta {
+  flex: 0 0 auto;
+  color: var(--link-color);
+  font-size: 13.6px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.showcase-proof__cta code {
+  font-size: 12.8px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--link-color) 14%, transparent);
+}
+
+/* Prominent Fulcrum callout below the flagship showcase: rounded card + icon. */
+.fulcrum-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0 4px;
+  padding: 16px 20px;
+  border: 2px solid var(--link-color);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--link-color) 11%, transparent);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.fulcrum-card:hover,
+.fulcrum-card:focus-visible {
+  background: color-mix(in srgb, var(--link-color) 17%, transparent);
+}
+
+.fulcrum-card__icon {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 3px;
+  transition: border-color 0.15s ease;
+}
+
+.fulcrum-card:hover .fulcrum-card__icon,
+.fulcrum-card:focus-visible .fulcrum-card__icon {
+  border-color: var(--link-color);
+}
+
+.fulcrum-card__copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fulcrum-card__eyebrow {
+  display: block;
+  margin: 0 0 3px;
+  color: var(--link-color);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fulcrum-card__title {
+  display: block;
+  margin: 0 0 5px;
+  color: var(--heading-color);
+  font-size: 19.2px;
   font-weight: 750;
   line-height: 1.25;
 }
 
-.fulcrum-banner__text {
+.fulcrum-card__text {
   display: block;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: var(--text-color);
-  font-size: 15.2px;
+  font-size: 14.4px;
   line-height: 1.5;
 }
 
-.fulcrum-banner__cta {
+.fulcrum-card__cta {
   display: inline-block;
   color: var(--link-color);
-  font-size: 15.2px;
+  font-size: 14.4px;
   font-weight: 700;
 }
 
-.cta-link {
-  color: var(--text-muted);
-  font-size: 14px;
-  text-decoration: none;
-  border-bottom: 1px solid var(--panel-border);
-  transition: color 0.15s, border-color 0.15s;
-}
+@media (max-width: 640px) {
+  .showcase__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 
-.cta-link:hover {
-  color: var(--text-color);
-  border-bottom-color: var(--text-muted);
+  .showcase__label-sub {
+    display: block;
+    margin-left: 0;
+    margin-top: 3px;
+  }
+
+  .showcase-proof {
+    flex-wrap: wrap;
+  }
+
+  .showcase-proof__cta {
+    flex-basis: 100%;
+    white-space: normal;
+  }
+  .showcase__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .showcase__label-sub {
+    display: block;
+    margin-left: 0;
+    margin-top: 3px;
+  }
+
+  .showcase-proof {
+    flex-wrap: wrap;
+  }
+
+  .showcase-proof__cta {
+    flex-basis: 100%;
+    white-space: normal;
+  }
 }
 
 /* Homepage: site overview navigation section */

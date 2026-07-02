@@ -67,10 +67,6 @@ def test_homepage_renders():
     assert 'id="sidebar-work-with-me-btn"' in resp.text
     assert "Work With Me" in resp.text
 
-    # Start Here secondary link should appear in hero.
-    assert 'href="/posts/start-here"' in hero_block
-    assert "Start Here" in hero_block
-
     # Hero should remain concise (no extra proof/portfolio cues inside the hero block).
     assert 'class="homepage-portfolio-cue"' not in hero_block
     assert 'class="homepage-selected-project"' not in hero_block
