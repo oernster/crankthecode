@@ -25,7 +25,7 @@ class CompilationEdition:
 COMPLETE_SERIES_EDITION = CompilationEdition(
     title="Decision Architecture Series",
     cover_asset="images/hardback_cover.png",
-    amazon_uk_url="https://www.amazon.co.uk/dp/B0GTMVV8T5",
+    amazon_uk_url="https://www.amazon.co.uk/dp/B0H8HVZKY1",
     support_line="All four volumes combined into a single hardback reference edition",
 )
 

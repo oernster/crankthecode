@@ -55,7 +55,7 @@ BOOKS_CATALOGUE: tuple[BookCatalogueEntry, ...] = (
     BookCatalogueEntry(
         title="Relativistic Decision Architecture",
         cover_asset="images/_cover_relativistic_da_architecture.png",
-        amazon_uk_url="https://www.amazon.co.uk/dp/B0GT7D4P8G",
+        amazon_uk_url="https://www.amazon.co.uk/dp/B0H8HTM8H3",
         hover_text="The geometry of decision systems",
     ),
 )

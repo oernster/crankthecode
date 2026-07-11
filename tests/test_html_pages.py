@@ -292,13 +292,13 @@ def test_books_page_renders_and_links_to_amazon_uk():
     # Canonical Amazon UK links (no link switching).
     assert "https://www.amazon.co.uk/dp/B0GT4JNMGK" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GT4CZ327" in resp.text
-    assert "https://www.amazon.co.uk/dp/B0GT7D4P8G" in resp.text
+    assert "https://www.amazon.co.uk/dp/B0H8HTM8H3" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GTDX7186" in resp.text
 
     # Complete series hardback compilation: rendered separately (not a 5th peer
     # card in the primary series grid).
     assert "Complete Series Edition" in resp.text
-    assert "https://www.amazon.co.uk/dp/B0GTMVV8T5" in resp.text
+    assert "https://www.amazon.co.uk/dp/B0H8HVZKY1" in resp.text
     assert re.search(
         r"/static/images/hardback_cover(?:\.[0-9a-f]{8,})?\.png",
         resp.text,
@@ -350,7 +350,7 @@ def test_compilation_edition_alt_text_omits_empty_support_line():
     edition = CompilationEdition(
         title="Decision Architecture Series",
         cover_asset="images/hardback_cover.png",
-        amazon_uk_url="https://www.amazon.co.uk/dp/B0GTMVV8T5",
+        amazon_uk_url="https://www.amazon.co.uk/dp/B0H8HVZKY1",
         support_line="",
     )
     assert edition.alt_text == "Decision Architecture Series"
