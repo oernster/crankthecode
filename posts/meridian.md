@@ -1,6 +1,6 @@
 ---
 blurb: An open publication protocol and desktop reader for structured content distribution beyond traditional RSS and Atom feeds.
-date: 2026-06-01 08:30
+date: 2026-07-16 10:00
 type: project
 role: project
 image: /static/images/meridian.png
