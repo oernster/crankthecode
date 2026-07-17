@@ -1,5 +1,5 @@
 ---
-blurb: An open publication protocol and desktop reader for structured content distribution beyond traditional RSS and Atom feeds.
+blurb: The reference desktop reader for MMSP, an open publication protocol that takes feeds beyond RSS and Atom
 date: 2026-07-16 10:00
 type: project
 role: project
