@@ -3929,6 +3929,25 @@ html.theme-light .section-title {
   }
 }
 
+/*
+  Phone-width header: the contact cluster (Email / hub / GitHub / LinkedIn) and
+  the icon cluster are both fixed-size, so side by side they need ~500px. Below
+  that they must wrap onto their own centred rows or the whole header (and the
+  page) overflows the viewport horizontally.
+*/
+@media (max-width: 560px) {
+  .header-topbar-actions-row {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 8px;
+  }
+
+  .header-contact--mobile,
+  .header-actions {
+    align-self: center;
+  }
+}
+
 /* Post meta: enforce date/tags on separate lines. */
 .post-meta {
   margin-bottom: 16px;
