@@ -1916,15 +1916,16 @@ a[href=\"/\"]:hover {
   min-width: calc(88px * var(--btn-scale));
 }
 
-/* Button links with tiny thumbnails: force same height as text-only btn-link (56px * scale).
-   Removes vertical padding so the thumb fills the available space without inflating the pill. */
+/* Button links with tiny thumbnails: same minimum height as text-only btn-link (56px * scale)
+   but allowed to grow so multi-line subtext is never clipped. Reduced vertical padding keeps
+   the thumb from inflating a single-line pill. */
 .btn-link--with-thumb {
   display: inline-flex;
   align-items: center;
   gap: calc(12.8px * var(--btn-scale));
-  padding-top: 0;
-  padding-bottom: 0;
-  height: calc(56px * var(--btn-scale));
+  padding-top: calc(8px * var(--btn-scale));
+  padding-bottom: calc(8px * var(--btn-scale));
+  min-height: calc(56px * var(--btn-scale));
 }
 
 /* Compact button variant (used for dense navigation rows like Start Here themes). */
