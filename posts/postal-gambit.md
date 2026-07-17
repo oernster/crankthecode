@@ -8,7 +8,7 @@ image: /static/images/postal-gambit.png
 one_liner: A local-first desktop app that keeps your chess games, enforces the rules and turns each move into a ready-to-send email in whatever mail client you already use.
 social_image: /static/images/postal-gambit.png
 tags:
-- cat:Desktop Apps
+- cat:Gaming
 - python
 - pyside6
 - chess
