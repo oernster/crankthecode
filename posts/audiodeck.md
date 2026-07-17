@@ -1,6 +1,6 @@
 ---
-blurb: Audio switcher
-date: 2026-01-19 06:50
+blurb: A professional Windows audio device switcher with one-press routing and Stream Deck integration
+date: 2026-05-28 20:00
 type: project
 extra_images:
 - /static/images/audiodeck2.png

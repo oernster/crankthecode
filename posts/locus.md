@@ -1,7 +1,7 @@
 --- 
 title: Locus
-blurb: Persistent local project memory and focus tracking for Claude Code workflows
-date: 2026-05-28 20:00
+blurb: Project memory for Claude Code
+date: 2026-01-19 06:50
 type: project
 social_image: /static/images/locus.png
 image: /static/images/locus.png
