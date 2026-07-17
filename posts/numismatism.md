@@ -3,6 +3,7 @@ blurb: Coin ML Tool
 date: 2026-01-19 06:10
 type: project
 image: /static/images/numismatism.png
+thumb_image: /static/images/coin-analysis-icon.svg
 one_liner: Computer-vision and ML experiments for recognising, identifying and cataloguing
   coins from images.
 social_image: /static/images/numismatism.png
@@ -19,7 +20,7 @@ tags:
 title: Coin Analysis
 ---
 
-[Coin Analysis](https://github.com/oernster/coin-analysis) 🪙
+[Coin Analysis](https://oernster.github.io/coin-analysis/) is a computer-vision and machine-learning tool for recognising, identifying and cataloguing coins from images.
 
 ## Problem → System → Outcome
 

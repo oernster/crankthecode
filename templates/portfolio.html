@@ -32,7 +32,10 @@
         <div class="featured-buttons featured-buttons--desktop-apps" aria-label="{{ g.label }} items">
           {# NOTE: avoid the key name `items` because Jinja may resolve `g.items` to the dict method. #}
           {% for p in g.entries or [] %}
-            <a class="btn-link" href="/posts/{{ p.slug }}">
+            <a class="btn-link{% if p.thumb_image_url %} btn-link--with-thumb{% endif %}" href="/posts/{{ p.slug }}">
+              {% if p.thumb_image_url %}
+                <img class="btn-thumb" src="{{ p.thumb_image_url }}" alt="" loading="lazy" decoding="async" />
+              {% endif %}
               <span class="btn-text">
                 {{ p.label }}
                 {% if p.blurb %}
@@ -62,7 +65,10 @@
         <div class="featured-buttons" aria-label="{{ g.label }} items">
           {# NOTE: avoid the key name `items` because Jinja may resolve `g.items` to the dict method. #}
           {% for p in g.entries or [] %}
-            <a class="btn-link" href="/posts/{{ p.slug }}">
+            <a class="btn-link{% if p.thumb_image_url %} btn-link--with-thumb{% endif %}" href="/posts/{{ p.slug }}">
+              {% if p.thumb_image_url %}
+                <img class="btn-thumb" src="{{ p.thumb_image_url }}" alt="" loading="lazy" decoding="async" />
+              {% endif %}
               <span class="btn-text">
                 {{ p.label }}
                 {% if p.blurb %}

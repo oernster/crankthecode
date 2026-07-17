@@ -13,7 +13,7 @@ tags:
 title: Galactic Unicorn Timer
 ---
 
-[GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn)  🦄
+[GalacticUnicorn Timer](https://github.com/oernster/galactic-unicorn) is a MicroPython timer and clock for the Pimoroni Galactic Unicorn LED matrix.
 
 ## Problem → System → Outcome
 

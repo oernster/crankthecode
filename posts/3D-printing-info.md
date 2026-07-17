@@ -14,4 +14,4 @@ thumb_image: /static/images/3D-printing-info.png
 title: 3D Printing Info
 ---
 
-I have been curating a huge resource for 3D printerers and tinkerers for many years (check the github stars): [3D Printing Info](https://github.com/oernster/3D-printing-info).
+[3D Printing Info](https://oernster.github.io/3D-printing-info/) is a curated knowledge base for 3D printers and tinkerers, built up over many years (check the GitHub stars).

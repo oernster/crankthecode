@@ -5,6 +5,7 @@ date: 2026-05-28 20:00
 type: project
 social_image: /static/images/locus.png
 image: /static/images/locus.png
+thumb_image: /static/images/locus-icon.png
 one_liner: A local-first MCP memory and focus tracking layer for Claude Code.
 tags:
 - cat:Desktop Apps
@@ -20,9 +21,7 @@ tags:
 - windows
 ---
 
-[Locus](https://github.com/oernster/locus)
-
-A local-first memory and operational awareness system for Claude Code workflows and Windows focus tracking.
+[Locus](https://oernster.github.io/locus/) is a local-first memory and operational awareness system for Claude Code workflows and Windows focus tracking.
 
 <div style="text-align:center; font-size:1.2em; margin: 1em 0;">
   Persistent project context and operational focus history across long-running development sessions.

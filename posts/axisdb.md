@@ -3,6 +3,7 @@ blurb: JSON database
 date: 2026-01-19 12:38
 type: project
 image: /static/images/AxisDB.png
+thumb_image: /static/images/axisdb-icon.svg
 one_liner: An embedded Python database that stores JSON documents with atomic commits
   and multidimensional keys.
 social_image: /static/images/AxisDB.png
@@ -17,7 +18,7 @@ tags:
 title: AxisDB
 ---
 
-[AxisDB](https://github.com/oernster/AxisDB)  🗃️
+[AxisDB](https://github.com/oernster/AxisDB) is an embedded Python database that stores JSON documents with atomic commits, addressed by multidimensional coordinate keys.
 
 ## Problem → System → Outcome
 

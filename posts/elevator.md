@@ -3,6 +3,7 @@ blurb: Elevator control panel
 date: 2026-01-19 02:30
 type: project
 image: /static/images/elevator.png
+thumb_image: /static/images/elevator-icon.svg
 one_liner: A web-based elevator control panel built with Django and React.
 social_image: /static/images/elevator.png
 tags:
@@ -14,9 +15,8 @@ tags:
 title: Elevator
 ---
 
-[Elevator](https://github.com/oernster/elevator)  🛗
+[Elevator](https://oernster.github.io/elevator/) is a web-based elevator control panel built with Django and React.
 
-I knocked up a simple elevator control panel you can run locally as a website.
 
 ## Problem → System → Outcome
 

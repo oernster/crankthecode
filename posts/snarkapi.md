@@ -19,8 +19,7 @@ thumb_image: /static/images/snarkapi-icon.png
 title: SnarkAPI
 ---
 
-# Snark-as-a-service API
-[SnarkAPI live site](https://snarkapi.com/)
+[SnarkAPI](https://snarkapi.com/) is a playful snark-as-a-service API that generates sarcastic, roast-style responses for apps, bots and chat interfaces.
 
 ## Problem → System → Outcome
 

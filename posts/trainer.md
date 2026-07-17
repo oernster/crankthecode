@@ -23,9 +23,8 @@ thumb_image: /static/images/trainer-icon.png
 title: Trainer
 ---
 
-I developed: [Trainer](https://github.com/oernster/Trainer).
+[Trainer](https://oernster.github.io/Trainer/) is a desktop dashboard for train times with weather integration and astronomical events.
 
-Train Times with Weather Integration & Astronomical Events  
 [Releases](https://github.com/oernster/Trainer/releases/)
 
 ## Problem → System → Outcome

@@ -3,6 +3,7 @@ date: 2026-02-08 01:30
 type: project
 emoji: ⏱️
 image: /static/images/latencylab.png
+thumb_image: /static/images/latencylab-icon.svg
 one_liner: A small tool built to settle performance arguments with reality, the UI existing only because text was insufficient.
 blurb: The Inspiration for Decision Architecture
 tags:
@@ -14,6 +15,8 @@ tags:
 title: LatencyLab
 social_image: /static/images/latencylab.png
 ---
+
+[LatencyLab](https://oernster.github.io/latencylab/) is a local, design-time latency simulator for event-driven systems.
 
 # A Small Tool for Uncomfortable Performance Truths
 

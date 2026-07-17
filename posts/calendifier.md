@@ -5,6 +5,7 @@ type: project
 extra_images:
 - /static/images/calendifier-ha.png
 image: /static/images/calendifier.png
+thumb_image: /static/images/calendifier-icon.png
 one_liner: A calendar app with full iCalendar (RFC5545) support and deep internationalisation
   across languages and locales.
 social_image: /static/images/calendifier.png
@@ -21,7 +22,7 @@ tags:
 title: Calendifier
 ---
 
-# Calendifier  📅
+[Calendifier](https://oernster.github.io/Calendifier/) is a desktop calendar with full iCalendar (RFC 5545) support and deep internationalisation.
 
 ## Problem → System → Outcome
 

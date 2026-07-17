@@ -18,12 +18,11 @@ tags:
 - console
 - elgato
 - python
-thumb_image: /static/images/audiodeck1.png
+thumb_image: /static/images/audiodeck-icon.png
 title: Audio Deck
 ---
 
-[Audio Deck](https://github.com/oernster/AudioDeck) 🔊  
-A professional audio device switcher for Windows with Stream Deck integration.
+[AudioDeck](https://oernster.github.io/AudioDeck/) is a professional audio device switcher for Windows with Stream Deck integration.
 
 [Releases](https://github.com/oernster/AudioDeck/releases/)
 

@@ -18,7 +18,7 @@ thumb_image: /static/images/edcolonisationasst-icon.png
 title: E:D Colonisation Assistant
 ---
 
-[E:D Colonisation Assistant](https://github.com/oernster/EDColonisationAsst) 🛰  
+[E:D Colonisation Assistant](https://oernster.github.io/EDColonisationAsst/) is a browser-based cockpit tool for colonisation tracking and planning in Elite Dangerous.
 
 ## Problem → System → Outcome
 

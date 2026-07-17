@@ -16,7 +16,7 @@ tags:
 - atom
 - json-schema
 - open-standards
-thumb_image: /static/images/mmsp-icon.png
+thumb_image: /static/images/mmsp-logo.png
 title: MMSP
 
 ---
