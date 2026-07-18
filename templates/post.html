@@ -5,6 +5,15 @@
 {% block content %}
   <div class="post-heading">
     <h1>
+      {% if post.thumb_image_url %}
+        <img
+          class="post-title-icon"
+          src="{{ post.thumb_image_url }}"
+          alt=""
+          decoding="async"
+          aria-hidden="true"
+        />
+      {% endif %}
       {{ post.title_text or post.title }}
     </h1>
     <div class="post-meta">

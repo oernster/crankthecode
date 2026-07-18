@@ -49,14 +49,18 @@ def test_portfolio_page_renders_and_includes_curated_and_category_groups():
 
     # Ordering check (newest first).
     # Based on current post dates:
-    # - Clear Budget: 2026-06-12
-    # - Locus: 2026-05-27
+    # - Clear Budget: 2026-06-14
+    # - Audio Deck: 2026-05-28
     # - NarrateX: 2026-04-05
+    # - Locus: 2026-01-19
     assert desktop_block.index('href="/posts/clearbudget"') < desktop_block.index(
-        'href="/posts/locus"'
+        'href="/posts/audiodeck"'
     )
-    assert desktop_block.index('href="/posts/locus"') < desktop_block.index(
+    assert desktop_block.index('href="/posts/audiodeck"') < desktop_block.index(
         'href="/posts/narratex"'
+    )
+    assert desktop_block.index('href="/posts/narratex"') < desktop_block.index(
+        'href="/posts/locus"'
     )
 
     # Note: there is no per-section "More" link on /portfolio.

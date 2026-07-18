@@ -327,6 +327,7 @@ async def read_post(
         "blurb": getattr(detail, "blurb", None),
         "one_liner": getattr(detail, "one_liner", None),
         "cover_image_url": detail.cover_image_url,
+        "thumb_image_url": getattr(detail, "thumb_image_url", None),
         "extra_image_urls": list(getattr(detail, "extra_image_urls", [])),
         "content": detail.content_html,
     }

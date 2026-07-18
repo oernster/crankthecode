@@ -245,6 +245,9 @@ class GetPostUseCase:
 
         html_content = self.renderer.render(markdown_wo_cover)
         html_content = assets.rewrite_html_static_urls(html_content)
+        # Explicit icon only (no cover fallback): the cover already renders below
+        # the heading, so falling back here would duplicate it beside the title.
+        thumb_url = getattr(post, "thumb_image", None)
         return PostDetail(
             slug=post.slug,
             title=post.title,
@@ -257,6 +260,9 @@ class GetPostUseCase:
             else None,
             social_image_url=assets.resolve_url_or_path(str(social_url or ""))
             if social_url
+            else None,
+            thumb_image_url=assets.resolve_url_or_path(str(thumb_url))
+            if thumb_url
             else None,
             extra_image_urls=tuple(assets.resolve_url_or_path(u) for u in extra_urls),
             content_html=html_content,

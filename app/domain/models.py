@@ -65,6 +65,8 @@ class PostDetail:
     extra_image_urls: Sequence[str]
     content_html: str
     social_image_url: str | None = None
+    # Explicit icon/thumbnail only (no cover fallback): used beside the title.
+    thumb_image_url: str | None = None
     emoji: str | None = None
     # Structural content type. `None` means default-to-writing.
     post_type: str | None = None
