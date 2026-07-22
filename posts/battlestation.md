@@ -16,7 +16,7 @@ tags:
 title: The Command Battlestation
 ---
 
-![Command battlestation photo 1: desk setup with large monitor, laptops and control decks](/static/images/command-battlestation1.jpg)
+![Command battlestation photo 1: desk setup with curved primary monitor, three 4K monitors, control decks and HOTAS cockpit](/static/images/command-battlestation1.jpg)
 
 ![Command battlestation photo 2](/static/images/command-battlestation2.jpg)
 
@@ -26,21 +26,22 @@ title: The Command Battlestation
 
 This is my daily driver: part developer workstation, part hardware museum. Every cable, macro pad and monitor is exactly where it needs to be; mostly because it's been there so long it's developed squatter's rights.
 
-The main monitor runs enough terminals, consoles and dashboards to make NORAD nervous.  
-To the left: a MacBook Air, perfect for pretending to be normal.  
-To the right: a Framework 13 running multiple Linux distros, because some problems are best solved with a spartan distro and a passive-aggressive script.
-
-Front and to the left of centre sits the **PCPanel Pro**, lighting up like a Christmas tree on amphetamines; because I enjoy tactile volume control and RGB is cheaper than therapy, along with a nice scientific calculator.  
-A **StreamDeck XL** with hand-labelled macros sits beside it doing everything from launching test pipelines, controlling audio using my [AudioDeck](/posts/audiodeck) tool to muting meetings I regret joining.
-
-An auxiliary 4K screen serves as mission control for media, monitoring or doomscrolling when builds fail.  
+The 34 inch curved primary monitor runs enough terminals, consoles and dashboards to make NORAD nervous.  
+Below it sit three 13.4 inch 4K monitors on professional stands (not OLED; I have a budget), each running its own application: **MediaMonkey** handling audio on the left, Word holding my CV in the middle (as it happens in this photo) and my Discord on the right.  
 I didn't plan on becoming a multi-display maximalist... However, here we are.
+
+A **StreamDeck XL** with hand-labelled macros sits front and centre-left, loaded with launch macros for all my websites, driving audio through my [AudioDeck](/posts/audiodeck) tool and muting meetings I regret joining.
+
+On the far left, lit up in RGB, is the larger variant of the [PCPanel](https://www.getpcpanel.com); tactile volume control, because RGB is cheaper than therapy.
+
+On the far right is my Samsung Galaxy Tab A9+ running **GameGlass** for **Elite Dangerous**: my favourite space combat/mining/trading/operations/on-foot-fun/exploration/you-name-it massively multiplayer mega game. Despite its age it is still actively developed and they do a good job of it. The tablet also fronts shards for my [Elite Dangerous Colonisation Assistant](/posts/edcolonisationasst), because space truckers need dashboards too.
+
+And yes, that is a wet flannel on the immediate left. The British Summer heat is completely unbearable and hydro-cooling is not just for the PC.
 
 Audio is handled by the **Focal Bathys** - a HiFi headphone setup that gracefully moonlights between Discord chaos and deep/old school house music.  
 Wireless. Ridiculous. Perfect.
 
-Also running alongside is a pair of tablets: one for **GameGlass**, the other serving as a browser-based cockpit UI for my [Elite Dangerous Colonisation Assistant](/posts/edcolonisationasst).  
-Because space truckers need dashboards too.
+Not pictured: a 2025 **MacBook Air** (M4, 16GB RAM, 512GB SSD), perfect for pretending to be normal. Alongside it, a **Framework 13** with a Ryzen AI 7 350, 96GB of DDR5, 2TB of NVMe SSD and the upgraded 2.8K display, which is beautiful. The Framework is a multiboot setup running a custom-configured **rEFInd** and I regularly add and remove Linux distros on it (when Microsoft isn't busy messing up my bootable drives and sectors with Windows updates). It also carries Windows 11 Pro, purely in case a job opportunity ever needs me to bring my own Windows machine; I'd prefer not to, since Windows causes no end of grief for Linux on a regular basis.
 
 ---
 
@@ -60,10 +61,9 @@ The entire cockpit snaps into place like it was meant to launch me into low orbi
 ## Input Devices
 
 Input-wise, the setup is unapologetically niche.  
-I have a small collection of **Finalmouse** devices because, yes, I am that kind of nerd.  
-The mouse pictured is the **Zeus** model - one of only 2,500 ever released. Light, sculpted and probably worth more than it should be.
+The mouse is a **FinalMouse Frostlord**: serial number 0222 of only 10,000 ever made, which is quite a nice number to hold. It is very lightweight; it weighs approximately nothing.
 
-The keyboard is a **DurGod Taurus K310** with Cherry silent red switches - quiet, precise and borderline therapeutic to type on.
+The keyboard and numpad are both **Epomaker**. The main board runs white creamy jade thocky switches - quiet, precise and borderline therapeutic to type on. The white numpad (an essential accessory, I feel) runs Wisteria linear switches.
 
 Peripherals and controllers evolve - what matters is the workflow they enable.
 
@@ -71,10 +71,13 @@ Peripherals and controllers evolve - what matters is the workflow they enable.
 
 ## 3D Printing Zone
 
-In a separate room lives the **Printer Room**, housing a curated duo of industrial-grade desktop 3D printers.
-(I'm on my 10th 3D printer now).  
+In a separate room lives the **Printer Room**. The current fleet is a curated duo: a highly customised, self-constructed **Voron Trident 350** (electronics, hardware, software, configuration and printed parts, many of them printed on the machine itself) and a **Qidi Q1 Pro**, a reliable workhorse that never seems to fail me despite its cheap price point.  
 Each is fed by a meticulously organised filament armory below.  
 It's a shrine to heat, motion and calibration agony - but also where entire machines are born, layer by painstaking layer.
+
+I only own two printers currently but I am on my 10th overall and the graveyard tells its own story. My first, a **Biqu B1**, set itself on fire; I no longer trust the Biqu/BigTreeTech brand for anything beyond basic circuit boards. A **Tronxy X5SA 400** was a reliable machine I planned to upgrade into a VzBot, acquiring all the parts (pricey ones too) before deciding to take a different direction: I sold the entire package in favour of the Formbot Voron Trident 350 kit I still run today. A **Prusa MK3S+** bedslinger was a GREAT machine; I printed everything but the kitchen sink on it and though I rarely needed Prusa support, when I did it was very much available and incredibly good. There were Bambus too: an **X1C** with two AMS units and a **P1S** with one, both very good machines right up until just after the one-year guarantee expired. Given I'd been printing almost 24/7 on both, you could say the guarantee was only worth the time you bought it for. When a printer breaks I want to be able to fix it; Bambus are a nightmare to fix and replacement parts cost a lot of money, so I don't really want to go the Bambu route again.
+
+Next, maybe, a colour printer of some variety. I have yet to decide between an AMS-oriented setup (Bambu, for example) or an IDEX variant; perhaps the **Prusa Core One** if it ever ships with an out-of-the-box IDEX colour solution (not the XL, which feels too pricey). My feeling on Prusas is that they are very good machines; unlike Bambus they are maintainable: they almost always offer some kind of upgrade path as they evolve and their 24/7 support is outstanding, with amazing documentation. Bambu simply doesn't compare. Other competitors are arriving on the market: I tried the AnyCubic colour line and didn't get on with it at all (the reliability wasn't there for me) but I've heard good things about the **Snapmaker** series of colour printers.
 
 ![Printer room shelf with multiple 3D printers and filament storage](/static/images/3D-printer-setup.png)
 
