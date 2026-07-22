@@ -96,7 +96,7 @@ I only own two printers currently but I am on my 10th overall and the graveyard 
 
 ### The next one
 
-Next, maybe, a colour printer of some variety. I have yet to decide between an AMS-oriented setup (Bambu, for example) or an IDEX variant; perhaps the **Prusa Core One** if it ever ships with an out-of-the-box IDEX colour solution (not the XL, which feels too pricey).
+Next, maybe, a colour printer of some variety. I have yet to decide between an AMS-oriented setup (the style Bambu popularised, though after the last two it wouldn't be a Bambu) or an IDEX variant; perhaps the **Prusa Core One** if it ever ships with an out-of-the-box IDEX colour solution (not the XL, which feels too pricey).
 
 My feeling on Prusas: very good machines that you can actually maintain. They almost always offer some kind of upgrade path as they evolve and their 24/7 support is outstanding, with amazing documentation. Bambu simply doesn't compare.
 
