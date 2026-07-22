@@ -3,7 +3,7 @@ blurb: Dev cockpit + 3D printer room.
 date: 2026-05-25 12:00
 image: /static/images/command-battlestation1.jpg
 social_image: /static/images/command-battlestation1.jpg
-thumb_image: /static/images/command-battlestation1.jpg
+thumb_image: /static/images/battlestation_512.png
 one_liner: The Command Battlestation - daily driver workstation, HOTAS cockpit and 3D printer room.
 tags:
 - cat:Blog
@@ -26,22 +26,28 @@ title: The Command Battlestation
 
 This is my daily driver: part developer workstation, part hardware museum. Every cable, macro pad and monitor is exactly where it needs to be; mostly because it's been there so long it's developed squatter's rights.
 
-The 34 inch curved primary monitor runs enough terminals, consoles and dashboards to make NORAD nervous.  
-Below it sit three 13.4 inch 4K monitors on professional stands (not OLED; I have a budget), each running its own application: **MediaMonkey** handling audio on the left, Word holding my CV in the middle (as it happens in this photo) and my Discord on the right.  
+The 34 inch curved primary monitor runs enough terminals, consoles and dashboards to make NORAD nervous.
+
+Below it sit three 13.4 inch 4K monitors on professional stands (not OLED; I have a budget and OLED does not respect it). Each has precisely one job: **MediaMonkey** handling audio on the left, Word in the middle (caught holding my CV, because even battlestations do admin) and my Discord on the right.
+
 I didn't plan on becoming a multi-display maximalist... However, here we are.
 
-A **StreamDeck XL** with hand-labelled macros sits front and centre-left, loaded with launch macros for all my websites, driving audio through my [AudioDeck](/posts/audiodeck) tool and muting meetings I regret joining.
+A **StreamDeck XL** with hand-labelled macros launches every one of my websites, drives audio through my [AudioDeck](https://ernster.dev/AudioDeck/) tool and mutes meetings I regret joining. One key per regret.
 
-On the far left, lit up in RGB, is the larger variant of the [PCPanel](https://www.getpcpanel.com); tactile volume control, because RGB is cheaper than therapy.
+On the far left, lit up in RGB, is the larger variant of the [PCPanel](https://www.getpcpanel.com), wearing custom printed labels because factory labelling never survives contact with my workflow. Tactile volume control; RGB is cheaper than therapy.
 
-On the far right is my Samsung Galaxy Tab A9+ running **GameGlass** for **Elite Dangerous**: my favourite space combat/mining/trading/operations/on-foot-fun/exploration/you-name-it massively multiplayer mega game. Despite its age it is still actively developed and they do a good job of it. The tablet also fronts shards for my [Elite Dangerous Colonisation Assistant](/posts/edcolonisationasst), because space truckers need dashboards too.
+On the far right is my Samsung Galaxy Tab A9+ running **GameGlass** for **Elite Dangerous**: my favourite space combat/mining/trading/operations/on-foot-fun/exploration/you-name-it massively multiplayer mega game. Despite its age it's still actively developed and they do a good job of it.
+
+Out in the black I lean on my own tooling too: [o7Debrief](https://ernster.dev/o7Debrief/) for the post-flight paperwork and the [Elite Dangerous Colonisation Assistant](https://ernster.dev/EDColonisationAsst/) for colonisation runs, with the tablet doubling as a cockpit dashboard for the latter. Space truckers need dashboards too.
 
 And yes, that is a wet flannel on the immediate left. The British Summer heat is completely unbearable and hydro-cooling is not just for the PC.
 
 Audio is handled by the **Focal Bathys** - a HiFi headphone setup that gracefully moonlights between Discord chaos and deep/old school house music.  
 Wireless. Ridiculous. Perfect.
 
-Not pictured: a 2025 **MacBook Air** (M4, 16GB RAM, 512GB SSD), perfect for pretending to be normal. Alongside it, a **Framework 13** with a Ryzen AI 7 350, 96GB of DDR5, 2TB of NVMe SSD and the upgraded 2.8K display, which is beautiful. The Framework is a multiboot setup running a custom-configured **rEFInd** and I regularly add and remove Linux distros on it (when Microsoft isn't busy messing up my bootable drives and sectors with Windows updates). It also carries Windows 11 Pro, purely in case a job opportunity ever needs me to bring my own Windows machine; I'd prefer not to, since Windows causes no end of grief for Linux on a regular basis.
+The supporting cast appears in the other photos on this page. A 2025 **MacBook Air** (M4, 16GB RAM, 512GB SSD), perfect for pretending to be normal.
+
+Alongside it, a **Framework 13**: Ryzen AI 7 350, 96GB of DDR5, 2TB of NVMe SSD and the upgraded 2.8K display, which is beautiful. It multiboots through a custom-configured **rEFInd** and the Linux distros on it rotate like houseguests (when Microsoft isn't busy redecorating my bootable drives and sectors with Windows updates). It also keeps Windows 11 Pro around, purely in case a job opportunity ever requires me to bring my own Windows machine; I'd prefer not to, since Windows causes no end of grief for Linux on a regular basis.
 
 ---
 
@@ -60,10 +66,11 @@ The entire cockpit snaps into place like it was meant to launch me into low orbi
 
 ## Input Devices
 
-Input-wise, the setup is unapologetically niche.  
-The mouse is a **FinalMouse Frostlord**: serial number 0222 of only 10,000 ever made, which is quite a nice number to hold. It is very lightweight; it weighs approximately nothing.
+Input-wise, the setup is unapologetically niche.
 
-The keyboard and numpad are both **Epomaker**. The main board runs white creamy jade thocky switches - quiet, precise and borderline therapeutic to type on. The white numpad (an essential accessory, I feel) runs Wisteria linear switches.
+The mouse is a **FinalMouse Frostlord**: serial number 0222 of only 10,000 ever made, which is quite a nice number to hold. It weighs approximately nothing; the desk's RGB output weighs more.
+
+The keyboard and numpad are both **Epomaker**. The main board runs white creamy jade thocky switches: quiet, precise and borderline therapeutic to type on. The white numpad (an essential accessory, I feel) runs Wisteria linears. Yes, the numpad got its own switch choice. It earned it.
 
 Peripherals and controllers evolve - what matters is the workflow they enable.
 
@@ -71,15 +78,29 @@ Peripherals and controllers evolve - what matters is the workflow they enable.
 
 ## 3D Printing Zone
 
-In a separate room lives the **Printer Room**. The current fleet is a curated duo: a highly customised, self-constructed **Voron Trident 350** (electronics, hardware, software, configuration and printed parts, many of them printed on the machine itself) and a **Qidi Q1 Pro**, a reliable workhorse that never seems to fail me despite its cheap price point.  
-Each is fed by a meticulously organised filament armory below.  
-It's a shrine to heat, motion and calibration agony - but also where entire machines are born, layer by painstaking layer.
-
-I only own two printers currently but I am on my 10th overall and the graveyard tells its own story. My first, a **Biqu B1**, set itself on fire; I no longer trust the Biqu/BigTreeTech brand for anything beyond basic circuit boards. A **Tronxy X5SA 400** was a reliable machine I planned to upgrade into a VzBot, acquiring all the parts (pricey ones too) before deciding to take a different direction: I sold the entire package in favour of the Formbot Voron Trident 350 kit I still run today. A **Prusa MK3S+** bedslinger was a GREAT machine; I printed everything but the kitchen sink on it and though I rarely needed Prusa support, when I did it was very much available and incredibly good. There were Bambus too: an **X1C** with two AMS units and a **P1S** with one, both very good machines right up until just after the one-year guarantee expired. Given I'd been printing almost 24/7 on both, you could say the guarantee was only worth the time you bought it for. When a printer breaks I want to be able to fix it; Bambus are a nightmare to fix and replacement parts cost a lot of money, so I don't really want to go the Bambu route again.
-
-Next, maybe, a colour printer of some variety. I have yet to decide between an AMS-oriented setup (Bambu, for example) or an IDEX variant; perhaps the **Prusa Core One** if it ever ships with an out-of-the-box IDEX colour solution (not the XL, which feels too pricey). My feeling on Prusas is that they are very good machines; unlike Bambus they are maintainable: they almost always offer some kind of upgrade path as they evolve and their 24/7 support is outstanding, with amazing documentation. Bambu simply doesn't compare. Other competitors are arriving on the market: I tried the AnyCubic colour line and didn't get on with it at all (the reliability wasn't there for me) but I've heard good things about the **Snapmaker** series of colour printers.
-
 ![Printer room shelf with multiple 3D printers and filament storage](/static/images/3D-printer-setup.png)
+
+In a separate room lives the **Printer Room**: a shrine to heat, motion and calibration agony, where entire machines are born layer by painstaking layer. The current fleet is a curated duo, fed by a meticulously organised filament armory below:
+
+- **Voron Trident 350**: highly customised and self-constructed. Electronics, hardware, software, configuration and printed parts, many of them printed on the machine itself. A printer that printed itself into existence, which is exactly as recursive as it sounds.
+- **Qidi Q1 Pro**: a reliable workhorse that never seems to fail me despite its cheap price point. Frankly suspicious behaviour for a 3D printer.
+
+### The graveyard: a history in ten printers
+
+I only own two printers currently but I am on my 10th overall and the graveyard tells its own story.
+
+- **Biqu B1**: my first printer. It set itself on fire. I no longer trust the Biqu/BigTreeTech brand for anything beyond basic circuit boards, for reasons I hope are obvious.
+- **Tronxy X5SA 400**: reliable and destined to become a VzBot. I acquired all the parts (pricey ones too), then changed direction and sold the entire package in favour of the Formbot Voron Trident 350 kit I still run today.
+- **Prusa MK3S+**: a GREAT bedslinger. I printed everything but the kitchen sink on it; the rare times I needed Prusa support it was very much available and incredibly good.
+- **Bambu X1C** (with two AMS units) and **P1S** (with one): very good machines right up until just after the one-year guarantee expired. I printed almost 24/7 on both, so you could say the guarantee was worth exactly the time you bought it for. When a printer breaks I want to fix it myself; Bambus are a nightmare to fix and replacement parts cost a lot of money, so that route is closed.
+
+### The next one
+
+Next, maybe, a colour printer of some variety. I have yet to decide between an AMS-oriented setup (Bambu, for example) or an IDEX variant; perhaps the **Prusa Core One** if it ever ships with an out-of-the-box IDEX colour solution (not the XL, which feels too pricey).
+
+My feeling on Prusas: very good machines that you can actually maintain. They almost always offer some kind of upgrade path as they evolve and their 24/7 support is outstanding, with amazing documentation. Bambu simply doesn't compare.
+
+Other contenders exist. The AnyCubic colour line and I did not get on (the reliability wasn't there for me) but I've heard good things about the **Snapmaker** series of colour printers.
 
 ### 3D printing caveats...
 
