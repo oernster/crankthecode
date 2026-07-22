@@ -716,8 +716,8 @@ body.is-homepage .read-time-bar {
    full-colour artwork is drawn a little larger than a glyph so it stays
    legible at header size. */
 .header-battlestation-link .header-battlestation-icon {
-  width: calc(30px * var(--btn-scale));
-  height: calc(30px * var(--btn-scale));
+  width: calc(34px * var(--btn-scale));
+  height: calc(34px * var(--btn-scale));
   object-fit: contain;
 }
 
