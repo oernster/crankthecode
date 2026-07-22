@@ -20,7 +20,7 @@ title: Postal Gambit
 
 ---
 
-[Postal Gambit](https://oernster.github.io/postal-gambit/) is correspondence chess over your own email.
+[Postal Gambit](https://ernster.dev/postal-gambit/) is correspondence chess over your own email.
 
 It is a local-first desktop app that keeps your games, enforces the rules and turns each move into a ready-to-send email in whatever mail client you already use.
 

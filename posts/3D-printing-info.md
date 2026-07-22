@@ -14,4 +14,4 @@ thumb_image: /static/images/3D-printing-info.png
 title: 3D Printing Info
 ---
 
-[3D Printing Info](https://oernster.github.io/3D-printing-info/) is a curated knowledge base for 3D printers and tinkerers, built up over many years (check the GitHub stars).
+[3D Printing Info](https://ernster.dev/3D-printing-info/) is a curated knowledge base for 3D printers and tinkerers, built up over many years (check the GitHub stars).

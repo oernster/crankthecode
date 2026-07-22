@@ -16,7 +16,7 @@ title: LatencyLab
 social_image: /static/images/latencylab.png
 ---
 
-[LatencyLab](https://oernster.github.io/latencylab/) is a local, design-time latency simulator for event-driven systems.
+[LatencyLab](https://ernster.dev/latencylab/) is a local, design-time latency simulator for event-driven systems.
 
 # A Small Tool for Uncomfortable Performance Truths
 

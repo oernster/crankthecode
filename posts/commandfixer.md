@@ -18,7 +18,7 @@ title: CommandFixer
 
 ---
 
-[CommandFixer](https://oernster.github.io/CommandFixer/) is a small Go binary that corrects common typing mistakes in PowerShell before the command executes.
+[CommandFixer](https://ernster.dev/CommandFixer/) is a small Go binary that corrects common typing mistakes in PowerShell before the command executes.
 
 Type `git sattus`, press Enter and CommandFixer offers `git status` instead. Approve it and the corrected command runs.
 

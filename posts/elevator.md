@@ -15,7 +15,7 @@ tags:
 title: Elevator
 ---
 
-[Elevator](https://oernster.github.io/elevator/) is a web-based elevator control panel built with Django and React.
+[Elevator](https://ernster.dev/elevator/) is a web-based elevator control panel built with Django and React.
 
 
 ## Problem → System → Outcome

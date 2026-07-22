@@ -39,7 +39,7 @@ def test_homepage_renders():
     assert "All posts are listed in reverse chronological order." not in resp.text
     assert "Things I build with" not in resp.text
     assert "Featured Systems" not in resp.text
-    assert "docs/CV-Oliver.pdf" not in resp.text
+    assert "docs/CV-OliverErnster.pdf" not in resp.text
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
 
@@ -126,7 +126,7 @@ def test_html_cache_headers_are_no_store():
 
     resp = client.get("/")
     assert resp.status_code == 200
-    # Pure-ASGI middleware sets no-store at the protocol level — stronger than
+    # Pure-ASGI middleware sets no-store at the protocol level: stronger than
     # call_next which can lose header mutations in some Starlette versions.
     assert resp.headers.get("cache-control") == "no-store"
     assert resp.headers.get("cdn-cache-control") == "no-store"
@@ -163,7 +163,7 @@ def test_cv_pdf_prefers_static_dist_when_enabled(tmp_path: Path, monkeypatch):
 
     # Ensure we can distinguish which file is served.
     cv_bytes = b"%PDF-1.7\n% test static_dist\n"
-    (dist / "CV-Oliver.pdf").write_bytes(cv_bytes)
+    (dist / "CV-OliverErnster.pdf").write_bytes(cv_bytes)
 
     monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
     monkeypatch.setenv("CTC_STATIC_DIST_DIR", str(dist))

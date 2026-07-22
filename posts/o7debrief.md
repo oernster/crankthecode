@@ -20,7 +20,7 @@ title: o7 Debrief
 
 ---
 
-[o7 Debrief](https://oernster.github.io/o7Debrief/) turns the most honest record Elite Dangerous keeps, your Player Journal, into a debrief you can actually read.
+[o7 Debrief](https://ernster.dev/o7Debrief/) turns the most honest record Elite Dangerous keeps, your Player Journal, into a debrief you can actually read.
 
 The game writes down everything you do and then says almost nothing about it. A session ends and the achievement evaporates: the jumps, the scans, the bounties, the long climb of a rank, all logged and none of it summarised. o7 Debrief reads that log and hands the session back to you as a single, verifiable account.
 

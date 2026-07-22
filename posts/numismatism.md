@@ -20,7 +20,7 @@ tags:
 title: Coin Analysis
 ---
 
-[Coin Analysis](https://oernster.github.io/coin-analysis/) is a computer-vision and machine-learning tool for recognising, identifying and cataloguing coins from images.
+[Coin Analysis](https://ernster.dev/coin-analysis/) is a computer-vision and machine-learning tool for recognising, identifying and cataloguing coins from images.
 
 ## Problem → System → Outcome
 

@@ -22,7 +22,7 @@ thumb_image: /static/images/audiodeck-icon.png
 title: Audio Deck
 ---
 
-[AudioDeck](https://oernster.github.io/AudioDeck/) is a professional audio device switcher for Windows with Stream Deck integration.
+[AudioDeck](https://ernster.dev/AudioDeck/) is a professional audio device switcher for Windows with Stream Deck integration.
 
 [Releases](https://github.com/oernster/AudioDeck/releases/)
 

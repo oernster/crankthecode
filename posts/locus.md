@@ -21,7 +21,7 @@ tags:
 - windows
 ---
 
-[Locus](https://oernster.github.io/locus/) is a local-first memory and operational awareness system for Claude Code workflows and Windows focus tracking.
+[Locus](https://ernster.dev/locus/) is a local-first memory and operational awareness system for Claude Code workflows and Windows focus tracking.
 
 <div style="text-align:center; font-size:1.2em; margin: 1em 0;">
   Persistent project context and operational focus history across long-running development sessions.

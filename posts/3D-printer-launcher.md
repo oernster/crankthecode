@@ -23,7 +23,7 @@ thumb_image: /static/images/3dprinterlauncher-icon.png
 title: 3D Printer Launcher
 ---
 
-[3D Printer Launcher](https://oernster.github.io/3D-Printer-Launcher/) is a simple launcher and monitoring overlay for Klipper printers, written in Python and PySide6, which integrates with OBS Studio to display real-time data while printing.
+[3D Printer Launcher](https://ernster.dev/3D-Printer-Launcher/) is a simple launcher and monitoring overlay for Klipper printers, written in Python and PySide6, which integrates with OBS Studio to display real-time data while printing.
 I do a lot of 3D printing and construction/playing with electronics and software relating to 3D printing.
 
 Released here: [3D Printer Launcher releases](https://github.com/oernster/3D-Printer-Launcher/releases)

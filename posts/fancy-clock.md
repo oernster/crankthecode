@@ -22,7 +22,7 @@ thumb_image: /static/images/fancyclock-icon.png
 title: Fancy Clock
 ---
 
-[FancyClock](https://oernster.github.io/FancyClock/) is a customisable desktop clock with skins, localisation and animated video displays.
+[FancyClock](https://ernster.dev/FancyClock/) is a customisable desktop clock with skins, localisation and animated video displays.
 
 ## Problem → System → Outcome
 

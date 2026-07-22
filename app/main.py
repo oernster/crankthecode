@@ -179,8 +179,8 @@ def create_app() -> FastAPI:
         `static_dist/` when `CTC_USE_STATIC_DIST=1`.
         """
 
-        static_dist_path = Path(static_dist_dir) / "CV-Oliver.pdf"
-        static_src_path = Path("static") / "CV-Oliver.pdf"
+        static_dist_path = Path(static_dist_dir) / "CV-OliverErnster.pdf"
+        static_src_path = Path("static") / "CV-OliverErnster.pdf"
 
         path = (
             static_dist_path

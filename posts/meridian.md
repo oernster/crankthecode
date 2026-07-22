@@ -20,7 +20,7 @@ title: Meridian
 
 ---
 
-[Meridian](https://oernster.github.io/meridian/) is a desktop feed reader built around an open publication protocol called MMSP.
+[Meridian](https://ernster.dev/meridian/) is a desktop feed reader built around an open publication protocol called MMSP.
 
 Most feed readers answer a simple question:
 
@@ -78,7 +78,7 @@ The goal is not to replace RSS.
 
 The goal is to provide a standard discovery and publication layer that allows publishers to expose structured content through a common machine-readable contract while remaining compatible with existing feed ecosystems.
 
-The MMSP specification is available at: [MMSP-Spec](https://oernster.github.io/MMSP-Spec/)
+The MMSP specification is available at: [MMSP-Spec](https://ernster.dev/MMSP-Spec/)
 
 ---
 

@@ -21,7 +21,7 @@ title: MMSP
 
 ---
 
-[MMSP](https://oernster.github.io/MMSP-Spec/), the MultiMedia Subscription Protocol, is an open community specification for subscribing to multimedia content feeds.
+[MMSP](https://ernster.dev/MMSP-Spec/), the MultiMedia Subscription Protocol, is an open community specification for subscribing to multimedia content feeds.
 
 RSS answered a question the early web needed answered:
 

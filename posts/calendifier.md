@@ -22,7 +22,7 @@ tags:
 title: Calendifier
 ---
 
-[Calendifier](https://oernster.github.io/Calendifier/) is a desktop calendar with full iCalendar (RFC 5545) support and deep internationalisation.
+[Calendifier](https://ernster.dev/Calendifier/) is a desktop calendar with full iCalendar (RFC 5545) support and deep internationalisation.
 
 ## Problem → System → Outcome
 
