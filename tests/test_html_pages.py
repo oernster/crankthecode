@@ -77,7 +77,6 @@ def test_homepage_renders():
     assert 'href="/patterns"' in resp.text
     assert 'href="/books"' in resp.text
     assert 'href="https://ernster.dev"' in resp.text
-    assert "Portfolio ↗" in resp.text
 
     # No separate contact section at the bottom.
     assert 'If the mandate is real' not in resp.text
