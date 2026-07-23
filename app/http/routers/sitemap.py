@@ -35,7 +35,6 @@ async def sitemap_xml(
 
     # Main pages.
     _add_url("/")
-    _add_url("/portfolio")
     _add_url("/books")
     _add_url("/posts")
     _add_url("/about")

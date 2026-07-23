@@ -156,7 +156,7 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
     assert 'href="/topics/structural-design"' in resp.text
     assert 'href="/topics/architecture"' in resp.text
     assert 'href="/posts?view=writing&cat=Blog"' in resp.text
-    assert 'href="/portfolio"' in resp.text
+    assert 'href="https://ernster.dev"' in resp.text
     assert 'href="/posts?view=writing"' in resp.text
 
 

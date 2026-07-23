@@ -171,16 +171,6 @@ def post_frontmatter_emoji_index(blog: BlogService) -> dict[str, str]:
     return emojis
 
 
-def post_summary_index(blog: BlogService) -> dict[str, object]:
-    """Map post slug (lower) -> PostSummary."""
-    out: dict[str, object] = {}
-    for p in blog.list_posts():
-        slug = (getattr(p, "slug", "") or "").strip().lower()
-        if slug:
-            out[slug] = p
-    return out
-
-
 def group_posts_by_cat(
     posts: list[dict[str, object]],
     *,

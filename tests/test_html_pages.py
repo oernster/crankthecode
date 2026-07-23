@@ -46,7 +46,7 @@ def test_homepage_renders():
     # Explore section navigation pills should appear.
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
-    assert 'href="/portfolio"' in resp.text
+    assert 'href="https://ernster.dev"' in resp.text
 
     # Primary homepage CTAs should appear in the hero.
     assert '<div class="hero-actions" aria-label="Primary actions">' in resp.text
@@ -72,10 +72,12 @@ def test_homepage_renders():
     assert 'class="homepage-selected-project"' not in hero_block
 
     # All four areas should remain reachable from the homepage (via the sidebar nav).
+    # The portfolio link now points externally at ernster.dev.
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
     assert 'href="/books"' in resp.text
-    assert 'href="/portfolio"' in resp.text
+    assert 'href="https://ernster.dev"' in resp.text
+    assert "Portfolio ↗" in resp.text
 
     # No separate contact section at the bottom.
     assert 'If the mandate is real' not in resp.text

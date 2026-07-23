@@ -650,46 +650,19 @@
         </span>
       </a>
 
-      {% set _port_section = request.query_params.get('section') or '' %}
-      {% set _port_exp = request.url.path == '/portfolio' %}
-      <div class="sidebar-expandable sidebar-link{% if _port_exp %} is-active{% endif %}">
-        <button
-          class="sidebar-expand-btn{% if _port_exp %} is-open{% endif %}"
-          type="button"
-          aria-expanded="{{ 'true' if _port_exp else 'false' }}"
-          aria-label="Toggle Portfolio"
-          onclick="(function(b){var g=b.closest('.sidebar-expandable').nextElementSibling;var e=g.classList.toggle('is-expanded');b.classList.toggle('is-open',e);b.setAttribute('aria-expanded',e);})(this)"
-        ></button>
-        <a class="sidebar-expandable__nav" href="/portfolio">
-          <span class="sidebar-link__text-main">Portfolio</span>
-        </a>
-      </div>
-      <div class="sidebar-group{% if _port_exp %} is-expanded{% endif %}">
-        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'desktop-applications' %} is-active{% endif %}" href="/portfolio?section=desktop-applications">
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Desktop Applications</span>
-        </a>
-        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'operational-tools' %} is-active{% endif %}" href="/portfolio?section=operational-tools">
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Operational Tools</span>
-        </a>
-        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'data-ml' %} is-active{% endif %}" href="/portfolio?section=data-ml">
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Data / ML</span>
-        </a>
-        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'gaming' %} is-active{% endif %}" href="/portfolio?section=gaming">
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Gaming</span>
-        </a>
-        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'hardware-embedded' %} is-active{% endif %}" href="/portfolio?section=hardware-embedded">
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Hardware / Embedded</span>
-        </a>
-        <a class="sidebar-link sidebar-link--layer{% if _port_section == 'web-apis' %} is-active{% endif %}" href="/portfolio?section=web-apis">
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Web APIs</span>
-        </a>
-      </div>
+      <a
+        class="sidebar-link"
+        href="https://ernster.dev"
+        target="_blank"
+        rel="noopener noreferrer me"
+        aria-label="Portfolio on ernster.dev"
+        title="ernster.dev"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Portfolio ↗</span>
+          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
+        </span>
+      </a>
 
       <a
         class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '') == '' %} is-active{% endif %}"

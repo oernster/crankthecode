@@ -117,7 +117,8 @@ def test_sitemap_lists_main_pages_and_posts():
         locs = [elem.text for elem in root.findall("sm:url/sm:loc", ns) if elem.text]
 
         assert "https://example.com/" in locs
-        assert "https://example.com/portfolio" in locs
+        # The portfolio moved to ernster.dev; its old URL only redirects now.
+        assert "https://example.com/portfolio" not in locs
         assert "https://example.com/posts" in locs
         assert "https://example.com/about" in locs
         assert "https://example.com/about/oliver-ernster" in locs

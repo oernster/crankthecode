@@ -1,6 +1,6 @@
 # Architecture
 
-CrankTheCode is a small FastAPI application that serves a personal site (posts + portfolio + Decision Architecture hubs + Decision Architecture Patterns hubs + a Books catalogue page) from Markdown posts, plus a lightweight static asset fingerprinting pipeline and an EPUB book builder.
+CrankTheCode is a small FastAPI application that serves a personal site (posts + Decision Architecture hubs + Decision Architecture Patterns hubs + a Books catalogue page) from Markdown posts, plus a lightweight static asset fingerprinting pipeline and an EPUB book builder. The portfolio lives on ernster.dev; `/portfolio` permanently redirects there.
 
 ## What runs in production
 
