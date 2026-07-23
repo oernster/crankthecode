@@ -63,7 +63,9 @@ async def homepage(
             "engineering."
         ),
         "canonical_url": canonical,
-        "og_image_url": "",
+        "og_image_url": absolute_url(
+            site_url, "/static/images/crankthecode_og-card.png"
+        ),
     }
 
     ctx.update(

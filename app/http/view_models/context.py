@@ -38,7 +38,14 @@ def build_base_context(request: Request) -> dict:
             "Oliver Ernster."
         ),
         "og_type": "website",
-        "og_image_url": absolute_url(site_url, "/static/images/me.jpg"),
+        "og_image_url": absolute_url(
+            site_url, "/static/images/crankthecode_og-card.png"
+        ),
+        "og_image_alt": (
+            "Crank The Code card with the four Decision Architecture book covers"
+        ),
+        "og_image_width": 1200,
+        "og_image_height": 627,
         "jsonld_extra_json": None,
         "meta_description": (
             "Crank The Code - Python engineering blog and technical write-ups by "

@@ -491,6 +491,8 @@ async def read_post(
             "og_type": "article",
             "og_image_url": og_image,
             "og_image_alt": detail.title,
+            "og_image_width": None,
+            "og_image_height": None,
             "jsonld_json": json.dumps(
                 jsonld, ensure_ascii=False, separators=(",", ":")
             ),
