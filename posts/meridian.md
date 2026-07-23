@@ -7,7 +7,7 @@ image: /static/images/meridian.png
 one_liner: A desktop feed reader and open subscription protocol for discovering and consuming structured publication streams.
 social_image: /static/images/meridian.png
 tags:
-- cat:Desktop Apps
+- cat:Protocols & Reference Apps
 - python
 - feeds
 - rss

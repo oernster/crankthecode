@@ -8,7 +8,7 @@ one_liner: Computer-vision and ML experiments for recognising, identifying and c
   coins from images.
 social_image: /static/images/numismatism.png
 tags:
-- cat:Data / Ml
+- cat:Tools & Libraries
 - coin
 - coins
 - machine learning

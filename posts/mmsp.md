@@ -8,7 +8,7 @@ image: /static/images/mmsp-icon.png
 one_liner: An open, JSON-based subscription protocol designed as a semantic superset of RSS 2.0 and Atom, with calm consumption as a wire-level guarantee.
 social_image: /static/images/mmsp-icon.png
 tags:
-- cat:Tools
+- cat:Protocols & Reference Apps
 - protocol
 - specification
 - feeds

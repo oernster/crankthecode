@@ -12,6 +12,7 @@ from app.domain.taxonomy import (
     ARCHIVE_CAT_BUCKETS,
     WRITING_CAT_BUCKETS,
     PROJECT_CATEGORY_LABELS,
+    PROJECT_CAT_ORDER,
 )
 from app.domain.tags import extract_layer_slugs_from_tags
 from app.http.view_models.sidebar import (
@@ -255,8 +256,11 @@ def group_posts_by_cat(
     def _default_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
         key, _entry = item
         if key == "\xff":  # pragma: no cover — all project posts carry a cat: tag
-            return (2, "")
-        return (0 if key == "leadership" else 1, key)
+            return (100, "")
+        # Projects view: an explicit curated category order (Leadership is filtered
+        # out before grouping, so it never reaches here); anything unlisted sorts
+        # after the curated set, alphabetically.
+        return (PROJECT_CAT_ORDER.get(key, 50), key)
 
     if is_archive:
         sort_key = _archive_sort_key

@@ -1,11 +1,10 @@
 ---
 blurb: Every printer guide is a life story in disguise.
 date: 2026-01-24 11:30
-type: project
 one_liner: The difference between a setup guide and a survival log is about three
   failed prints.
 tags:
-- cat:Hardware
+- cat:Blog
 - 3D printing
 - documentation
 - klipper

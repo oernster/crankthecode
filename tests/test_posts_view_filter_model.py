@@ -52,7 +52,9 @@ def test_posts_legacy_exclude_blog_mapping_is_supported():
             slug="tooling",
             title="Tooling",
             date="2026-02-02 12:00",
-            tags=("cat:Tools",),
+            # "Tools & Libraries" is the current project category; the old bare
+            # "Tools" label was retired when the projects taxonomy was recut.
+            tags=("cat:Tools & Libraries",),
             blurb=None,
             one_liner=None,
             cover_image_url=None,

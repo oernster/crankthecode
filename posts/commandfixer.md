@@ -7,7 +7,7 @@ emoji: ⌨️
 image: /static/images/commandfixer.svg
 one_liner: A lightweight PSReadLine hook that corrects common command-line typos at the moment you press Enter, with your approval.
 tags:
-- cat:Tools
+- cat:Tools & Libraries
 - go
 - powershell
 - cli

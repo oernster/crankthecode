@@ -7,7 +7,7 @@ thumb_image: /static/images/latencylab-icon.svg
 one_liner: A small tool built to settle performance arguments with reality, the UI existing only because text was insufficient.
 blurb: The Inspiration for Decision Architecture
 tags:
-- cat:Tools
+- cat:Decision Architecture Instruments
 - latency
 - simulation
 - python

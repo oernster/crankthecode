@@ -8,7 +8,7 @@ one_liner: An embedded Python database that stores JSON documents with atomic co
   and multidimensional keys.
 social_image: /static/images/AxisDB.png
 tags:
-- cat:Data / Ml
+- cat:Tools & Libraries
 - python
 - database
 - db

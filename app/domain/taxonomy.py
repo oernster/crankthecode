@@ -8,12 +8,25 @@ No HTTP dependency. Safe to import from any layer of the stack.
 # Portfolio/systems categories (used to classify posts as "projects" vs "writing").
 PROJECT_CATEGORY_LABELS: frozenset[str] = frozenset({
     "desktop apps",
-    "tools",
+    "protocols & reference apps",
+    "decision architecture instruments",
     "gaming",
+    "tools & libraries",
     "hardware",
     "web apis",
-    "data / ml",
 })
+
+# Projects view: explicit top-to-bottom display order for the project categories.
+# Anything not listed sorts after these (alpha), and "Other" is always last.
+PROJECT_CAT_ORDER: dict[str, int] = {
+    "desktop apps": 0,
+    "protocols & reference apps": 1,
+    "decision architecture instruments": 2,
+    "gaming": 3,
+    "tools & libraries": 4,
+    "hardware": 5,
+    "web apis": 6,
+}
 
 # Archive view: explicit category sort buckets.
 # Bucket 0 = portfolio/project categories (alpha within bucket).
@@ -24,10 +37,11 @@ PROJECT_CATEGORY_LABELS: frozenset[str] = frozenset({
 # Bucket 5 = uncategorised ("Other") — always last.
 ARCHIVE_CAT_BUCKETS: dict[str, int] = {
     "desktop apps": 0,
-    "data / ml": 0,
+    "protocols & reference apps": 0,
+    "decision architecture instruments": 0,
     "gaming": 0,
+    "tools & libraries": 0,
     "hardware": 0,
-    "tools": 0,
     "web apis": 0,
     "leadership": 1,
     "decision-architecture-patterns": 2,

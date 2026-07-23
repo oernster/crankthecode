@@ -157,11 +157,14 @@ def sidebar_label_with_emoji(label: str) -> str:
         "automation": "🤖 Automation",
         "data / ml": "🧠 Data / ML",
         "desktop apps": "🖥️ Desktop Apps",
+        "protocols & reference apps": "📡 Protocols & Reference Apps",
+        "decision architecture instruments": "🏛️ Decision Architecture Instruments",
         "gaming": "🎮 Gaming",
         "governance": "🏛️ Governance",
         "hardware": "🔧 Hardware",
         "leadership": "♟️ Decision Architecture",
         "tools": "🧰 Tools",
+        "tools & libraries": "🧰 Tools & Libraries",
         "web apis": "🌐 Web APIs",
     }
     return mapping.get(key, label)
