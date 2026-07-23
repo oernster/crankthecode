@@ -66,17 +66,7 @@ So I built ClearBudget the way I think. Each feature is a decision made explicit
 
 ## What it does
 
-**Solvency, day by day.** The solvency panel is the core. It projects the balance forward and flags the tightest moment in the month, not just the month-end figure. If the balance dips below zero at any point it warns: amber, with the day and an estimated daily interest cost, when an overdraft facility (limit and APR) covers the dip; red when there is no facility or the dip would exceed it. A deficit month names how fast savings are falling and the first month you would actually be overdrawn, counting a mid-month dip even when the month still closes positive. Forward risk runs six months out.
-
-**Credit cards as pressure systems.** A card balance is not a static number owed; it is future interest, minimum-payment drag and shrinking headroom. Each card models its limit, APR, due day, minimum payment and utilisation, with a live pro-rated balance that accrues through the month and a projected closing balance for months ahead. A limit can be scheduled to change on a future date, so every projection looks ahead with the limit that will actually apply. Cards display as scannable per-card panels rather than one unreadably wide table.
-
-**Per-month flexibility, bills and income at parity.** Overrides, skips, a "paid" flag for bills and a "received" flag for income, plus one-off *"this month only"* income that never touches your recurring templates. Real months are irregular; the model lets you say so without editing the underlying plan. A bill can also carry a final month for a subscription or a closing payment; removing one stops it going forward while earlier and archived months stay exactly as they were.
-
-**Multiple people, isolated state.** First-run admin setup, self-service account creation, per-user databases, bcrypt-hashed credentials with recovery codes, user switching without a restart, and admin management. Deleting an account always deletes its data with it, so destroyed credentials can never be recreated to reach data left orphaned behind them.
-
-**Local-first, now cross-platform.** The database lives on your machine. No bank integrations, no hosted infrastructure: personal finance is sensitive behavioural data even without account numbers, and this problem never needed the cloud. The same codebase now ships natively on Windows, macOS and Linux, with the identical model on each. Add 25 per-user display currencies, archive snapshots of completed months, and validated database import and export.
-
-**A finished tool, not a prototype.** A built-in "How It Works" guide explains the pro-rating and projection logic in plain English; a consistent dark theme and a unified navigation header colour-code the current month by financial health (green, amber, red); and the layout stays readable from a 13-inch laptop to a 4K display.
+The solvency panel projects the balance forward and flags the tightest moment in the month; credit cards model as pressure systems with live pro-rated balances; per-month overrides, skips and paid or received flags absorb real-world irregularity; multiple users get isolated per-user databases behind a bcrypt sign-in; everything is local-first across Windows, macOS and Linux. The feature catalogue lives on the product site: [ernster.dev/ClearBudget](https://ernster.dev/ClearBudget/).
 
 ---
 
@@ -95,47 +85,6 @@ A monthly total hides timing risk. A transaction list arrives too late. A catego
 The useful model is the one that surfaces the failure mode early enough to act on it. That is why ClearBudget tracks solvency rather than accounting. It is not trying to describe money perfectly; it is trying to answer the only operational question that matters in the moment:
 
 *What breaks next, and when?*
-
----
-
-## ClearBudget at a glance
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Capabilities</h3>
-  <ul>
-    <li>Day-by-day solvency projection</li>
-    <li>Mid-month overdraft dip warnings</li>
-    <li>Optional overdraft facility (limit, APR, interest cost)</li>
-    <li>Six-month forward risk</li>
-    <li>First overdrawn month and monthly drain named</li>
-    <li>Credit card pressure modelling</li>
-    <li>Live, pro-rated card balance projection</li>
-    <li>Scheduled credit-limit changes</li>
-    <li>Per-month bill and income overrides, skips, paid/received</li>
-    <li>End-dated bills; history-safe delete</li>
-    <li>One-off "this month only" income</li>
-    <li>Archive snapshots for completed months</li>
-    <li>Multi-user accounts with per-user isolation</li>
-    <li>Read-only viewer packages</li>
-    <li>25 display currencies; database import/export</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Built with</h3>
-  <ul>
-    <li>Python 3.11+</li>
-    <li>PySide6 desktop interface</li>
-    <li>SQLite, local-first</li>
-    <li>bcrypt authentication</li>
-    <li>Windows, macOS and Linux</li>
-    <li>Dark theme; open source</li>
-  </ul>
-</div>
-
-</div>
 
 ---
 
