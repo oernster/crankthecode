@@ -152,6 +152,33 @@ def test_posts_projects_view_includes_type_project_even_without_portfolio_catego
     assert 'href="/posts/essay"' not in resp.text
 
 
+def test_writing_view_excludes_hub_categories_but_explicit_cat_still_lists():
+    """The Writing listing must not duplicate the DA and Patterns hubs.
+
+    Their groups disappear from /posts?view=writing (each post remains
+    reachable via its /topics or /patterns hub) while a deliberate
+    ?cat=Leadership filter still lists the posts.
+    """
+
+    from fastapi.testclient import TestClient
+
+    from app.main import create_app
+
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/posts?view=writing")
+    assert resp.status_code == 200
+    assert ">♟️ Decision Architecture</h3>" not in resp.text
+    assert ">Decision-Architecture-Patterns</h3>" not in resp.text
+    assert ">📝 Blog</h3>" in resp.text
+    assert ">🏛️ Governance</h3>" in resp.text
+
+    resp_cat = client.get("/posts?cat=Leadership")
+    assert resp_cat.status_code == 200
+    assert 'href="/posts/lead1"' in resp_cat.text
+
+
 def test_posts_href_helpers_have_basic_coverage():
     """Pin coverage for tiny URL helpers in the HTML router."""
 

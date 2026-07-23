@@ -171,12 +171,29 @@ def post_frontmatter_emoji_index(blog: BlogService) -> dict[str, str]:
     return emojis
 
 
+# Categories with dedicated hub surfaces (/decision-architecture + /topics,
+# /patterns). The Writing listing must not duplicate them; every post in these
+# categories carries a layer: tag, so each is listed on its hub page.
+WRITING_EXCLUDED_CAT_KEYS: frozenset[str] = frozenset(
+    {
+        "leadership",
+        "decision-architecture-patterns",
+    }
+)
+
+
 def group_posts_by_cat(
     posts: list[dict[str, object]],
     *,
     view: str = "",
+    exclude_hub_cats: bool = False,
 ) -> list[dict[str, object]]:
-    """Group a filtered post list by primary `cat:` tag for the pills index."""
+    """Group a filtered post list by primary `cat:` tag for the pills index.
+
+    `exclude_hub_cats` drops the categories with dedicated hub surfaces from
+    the Writing view's grouping; it must stay False when an explicit category
+    filter is active, or a deliberate `?cat=Leadership` page would go empty.
+    """
 
     _CAT_TAG_PREFIX = "cat:"
 
@@ -212,6 +229,10 @@ def group_posts_by_cat(
     view_norm = (view or "").strip().lower()
     is_archive = view_norm == POSTS_VIEW_ARCHIVE
     is_writing = view_norm == POSTS_VIEW_WRITING
+
+    if is_writing and exclude_hub_cats:
+        for excluded_key in WRITING_EXCLUDED_CAT_KEYS:
+            groups.pop(excluded_key, None)
 
     def _archive_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
         key, _entry = item

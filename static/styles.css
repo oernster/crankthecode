@@ -79,6 +79,15 @@
   --primary-btn-bg-hover: #3a7aff;
   --primary-btn-fg: #ffffff;
 
+  /* Neutral pill buttons: the dark Project-write-ups pill style, now the
+     site-wide default for the .btn-link family (hubs, listings, More links). */
+  --pill-bg: rgba(255, 255, 255, 0.08);
+  --pill-bg-strong: rgba(255, 255, 255, 0.13);
+  --pill-fg: rgba(233, 231, 255, 0.92);
+  --pill-border: rgba(255, 255, 255, 0.14);
+  --pill-border-strong: rgba(255, 255, 255, 0.24);
+  --pill-bg-hover: rgba(255, 255, 255, 0.14);
+
   /*
     Global sizing for button-like components.
     0.75 => ~75% of previous size (font + height).
@@ -145,6 +154,14 @@
   --primary-btn-bg: #2563eb;
   --primary-btn-bg-hover: #1d4ed8;
   --primary-btn-fg: #ffffff;
+
+  /* Neutral pill buttons (light-theme equivalents of the dark pill style). */
+  --pill-bg: rgba(17, 17, 24, 0.05);
+  --pill-bg-strong: rgba(17, 17, 24, 0.09);
+  --pill-fg: #111118;
+  --pill-border: rgba(17, 17, 24, 0.16);
+  --pill-border-strong: rgba(17, 17, 24, 0.24);
+  --pill-bg-hover: rgba(17, 17, 24, 0.09);
 }
 
 html.theme-dark {
@@ -1905,15 +1922,15 @@ a[href=\"/\"]:hover {
      adjacent buttons. */
   box-sizing: border-box;
   min-height: calc(56px * var(--btn-scale));
-  background: var(--primary-btn-bg);
-  color: var(--primary-btn-fg);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  border: 1px solid var(--pill-border);
   border-radius: 999px;
   padding: calc(12.5px * var(--btn-scale)) calc(21.6px * var(--btn-scale));
   font-weight: 700;
   font-size: calc(1em * var(--btn-scale));
   line-height: 1.2;
-  box-shadow: 0 12px 26px rgba(139, 179, 255, 0.18);
+  box-shadow: none;
   transition:
     background 0.18s ease,
     border-color 0.18s ease,
@@ -2026,9 +2043,9 @@ a[href=\"/\"]:hover {
 }
 
 .btn-link--primary {
-  background: var(--primary-btn-bg);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.18);
+  background: var(--pill-bg-strong);
+  border-color: var(--pill-border-strong);
+  box-shadow: none;
 }
 
 /* Homepage: the wide first featured button should start with the same
@@ -2036,30 +2053,30 @@ a[href=\"/\"]:hover {
    This is intentionally scoped to `.featured-primary` to avoid affecting other
    potential uses of `.btn-link--primary`. */
 .featured-primary.btn-link--primary {
-  background: var(--primary-btn-bg);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 12px 26px rgba(79, 140, 255, 0.18);
+  background: var(--pill-bg-strong);
+  border-color: var(--pill-border-strong);
+  box-shadow: none;
 }
 
 .btn-link--primary:hover {
-  background: var(--primary-btn-bg-hover);
+  background: var(--pill-bg-hover);
 }
 
 .btn-link--subtle {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(233, 231, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  border: 1px solid var(--pill-border);
   box-shadow: none;
 }
 
 /* Posts toolbar: inactive view pills need more contrast against the dark page bg. */
 .posts-toolbar .btn-link--subtle {
-  background: rgba(255, 255, 255, 0.13);
-  border-color: rgba(255, 255, 255, 0.24);
+  background: var(--pill-bg-strong);
+  border-color: var(--pill-border-strong);
 }
 
 .btn-link--subtle:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--pill-bg-hover);
 }
 
 .btn-link:hover {

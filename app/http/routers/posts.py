@@ -249,7 +249,11 @@ async def posts_index(
     ctx.update(
         {
             "posts": posts,
-            "posts_grouped": group_posts_by_cat(posts, view=current_view),
+            "posts_grouped": group_posts_by_cat(
+                posts,
+                view=current_view,
+                exclude_hub_cats=not cat_label,
+            ),
             "pill_group_size": PILL_GROUP_SIZE,
             "is_homepage": False,
             "page_title": page_title,
