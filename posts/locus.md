@@ -1,148 +1,90 @@
 --- 
 title: Locus
-blurb: Project memory for Claude Code
+blurb: Task board and focus tracking for Windows
 date: 2026-01-19 06:50
 type: project
 social_image: /static/images/locus.png
 image: /static/images/locus.png
 thumb_image: /static/images/locus-icon.png
-one_liner: A local-first MCP memory and focus tracking layer for Claude Code.
+one_liner: A native Windows task board with automatic focus tracking and live Claude Code integration.
 tags:
 - cat:Desktop Apps
 - golang
 - claude
-- mcp
-- memory
+- task-board
 - focus-tracking
+- productivity
 - developer-tools
 - local-first
-- cli
 - sqlite
 - windows
 ---
 
-[Locus](https://ernster.dev/locus/) is a local-first memory and operational awareness system for Claude Code workflows and Windows focus tracking.
+[Locus](https://ernster.dev/locus/) is a native Windows productivity tool that merges a four-stage task board with automatic, OS-level focus tracking and live Claude Code integration.
 
 <div style="text-align:center; font-size:1.2em; margin: 1em 0;">
-  Persistent project context and operational focus history across long-running development sessions.
+  Where intent meets attention.
 </div>
 
 ---
 
 ## Problem → System → Outcome
 
-**Problem.** AI coding sessions lose project context between runs and most productivity tools fail to capture real operational activity; the reasoning behind past decisions and where the time went both evaporate.
+**Problem.** Task tools record intent: what you planned and what stage it reached. Time trackers record raw clock time: how long some window was open. Neither checks whether the two matched and an AI coding session adds a third stream of activity that evaporates as scrollback.
 
-**System.** A local-first Go runtime that captures structured project memory (decisions, conventions, rejected approaches) for Claude Code over MCP, alongside passive Windows focus tracking, all inspectable and developer-controlled.
+**System.** A single Go binary putting a four-stage board (Plan, Execute, Check, Done) and Win32-level focus tracking in one window over one local SQLite database, with Claude Code hook scripts routing each meaningful tool call onto the board as it happens.
 
-**Outcome.** Project context and operational history persist across long-running sessions, owned by the developer and the project rather than the model, so work resumes without re-explaining itself.
-
----
-
-## Overview
-
-Locus combines two ideas:
-
-- persistent project memory
-- operational focus tracking
-
-The system captures and resurfaces high-level project context across Claude Code sessions while also tracking real operational activity on Windows over time.
-
-Instead of storing full transcripts, Locus records structured concepts such as:
-
-- architectural decisions
-- implementation summaries
-- project conventions
-- rejected approaches
-- workflow notes
-- operational context
-
-Alongside that, the runtime continuously tracks focus activity including:
-
-- active applications
-- focus duration
-- session timing
-- operational patterns
-- historical activity trends
-
-The goal is simple:
-
-*Important project context and operational state should not disappear between sessions.*
+**Outcome.** The day ends with an honest, automatic record: what was planned, what actually held attention and what the AI session contributed, all local and inspectable.
 
 ---
 
-## Claude Code integration
+## Why it exists
 
-Locus integrates directly with Claude Code through MCP.
+Productivity tooling splits into two camps that never talk to each other.
 
-This allows Claude workflows to:
+Boards know what you meant to do. Trackers know how long windows were open. The question that matters at the end of a day sits between them: did the work you planned get the attention you thought it did?
 
-- search project memory
-- review previous decisions
-- inspect earlier implementation context
-- recover workflow history
-- continue long-running work more easily
+That gap is where drift lives and manual logging never survives long enough to expose it.
 
-Locus does not modify the model.
+*Locus exists to close the gap automatically.*
 
-*It provides a persistent local context layer that developers can review and reuse across sessions.*
+---
+
+## The board
+
+Work moves through four fixed stages: Plan, Execute, Check, Done.
+
+Stages have stable internal IDs and renameable labels. Tasks carry a status, are timed at the task level and only one session is active at a time. A named snapshot is saved automatically at session end.
+
+The stages are deliberately fixed. The discipline is the point; only the labels are yours.
 
 ---
 
 ## Focus tracking
 
-Locus also operates as a persistent Windows focus tracking runtime.
+Locus reads foreground focus straight from the Win32 APIs, polling every 500ms into the same SQLite database as the tasks.
 
-The system records operational activity across:
+The record is designed to be honest rather than flattering:
 
-- sessions
-- days
-- weeks
-- longer-running workflows
+- idle gaps over five minutes are subtracted, so idle never counts as focus
+- system processes are filtered out automatically
+- application names come from real PE version info, not a hardcoded mapping
+- focus history ranks today, yesterday, this week and this month
 
-This creates a lightweight historical operational surface showing:
-
-- what received attention
-- how long focus lasted
-- what applications were active
-- how work patterns changed over time
-
-The focus system is intentionally passive and local-first.
-
-*It is designed to expose operational reality rather than create productivity theatre.*
+*It exposes operational reality rather than creating productivity theatre.*
 
 ---
 
-## Memory model
+## Claude Code integration
 
-Locus focuses on structured contextual recall rather than transcript persistence.
+Hook scripts installed by the installer route each meaningful tool call onto the board live, marked with an amber border:
 
-Captured memory remains:
+- edits land at Execute, labelled by filename
+- test runs land at Check
+- a successful command moves its card to Done; a failure stays put, so what stalled stays visible
+- trivial commands are filtered out
 
-- local-first
-- inspectable
-- reviewable
-- searchable
-- developer-controlled
-
-*The emphasis is on preserving useful project concepts and operational continuity rather than simulating persistent agent memory.*
-
----
-
-## Diagnostics
-
-Locus is designed to be diagnosable rather than opaque.
-
-The system exposes tooling for:
-
-- memory status
-- project scanning
-- import visibility
-- recall inspection
-- focus history inspection
-- diagnostic workflows
-
-*Developers can see what has been captured, what is available and how the system is behaving over time.*
+An AI coding session normally vanishes when the terminal closes. Here it leaves a structured trail on the same board as the work you planned yourself.
 
 ---
 
@@ -152,35 +94,26 @@ A native Windows tool in a single Go binary: a four-stage task board (Plan, Exec
 
 ---
 
-## Why it is different
+## Local first, by construction
 
-Most AI coding workflows lose context between sessions and most productivity tools fail to capture real operational activity.
+Everything stays on the machine: tasks, sessions and focus history in one SQLite file, no telemetry, no cloud, no accounts.
 
-Locus combines both:
+The binary is pure Go with no CGO, installed per-user by one PowerShell script with no administrator rights, auto-starting on login and removable just as cleanly.
 
-- persistent project memory
-- long-term operational focus tracking
-
-The result is a lightweight local system that preserves both project understanding and historical execution state over time.
-
-*The memory belongs to the developer and the project rather than the model itself.*
+*A tool that watches your focus has to be one you can fully inspect and fully remove.*
 
 ---
 
 ## Relationship to earlier projects
 
-Locus originally evolved from earlier operational tooling projects including CommandDeck and focus-reader.
+Locus consolidates two earlier tools: CommandDeck's staged session model and focus-reader's background focus monitor.
 
-*The current version combines those operational awareness ideas with persistent memory tooling for Claude Code workflows.*
+*The current version is the native Go synthesis of both, with the Claude Code integration layered on top.*
 
 ---
 
 ## Closing note
 
-Locus is built around a simple idea:
+Locus is built around a simple idea: intent and attention should be visible in the same place, recorded by the system rather than by willpower.
 
-important project context and operational history should remain accessible across long-running development workflows.
-
-The focus is not transcript persistence or artificial agent memory.
-
-*The focus is preserving useful project-level concepts and operational visibility in a structured local system that developers can inspect, search and reuse over time.*
+*The board says what you meant. The tracker says what happened. Locus is the one window where you can see whether they agree.*
