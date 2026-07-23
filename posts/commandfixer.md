@@ -36,7 +36,7 @@ The source lives at [CommandFixer](https://github.com/oernster/CommandFixer).
 
 **Problem.** Command-line muscle memory produces the same small typos hundreds of times: `git sattus`, `docker pss`, transposed letters in commands typed dozens of times a day. Each one costs a failed run, a re-type and a broken train of thought.
 
-**System.** A PSReadLine hook that intercepts Enter, hands the buffer to a fast Go binary, applies user-defined correction rules from a JSON config and asks for confirmation when a correction changes the command. No keyboard hooks, no background service.
+**System.** A PSReadLine hook that intercepts Enter, hands the buffer to a fast Go binary, fuzzy-matches it against a built-in database of popular CLI tools and Windows commands and asks for confirmation when a correction changes the command. No keyboard hooks, no background service.
 
 **Outcome.** The typo tax disappears. Corrections happen at the exact moment of failure, cost one keypress to accept and are logged so the rule set can grow from real behaviour.
 
@@ -48,22 +48,13 @@ CommandFixer hooks into PSReadLine, which is built into both PowerShell 7 and Wi
 
 1. PSReadLine captures the current buffer.
 2. The hook calls `commandfixer suggest <your-command>`.
-3. CommandFixer loads the rules, applies them and prints the corrected form.
+3. CommandFixer fuzzy-matches the buffer against its built-in command database and prints the corrected form.
 4. If the command changed, PowerShell prompts for confirmation.
 5. The corrected command executes.
 
 The binary runs in milliseconds. There is no system-wide keyboard hook and no persistent service; the tool exists only for the instant between Enter and execution.
 
-Corrections are user-defined rules in a JSON config:
-
-```json
-{
-  "typos": [
-    { "from": "git sattus", "to": "git status" },
-    { "from": "docker pss", "to": "docker ps" }
-  ]
-}
-```
+The first version asked you to list every typo as a hand-written rule. Version 2 ships the dictionary instead: a built-in database of popular CLI tools and their valid subcommands (git, docker, kubectl, npm, cargo and many more) plus the standard Windows command set, fuzzy-matched within a configurable threshold. Known PowerShell aliases are recognised exactly, so they are never "corrected".
 
 ---
 
@@ -72,43 +63,17 @@ Corrections are user-defined rules in a JSON config:
 The design is defined as much by refusals as by features:
 
 * **Consent per correction.** A changed command never runs silently; the confirmation prompt is the contract.
-* **Your rules, not a model.** Corrections come from an explicit config you own, so the tool never surprises you with a guess.
+* **A known command set, not a guess.** Suggestions only ever come from a database of real commands within a similarity threshold, so the tool never invents intent.
 * **Uninstall keeps your data.** Removing the tool removes the hook and the binary; the config and the corrections log stay yours unless you ask for them to go.
 * **Small surface.** A handful of CLI verbs (`suggest`, `correct`, `install`, `uninstall`, `stats`, `version`) and nothing else.
 
-A JSONL log records every correction, and `commandfixer stats` shows the count and rule breakdown, which is exactly the feedback loop needed to decide which typos deserve rules.
+A JSONL log records every correction and `commandfixer stats` shows what it has fixed: exactly the feedback loop that shows the typo tax being repaid.
 
 ---
 
-## CommandFixer at a glance
+## At a glance
 
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Capabilities</h3>
-  <ul>
-    <li>Corrects typos at the Enter keypress</li>
-    <li>Confirmation before any changed command runs</li>
-    <li>User-defined JSON rule set</li>
-    <li>PowerShell 7 and Windows PowerShell 5</li>
-    <li>Correction stats and JSONL log</li>
-    <li>Idempotent installer and clean uninstall</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Technology</h3>
-  <ul>
-    <li>Go, single native binary</li>
-    <li>PSReadLine Enter-key hook</li>
-    <li>JSON configuration</li>
-    <li>Millisecond execution, no service</li>
-    <li>Per-user install, no admin rights</li>
-    <li>Open source</li>
-  </ul>
-</div>
-
-</div>
+A single native Go binary hooking both PowerShell 7 and Windows PowerShell 5 per-user with no admin rights: typos corrected at the Enter keypress from a built-in command database, every changed command confirmed before it runs, with correction stats, a JSONL log and a clean uninstall. The full rundown lives on the product site: [ernster.dev/CommandFixer](https://ernster.dev/CommandFixer/).
 
 ---
 
@@ -118,6 +83,6 @@ The best tools live at the moment of failure.
 
 A spelling corrector that runs after the error message has already scrolled past is documentation. One that runs in the gap between Enter and execution is infrastructure.
 
-The other lesson is restraint. The obvious upgrade path (fuzzy matching everything, learning rules automatically, correcting silently) leads to a tool you no longer trust at a prompt that can delete things.
+The other lesson is restraint. The dangerous upgrade path (learning rules automatically, correcting silently, guessing intent) leads to a tool you no longer trust at a prompt that can delete things. Fuzzy matching earned its place in version 2 only because it stays inside a known command set and behind a confirmation.
 
 *A tool that asks first gets to stay installed.*
