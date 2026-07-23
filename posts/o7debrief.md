@@ -97,40 +97,9 @@ That is the whole design in a sentence. o7 Debrief is not trying to impress you 
 
 ---
 
-## o7 Debrief at a glance
+## At a glance
 
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Capabilities</h3>
-  <ul>
-    <li>Last-session and full-history debriefs</li>
-    <li>Automatic debrief on game shutdown</li>
-    <li>Cold, after-the-fact generation</li>
-    <li>Every figure traced to a real journal entry</li>
-    <li>Exploration, combat, trade, mining, missions, exobiology and more</li>
-    <li>Tabbed per-activity session log</li>
-    <li>Rank progress across the session</li>
-    <li>Self-contained HTML report plus Markdown</li>
-    <li>Commander and ship named in the header</li>
-    <li>Browsable, paged recent-debrief history</li>
-    <li>Local-first: no cloud, account or telemetry</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Built with</h3>
-  <ul>
-    <li>Python 3.13</li>
-    <li>PySide6 system-tray app</li>
-    <li>Local Player Journal, read-only</li>
-    <li>HTML and Markdown reports</li>
-    <li>Windows 10 and 11</li>
-    <li>Dark theme; open source</li>
-  </ul>
-</div>
-
-</div>
+A Python and PySide6 system-tray app for Windows 10 and 11 that reads the local Player Journal read-only and writes self-contained HTML and text debriefs, from single sessions to your whole history. The full capability rundown lives on the product site: [ernster.dev/o7Debrief](https://ernster.dev/o7Debrief/).
 
 ---
 
