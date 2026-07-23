@@ -30,41 +30,9 @@ title: E:D Colonisation Assistant
 
 ---
 
-## Key Features
+## What it does
 
-| Category              | Capabilities                                                                 |
-|-----------------------|------------------------------------------------------------------------------|
-| **System Tracking**   | - Record system visits<br>- Log planetary base landings<br>                             |
-| **Browser UI**        | - Lightweight HUD<br>- Browser-based display<br>- Tablet-friendly layout     |
-| **Data Sync**         | - Reads system data from in game journal data<br>- Syncs JSON records        |
-| **Mission Planning**  | - Prioritises targets<br>- Filter by criteria<br>                            |
-
----
-
-## Requirements
-
-- Any modern browser  
-- External screen/tablet recommended for cockpit integration  
-- *Elite Dangerous* PC/linux edition with Horizons+Odyssey/Trailblazer DLC
-- (Note: Untested on macOS) 
-
-## Usage
-
-1. Go to [Releases](https://github.com/oernster/EDColonisationAsst/releases)  
-2. Install the executable
-3. Open the page localhost:8000/app in your browser
-4. Use your IP address if you're on your wifi network from a tablet
-5. Use keyboard/mouse or touchscreen controls to navigate  
-6. Optionally mount to a cockpit tablet for immersion
-
----
-
-## Ideal For
-
-- Space exploration nerds  
-- Individual commanders or groups of players contributing toward colonisation goals  
-- Long-range missions needing minimal-distraction tools
-- Note: Squadron colonisation efforts are NOT supported since journal files are local by nature
+A journal-driven local web HUD for Windows: per-system shopping lists aggregating every commodity still needed across a system's construction sites with progress and payment, fleet carrier cargo, market orders and capacity rebuilt from the journal and a tablet-friendly display served over your own network for cockpit mounting. It tracks your own contributions only, since Elite Dangerous journals are local to each player. The full rundown lives on the product site: [ernster.dev/EDColonisationAsst](https://ernster.dev/EDColonisationAsst/).
 
 ---
 
