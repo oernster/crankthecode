@@ -82,18 +82,9 @@ The MMSP specification is available at: [MMSP-Spec](https://ernster.dev/MMSP-Spe
 
 ---
 
-## Core behaviour
+## What it does
 
-* RSS, Atom and MMSP feed support
-* Unified subscription management
-* Topic-based feed discovery
-* Feed filtering and sorting
-* Unread tracking
-* Content rendering and media support
-* Full keyboard accessibility
-* Import and export
-* Local SQLite persistence
-* Dark theme desktop interface
+The everyday surface is a calm three-pane reader: RSS, Atom and MMSP subscriptions through one model, topic-based discovery, filtering, unread tracking, media rendering, import and export and full keyboard accessibility, all persisted to local SQLite. The feature catalogue lives on the product site: [ernster.dev/meridian/features](https://ernster.dev/meridian/features.html).
 
 The result is not another website.
 
@@ -111,18 +102,7 @@ MMSP introduces a standard discovery endpoint:
 /.well-known/mmsp.json
 ```
 
-Publishers expose machine-readable metadata describing available content streams and subscription endpoints.
-
-The specification defines:
-
-* publisher discovery
-* feed metadata
-* content streams
-* structured subscription information
-* machine-readable publication endpoints
-* content capabilities
-* media type declarations
-* client interoperability rules
+Publishers expose machine-readable metadata describing available content streams and subscription endpoints. What the specification defines (discovery, feed metadata, content streams, subscription information, capabilities, interoperability rules) is catalogued on the spec site itself.
 
 The intent is to give publishers a standard way to describe what they publish and give clients a predictable way to discover and consume it.
 
@@ -159,17 +139,6 @@ The discovery layer runs on a dedicated async event loop in a background thread,
 ### Desktop workflow
 
 Meridian focuses on direct consumption rather than engagement.
-
-Features include:
-
-* feed management
-* unread tracking
-* feed filtering and sorting
-* bulk actions
-* content viewing
-* browser handoff
-* subscription import and export
-* full keyboard navigation
 
 The interface follows a traditional three-pane reader model: feeds, items, content. Every control is reachable and operable by keyboard. Tab order is consistent throughout; list views are single tab stops with arrow-key navigation within them. Enter and Space activate any focused control. Left and Right navigate between dialog actions without lifting a hand.
 
@@ -230,14 +199,7 @@ The problem did not require a platform.
 
 ## Architecture
 
-Meridian is built with:
-
-* Python 3.11+
-* PySide6
-* SQLite
-* httpx
-* feedparser-compatible feed processing
-* local-first persistence
+Meridian is a Python 3.11+ PySide6 application over local SQLite with httpx networking, persisting everything on the machine.
 
 The complexity is not scale.
 
@@ -246,45 +208,6 @@ The complexity is interoperability.
 A protocol only becomes useful when independent publishers and clients can communicate predictably.
 
 *The project therefore focuses heavily on explicit contracts, compatibility and structured publication.*
-
----
-
-## Meridian at a glance
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Capabilities</h3>
-  <ul>
-    <li>RSS, Atom and MMSP support</li>
-    <li>Topic-based feed discovery</li>
-    <li>Subscription management</li>
-    <li>Unread tracking</li>
-    <li>Feed filtering and sorting</li>
-    <li>Bulk actions</li>
-    <li>Content rendering</li>
-    <li>Full keyboard accessibility</li>
-    <li>Import and export</li>
-    <li>Dark theme desktop interface</li>
-    <li>Local SQLite storage</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Technology</h3>
-  <ul>
-    <li>Python 3.11+</li>
-    <li>PySide6 desktop interface</li>
-    <li>SQLite local database</li>
-    <li>httpx networking</li>
-    <li>Feed parsing infrastructure</li>
-    <li>Dark theme UI</li>
-    <li>Local-first architecture</li>
-    <li>Open source repository</li>
-  </ul>
-</div>
-
-</div>
 
 ---
 

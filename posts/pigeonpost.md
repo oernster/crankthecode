@@ -62,19 +62,9 @@ It is deliberately not for webmail-only users and it declines the one-click Goog
 
 ---
 
-## Core behaviour
+## What it does
 
-**Mail.** Folders and summaries cache to local SQLite and read offline; bodies fetch on open and stay cached. HTML renders in a sandboxed frame that keeps the sender's design while running no scripts and making no remote requests; remote images stay blocked until you load them. In the dark theme a light-designed message is inverted to read comfortably while photos keep their true colour.
-
-**Compose.** Rich text, reply and forward, attachments, reusable templates, per-account signatures and server drafts. In-progress writing autosaves locally. Undo send holds each message for a configurable few seconds. Send later schedules delivery; offline sends queue in a per-account outbox and deliver on the next sync.
-
-**Organise.** Instant offline search with operators (from:, to:, has:attachment, dates), colour tags that sync across devices as IMAP keywords, on-arrival rules, snooze, an optional threaded view and an optional unified inbox that merges every account into one list. Undo and redo unwind the mail actions. Folders create, rename, delete and reorganise by drag.
-
-**Calendar.** Month, week and day views, recurring events with per-event time zones, ICS import and export that round-trips with Outlook and Thunderbird, meeting invites over iTIP/iMIP and early two-way CalDAV sync.
-
-**Contacts.** An address book with vCard and CSV import and export, round-tripping with Outlook and Thunderbird.
-
-**Notifications.** Each IMAP account is watched by a persistent IDLE connection with a poll backstop. New mail raises a native notification; the first sync of an account is silent.
+The everyday surface is a full mail, calendar and contacts client: offline reading from a local cache, sandboxed HTML rendering, operator-grammar search, colour tags synced as IMAP keywords, undo send, send later, snooze, a month/week/day calendar with iTIP/iMIP invites and a vCard contacts book. The feature catalogue lives on the product site: [pigeonpost.ink/features](https://pigeonpost.ink/features.html).
 
 ---
 
@@ -106,47 +96,6 @@ PigeonPost is the Go lineage of the same clean-architecture discipline as the Py
 The domain never touches the UI; the UI never touches a socket. The boundary is enforced by structural tests, with the Go suite and the Vitest front-end suite gating every change.
 
 Windows, macOS (Apple Silicon) and Linux each ship a native installer: a themed Windows setup, a DMG and a Flatpak.
-
----
-
-## PigeonPost at a glance
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Capabilities</h3>
-  <ul>
-    <li>IMAP, POP3 and SMTP accounts</li>
-    <li>Provider presets plus manual setup</li>
-    <li>Microsoft OAuth sign-in</li>
-    <li>Offline reading from a local cache</li>
-    <li>Sandboxed HTML rendering</li>
-    <li>Operator-grammar offline search</li>
-    <li>Colour tags synced as IMAP keywords</li>
-    <li>Undo send, send later, snooze</li>
-    <li>Unified inbox and threading</li>
-    <li>Calendar with ICS and iTIP/iMIP</li>
-    <li>Early two-way CalDAV sync</li>
-    <li>Contacts with vCard and CSV</li>
-    <li>Full keyboard control</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Technology</h3>
-  <ul>
-    <li>Go 1.23+ core</li>
-    <li>Wails v2 shell</li>
-    <li>React 18 + TypeScript front end</li>
-    <li>emersion mail suite</li>
-    <li>SQLite (pure Go) with FTS5</li>
-    <li>OS keychain credentials</li>
-    <li>Windows, macOS and Linux installers</li>
-    <li>GPL-3.0, open source</li>
-  </ul>
-</div>
-
-</div>
 
 ---
 

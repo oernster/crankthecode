@@ -60,15 +60,7 @@ Presentation behaviour such as notifications is out of scope for the base protoc
 
 ## A semantic superset, not a replacement
 
-MMSP does not ask the feed ecosystem to move. It defines how existing feeds map into it:
-
-| Source type | Acquires from |
-|---|---|
-| `mfeed` | Native MMSP manifest |
-| `rss` | Any RSS 2.0 feed |
-| `atom` | Any Atom 1.0 feed |
-| `podcast` | RSS with podcast namespace extensions |
-| `platform` | Platform-specific adapter |
+MMSP does not ask the feed ecosystem to move. It defines how existing feeds map into it: native MMSP manifests, any RSS 2.0 or Atom 1.0 feed, podcast RSS and platform adapters all normalize into one item schema (the full source-type mapping is on the [spec site](https://ernster.dev/MMSP-Spec/)).
 
 Twelve first-class item types carry the multimedia model: video, audio, article, image, short, document, gallery, event, release, newsletter, course and livestream.
 
@@ -114,41 +106,6 @@ A protocol without an implementation is an opinion.
 [Meridian](/posts/meridian) is the reference client: a local-first desktop reader that consumes RSS, Atom and MMSP through one model and proves the normalization rules against real feeds.
 
 The pairing is deliberate. The spec keeps the client honest; the client keeps the spec real.
-
----
-
-## MMSP at a glance
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Protocol</h3>
-  <ul>
-    <li>JSON format, application/mmsp+json</li>
-    <li>Semantic superset of RSS 2.0 and Atom</li>
-    <li>Twelve first-class item types</li>
-    <li>Pull-only, no push, no notifications</li>
-    <li>300 second minimum poll interval</li>
-    <li>HTTPS-only URLs</li>
-    <li>Well-known endpoint discovery</li>
-    <li>Optional Calm Consumption Profile</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Artefacts</h3>
-  <ul>
-    <li>Versioned specification document</li>
-    <li>JSON Schema 2020-12 definitions</li>
-    <li>Worked feed and item examples</li>
-    <li>Conformance test suite</li>
-    <li>Reference client (Meridian)</li>
-    <li>Live production feed on this site</li>
-    <li>Apache-2.0 licence</li>
-  </ul>
-</div>
-
-</div>
 
 ---
 
