@@ -32,7 +32,7 @@ The defining property is a refusal:
 
 ## Problem → System → Outcome
 
-**Problem.** Slow, thoughtful chess with a friend used to work over postcards. Online platforms replaced the ritual with ratings, clocks, engines and accounts, and the quiet version of the game went with them.
+**Problem.** Slow, thoughtful chess with a friend used to work over postcards. Online platforms replaced the ritual with ratings, clocks, engines and accounts; the quiet version of the game went with them.
 
 **System.** A PySide6 desktop app with python-chess quarantined behind a port: it manages any number of games, enforces every rule including all draw rules and exports each move as a pre-filled email draft or clipboard text carrying a readable preamble, an ASCII board and a delimited PGN block that holds the entire game state.
 
@@ -82,56 +82,9 @@ The rules engine itself, python-chess, is quarantined behind a port in the archi
 
 ---
 
-## Core behaviour
+## What it does
 
-* Any number of ongoing games: whose move, full history, archive
-* Full rules enforcement including all draw rules
-* Move export as a pre-filled email draft or clipboard text
-* Import by pasted email text, plain-text move or `.pgn` file
-* One-click import via the https bounce link
-* Invitations, draw offers, acceptance and resignation over the wire format
-* Bulk actions across multi-selected games, each with eligibility filtering and confirmation
-* A move history panel, with game names carrying the same short id as the email subject
-* A full keyboard focus ring everywhere including dialogs
-* Dark and light themes, persisted between runs
-* One JSON file per game, local, atomic writes
-
----
-
-## Postal Gambit at a glance
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Capabilities</h3>
-  <ul>
-    <li>Multiple concurrent games</li>
-    <li>Full rules and draw-rule enforcement</li>
-    <li>Email draft and clipboard export</li>
-    <li>Paste, plain-text and PGN import</li>
-    <li>One-click move import link</li>
-    <li>Divergence detection, never silent</li>
-    <li>Invitations, draws and resignations</li>
-    <li>Bulk actions with confirmation</li>
-    <li>Full keyboard navigation</li>
-    <li>Dark and light themes</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Technology</h3>
-  <ul>
-    <li>Python 3.13, PySide6 widgets</li>
-    <li>python-chess behind a port</li>
-    <li>One JSON file per game, atomic writes</li>
-    <li>No network code at all</li>
-    <li>195 tests, 100% coverage outside the UI</li>
-    <li>Nuitka installer, Flatpak, DMG</li>
-    <li>GPL-3.0, open source</li>
-  </ul>
-</div>
-
-</div>
+Any number of ongoing games with full rules and draw-rule enforcement; moves exported as a pre-filled email draft or clipboard text and imported by paste, plain-text move, `.pgn` file or the one-click link; invitations, draws and resignations over the same wire format; full keyboard navigation, dark and light themes and one atomic JSON file per game. The full feature catalogue lives on the product site: [ernster.dev/postal-gambit](https://ernster.dev/postal-gambit/).
 
 ---
 
