@@ -44,15 +44,6 @@ to support.  Especially when you want to support regional numbering systems AS W
 
 [Releases](https://github.com/oernster/FancyClock/releases)
 
-## Current release v1.5.3
-- Majorly refactored code to be OO, meet SOLID principles, PEP8 compliant, flake8/black compliant, TDD; all files < 350 lines.
-- Created proper flatpak for linux distros; buildable on debian distros such as Ubuntu/Mint or Debian itself.
-- Windows support.
+## What it does
 
-### Features: 
-- Hour minute and second hands on analogue clock.
-- Digital clock including date and day.
-- Full internationalisation for all time zones throughout the world for natural language support. 
-- As part of internationalisation, numeral types are supported such as Devanagari/Indic/Bengali/Hindi/Thai/Arabic.
-- Ability to search for a city to find your time zone.
-- Custom skins with many choices of animated video backgrounds for the analogue clock.
+A frameless, draggable PySide6 desktop clock in analogue and digital modes with automatic timezone localisation (region names, numbers and numeral systems translated across 70+ languages), optional NTP accuracy, ten animated video skins and adjustable opacity, shipped for Windows and as a Linux Flatpak. The full feature rundown lives on the product site: [ernster.dev/FancyClock](https://ernster.dev/FancyClock/).
