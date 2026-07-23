@@ -42,38 +42,6 @@ title: Audio Deck
 
 ---
 
-## Overview
+## What it does
 
-Audio Deck allows you to switch between customised audio setups instantly.  
-It’s ideal for gamers, remote workers, content creators and Stream Deck users who want fast, reliable control over their audio environment.
-
----
-
-## Audio Deck at a Glance
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Features</h3>
-  <ul>
-    <li>Quick profile switching</li>
-    <li>Stream Deck integration</li>
-    <li>Command-line support</li>
-    <li>Simple GUI-based configuration</li>
-    <li>Persistent local profiles</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Requirements</h3>
-  <ul>
-    <li>Windows 10 or Windows 11</li>
-    <li>Elgato Stream Deck (optional)</li>
-  </ul>
-</div>
-
-</div>
-
----
-
-Audio Deck brings professional-grade audio switching to your fingertips ~ with or without a Stream Deck.
+Named profiles each pin a default output and input device; switching happens in one click from the GUI, one command from the CLI or one Stream Deck button, with profiles persisted to a local JSON file and no account or cloud anywhere. It suits gamers, remote workers and content creators who keep changing their setup. The full feature catalogue lives on the product site: [ernster.dev/AudioDeck](https://ernster.dev/AudioDeck/).

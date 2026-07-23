@@ -57,52 +57,9 @@ Finally, I tossed in astronomy visuals (moon phase, ISS tracking, etc.) for flai
 
 ---
 
-## Overview
+## What it does
 
-A modern **PySide6 desktop app** combining train, weather and astronomy info in a modular, performant and elegant interface.  
-It adheres to **SOLID principles**, modern design patterns and is plugin-friendly.
-
----
-
-## Key Features
-
-| Train Information                         | Weather Integration                        |
-|-------------------------------------------|---------------------------------------------|
-| Real-time departures (16-hour window)     | Live conditions and 7-day forecast         |
-| Platform data, delays, operator info      | Automatic geolocation via Open-Meteo      |
-| Smart route filtering & interchanges      | Weather warnings, auto-refresh            |
-| Service details with calling points       | No API key required                        |
-
-| Astronomy Features                        | User Interface                             |
-|-------------------------------------------|---------------------------------------------|
-| APOD & ISS real-time tracking             | Clean, responsive layout                   |
-| Moon phases & space event calendar        | Light/Dark mode toggle (Ctrl+T)            |
-| Object visibility, educational links      | Custom widgets and keyboard shortcuts      |
-
----
-
-## Technical Highlights
-
-| Code Quality                              | Performance                                 |
-|-------------------------------------------|---------------------------------------------|
-| SOLID architecture                        | Lazy loading & intelligent caching         |
-| Factory, Strategy, Observer, Manager patterns | Optimised memory & widget pooling     |
-| Strong separation of concerns             | Responsive layout with graceful fallback    |
-
-| Testing & Maintainability                 | Development Notes                           |
-|-------------------------------------------|---------------------------------------------|
-| Modular design with plugin support        | Error recovery with graceful fallback       |
-| Unit/integration tests with docs          | Dependency injection and clean layering     |
-
----
-
-## API Integration
-
-| Services                                  | Features                                     |
-|-------------------------------------------|----------------------------------------------|
-| Open-Meteo                                | Backoff + rate limiting                     |
-| NASA APIs: APOD, ISS, NeoWs, EPIC         | Multi-level caching                         |
-|                                           | Request batching & secure key handling      |
+A modern **PySide6 desktop app** combining real-time departures with platforms, delays and calling points, route planning with interchanges, destination weather via Open-Meteo with no API key and an astronomy view with moon phases and a seven-day outlook, in one dark Material interface with a light mode a keystroke away. The full feature catalogue lives on the product site: [ernster.dev/Trainer](https://ernster.dev/Trainer/).
 
 ---
 

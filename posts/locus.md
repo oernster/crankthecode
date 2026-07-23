@@ -146,38 +146,9 @@ The system exposes tooling for:
 
 ---
 
-## Locus at a Glance
+## What it is
 
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Core ideas</h3>
-  <ul>
-    <li>Persistent local project memory</li>
-    <li>Claude Code integration</li>
-    <li>MCP-based tooling</li>
-    <li>Structured concept capture</li>
-    <li>Operational focus tracking</li>
-    <li>Historical focus visibility</li>
-    <li>Developer-reviewable memory</li>
-    <li>Diagnosable system state</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Technical stack</h3>
-  <ul>
-    <li>Go runtime</li>
-    <li>MCP server</li>
-    <li>CLI tooling</li>
-    <li>SQLite persistence</li>
-    <li>Windows focus tracking</li>
-    <li>Project scanning</li>
-    <li>Local-first architecture</li>
-  </ul>
-</div>
-
-</div>
+A native Windows tool in a single Go binary: a four-stage task board (Plan, Execute, Check, Done) beside OS-level focus tracking into local SQLite, with Claude Code activity flowing onto the board live. The full capability rundown lives on the product site: [ernster.dev/locus](https://ernster.dev/locus/).
 
 ---
 
