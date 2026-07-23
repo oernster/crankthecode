@@ -51,13 +51,9 @@ Books behave consistently regardless of source format.
 
 ---
 
-## Core behaviour
+## What it does
 
-* Playback follows document structure rather than file order
-* Section navigation is derived from headings and bookmarks
-* Non-content sections (e.g. frontmatter, indexes) are excluded from playback
-* Navigation loads immediately and processes in the background
-* Playback position is deterministic and consistent across sessions
+Playback follows document structure rather than file order: navigation is derived from headings and bookmarks, non-content sections stay out of playback and the position is deterministic across sessions. The feature catalogue lives on the product site: [narratex.co.uk](https://www.narratex.co.uk/).
 
 ---
 
@@ -118,41 +114,6 @@ Each chunk is synthesised and streamed directly to the playback device.
 Synthesis and playback run concurrently which allows narration to begin immediately.
 
 *Everything runs locally which keeps the system fast, predictable and private.*
-
----
-
-## NarrateX at a glance
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: flex-start; margin-top: 1rem;">
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Capabilities</h3>
-  <ul>
-    <li>Local text to speech narration</li>
-    <li>Streaming audio playback</li>
-    <li>Deterministic playback and resume</li>
-    <li>Automatic section and chapter detection</li>
-    <li>Bookmarking with automatic resume</li>
-    <li>Chapter navigation with structural tree view</li>
-    <li>Audio synchronised text highlighting</li>
-    <li>Playback speed and persistent volume control</li>
-    <li>Support for EPUB, PDF and plain text</li>
-    <li>Optional Kindle format support via Calibre conversion</li>
-  </ul>
-</div>
-
-<div style="flex: 1; min-width: 250px;">
-  <h3>Technology</h3>
-  <ul>
-    <li>Python 3.11</li>
-    <li>PySide6 desktop interface</li>
-    <li>Local TTS engines</li>
-    <li>Sounddevice audio streaming</li>
-    <li>Calibre conversion pipeline</li>
-  </ul>
-</div>
-
-</div>
 
 ---
 
