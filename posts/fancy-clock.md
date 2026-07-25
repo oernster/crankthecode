@@ -1,6 +1,6 @@
 ---
 blurb: Desktop clock with proper alarms
-date: 2026-01-19 04:35
+date: 2026-07-25 10:10
 type: project
 extra_images:
 - /static/images/fancy-clock2.png
