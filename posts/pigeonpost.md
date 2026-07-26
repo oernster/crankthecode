@@ -64,7 +64,7 @@ It is deliberately not for webmail-only users and it declines the one-click Goog
 
 ## What it does
 
-The everyday surface is a full mail, calendar and contacts client: offline reading from a local cache, sandboxed HTML rendering, operator-grammar search, colour tags synced as IMAP keywords, undo send, send later, snooze, a month/week/day calendar with iTIP/iMIP invites and a vCard contacts book. The feature catalogue lives on the product site: [pigeonpost.ink/features](https://pigeonpost.ink/features.html).
+The everyday surface is a full mail, calendar and contacts client: offline reading from a local cache, sandboxed HTML rendering, operator-grammar search, colour tags synced as IMAP keywords, an optional unified inbox across accounts, undo send, send later, snooze, a month/week/day calendar with iTIP/iMIP invites and a vCard contacts book. The feature catalogue lives on the product site: [pigeonpost.ink/features](https://pigeonpost.ink/features.html).
 
 ---
 
