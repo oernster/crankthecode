@@ -2,7 +2,7 @@
 date: 2026-02-08 02:00
 type: project
 emoji: ⚖️
-image: /static/images/fulcrum-icon.png
+image: /static/images/play-board.png
 thumb_image: /static/images/fulcrum-icon.png
 one_liner: The Decision Architecture model made executable, scoring an organisation's structure and valuing every move deterministically.
 blurb: Organisational theory you can actually run
@@ -13,7 +13,7 @@ tags:
 - simulation
 - python
 title: Fulcrum
-social_image: /static/images/fulcrum-icon.png
+social_image: /static/images/play-board.png
 ---
 
 [Fulcrum](https://ernster.dev/fulcrum/) is a local, deterministic scoring engine for organisational structure, built on the Decision Architecture model.
@@ -27,6 +27,8 @@ Fulcrum exists because that is the wrong place to find out.
 It is not a survey tool. It is not a maturity model. It is not a dashboard of feelings. Fulcrum models an organisation the way the books describe one, scores its structural health from 0 to 100 and values every legal move from blunder to great.
 
 If the score offends you, that is useful information.
+
+The board above is a game in progress: 59 people across 8 teams, four moves played, structural health sitting at 38.9 because an approval layer landed earlier in the line. The strongest repairs on offer are already priced and ranked, delegating authority to the gate at plus 23.2 and collapsing the gate entirely at plus 20.8, both classified great.
 
 The board shows exactly what the model produced and nothing it did not.
 
@@ -48,6 +50,18 @@ Every score is a pure function of the model. Change the model and the number mov
 
 *Reproducibility is not a feature here. It is the reason the thing is allowed to exist.*
 
+## Model the organisation you actually have
+
+Real organisations are not clean trees, so the model refuses to pretend they are.
+
+![Fulcrum's organisation editor: the authority claims table sits beside the dependency list, with an approval gate feeding Team Alpha on a delay of 3](/static/images/model-org.png)
+
+*The editor: claims and dependencies side by side, 59 people across 8 teams.*
+
+Beyond teams, domains and dependencies with propagation delays, the editor carries an authority claims table: matrix management, dual reporting and plain contested ownership, each claim naming who else believes they hold the decision. Contested authority is priced, not ignored. The moves that touch it are priced too: resolve the claim, downgrade it or impose a matrix overlay across the organisation, which the model treats as a standing blunder in the same class as an approval layer.
+
+*If two people both think they own a decision, the score already knows.*
+
 ## The numbers betray intuition
 
 The fastest way to understand Fulcrum is to watch it disagree with a confident prediction.
@@ -58,6 +72,18 @@ Moves are asymmetric. On the enterprise archetype the single available approval-
 
 *There is no argument to win. The board settled it.*
 
+## The guide plans every level at once
+
+Ask the guide for a way out and it does not hand you one move. It plans the whole organisation.
+
+![Fulcrum's guide: a tree of composing leaf lines on the left, the selected line's move-by-move plan on the right, headlined 38.9 to 80.1](/static/images/play-guide1.png)
+
+*The guide on the board above: playing every composing leaf line takes 38.9 to 80.1.*
+
+Every leaf of the organisation gets its own line, priced in org points so the numbers compose honestly: teams directly at the top level are worth plus 21.9, teams in one small group plus 4.6; the headline is the sum of what is actually playable rather than a promise. Aggregate rows are views, not extra value to double count. A line that would do net harm is flagged and left out of the total.
+
+*No single move fixes an organisation. The guide never claims one will.*
+
 ## Structural value lives at the leaves
 
 The most counter-intuitive result is where the value hides.
@@ -65,6 +91,24 @@ The most counter-intuitive result is where the value hides.
 In a generated organisation of over 1,700 teams, the best whole-organisation move is worth plus 0.024. The same generator's median best local move, played at a single leaf, is worth plus 9.7 in its own frame, roughly four hundred times as much. Repairing leaf by leaf takes the global score from 0.2 to 49.3 in four rounds.
 
 The summit cannot see the moves that matter. That is not a failure of vision; it is geometry. Which is exactly why authority has to sit where the small repairs are visible. It is also exactly the kind of claim that reads as opinion in prose and as arithmetic on the board.
+
+The guide makes the geometry visible. Select a single leaf line and it opens in its own frame:
+
+![A single leaf line opened in the guide: worth plus 4.6 org points to the whole organisation, it runs 50.3 to 97.6 on its own scale](/static/images/play-guide2.png)
+
+*One leaf line: plus 4.6 org points in the organisation's frame, 50.3 to 97.6 in its own.*
+
+In the organisation's frame this line is worth plus 4.6 points. On its own scale it is a transformation, 50.3 to 97.6, achieved with two moves on one team. Both numbers are true at once. That is the whole leaf-value result in a single screenshot: small from the summit, decisive where it lands.
+
+## The session is a record
+
+A structural argument is only settled if you can show your working afterwards.
+
+Fulcrum keeps the whole line: every move survives a restart, undo walks back across runs and the report separates what was played in earlier runs from what was played in this one. The plan exports straight to your Downloads as a standalone HTML report with a re-importable JSON sibling, so the analysis can leave the machine without losing the model.
+
+Here is [a sample exported plan](/static/html/fulcrum-presentation.html) from the game on the board above: before and after maps, every recommendation grouped by the domain that holds the authority to play it and the approval-layer blunder sitting in the middle of the line, priced at what it cost.
+
+*The report is not a summary. It is the whole line, priced move by move.*
 
 ## Falsifiable by design
 
