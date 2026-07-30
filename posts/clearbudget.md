@@ -31,7 +31,7 @@ Not in aggregate. Not once every payment has landed. Day by day, bill by bill, c
 
 **Problem.** Budgeting tools are retrospective: they tell you where the money went, long after a healthy monthly total has hidden a structurally unsafe month, one where income lands late, bills cluster early and an affordable month-end payment is impossible on the day it falls.
 
-**System.** A local-first desktop model that projects the balance forward day by day, bill by bill and card by card: credit cards as pressure systems, per-month overrides, isolated multi-user state, the projection logic in a pure domain on a four-layer architecture.
+**System.** A local-first desktop model that projects the balance forward day by day, bill by bill and card by card: credit cards as pressure systems, a bank balance that maintains itself as dated items land, per-month overrides, isolated multi-user state, the projection logic in a pure domain on a four-layer architecture.
 
 **Outcome.** You see the tightest day of the month and any mid-month overdraft dip before it arrives, up to six months out, early enough to act. I open it to decide whether my own month holds.
 
@@ -57,6 +57,7 @@ So I built ClearBudget the way I think. Each feature is a decision made explicit
 
 - a per-month **skip** or **override** is the decision *"this obligation does not apply this month"*, made first-class instead of held in your head
 - a **paid** flag is *"this money has already left"*, so a settled bill stops distorting what is still due
+- the **self-maintaining balance** promotes that decision to a system rule: dated bills and income are applied to the balance at local midnight on their day and handed back if the item is deleted, so the record stays honest without anyone remembering to keep it so
 - a **read-only viewer package** is an authority boundary: full visibility, no edit rights, enforced on every screen rather than one
 - the **solvency panel** is the termination point, where scattered obligations resolve into a single answer
 
@@ -66,7 +67,7 @@ So I built ClearBudget the way I think. Each feature is a decision made explicit
 
 ## What it does
 
-The solvency panel projects the balance forward and flags the tightest moment in the month; credit cards model as pressure systems with live pro-rated balances; per-month overrides, skips and paid or received flags absorb real-world irregularity; multiple users get isolated per-user databases behind a bcrypt sign-in; everything is local-first across Windows, macOS and Linux. The feature catalogue lives on the product site: [ernster.dev/ClearBudget](https://ernster.dev/ClearBudget/).
+The solvency panel projects the balance forward and flags the tightest moment in the month; credit cards model as pressure systems with live pro-rated balances; the balance maintains itself, applying dated bills and income at local midnight and handing the amount back on delete; per-month overrides, skips and paid or received flags absorb real-world irregularity; the month renders as a graph of the balance day by day (or every card on one chart) and exports as a single self-contained web page, as does a projection across a range of months whose table adds up row by row; one button switches the whole application between light and dark; an explicit keyboard path runs through every screen and dialog; multiple users get isolated per-user databases behind a bcrypt sign-in; everything is local-first across Windows, macOS and Linux. The feature catalogue lives on the product site: [ernster.dev/ClearBudget](https://ernster.dev/ClearBudget/).
 
 ---
 
