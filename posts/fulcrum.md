@@ -28,7 +28,7 @@ It is not a survey tool. It is not a maturity model. It is not a dashboard of fe
 
 If the score offends you, that is useful information.
 
-The board above is a game in progress: 59 people across 8 teams, four moves played, structural health sitting at 38.9 because an approval layer landed earlier in the line. The strongest repairs on offer are already priced and ranked, delegating authority to the gate at plus 23.2 and collapsing the gate entirely at plus 20.8, both classified great.
+The board above is the built-in matrixed enterprise, 6,000 people across 1,076 teams, drilled into a single runtime group: the 45.652 score and every listed move belong to that section, not the summit. The group's lead is contested, drawn violet; the repair this frame wants first is already priced: resolving that ownership to a single claimant rates good at around plus 6 section points, while every delegation on offer rates bad and the realignments sit neutral. Beside the moves, seven signals flag the handoff queue age, the 50% rework rate and the centre's escalation load.
 
 The board shows exactly what the model produced and nothing it did not.
 
@@ -48,17 +48,19 @@ A tool that scores organisations has exactly one job it cannot fail at: giving t
 
 Every score is a pure function of the model. Change the model and the number moves; leave it alone and it does not. This is the whole point. The moment a structural score depends on who ran it or when, it becomes another opinion wearing a number; the field already has enough of those.
 
+The rule holds under parallelism too. On a large organisation the guide plans across every processor core, so an enterprise of thousands plans in seconds; the parallel build matches the single-core one to the last digit. Speed was not allowed to move the number.
+
 *Reproducibility is not a feature here. It is the reason the thing is allowed to exist.*
 
 ## Model the organisation you actually have
 
 Real organisations are not clean trees, so the model refuses to pretend they are.
 
-![Fulcrum's organisation editor: the authority claims table sits beside the dependency list, with an approval gate feeding Team Alpha on a delay of 3](/static/images/model-org.png)
+![Fulcrum's organisation editor holding the matrixed enterprise: the tree rolls up 1,076 teams and 6,000 people, with the dependency list and the authority claims table beneath it](/static/images/model-org.png)
 
-*The editor: claims and dependencies side by side, 59 people across 8 teams.*
+*The editor holding the enterprise itself: the tree, dependencies and claims, 1,076 teams and 6,000 people.*
 
-Beyond teams, domains and dependencies with propagation delays, the editor carries an authority claims table: matrix management, dual reporting and plain contested ownership, each claim naming who else believes they hold the decision. Contested authority is priced, not ignored. The moves that touch it are priced too: resolve the claim, downgrade it or impose a matrix overlay across the organisation, which the model treats as a standing blunder in the same class as an approval layer.
+Units nest to any depth with teams as the leaves, every row rolls up its teams and people and dependencies link any two items with their delay in turns. Beyond that, the editor carries an authority claims table: matrix management, dual reporting and plain contested ownership, each claim naming who else believes they hold the decision. In the screenshot it is the programme office's standing claims on other units' leads, the matrix disease made explicit, one row per claim. Contested authority is priced, not ignored. The moves that touch it are priced too: resolve the claim, downgrade it or impose a matrix overlay across the organisation, which the model treats as a standing blunder in the same class as an approval layer. The whole model autosaves and round-trips as JSON; even at a thousand teams the editor opens in a fraction of a second.
 
 *If two people both think they own a decision, the score already knows.*
 
@@ -76,11 +78,11 @@ Moves are asymmetric. On the enterprise archetype the single available approval-
 
 Ask the guide for a way out and it does not hand you one move. It plans the whole organisation.
 
-![Fulcrum's guide: a tree of composing leaf lines on the left, the selected line's move-by-move plan on the right, headlined 38.9 to 80.1](/static/images/play-guide1.png)
+![Fulcrum's guide: a tree of composing leaf lines on the left, the selected division's move-by-move plan on the right, the whole organisation climbing 16.255 to 60.096](/static/images/play-guide1.png)
 
-*The guide on the board above: playing every composing leaf line takes 38.9 to 80.1.*
+*The guide on the enterprise: playing every composing leaf line takes the whole organisation from 16.255 to 60.096.*
 
-Every leaf of the organisation gets its own line, priced in org points so the numbers compose honestly: teams directly at the top level are worth plus 21.9, teams in one small group plus 4.6; the headline is the sum of what is actually playable rather than a promise. Aggregate rows are views, not extra value to double count. A line that would do net harm is flagged and left out of the total.
+Every level of the organisation gets its own line, priced in org points so the numbers compose honestly. Aggregate rows are views, not extra value to double count: the division on the right climbs 43.747 to 98.340 on its own scale, yet the guide labels that the view from its altitude, because its gains overlap the leaf repairs beneath it and only leaf lines count toward the headline. Three lines that would cost the whole organisation are flagged and kept out of the total, so the climb the tree advertises is one the organisation would actually make. Tick one box and the guide is allowed to grow the organisation too, adding owners beside overloaded executives or splitting a lead's team where the model prices the gap.
 
 *No single move fixes an organisation. The guide never claims one will.*
 
@@ -94,21 +96,23 @@ The summit cannot see the moves that matter. That is not a failure of vision; it
 
 The guide makes the geometry visible. Select a single leaf line and it opens in its own frame:
 
-![A single leaf line opened in the guide: worth plus 4.6 org points to the whole organisation, it runs 50.3 to 97.6 on its own scale](/static/images/play-guide2.png)
+![A single leaf line opened in the guide: Search group 2 is worth plus 0.070 org points to the whole organisation and runs 49.141 to 79.104 on its own scale](/static/images/play-guide2.png)
 
-*One leaf line: plus 4.6 org points in the organisation's frame, 50.3 to 97.6 in its own.*
+*One leaf line: plus 0.070 org points in the organisation's frame, 49.141 to 79.104 in its own.*
 
-In the organisation's frame this line is worth plus 4.6 points. On its own scale it is a transformation, 50.3 to 97.6, achieved with two moves on one team. Both numbers are true at once. That is the whole leaf-value result in a single screenshot: small from the summit, decisive where it lands.
+In the organisation's frame this line is worth a fraction of a point. On its own scale it is a thirty-point climb: twelve moves that begin by resolving the programme office's standing claim on the group's lead and finish, with growth allowed, by splitting the lead's team. Both numbers are true at once. That is the whole leaf-value result in a single screenshot: barely visible from the summit, decisive where it lands.
 
 ## The session is a record
 
 A structural argument is only settled if you can show your working afterwards.
 
-Fulcrum keeps the whole line: every move survives a restart, undo walks back across runs and the report separates what was played in earlier runs from what was played in this one. The plan exports straight to your Downloads as a standalone HTML report with a re-importable JSON sibling, so the analysis can leave the machine without losing the model.
+Fulcrum keeps the whole line: every move survives a restart, undo walks back across runs and the centre of the board is a live move record that replays the position move by move, before and after pictures with each move's targets ringed so the two can never read identical. Beside the score sits a golden provenance button, because every number should account for itself: it opens the working that produced the figure on screen.
 
-Here is [a sample exported plan](/static/html/fulcrum-presentation.html) from the game on the board above: before and after maps, every recommendation grouped by the domain that holds the authority to play it and the approval-layer blunder sitting in the middle of the line, priced at what it cost.
+The plan exports straight to your Downloads as a standalone HTML report with a re-importable JSON sibling, so the analysis can leave the machine without losing the model. Every exported move that acted inside one unit carries two verdicts: its effect on the whole organisation and its effect within that unit's own frame, so a repair that is good where it lives never vanishes into whole-org neutrality.
 
-*The report is not a summary. It is the whole line, priced move by move.*
+Here is [a sample exported plan](/static/html/fulcrum-presentation.html) from the enterprise above: before and after maps, every recommendation grouped by the lead who holds the authority to play it, an approval-layer blunder sitting in the middle of the line priced at what it cost and the same resolve that reads neutral at the summit reading good inside its own group, 45.652 to 51.480.
+
+*The report is not a summary. It is the whole line, priced move by move at both scales.*
 
 ## Falsifiable by design
 
@@ -130,6 +134,6 @@ If you want a tool that tells you the reorganisation was a success, this one wil
 
 Fulcrum is the Decision Architecture model made executable: one of the two instruments the theory rests on. Its move classifications, blunder through great, come from Decision Architecture: The Move Space; the geometry it scores against is the subject of Relativistic Decision Architecture. Its sibling, [LatencyLab](https://ernster.dev/latencylab/), does the same job for latency: the two exist so the quantitative claims in the books can be rerun rather than believed.
 
-It runs entirely on your machine. Generate a level, model your own organisation or import one as JSON, then ask the guide for a move-by-move line to a stronger score. No account, no server, no telemetry.
+It runs entirely on your machine. Generate a level, open a built-in example (a healthy small agency up to the matrixed enterprise above), model your own organisation or import one as JSON, then ask the guide for a move-by-move line to a stronger score. No account, no server, no telemetry.
 
 *The first edition of the theory asked to be believed. This is part of what asks it to be rerun.*
