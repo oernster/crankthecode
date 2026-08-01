@@ -1096,13 +1096,9 @@ body.is-homepage .read-time-bar {
 .top-about-link:hover {
   text-decoration: none;
   transform: translateY(-1px);
-  background: var(--cta-bg-hover);
   border-color: var(--cta-border-hover);
-  color: var(--cta-fg);
   text-shadow: none;
-  box-shadow:
-    0 14px 30px rgba(79, 140, 255, 0.14),
-    var(--hover-accent-shadow);
+  box-shadow: var(--hover-accent-shadow);
 }
 
 .top-about-link:focus-visible {
@@ -1556,7 +1552,7 @@ a {
   - Avoid layout shift: no padding/line-height changes; use inset box-shadow.
   - Scope to content links to avoid overriding nav/button-like links.
 */
-.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):hover {
+.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):not(.hero-meta__link):hover {
   color: var(--cta-fg);
   text-decoration: none;
   text-shadow: none;
@@ -1565,7 +1561,7 @@ a {
 }
 
 /* Light mode: use accent blue tint for link hover highlight. */
-html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):hover {
+html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):not(.hero-meta__link):hover {
   color: #111118;
   box-shadow: inset 0 -1.1em 0 var(--cta-bg-hover);
 }
@@ -2025,11 +2021,6 @@ a[href=\"/\"]:hover {
   color: var(--text-muted);
 }
 
-/* On hover keep subtext readable against the accent-tint background. */
-.btn-link:hover .btn-subtext {
-  color: var(--text-muted);
-}
-
 .post-one-liner {
   margin: 5.6px 0 0;
   font-size: 15.2px;
@@ -2058,10 +2049,6 @@ a[href=\"/\"]:hover {
   box-shadow: none;
 }
 
-.btn-link--primary:hover {
-  background: var(--pill-bg-hover);
-}
-
 .btn-link--subtle {
   background: var(--pill-bg);
   color: var(--pill-fg);
@@ -2075,36 +2062,15 @@ a[href=\"/\"]:hover {
   border-color: var(--pill-border-strong);
 }
 
-.btn-link--subtle:hover {
-  background: var(--pill-bg-hover);
-}
 
+/* Pill hover: the accent ring only. No fill change and no offset glow, so the
+   ring reads as the single hover affordance on every pill button site-wide. */
 .btn-link:hover {
   text-decoration: none;
   transform: translateY(-1px);
-  background: var(--cta-bg-hover);
   border-color: var(--cta-border-hover);
-  color: var(--cta-fg);
   text-shadow: none;
-  box-shadow:
-    0 14px 30px rgba(79, 140, 255, 0.14),
-    var(--hover-accent-shadow);
-}
-
-/* Hover: ensure the primary button label remains readable against banana-yellow.
-   `--cta-fg` is already dark; this makes sure nested `.btn-text` inherits it even
-   if other rules override descendants. */
-.btn-link:hover .btn-text {
-  color: var(--cta-fg);
-}
-
-/* Subtle/primary button variants: keep the original variant color but add a more
-   obvious hover highlight via the accent ring. */
-.btn-link--primary:hover,
-.btn-link--subtle:hover {
-  box-shadow:
-    0 14px 30px rgba(79, 140, 255, 0.16),
-    var(--hover-accent-shadow);
+  box-shadow: var(--hover-accent-shadow);
 }
 
 .btn-link:focus-visible {
@@ -2313,12 +2279,11 @@ body.is-homepage .hero__subline {
 }
 
 .cta-button:hover {
-  /* Banana-yellow hover to match the rest of the UI. */
-  background: var(--cta-bg-hover);
+  /* Accent ring only: keep the resting fill and depth, add the ring. */
   border-color: var(--cta-border-hover);
-  color: var(--cta-fg);
   transform: translateY(-1px);
   text-shadow: none;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25), var(--hover-accent-shadow);
 }
 
 .cta-button:focus-visible {
@@ -2378,9 +2343,11 @@ body.is-homepage .hero__subline {
 
 .hero-meta__link:hover,
 .hero-meta__link:focus-visible {
-  background: color-mix(in srgb, var(--link-color) 18%, transparent);
+  /* Accent ring only: no fill change and no highlighter bar (see the
+     `.page-main a` hover chain, which exempts this pill). */
   border-color: var(--cta-border-hover);
   color: var(--link-hover-color);
+  box-shadow: var(--hover-accent-shadow);
 }
 
 /* Narrow viewports: let the lead sit on its own line so the pills wrap cleanly
@@ -2428,9 +2395,10 @@ body.is-homepage .hero__subline {
 }
 
 .cta-button--secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.55);
-  color: var(--cta-fg);
+  /* Accent ring only: the ghost pill keeps its transparent fill on hover. */
+  background: transparent;
+  border-color: var(--cta-border-hover);
+  box-shadow: var(--hover-accent-shadow);
 }
 
 @media (max-width: 680px) {
@@ -3729,15 +3697,14 @@ html.theme-light .section-title {
   color: var(--primary-btn-fg);
   box-sizing: border-box;
   font-size: calc(1em * var(--btn-scale));
-  transition: background 0.18s ease, border-color 0.18s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .header-cta-link:hover {
-  /* Banana-yellow hover to match the rest of the UI. */
-  background: var(--cta-bg-hover);
+  /* Accent ring only: no fill change on hover. */
   border-color: var(--cta-border-hover);
-  color: var(--cta-fg);
   text-shadow: none;
+  box-shadow: var(--hover-accent-shadow);
 }
 
 .header-cta-link:focus-visible {
@@ -3778,16 +3745,15 @@ html.theme-light .section-title {
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   font-size: calc(1em * var(--btn-scale));
-  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
   box-sizing: border-box;
 }
 
 .sticky-cta:hover {
-  /* Banana-yellow hover to match the rest of the UI. */
-  background: var(--cta-bg-hover);
+  /* Accent ring only: keep the resting fill and depth, add the ring. */
   border-color: var(--cta-border-hover);
-  color: var(--cta-fg);
   text-shadow: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), var(--hover-accent-shadow);
 }
 
 .sticky-cta:focus-visible {
@@ -4542,7 +4508,10 @@ html.theme-light .section-title {
   border: none;
 }
 
-.posts-pill-grid .post-item:hover {
+/* The second selector outweighs `.posts-index .post-item:hover` below, which
+   would otherwise paint a faded rectangle around the hovered pill's wrapper. */
+.posts-pill-grid .post-item:hover,
+.posts-index .posts-pill-grid .post-item:hover {
   background: none;
   border-color: transparent;
   box-shadow: none;
