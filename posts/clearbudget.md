@@ -56,6 +56,8 @@ I write about decision architecture: the idea that organisations behave accordin
 So I built ClearBudget the way I think. Each feature is a decision made explicit and given somewhere to resolve:
 
 - a per-month **skip** or **override** is the decision *"this obligation does not apply this month"*, made first-class instead of held in your head
+- a **This month only** entry is *"this exists only here"*: a one-off bill or income that never hardens into a standing commitment
+- an **end date** is *"this obligation stops here"*; deleting a bill leaves the months it already shaped untouched, because the past is a record rather than a draft
 - a **paid** flag is *"this money has already left"*, so a settled bill stops distorting what is still due
 - the **self-maintaining balance** promotes that decision to a system rule: dated bills and income are applied to the balance at local midnight on their day and handed back if the item is deleted, so the record stays honest without anyone remembering to keep it so
 - a **read-only viewer package** is an authority boundary: full visibility, no edit rights, enforced on every screen rather than one
@@ -67,7 +69,7 @@ So I built ClearBudget the way I think. Each feature is a decision made explicit
 
 ## What it does
 
-The solvency panel projects the balance forward and flags the tightest moment in the month; credit cards model as pressure systems with live pro-rated balances; the balance maintains itself, applying dated bills and income at local midnight and handing the amount back on delete; per-month overrides, skips and paid or received flags absorb real-world irregularity; the month renders as a graph of the balance day by day (or every card on one chart) and exports as a single self-contained web page, as does a projection across a range of months whose table adds up row by row; one button switches the whole application between light and dark; an explicit keyboard path runs through every screen and dialog; multiple users get isolated per-user databases behind a bcrypt sign-in; everything is local-first across Windows, macOS and Linux. The feature catalogue lives on the product site: [ernster.dev/ClearBudget](https://ernster.dev/ClearBudget/).
+The solvency panel projects the balance forward and flags the tightest moment in the month; credit cards model as pressure systems with live pro-rated balances; the balance maintains itself, applying dated bills and income at local midnight and handing the amount back on delete; per-month overrides, skips, one-off entries, end dates and paid or received flags absorb real-world irregularity; the month renders as a graph of the balance day by day (or every card on one chart) and exports as a single self-contained web page, as does a projection across a range of months whose table adds up row by row; one button switches the whole application between light and dark; an explicit keyboard path runs through every screen and dialog; multiple users get isolated per-user databases behind a bcrypt sign-in; everything is local-first across Windows, macOS and Linux. The feature catalogue lives on the product site: [ernster.dev/ClearBudget](https://ernster.dev/ClearBudget/).
 
 ---
 
