@@ -132,7 +132,32 @@ If you want a tool that tells you the reorganisation was a success, this one wil
 
 ## Built on the series, one of its two instruments
 
-Fulcrum is the Decision Architecture model made executable: one of the two instruments the theory rests on. Its move classifications, blunder through great, come from Decision Architecture: The Move Space; the geometry it scores against is the subject of Relativistic Decision Architecture. Its sibling, [LatencyLab](https://ernster.dev/latencylab/), does the same job for latency: the two exist so the quantitative claims in the books can be rerun rather than believed.
+Fulcrum is the Decision Architecture model made executable: one of the two instruments the theory rests on. Its move classifications, blunder through great, come from *Decision Architecture: The Move Space*, a positional model of organisational change; the geometry it scores against is the subject of *Relativistic Decision Architecture*, the geometry of decision systems. These are the two volumes the engine answers to:
+
+<div class="books-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 600px; margin: 20px auto 0;" aria-label="The two books behind Fulcrum">
+  <article class="book-tile" aria-label="Decision Architecture: The Move Space">
+    <a class="book-cover-link" href="https://www.amazon.co.uk/dp/B0GTDX7186" target="_blank" rel="noopener noreferrer" title="A Positional Model of Organisational Change" aria-label="Decision Architecture: The Move Space - A Positional Model of Organisational Change (Amazon UK)">
+      <img class="book-cover" style="margin: 0;" src="/static/images/_cover-da-move-space.png" alt="Decision Architecture: The Move Space - A Positional Model of Organisational Change" loading="lazy" decoding="async" />
+      <div class="book-meta" aria-label="Book details">
+        <div class="book-title">Decision Architecture: The Move Space</div>
+        <div class="book-subtitle">A Positional Model of Organisational Change</div>
+      </div>
+      <span class="visually-hidden">A Positional Model of Organisational Change</span>
+    </a>
+  </article>
+  <article class="book-tile" aria-label="Relativistic Decision Architecture">
+    <a class="book-cover-link" href="https://www.amazon.co.uk/dp/B0H8HTM8H3" target="_blank" rel="noopener noreferrer" title="The geometry of decision systems" aria-label="Relativistic Decision Architecture - The geometry of decision systems (Amazon UK)">
+      <img class="book-cover" style="margin: 0;" src="/static/images/_cover_relativistic_da_architecture.png" alt="Relativistic Decision Architecture - The geometry of decision systems" loading="lazy" decoding="async" />
+      <div class="book-meta" aria-label="Book details">
+        <div class="book-title">Relativistic Decision Architecture</div>
+        <div class="book-subtitle">The geometry of decision systems</div>
+      </div>
+      <span class="visually-hidden">The geometry of decision systems</span>
+    </a>
+  </article>
+</div>
+
+Its sibling, [LatencyLab](https://ernster.dev/latencylab/), does the same job for latency: the two instruments exist so the quantitative claims in the books can be rerun rather than believed.
 
 It runs entirely on your machine. Generate a level, open a built-in example (a healthy small agency up to the matrixed enterprise above), model your own organisation or import one as JSON, then ask the guide for a move-by-move line to a stronger score. No account, no server, no telemetry.
 
