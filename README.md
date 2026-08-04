@@ -96,6 +96,12 @@ uvicorn app.main:app --reload
 .\venv\Scripts\python.exe -m pytest -q --cov
 ```
 
+### Documentation
+
+- [ARCHITECTURE.md](ARCHITECTURE.md): the ports and adapters shape, the request flows and the content model.
+- [DEVELOPMENT-README.md](DEVELOPMENT-README.md): local run, tests and the asset pipeline.
+- [TECH_DEBT.md](TECH_DEBT.md): the standing reference to what is still open, what is deliberately left and what only looks like debt.
+
 ---
 
 ## Static assets (dev note)
