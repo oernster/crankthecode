@@ -267,4 +267,3 @@ def test_category_posts_grouped_by_layer_tolerates_empty_cat_tag():
         )
         == []
     )
-

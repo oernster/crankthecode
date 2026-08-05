@@ -69,7 +69,9 @@ def test_to_iso_utc_invalid_returns_none():
 
 
 def test_absolute_passes_through_https():
-    result = mmsp_module._absolute("https://example.com/", "https://cdn.example.com/img.png")
+    result = mmsp_module._absolute(
+        "https://example.com/", "https://cdn.example.com/img.png"
+    )
     assert result == "https://cdn.example.com/img.png"
 
 
@@ -147,7 +149,9 @@ def test_mmsp_feed_handler_item_with_blurb_and_no_cover():
 
 
 def test_mmsp_feed_handler_item_with_cover_and_no_blurb():
-    resp = _run([_Post(blurb=None, one_liner=None, cover_image_url="/static/x.png", tags=[])])
+    resp = _run(
+        [_Post(blurb=None, one_liner=None, cover_image_url="/static/x.png", tags=[])]
+    )
     items = json.loads(resp.body)["items"]
 
     item = items[0]

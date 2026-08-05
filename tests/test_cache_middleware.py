@@ -4,12 +4,12 @@ Covered here:
 - Non-HTTP scope (WebSocket/lifespan) passes through unmodified.
 - Dynamic content that already carries Cache-Control is left alone (has_cc branch).
 """
+
 from __future__ import annotations
 
 import pytest
 
 from app.main import _CachePolicyMiddleware
-
 
 # ---------------------------------------------------------------------------
 # Helpers

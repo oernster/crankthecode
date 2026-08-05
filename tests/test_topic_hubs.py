@@ -43,7 +43,10 @@ def test_topic_hub_page_lists_posts_and_emits_jsonld_and_canonical():
         assert resp.status_code == 200
 
         html = resp.text
-        assert '<link rel="canonical" href="https://example.com/topics/decision-systems"' in html
+        assert (
+            '<link rel="canonical" href="https://example.com/topics/decision-systems"'
+            in html
+        )
         assert "application/ld+json" in html
 
         # Ensure at least one known decision-systems leadership post is listed.
@@ -94,7 +97,8 @@ def test_start_here_post_includes_orientation_links_to_topics_and_about():
 
     resp = client.get("/posts/start-here")
     assert resp.status_code == 200
-    # Orientation / Explore navigation moved to /explore; Start Here should remain clean.
+    # Orientation / Explore navigation moved to /explore; Start Here should
+    # remain clean.
     assert 'href="/topics"' not in resp.text
     assert 'aria-label="Orientation"' not in resp.text
     assert 'aria-label="Explore themes"' not in resp.text
@@ -121,4 +125,3 @@ def test_sitemap_includes_topics_and_topic_hub_pages():
         assert "https://example.com/about/oliver-ernster" in locs
     finally:
         os.environ.pop("SITE_URL", None)
-

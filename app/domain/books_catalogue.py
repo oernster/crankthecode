@@ -59,4 +59,3 @@ BOOKS_CATALOGUE: tuple[BookCatalogueEntry, ...] = (
         hover_text="The geometry of decision systems",
     ),
 )
-

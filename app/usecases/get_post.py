@@ -255,15 +255,17 @@ class GetPostUseCase:
             tags=post.tags,
             blurb=getattr(post, "blurb", None),
             one_liner=getattr(post, "one_liner", None),
-            cover_image_url=assets.resolve_url_or_path(str(cover_url or ""))
-            if cover_url
-            else None,
-            social_image_url=assets.resolve_url_or_path(str(social_url or ""))
-            if social_url
-            else None,
-            thumb_image_url=assets.resolve_url_or_path(str(thumb_url))
-            if thumb_url
-            else None,
+            cover_image_url=(
+                assets.resolve_url_or_path(str(cover_url or "")) if cover_url else None
+            ),
+            social_image_url=(
+                assets.resolve_url_or_path(str(social_url or ""))
+                if social_url
+                else None
+            ),
+            thumb_image_url=(
+                assets.resolve_url_or_path(str(thumb_url)) if thumb_url else None
+            ),
             extra_image_urls=tuple(assets.resolve_url_or_path(u) for u in extra_urls),
             content_html=html_content,
             emoji=getattr(post, "emoji", None),

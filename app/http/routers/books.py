@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Books catalogue page route."""
+
+from __future__ import annotations
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
@@ -15,6 +15,13 @@ from app.http.view_models.sidebar import build_sidebar_categories
 from app.services.blog_service import BlogService
 
 router = APIRouter()
+
+# One string, used as both the Open Graph and the meta description. They were
+# duplicated character for character, which is how they drift apart.
+_DESCRIPTION = (
+    "Authored books on decision architecture and structural design in "
+    "technical organisations."
+)
 
 
 @router.get("/books", response_class=HTMLResponse)
@@ -39,12 +46,8 @@ async def books_page(
             "canonical_url": canonical,
             "page_title": "Books | Crank The Code",
             "og_title": "Books | Crank The Code",
-            "og_description": (
-                "Authored books on decision architecture and structural design in technical organisations."
-            ),
-            "meta_description": (
-                "Authored books on decision architecture and structural design in technical organisations."
-            ),
+            "og_description": _DESCRIPTION,
+            "meta_description": _DESCRIPTION,
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
                 {"label": "Books", "href": "/books"},

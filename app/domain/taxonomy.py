@@ -1,20 +1,22 @@
-from __future__ import annotations
-
 """Domain taxonomy: canonical layer and category constants.
 
 No HTTP dependency. Safe to import from any layer of the stack.
 """
 
+from __future__ import annotations
+
 # Portfolio/systems categories (used to classify posts as "projects" vs "writing").
-PROJECT_CATEGORY_LABELS: frozenset[str] = frozenset({
-    "desktop apps",
-    "protocols & reference apps",
-    "decision architecture instruments",
-    "gaming",
-    "tools & libraries",
-    "hardware",
-    "web apis",
-})
+PROJECT_CATEGORY_LABELS: frozenset[str] = frozenset(
+    {
+        "desktop apps",
+        "protocols & reference apps",
+        "decision architecture instruments",
+        "gaming",
+        "tools & libraries",
+        "hardware",
+        "web apis",
+    }
+)
 
 # Projects view: explicit top-to-bottom display order for the project categories.
 # Anything not listed sorts after these (alpha), and "Other" is always last.

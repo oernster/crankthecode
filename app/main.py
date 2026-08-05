@@ -9,7 +9,6 @@ from fastapi import FastAPI
 from fastapi import Request
 from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
-from jinja2 import Environment, FileSystemLoader
 from starlette.types import ASGIApp, Receive, Scope, Send
 
 from app.assets.manifest import asset_url
@@ -80,7 +79,13 @@ class _CachePolicyMiddleware:
                 if content_type.startswith(b"text/html"):
                     # Strip any existing Cache-Control / Pragma / Expires so our
                     # directives are the sole authority on this response.
-                    _strip = {b"cache-control", b"cdn-cache-control", b"surrogate-control", b"pragma", b"expires"}
+                    _strip = {
+                        b"cache-control",
+                        b"cdn-cache-control",
+                        b"surrogate-control",
+                        b"pragma",
+                        b"expires",
+                    }
                     headers = [(k, v) for k, v in headers if k.lower() not in _strip]
                     headers.extend(self._HTML_HEADERS)
                     message = {**message, "headers": headers}

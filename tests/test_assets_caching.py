@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
 import runpy
 import sys
 from pathlib import Path
@@ -10,7 +9,11 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from app.assets.manifest import AssetManifest, get_asset_manifest, reset_asset_manifest_cache
+from app.assets.manifest import (
+    AssetManifest,
+    get_asset_manifest,
+    reset_asset_manifest_cache,
+)
 from app.assets.staticfiles import CachingStaticFiles, FallbackStaticFiles
 
 
@@ -72,7 +75,9 @@ def test_build_static_dist_raises_when_src_missing(tmp_path: Path):
         )
 
 
-def test_build_static_module_main_via_runpy(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+def test_build_static_module_main_via_runpy(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
     # Execute the module as `__main__` to cover the guarded entrypoint.
     src = tmp_path / "static"
     src.mkdir()
@@ -109,27 +114,35 @@ def test_asset_manifest_load_handles_missing_and_invalid(tmp_path: Path):
     assert AssetManifest.load(nondict).mapping == {}
 
     mixed = tmp_path / "mixed.json"
-    # JSON coerces non-string keys to strings. Ensure we still filter out non-string values.
-    mixed.write_text(json.dumps({"ok": "x.y.js", "1": "no", "bad": 2}), encoding="utf-8")
+    # JSON coerces non-string keys to strings. Ensure we still filter out
+    # non-string values.
+    mixed.write_text(
+        json.dumps({"ok": "x.y.js", "1": "no", "bad": 2}), encoding="utf-8"
+    )
     man = AssetManifest.load(mixed)
     assert man.mapping == {"ok": "x.y.js", "1": "no"}
 
 
 def test_asset_manifest_resolution_and_rewriting():
-    man = AssetManifest(mapping={
-        "styles.css": "styles.aaaaaaaa.css",
-        "images/me.jpg": "images/me.bbbbbbbb.jpg",
-    })
+    man = AssetManifest(
+        mapping={
+            "styles.css": "styles.aaaaaaaa.css",
+            "images/me.jpg": "images/me.bbbbbbbb.jpg",
+        }
+    )
 
     assert man.static_url("styles.css") == "/static/styles.aaaaaaaa.css"
     assert man.resolve_url_or_path("https://example.com/x") == "https://example.com/x"
     assert man.resolve_url_or_path("/not-static/x") == "/not-static/x"
-    assert man.resolve_url_or_path("/static/images/me.jpg") == "/static/images/me.bbbbbbbb.jpg"
+    assert (
+        man.resolve_url_or_path("/static/images/me.jpg")
+        == "/static/images/me.bbbbbbbb.jpg"
+    )
 
     html = (
         '<img src="/static/images/me.jpg">'
         '<a href="/static/styles.css">x</a>'
-        "<div style=\"background:url(/static/images/me.jpg)\"></div>"
+        '<div style="background:url(/static/images/me.jpg)"></div>'
     )
     out = man.rewrite_html_static_urls(html)
     assert "/static/images/me.bbbbbbbb.jpg" in out
@@ -153,17 +166,25 @@ def test_asset_manifest_cache_reset(tmp_path: Path, monkeypatch: pytest.MonkeyPa
     monkeypatch.setenv("CTC_STATIC_MANIFEST_PATH", str(path))
 
     reset_asset_manifest_cache()
-    assert get_asset_manifest().static_url("styles.css") == "/static/styles.11111111.css"
+    assert (
+        get_asset_manifest().static_url("styles.css") == "/static/styles.11111111.css"
+    )
 
     # Update manifest; cached value should not change until reset.
     path.write_text(json.dumps({"styles.css": "styles.22222222.css"}), encoding="utf-8")
-    assert get_asset_manifest().static_url("styles.css") == "/static/styles.11111111.css"
+    assert (
+        get_asset_manifest().static_url("styles.css") == "/static/styles.11111111.css"
+    )
 
     reset_asset_manifest_cache()
-    assert get_asset_manifest().static_url("styles.css") == "/static/styles.22222222.css"
+    assert (
+        get_asset_manifest().static_url("styles.css") == "/static/styles.22222222.css"
+    )
 
 
-def test_asset_manifest_debug_logs_when_disabled(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]):
+def test_asset_manifest_debug_logs_when_disabled(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+):
     """Cover the debug-only logging branches.
 
     The project enforces 100% coverage, so we keep these one-shot runtime logs
@@ -232,10 +253,17 @@ def test_caching_staticfiles_cache_headers(tmp_path: Path):
     # Conditional request must yield 304 *and* carry the correct Cache-Control
     # header so old browser cache entries are updated on this transition response.
     lm = fp.headers.get("last-modified")
-    assert lm is not None, "StaticFiles must set last-modified for ETag-based revalidation"
-    not_modified = client.get("/static/app.1234abcd.js", headers={"if-modified-since": lm})
+    assert (
+        lm is not None
+    ), "StaticFiles must set last-modified for ETag-based revalidation"
+    not_modified = client.get(
+        "/static/app.1234abcd.js", headers={"if-modified-since": lm}
+    )
     assert not_modified.status_code == 304
-    assert not_modified.headers.get("cache-control") == "public, max-age=31536000, immutable"
+    assert (
+        not_modified.headers.get("cache-control")
+        == "public, max-age=31536000, immutable"
+    )
 
     # Non-fingerprinted 304 must also propagate no-store.
     plain_lm = plain.headers.get("last-modified")
@@ -322,4 +350,3 @@ def test_fallback_staticfiles_uses_fallback_when_primary_returns_404_response(
     resp = client.get("/static/anything.txt")
     assert resp.status_code == 200
     assert resp.text == "ok"
-

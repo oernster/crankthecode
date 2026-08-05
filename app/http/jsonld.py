@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """Reusable JSON-LD entity builders.
 
 No HTTP/routing dependency. Functions accept primitive values (site_url str)
 and return plain dicts ready for json.dumps().
 """
+
+from __future__ import annotations
 
 from app.http.seo import absolute_url
 

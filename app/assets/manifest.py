@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
-
 _FINGERPRINT_RE = re.compile(r"\.[0-9a-f]{8,}\.")
 
 
@@ -215,4 +214,3 @@ def asset_url(rel_path: str) -> str:
     """Template-friendly helper for `/static/` URLs."""
 
     return get_asset_manifest().static_url(rel_path)
-

@@ -9,10 +9,7 @@ from app.main import create_app
 
 
 def test_category_label_for_query_returns_label_and_none():
-    assert (
-        category_label_for_query("api|apis|fastapi|django|rest|web")
-        == "🌐 Web APIs"
-    )
+    assert category_label_for_query("api|apis|fastapi|django|rest|web") == "🌐 Web APIs"
     assert category_label_for_query("") is None
     assert category_label_for_query("not-a-real-category") is None
 
@@ -156,7 +153,9 @@ def test_topic_helpers_cover_general_hub_route_normalization_and_general_exclusi
     assert leadership_vm.topic_layer_slug_for_route("") == "general"
     assert leadership_vm.topic_layer_slug_for_route("general") == "general"
 
-    general_posts = leadership_vm.topic_posts_for_layer(FakeBlog(), layer_slug="general")
+    general_posts = leadership_vm.topic_posts_for_layer(
+        FakeBlog(), layer_slug="general"
+    )
     slugs = {p.get("slug") for p in general_posts}
     assert "no-layer" in slugs
     assert "known-layer" not in slugs

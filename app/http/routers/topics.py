@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Topics, patterns and decision architecture routes."""
+
+from __future__ import annotations
 
 import json
 
@@ -33,6 +33,14 @@ from app.http.view_models.sidebar import build_sidebar_categories, posts_href
 from app.services.blog_service import BlogService
 
 router = APIRouter()
+
+# Each of these was repeated verbatim across the Open Graph, meta and body
+# descriptions, which is how three copies of one sentence drift apart.
+_PATTERNS_DESCRIPTION = (
+    "Reusable organisational design patterns derived from Decision "
+    "Architecture thinking."
+)
+_TOPICS_DESCRIPTION = "Topic hubs for the Decision Architecture / Leadership layer."
 
 
 @router.get("/decision-architecture", response_class=HTMLResponse)
@@ -121,13 +129,13 @@ async def patterns_index(
             "is_homepage": False,
             "page_title": "Decision Architecture Patterns | Crank The Code",
             "og_title": "Decision Architecture Patterns | Crank The Code",
-            "og_description": "Reusable organisational design patterns derived from Decision Architecture thinking.",
-            "meta_description": "Reusable organisational design patterns derived from Decision Architecture thinking.",
+            "og_description": _PATTERNS_DESCRIPTION,
+            "meta_description": _PATTERNS_DESCRIPTION,
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
                 {"label": "Decision Architecture Patterns", "href": "/patterns"},
             ],
-            "description": "Reusable organisational design patterns derived from Decision Architecture thinking.",
+            "description": _PATTERNS_DESCRIPTION,
             "layers": layers,
             "groups": groups,
             "emoji_index": emoji_index,
@@ -316,12 +324,14 @@ async def topics_index(
             "is_homepage": False,
             "page_title": "Topics | Crank The Code",
             "og_title": "Topics | Crank The Code",
-            "og_description": "Topic hubs for the Decision Architecture / Leadership layer.",
-            "meta_description": "Topic hubs for the Decision Architecture / Leadership layer.",
+            "og_description": _TOPICS_DESCRIPTION,
+            "meta_description": _TOPICS_DESCRIPTION,
             "topic_hubs": hubs,
             "structures_layers": structures_layers,
             "patterns_layers": patterns_layers,
-            "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
+            "jsonld_json": json.dumps(
+                jsonld, ensure_ascii=False, separators=(",", ":")
+            ),
             "jsonld_extra_json": json.dumps(
                 breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
             ),
@@ -385,9 +395,11 @@ async def topic_hub_page(
                 "@type": "ListItem",
                 "position": idx + 1,
                 "name": p.get("title"),
-                "item": absolute_url(site_url, f"/posts/{p.get('slug')}")
-                if p.get("slug")
-                else None,
+                "item": (
+                    absolute_url(site_url, f"/posts/{p.get('slug')}")
+                    if p.get("slug")
+                    else None
+                ),
             }
             for idx, p in enumerate(posts)
         ],
@@ -453,7 +465,9 @@ async def topic_hub_page(
             "posts": posts,
             "layers": layers,
             "topic_hubs": hubs,
-            "jsonld_json": json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")),
+            "jsonld_json": json.dumps(
+                jsonld, ensure_ascii=False, separators=(",", ":")
+            ),
             "jsonld_extra_json": json.dumps(
                 breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
             ),

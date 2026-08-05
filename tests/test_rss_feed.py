@@ -181,7 +181,7 @@ def test_rss_items_include_content_encoded_html_with_leading_img_for_feed_thumbn
         os.environ.pop("SITE_URL", None)
 
 
-def test_rss_feed_does_not_need_thumbnail_backfill_when_newest_posts_already_have_images():
+def test_rss_feed_skips_backfill_when_newest_posts_already_have_images():
     """Cover the non-backfill branch of the RSS thumbnail selection.
 
     When the first page of feed items already contains at least one image-bearing

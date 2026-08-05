@@ -1,0 +1,44 @@
+name: Checks
+
+# The repository had no CI at all. The coverage gate was real but only ever ran
+# at whatever prompt someone happened to be sitting at, and nothing linted, so
+# 29 files had drifted out of black's formatting and 97 findings had built up
+# unnoticed. All four checks now run on every push and pull request.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install black flake8 ruff
+
+      - name: black
+        run: python -m black --check .
+
+      - name: flake8
+        run: python -m flake8 .
+
+      - name: ruff
+        run: python -m ruff check .
+
+      # pytest.ini carries the 100% coverage gate, so a bare run enforces it.
+      - name: pytest
+        run: python -m pytest

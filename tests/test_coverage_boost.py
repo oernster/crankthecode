@@ -557,7 +557,6 @@ def test_homepage_leadership_empty_renders_empty_state(monkeypatch):
     # Homepage no longer renders the leadership post pills; it must still render.
 
 
-
 def test_posts_index_category_title_empty_is_tolerated(monkeypatch):
     """Covers the `cat_text == ''` branch when computing category SEO titles."""
 
@@ -691,5 +690,3 @@ def test_get_post_appends_screenshots_when_body_markdown_empty_covers_else_branc
     assert detail is not None
     assert detail.content_html.startswith("## Screenshots")
     assert "/static/images/one.png" in detail.content_html
-
-

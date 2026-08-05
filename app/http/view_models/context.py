@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Base request context builder and page-content loaders."""
+
+from __future__ import annotations
 
 import datetime as dt
 from pathlib import Path

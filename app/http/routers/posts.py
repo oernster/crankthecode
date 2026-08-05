@@ -1,9 +1,8 @@
-from __future__ import annotations
-
 """Post listing and post detail routes."""
 
+from __future__ import annotations
+
 import json
-from collections.abc import Mapping
 from typing import cast
 
 from fastapi import APIRouter, Depends, Request
@@ -16,7 +15,6 @@ from app.http.seo import (
     absolute_url,
     build_meta_description,
     canonical_url_for_request,
-    get_site_url,
     to_iso_date,
     to_iso_datetime,
 )
@@ -29,7 +27,6 @@ from app.http.view_models.posts import (
     group_posts_by_cat,
     is_project_post_by_tags,
     post_emoji_map,
-    post_frontmatter_emoji_index,
     split_leading_emoji_from_title,
 )
 from app.http.view_models.sidebar import (
@@ -38,7 +35,6 @@ from app.http.view_models.sidebar import (
     POSTS_VIEW_WRITING,
     build_sidebar_categories,
     normalize_cat_label,
-    normalize_layer_slug,
     normalize_posts_view,
     posts_base_href,
     posts_href,
@@ -46,7 +42,11 @@ from app.http.view_models.sidebar import (
     posts_view_href,
 )
 from app.domain.taxonomy import PROJECT_CATEGORY_LABELS
-from app.domain.tags import humanize_layer_slug, primary_layer_slug_from_tags
+from app.domain.tags import (
+    humanize_layer_slug,
+    normalize_layer_slug,
+    primary_layer_slug_from_tags,
+)
 from app.services.blog_service import BlogService
 
 router = APIRouter()
@@ -111,7 +111,9 @@ async def posts_index(
     current_cat_raw = (ctx.get("current_cat", "") or "").strip()
     current_layer_raw = (ctx.get("current_layer", "") or "").strip()
 
-    ctx["sidebar_categories"] = build_sidebar_categories(blog, exclude_blog=bool(ctx.get("exclude_blog")))
+    ctx["sidebar_categories"] = build_sidebar_categories(
+        blog, exclude_blog=bool(ctx.get("exclude_blog"))
+    )
 
     cat_label: str | None = None
     if current_cat_raw:
@@ -134,12 +136,16 @@ async def posts_index(
     legacy_view = (
         None
         if view_norm
-        else posts_view_from_legacy_exclude_blog(request.query_params.get("exclude_blog"))
+        else posts_view_from_legacy_exclude_blog(
+            request.query_params.get("exclude_blog")
+        )
     )
 
     cat_norm = (cat_label or "").strip().lower()
     default_view = (
-        POSTS_VIEW_PROJECTS if cat_norm in PROJECT_CATEGORY_LABELS else POSTS_VIEW_WRITING
+        POSTS_VIEW_PROJECTS
+        if cat_norm in PROJECT_CATEGORY_LABELS
+        else POSTS_VIEW_WRITING
     )
     current_view = view_norm or legacy_view or default_view
     ctx["current_view"] = current_view
@@ -147,7 +153,8 @@ async def posts_index(
     # Content-type filtering (primary)
     if current_view == POSTS_VIEW_WRITING:
         posts = [
-            p for p in posts
+            p
+            for p in posts
             if not is_project_post_by_tags(
                 str(p.get("post_type") or ""),
                 [str(t) for t in cast(list[object], p.get("tags") or [])],
@@ -155,7 +162,8 @@ async def posts_index(
         ]
     elif current_view == POSTS_VIEW_PROJECTS:
         posts = [
-            p for p in posts
+            p
+            for p in posts
             if is_project_post_by_tags(
                 str(p.get("post_type") or ""),
                 [str(t) for t in cast(list[object], p.get("tags") or [])],
@@ -165,7 +173,8 @@ async def posts_index(
         posts = posts
     else:  # pragma: no cover
         posts = [
-            p for p in posts
+            p
+            for p in posts
             if not is_project_post_by_tags(
                 str(p.get("post_type") or ""),
                 [str(t) for t in cast(list[object], p.get("tags") or [])],
@@ -175,6 +184,7 @@ async def posts_index(
     # Server-side filtering for category + layer (AND semantics).
     if cat_label:
         from app.http.view_models.sidebar import extract_category_queries_from_tags
+
         cat_tag_norm = f"cat:{normalize_cat_label(cat_label)}".strip().lower()
         posts = [
             p
@@ -189,6 +199,7 @@ async def posts_index(
 
     if layer_slug:
         from app.domain.tags import extract_layer_slugs_from_tags
+
         layer_tag_norm = f"layer:{normalize_layer_slug(layer_slug)}".strip().lower()
         posts = [
             p
@@ -204,9 +215,12 @@ async def posts_index(
     category_label = None
     if cat_label:
         from app.http.view_models.sidebar import sidebar_label_with_emoji
+
         category_label = sidebar_label_with_emoji(cat_label)
     else:
-        category_label = category_label_for_query(current_q, blog=blog, exclude_blog=False)
+        category_label = category_label_for_query(
+            current_q, blog=blog, exclude_blog=False
+        )
 
     layer_label = humanize_layer_slug(layer_slug) if layer_slug else None
 
@@ -234,16 +248,28 @@ async def posts_index(
             meta_description = meta_description  # pragma: no cover
 
     writing_href = posts_view_href(
-        view=POSTS_VIEW_WRITING, query=current_q or None, cat=cat_label, layer=layer_slug,
+        view=POSTS_VIEW_WRITING,
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
     )
     projects_href = posts_view_href(
-        view=POSTS_VIEW_PROJECTS, query=current_q or None, cat=cat_label, layer=layer_slug,
+        view=POSTS_VIEW_PROJECTS,
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
     )
     archive_href = posts_view_href(
-        view=POSTS_VIEW_ARCHIVE, query=current_q or None, cat=cat_label, layer=layer_slug,
+        view=POSTS_VIEW_ARCHIVE,
+        query=current_q or None,
+        cat=cat_label,
+        layer=layer_slug,
     )
     filtered_href = posts_view_href(
-        view=current_view, query=None, cat=cat_label, layer=layer_slug,
+        view=current_view,
+        query=None,
+        cat=cat_label,
+        layer=layer_slug,
     )
 
     ctx.update(
@@ -271,7 +297,10 @@ async def posts_index(
                         {
                             "label": category_label or cat_label,
                             "href": posts_href(
-                                query=None, cat=cat_label, layer=None, exclude_blog=None,
+                                query=None,
+                                cat=cat_label,
+                                layer=None,
+                                exclude_blog=None,
                             ),
                         }
                     ]
@@ -452,6 +481,7 @@ async def read_post(
     # uses to infer topical clusters. Invisible to users, high signal to crawlers.
     post_tags_for_layer = [str(t) for t in (detail.tags or [])]
     from app.http.view_models.leadership import is_leadership_post
+
     _is_leadership = is_leadership_post(post_tags_for_layer)
     _primary_layer = (
         primary_layer_slug_from_tags(post_tags_for_layer) if _is_leadership else None
@@ -460,16 +490,51 @@ async def read_post(
     if _primary_layer:
         _layer_label = humanize_layer_slug(_primary_layer)
         breadcrumb_items_jsonld = [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": absolute_url(site_url, "/")},
-            {"@type": "ListItem", "position": 2, "name": "Topics", "item": absolute_url(site_url, "/topics")},
-            {"@type": "ListItem", "position": 3, "name": _layer_label, "item": absolute_url(site_url, f"/topics/{_primary_layer}")},
-            {"@type": "ListItem", "position": 4, "name": detail.title, "item": canonical},
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": absolute_url(site_url, "/"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Topics",
+                "item": absolute_url(site_url, "/topics"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": _layer_label,
+                "item": absolute_url(site_url, f"/topics/{_primary_layer}"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": detail.title,
+                "item": canonical,
+            },
         ]
     else:
         breadcrumb_items_jsonld = [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": absolute_url(site_url, "/")},
-            {"@type": "ListItem", "position": 2, "name": "Posts", "item": absolute_url(site_url, "/posts")},
-            {"@type": "ListItem", "position": 3, "name": detail.title, "item": canonical},
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": absolute_url(site_url, "/"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Posts",
+                "item": absolute_url(site_url, "/posts"),
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": detail.title,
+                "item": canonical,
+            },
         ]
 
     breadcrumb_jsonld = {

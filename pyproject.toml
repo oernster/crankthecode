@@ -2,3 +2,21 @@
 line-length = 88
 target-version = ["py311"]
 
+# Ruff runs alongside flake8, so the two must agree on which rules are live or
+# they contradict each other and neither can be trusted. This mirrors .flake8:
+# same line length, same families, same ignores, same exclusions.
+#
+# E402 is the one worth knowing about. flake8 does not report it here but ruff
+# does, and ruff was right: fourteen modules had `from __future__ import
+# annotations` above their docstring, which made the string a bare expression
+# rather than a docstring (__doc__ was None) and every import after it "code
+# after a statement". Keeping E402 live stops that coming back.
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+exclude = [".git", "__pycache__", ".venv", "venv", "dist", "build"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F"]
+ignore = ["E203"]
+

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """HTML router aggregator.
 
 All routes are defined in sub-modules and included here so that
@@ -13,6 +11,8 @@ Sub-module layout:
   topics.py    -- /topics, /topics/{layer}, /patterns, /patterns/{layer},
                   /decision-architecture
 """
+
+from __future__ import annotations
 
 from fastapi import APIRouter
 

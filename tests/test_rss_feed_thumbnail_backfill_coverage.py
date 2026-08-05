@@ -14,7 +14,8 @@ from app.main import create_app
 def test_rss_thumbnail_backfill_scans_older_posts_and_replaces_last_item():
     """Cover rss_feed() backfill branches.
 
-    Targets missing coverage reported in `app.http.routers.rss` around lines 204-206, 208:
+    Targets missing coverage reported in `app.http.routers.rss` around
+    lines 204-206, 208:
     - find a replacement in eligible_posts[20:200]
     - replace the last of the first 20 posts when replacement found
     """
@@ -89,4 +90,3 @@ def test_rss_thumbnail_backfill_scans_older_posts_and_replaces_last_item():
         assert any((link or "").endswith("/posts/old-with-image") for link in links)
     finally:
         os.environ.pop("SITE_URL", None)
-

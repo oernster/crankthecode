@@ -7,8 +7,9 @@ def axisdb_install_prompt_markdown() -> str:
     # Keep this as line-wrapped Python source for Flake8 while still emitting
     # stable HTML.
     #
-    # IMPORTANT: all content inside <pre class="fake-terminal__body"><code>…</code></pre>
-    # must be on a single line with no extra whitespace between spans.  A <pre> element
+    # IMPORTANT: all content inside
+    # <pre class="fake-terminal__body"><code>…</code></pre> must be on a single
+    # line with no extra whitespace between spans.  A <pre> element
     # preserves ALL whitespace (newlines, leading spaces) as visible text, so any
     # indentation or line-breaks inside the <code> block appear as blank lines in the
     # rendered terminal - breaking the animation effect.
@@ -50,7 +51,8 @@ def axisdb_install_prompt_markdown() -> str:
         '      aria-label="Copy install commands"\n'
         '      title="Copy install commands"\n'
         "    >\n"
-        f'      <svg class="code-copy__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">\n'
+        '      <svg class="code-copy__icon" viewBox="0 0 24 24" '
+        'aria-hidden="true" focusable="false">\n'
         "        <path\n"
         f'          d="{svg_path_d}"\n'
         "        />\n"
@@ -59,7 +61,8 @@ def axisdb_install_prompt_markdown() -> str:
     )
 
     lines: list[str] = [
-        '<div class="fake-terminal fake-terminal--axisdb-install" aria-label="Install AxisDB">',
+        '<div class="fake-terminal fake-terminal--axisdb-install" '
+        'aria-label="Install AxisDB">',
         '  <div class="fake-terminal__title">',
         "    <span>bash</span>",
         copy_btn,

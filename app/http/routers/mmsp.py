@@ -94,9 +94,7 @@ async def mmsp_feed(
 
         raw_tags = getattr(post, "tags", []) or []
         clean_tags = [
-            str(t)
-            for t in raw_tags
-            if not str(t).strip().lower().startswith("cat:")
+            str(t) for t in raw_tags if not str(t).strip().lower().startswith("cat:")
         ]
         if clean_tags:
             item["tags"] = clean_tags

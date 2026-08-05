@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """Tag parsing and normalization.
 
 These utilities are used both by the web UI (filters/sidebars) and by the book
 builder.
 """
+
+from __future__ import annotations
 
 
 def normalize_layer_slug(raw_slug: str) -> str:

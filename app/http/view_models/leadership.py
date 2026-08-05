@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Leadership / topic hub context builders."""
+
+from __future__ import annotations
 
 from typing import cast
 
@@ -12,7 +12,6 @@ from app.domain.tags import (
 )
 from app.domain.taxonomy import (
     PATTERNS_CAT_TAG,
-    PATTERNS_LAYER_LABELS,
 )
 from app.services.blog_service import BlogService
 
@@ -29,11 +28,25 @@ def is_patterns_post(tags: list[str]) -> bool:
 def topic_descriptions() -> dict[str, str]:
     """Short topic blurbs keyed by normalized `layer:` slug."""
     return {
-        "decision-systems": "Decision ownership, option space and the mechanics of stable decisions at scale.",
-        "cto-operating-model": "Authority, escalation and operating rhythms that keep execution coherent.",
-        "organisational-structure": "Roles, boundaries and structure as the substrate for durable delivery.",
-        "structural-design": "Models and primitives for designing organisations that compound rather than fragment.",
-        "architecture": "Architecture as boundary design: where constraints live and how systems stay legible.",
+        "decision-systems": (
+            "Decision ownership, option space and the mechanics of stable "
+            "decisions at scale."
+        ),
+        "cto-operating-model": (
+            "Authority, escalation and operating rhythms that keep execution "
+            "coherent."
+        ),
+        "organisational-structure": (
+            "Roles, boundaries and structure as the substrate for durable delivery."
+        ),
+        "structural-design": (
+            "Models and primitives for designing organisations that compound "
+            "rather than fragment."
+        ),
+        "architecture": (
+            "Architecture as boundary design: where constraints live and how "
+            "systems stay legible."
+        ),
     }
 
 
@@ -97,7 +110,9 @@ def topic_layer_slug_for_route(raw: str) -> str:
     return normalize_layer_slug(cleaned)
 
 
-def topic_posts_for_layer(blog: BlogService, *, layer_slug: str) -> list[dict[str, object]]:
+def topic_posts_for_layer(
+    blog: BlogService, *, layer_slug: str
+) -> list[dict[str, object]]:
     """Return leadership posts for a given normalized topic `layer_slug`."""
     out: list[dict[str, object]] = []
     for p in blog.list_posts():
@@ -261,7 +276,9 @@ def category_posts_grouped_by_layer(
         return humanize_layer_slug(slug) if slug else "General"
 
     def _layer_sort_key(slug: str) -> tuple[int, str]:
-        if slug in preferred:  # pragma: no cover — no active caller passes preferred_layer_order
+        if (
+            slug in preferred
+        ):  # pragma: no cover — no active caller passes preferred_layer_order
             return (preferred.index(slug), "")
         if slug == "":
             return (9999, "zzzz-general")

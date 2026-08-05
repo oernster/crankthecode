@@ -81,12 +81,14 @@ def test_homepage_renders():
     assert 'href="/posts?view=projects"' in resp.text
 
     # No separate contact section at the bottom.
-    assert 'If the mandate is real' not in resp.text
+    assert "If the mandate is real" not in resp.text
 
-    # Email should not be present in static HTML (it is JS-injected via window.CTC_CONTACT).
+    # Email should not be present in static HTML (it is JS-injected via
+    # window.CTC_CONTACT).
     assert "oernster@codecrafter.uk" not in resp.text
 
-    # GitHub profile link should be present in the header (public identity, OK in static HTML).
+    # GitHub profile link should be present in the header (public identity,
+    # OK in static HTML).
     assert 'href="https://github.com/oernster"' in resp.text
     assert 'aria-label="Oliver Ernster GitHub Profile"' in resp.text
     assert 'title="github.com/oernster"' in resp.text
@@ -227,7 +229,7 @@ def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
 
 
 def test_docs_epub_is_not_served():
-    """EPUBs are retained in-repo but should not be publicly downloadable via `/docs`."""
+    """EPUBs are retained in-repo but must not be downloadable via `/docs`."""
 
     app = create_app()
     client = TestClient(app)
@@ -306,7 +308,10 @@ def test_books_page_renders_and_links_to_amazon_uk():
         r"/static/images/hardback_cover(?:\.[0-9a-f]{8,})?\.png",
         resp.text,
     ), resp.text
-    assert "All four volumes combined into a single hardback reference edition" in resp.text
+    assert (
+        "All four volumes combined into a single hardback reference edition"
+        in resp.text
+    )
 
     # Guardrail: the main series grid should remain exactly 4 tiles.
     assert resp.text.count('class="book-tile"') == 4, resp.text
@@ -320,7 +325,8 @@ def test_books_page_renders_and_links_to_amazon_uk():
         resp.text,
     ), resp.text
     assert re.search(
-        r'class="book-subtitle">\s*How technical organisations fail and recover\s*</div>',
+        r'class="book-subtitle">\s*How technical organisations fail and'
+        r" recover\s*</div>",
         resp.text,
     ), resp.text
 
@@ -329,7 +335,8 @@ def test_books_page_renders_and_links_to_amazon_uk():
         resp.text,
     ), resp.text
     assert re.search(
-        r'class="book-subtitle">\s*A Positional Model of Organisational Change\s*</div>',
+        r'class="book-subtitle">\s*A Positional Model of Organisational'
+        r" Change\s*</div>",
         resp.text,
     ), resp.text
 
@@ -415,7 +422,9 @@ def test_writing_alias_redirects_to_posts_writing_view():
     app = create_app()
     # Use the canonical host+scheme so the canonical-redirect middleware passes through
     # and the /writing alias route handler fires.
-    client = TestClient(app, base_url="https://www.crankthecode.com", follow_redirects=False)
+    client = TestClient(
+        app, base_url="https://www.crankthecode.com", follow_redirects=False
+    )
 
     resp = client.get("/writing")
 
@@ -510,7 +519,8 @@ def test_post_pages_render_read_time_bar_shell():
     resp = client.get("/posts/start-here")
     assert resp.status_code == 200
 
-    # Shell element exists (JS fills content); this should be present only for post pages.
+    # Shell element exists (JS fills content); this should be present only
+    # for post pages.
     assert 'class="read-time-bar"' in resp.text
 
 

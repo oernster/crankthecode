@@ -60,7 +60,9 @@ async def sitemap_xml(
     patterns_layer_slugs: set[str] = set()
     for post in blog.list_posts():
         tags = [str(t) for t in (post.tags or [])]
-        if not any(t.strip().lower() == "cat:decision-architecture-patterns" for t in tags):
+        if not any(
+            t.strip().lower() == "cat:decision-architecture-patterns" for t in tags
+        ):
             continue
         patterns_layer_slugs.update(extract_layer_slugs_from_tags(tags))
 

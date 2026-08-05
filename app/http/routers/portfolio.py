@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """Portfolio route.
 
 The portfolio now lives on ernster.dev (the hub for all project sites).
 This route exists only to preserve inbound links: it permanently
 redirects the old on-site portfolio page to the hub.
 """
+
+from __future__ import annotations
 
 from fastapi import APIRouter, status
 from fastapi.responses import RedirectResponse

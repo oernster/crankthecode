@@ -148,12 +148,16 @@ class ListPostsUseCase:
                     tags=post.tags,
                     blurb=getattr(post, "blurb", None),
                     one_liner=getattr(post, "one_liner", None),
-                    cover_image_url=assets.resolve_url_or_path(str(cover_url or ""))
-                    if cover_url
-                    else None,
-                    thumb_image_url=assets.resolve_url_or_path(str(thumb_url or ""))
-                    if thumb_url
-                    else None,
+                    cover_image_url=(
+                        assets.resolve_url_or_path(str(cover_url or ""))
+                        if cover_url
+                        else None
+                    ),
+                    thumb_image_url=(
+                        assets.resolve_url_or_path(str(thumb_url or ""))
+                        if thumb_url
+                        else None
+                    ),
                     emoji=getattr(post, "emoji", None),
                     summary_html=summary_html,
                     post_type=getattr(post, "post_type", None),

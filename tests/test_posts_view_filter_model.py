@@ -193,4 +193,3 @@ def test_posts_href_helpers_have_basic_coverage():
     assert _posts_href(query="cat:Tools", exclude_blog=None) == "/posts?q=cat%3ATools"
     assert _posts_base_href(view=None) == "/posts"
     assert _posts_view_from_legacy_exclude_blog("maybe") is None
-

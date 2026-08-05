@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Misc page routes: homepage, about, explore, battlestation, redirects."""
+
+from __future__ import annotations
 
 import json
 
@@ -18,7 +18,6 @@ from app.http.view_models.leadership import (
     topic_posts_for_layer,
 )
 from app.http.view_models.posts import (
-    estimate_read_time_from_template,
     estimate_read_time_minutes,
     post_blurb_index,
     post_cover_index,
@@ -29,6 +28,15 @@ from app.http.view_models.sidebar import build_sidebar_categories
 from app.services.blog_service import BlogService
 
 router = APIRouter()
+
+_ABOUT_PAGE_TITLE = "About Oliver Ernster | Principal Engineer and Decision Architect"
+# Used as both the Open Graph and the meta description; they were duplicated
+# character for character, which is how they drift apart.
+_ABOUT_DESCRIPTION = (
+    "Oliver Ernster is a principal engineer and decision architect focused on "
+    "reducing organisational and technical risk through earlier, clearer "
+    "decisions."
+)
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -157,10 +165,10 @@ async def about_page(
             "about_html": about_html,
             "topic_hubs": build_leadership_topic_hubs(blog),
             "is_homepage": False,
-            "page_title": "About Oliver Ernster | Principal Engineer and Decision Architect",
+            "page_title": _ABOUT_PAGE_TITLE,
             "og_title": "About Oliver Ernster",
-            "og_description": "Oliver Ernster is a principal engineer and decision architect focused on reducing organisational and technical risk through earlier, clearer decisions.",
-            "meta_description": "Oliver Ernster is a principal engineer and decision architect focused on reducing organisational and technical risk through earlier, clearer decisions.",
+            "og_description": _ABOUT_DESCRIPTION,
+            "meta_description": _ABOUT_DESCRIPTION,
             "back_link_href": "/",
             "back_link_label": "← Back to home",
             "breadcrumb_items": [

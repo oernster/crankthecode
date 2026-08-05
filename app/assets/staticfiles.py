@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 import re
-from typing import Optional
 
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 from starlette.responses import Response
-
 
 _FINGERPRINT_RE = re.compile(r"\.[0-9a-f]{8,}\.")
 
@@ -32,7 +30,10 @@ class CachingStaticFiles(StaticFiles):
         # Without Cache-Control on the 304, the browser keeps its stale cache
         # semantics; with it, the browser updates the stored headers so the
         # next request uses the correct policy.
-        if resp.status_code not in (200, 304):  # pragma: no cover — Starlette raises HTTPException for other codes
+        if resp.status_code not in (
+            200,
+            304,
+        ):  # pragma: no cover — Starlette raises HTTPException for other codes
             return resp
 
         # Immutable caching for fingerprinted filenames.
@@ -86,4 +87,3 @@ class FallbackStaticFiles(CachingStaticFiles):
         if resp.status_code == 404 and self._fallback is not None:
             return await self._fallback.get_response(path, scope)
         return resp
-

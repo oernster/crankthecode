@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """Sidebar context builders and shared URL/tag utilities.
 
 These helpers are used by multiple routers. They have no dependency on
 FastAPI routing objects — only on domain models and blog service.
 """
+
+from __future__ import annotations
 
 from typing import cast
 from urllib.parse import quote
@@ -12,7 +12,6 @@ from urllib.parse import quote
 from app.domain.tags import (
     extract_layer_slugs_from_tags,
     humanize_layer_slug,
-    normalize_layer_slug,
 )
 from app.services.blog_service import BlogService
 
@@ -27,11 +26,13 @@ _FALSY_QUERY: frozenset[str] = frozenset({"0", "false", "no", "n", "off"})
 POSTS_VIEW_WRITING = "writing"
 POSTS_VIEW_PROJECTS = "projects"
 POSTS_VIEW_ARCHIVE = "archive"
-POSTS_ALLOWED_VIEWS: frozenset[str] = frozenset({
-    POSTS_VIEW_WRITING,
-    POSTS_VIEW_PROJECTS,
-    POSTS_VIEW_ARCHIVE,
-})
+POSTS_ALLOWED_VIEWS: frozenset[str] = frozenset(
+    {
+        POSTS_VIEW_WRITING,
+        POSTS_VIEW_PROJECTS,
+        POSTS_VIEW_ARCHIVE,
+    }
+)
 
 
 def normalize_cat_label(raw_label: str) -> str:

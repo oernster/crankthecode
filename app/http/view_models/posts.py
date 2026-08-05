@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Post display helpers and context builders."""
+
+from __future__ import annotations
 
 import math
 import re
@@ -10,11 +10,9 @@ from typing import cast
 
 from app.domain.taxonomy import (
     ARCHIVE_CAT_BUCKETS,
-    WRITING_CAT_BUCKETS,
     PROJECT_CATEGORY_LABELS,
     PROJECT_CAT_ORDER,
 )
-from app.domain.tags import extract_layer_slugs_from_tags
 from app.http.view_models.sidebar import (
     POSTS_VIEW_ARCHIVE,
     POSTS_VIEW_WRITING,

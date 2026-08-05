@@ -28,4 +28,3 @@ COMPLETE_SERIES_EDITION = CompilationEdition(
     amazon_uk_url="https://www.amazon.co.uk/dp/B0H8HVZKY1",
     support_line="All four volumes combined into a single hardback reference edition",
 )
-

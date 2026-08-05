@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """The portfolio moved to ernster.dev; /portfolio only redirects there now."""
+
+from __future__ import annotations
 
 from fastapi import status
 from fastapi.testclient import TestClient
