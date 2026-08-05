@@ -53,7 +53,7 @@ Typography alignment and responsiveness continue to improve incrementally. Nothi
 
 ## 🧰 Tooling Layout Refinement
 
-Tools such as **Trainer**, **AudioDeck**, **AxisDB** and others received structural layout improvements:
+Tools such as **AudioDeck**, **AxisDB** and others received structural layout improvements:
 
 | Before                      | After                                   |
 |-----------------------------|------------------------------------------|

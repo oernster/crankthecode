@@ -156,7 +156,6 @@ def post_emoji_map() -> dict[str, str]:
         "3D-printing-info": "🖨️",
         # Pre-existing emojis from old template hardcodes - restored, not invented
         "audiodeck": "🔊",
-        "calendifier": "📅",
         "elevator": "🛗",
         "galacticunicorn": "🦄",
     }
@@ -288,8 +287,8 @@ def category_label_for_query(
             "blog": "📝 Blog",
             "automation|monitoring|obs|script|ansible|terraform": "🤖 Automation",
             "machine learning|computer vision|ml|data": "🧠 Data / ML",
-            "desktop|windows|app|pyside|qt|installer|clock|audio|streamdeck|"
-            "trainer": "🖥️ Desktop Apps",
+            "desktop|windows|app|pyside|qt|installer|clock|audio|"
+            "streamdeck": "🖥️ Desktop Apps",
             "gaming|game|elite|dangerous|frontier|colonisation": "🎮 Gaming",
             "tool|tools|cli|utility|utilities|launcher|database|db": "🧰 Tools",
             "api|apis|fastapi|django|rest|web": "🌐 Web APIs",

@@ -47,9 +47,6 @@ However, here we are. Highlights below.
 - **AxisDB got fake terminals with working copy buttons**  
   This required more effort than expected and several minor layout sacrifices. The result is interactive terminal output with functional copy buttons that behave like they belong there.
 
-- **Calendifier post cleaned up**  
-  Tables were reformatted so they can survive a meeting with a product manager without causing immediate concern.
-
 ---
 
 ## 🔎 Search Autocomplete (yes, seriously)

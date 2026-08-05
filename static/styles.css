@@ -1657,7 +1657,7 @@ img {
   max-width: var(--content-max);
 }
 
-/* Markdown tables (used in posts like Calendifier). */
+/* Markdown tables, as used in the product posts. */
 .post-content table,
 .about-content table {
   width: fit-content;

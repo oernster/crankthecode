@@ -22,7 +22,7 @@ def test_post_page_includes_meta_description_canonical_and_jsonld():
     os.environ["SITE_URL"] = "https://example.com"
     try:
         repo = FilesystemPostsRepository(posts_dir=Path("posts"))
-        md = repo.get_post("trainer")
+        md = repo.get_post("pigeonpost")
         assert md is not None
 
         expected = build_meta_description(md.blurb, fallback=md.one_liner, default="")
@@ -31,20 +31,22 @@ def test_post_page_includes_meta_description_canonical_and_jsonld():
         app = create_app()
         client = TestClient(app)
 
-        resp = client.get("/posts/trainer")
+        resp = client.get("/posts/pigeonpost")
         assert resp.status_code == 200
 
         html = resp.text
         # Primary cover image should always render directly under the title.
         assert '<img class="post-cover"' in html
-        assert '<link rel="canonical" href="https://example.com/posts/trainer"' in html
+        assert (
+            '<link rel="canonical" href="https://example.com/posts/pigeonpost"' in html
+        )
         assert f'<meta name="description" content="{expected}"' in html
 
         # JSON-LD should be present and identify the post.
         assert "application/ld+json" in html
         assert '"@type":"BlogPosting"' in html
         assert '"name":"Oliver Ernster"' in html
-        assert '"mainEntityOfPage":"https://example.com/posts/trainer"' in html
+        assert '"mainEntityOfPage":"https://example.com/posts/pigeonpost"' in html
     finally:
         os.environ.pop("SITE_URL", None)
 
@@ -125,7 +127,7 @@ def test_sitemap_lists_main_pages_and_posts():
         assert "https://example.com/posts/start-here" in locs
         assert "https://example.com/topics" in locs
         assert "https://example.com/topics/decision-systems" in locs
-        assert "https://example.com/posts/trainer" in locs
+        assert "https://example.com/posts/pigeonpost" in locs
 
         # Special pages should not be listed as regular posts.
         assert "https://example.com/posts/about-me" not in locs
