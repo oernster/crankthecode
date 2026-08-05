@@ -225,3 +225,6 @@ Decision-Architecture.tmp_da_print.pdf
 
 # Claude Code local session files (launch config, scratch)
 .claude/
+
+# Working release notes
+NOTES.md

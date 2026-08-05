@@ -1,41 +1,71 @@
 # Architecture
 
-CrankTheCode is a small FastAPI application that serves a personal site (posts + Decision Architecture hubs + Decision Architecture Patterns hubs + a Books catalogue page) from Markdown posts, plus a lightweight static asset fingerprinting pipeline and an EPUB book builder. The portfolio lives on ernster.dev; `/portfolio` permanently redirects there.
+Crank The Code is a small FastAPI application that serves a personal writing site from markdown files, with a light static asset fingerprinting pipeline in front of its CSS, JavaScript and images. There is no database and no CMS. Content is `posts/*.md` with YAML frontmatter; structure is expressed in tags on those posts.
+
+Source references in this document name modules and symbols rather than line numbers. Line numbers rot on the first refactor and this document has been wrong that way before.
+
+---
+
+## Invariants
+
+These are the properties the application is not allowed to lose. Each is held by a named test, so a change that breaks one fails the gate rather than reaching production.
+
+| Invariant | Enforced by |
+|---|---|
+| Every non-local request is redirected once, permanently, to `https://www.crankthecode.com` with its path and query intact. Localhost is exempt so `uvicorn` behaves normally in development. | `test_canonical_redirect_middleware_redirects_http_apex_to_https_www`, `test_canonical_redirect_middleware_preserves_path_and_query_on_redirect`, `test_canonical_redirect_middleware_allows_localhost_without_redirect` in `tests/test_canonical_redirect_middleware.py` |
+| HTML is never cached anywhere: browser, proxy or CDN. | `test_html_cache_headers_are_no_store` in `tests/test_html_pages.py` |
+| Fingerprinted static assets are cached immutably for a year; a favicon never is. | `test_fingerprinted_static_assets_are_immutable_cached`, `test_favicon_is_not_cached_forever` in `tests/test_html_pages.py`; `test_caching_staticfiles_cache_headers` in `tests/test_assets_caching.py` |
+| The app starts and serves on a checkout where the static build has never run. | `test_app_starts_when_the_static_build_has_not_run` in `tests/test_html_pages.py` |
+| `CTC_STATIC_DIST_DIR` selects the served directory, not merely the CV lookup. | `test_cv_pdf_prefers_static_dist_when_enabled` and `test_app_starts_when_the_static_build_has_not_run` in `tests/test_html_pages.py` |
+| The CV is reachable at a stable root URL regardless of which static directory is mounted. | `test_cv_pdf_is_served_from_stable_root_path` in `tests/test_html_pages.py` |
+| EPUB files stay in the repository and are never downloadable, whether or not `docs/` exists. | `test_docs_epub_is_not_served`, `test_docs_directory_can_be_present_without_exposing_epub_downloads` in `tests/test_html_pages.py` |
+| Every published post carries a meta description, a canonical URL and valid JSON-LD. | `test_all_posts_have_required_seo_meta_and_valid_jsonld`, `test_post_page_includes_meta_description_canonical_and_jsonld` in `tests/test_seo.py` |
+| A legacy post slug still serves its content while its canonical URL points at the new slug. | `test_legacy_post_alias_serves_content_but_canonical_points_to_new_slug` in `tests/test_seo.py` |
+| The sitemap lists the main pages, the posts and the topic hubs; robots.txt always names the sitemap. | `test_sitemap_lists_main_pages_and_posts`, `test_robots_txt_includes_sitemap_location` in `tests/test_seo.py`, `test_sitemap_includes_topics_and_topic_hub_pages` in `tests/test_topic_hubs.py` |
+| The RSS feed excludes the Decision Architecture stream and the hidden special pages. | `test_rss_feed_excludes_special_pages` in `tests/test_rss_feed.py` |
+| The MMSP feed excludes the same hidden and special posts and emits absolute URLs. | `test_mmsp_excludes_hidden_and_special_posts`, `test_mmsp_items_have_absolute_urls` in `tests/test_mmsp_feed.py` |
+| `/portfolio` and its legacy section URLs redirect permanently to ernster.dev. | `test_portfolio_redirects_permanently_to_ernster_dev`, `test_portfolio_redirect_covers_legacy_section_urls` in `tests/test_portfolio_page.py` |
+| Filtering by `cat` and `layer` together is an AND; the legacy `q=cat:<Label>` deeplink still works. | `test_posts_index_supports_cat_and_layer_params_and_filters_with_and_semantics`, `test_legacy_q_cat_deeplink_still_filters_posts` in `tests/test_layer_navigation.py` |
+| Layer slugs normalise consistently wherever they are parsed; CTO stays an acronym when humanised. | `test_layer_slug_normalization_collapses_spaces_underscores_and_punctuation` in `tests/test_layer_navigation.py`, `test_humanize_layer_slug_preserves_cto_acronym` in `tests/test_layer_extraction_helpers.py` |
+| A post with malformed frontmatter degrades the page instead of failing the request. | `test_load_about_html_fail_open_for_missing_post_and_exception` in `tests/test_html_router_coverage.py`, `test_homepage_leadership_missing_posts_is_tolerated` in `tests/test_coverage_boost.py` |
+| `python main.py` remains a working entrypoint. | `test_root_main_module_can_run_as_script_without_starting_server` in `tests/test_entrypoints.py` |
+
+The whole suite is the gate: `pytest.ini` carries `--cov-fail-under=100` against `app/`, so no branch reaches production unexercised. `.github/workflows/checks.yml` runs black, flake8, ruff and pytest on every push and pull request, building the fingerprinted assets first so the tested state is the state that ships.
+
+---
 
 ## What runs in production
 
-- Render starts Uvicorn against the repo-root shim: [`render.yaml`](render.yaml:1) → [`main.py`](main.py:1)
-  - `main.py` exists as a compatibility layer for `uvicorn main:app` deployments and local `python main.py`: [`main.py`](main.py:1)
-- Real ASGI app + app factory live in: [`create_app()`](app/main.py:22) and module-level [`app`](app/main.py:154)
+Render starts Uvicorn against the repo-root shim (`render.yaml` to `main.py`). `main.py` exists only so `uvicorn main:app` and `python main.py` keep working; it re-exports the real application.
 
-### HTTP middleware and runtime policies
+The real ASGI app and its factory are `create_app()` and the module-level `app` in `app/main.py`.
 
-Both of these are defined inside [`create_app()`](app/main.py:22):
+Two runtime policies are defined inside the factory:
 
-- Canonical host + https redirects (301) for non-local hosts: middleware [`enforce_canonical_host_and_scheme`](app/main.py:39)
-  - Canonical host constant is currently hard-coded to `www.crankthecode.com`: [`CANONICAL_HOST`](app/main.py:37)
-- Response cache policy by content-type (HTML is no-store; RSS/sitemap/robots must-revalidate): middleware [`cache_policy_middleware`](app/main.py:59)
+* **Canonical host and scheme.** `enforce_canonical_host_and_scheme` issues a single 301 to `https://<canonical host>` for any non-local request that does not already match, preserving path and query. The host comes from `CTC_CANONICAL_HOST` and defaults to `www.crankthecode.com`. `127.0.0.1` and `localhost` are bypassed.
+* **Cache policy.** `_CachePolicyMiddleware` is pure ASGI: it intercepts `http.response.start` and sets headers before any bytes reach the wire, which is more reliable than a `call_next` middleware whose header mutations some Starlette versions drop. HTML becomes `no-store` across browser, CDN and surrogate layers; RSS, XML, JSON and plain text become `no-cache, must-revalidate` when they carry no policy of their own; everything else is left to `CachingStaticFiles`.
 
-## High-level shape (light “ports/adapters”)
+---
 
-The codebase is intentionally simple and uses a light Ports and Adapters / Clean Architecture flavor:
+## Layering
 
-- **Presentation**: FastAPI routers for HTML pages, JSON API, RSS, sitemap/robots.
-- **Application**: a service façade plus use cases.
-- **Domain**: typed dataclasses and tag parsing/normalization.
-- **Infrastructure/Adapters**: filesystem repository, Markdown rendering strategy, static asset pipeline + caching.
+The codebase uses a light ports and adapters flavour. It is a deliberate relaxation of strict clean architecture, appropriate for a server-rendered site.
+
+* **Presentation**: FastAPI routers for HTML, JSON API, RSS, MMSP and sitemap/robots, plus view-model modules that assemble template context.
+* **Application**: a service facade, `BlogService`, over two use cases.
+* **Domain**: typed dataclasses, tag parsing and normalisation plus the taxonomy constants. Stdlib only, no framework imports.
+* **Infrastructure and adapters**: the filesystem posts repository, the markdown rendering strategy and the static asset pipeline.
 
 Key types:
 
-- Service façade: [`BlogService`](app/services/blog_service.py:12)
-- Use cases: [`ListPostsUseCase.execute()`](app/usecases/list_posts.py:106), [`GetPostUseCase.execute()`](app/usecases/get_post.py:164)
-- Domain models: [`MarkdownPost`](app/domain/models.py:8), [`PostSummary`](app/domain/models.py:29), [`PostDetail`](app/domain/models.py:45)
-- Ports: [`PostsRepository`](app/ports/posts_repository.py:1), [`MarkdownRenderer`](app/ports/markdown_renderer.py:1)
-- Adapters: [`FilesystemPostsRepository`](app/adapters/filesystem_posts_repository.py:16), [`PythonMarkdownRenderer`](app/adapters/markdown_python_renderer.py:12)
-
-Composition root for the blog service lives in the presentation layer dependency module:
-
-- [`get_blog_service()`](app/http/deps.py:25) wires repo + renderer + use cases.
+| Role | Where |
+|---|---|
+| Service facade | `BlogService` in `app/services/blog_service.py` |
+| Use cases | `ListPostsUseCase.execute()` in `app/usecases/list_posts.py`, `GetPostUseCase.execute()` in `app/usecases/get_post.py` |
+| Domain models | `MarkdownPost`, `PostSummary`, `PostDetail` in `app/domain/models.py` |
+| Ports | `PostsRepository` in `app/ports/posts_repository.py`, `MarkdownRenderer` in `app/ports/markdown_renderer.py` |
+| Adapters | `FilesystemPostsRepository` in `app/adapters/filesystem_posts_repository.py`, `PythonMarkdownRenderer` in `app/adapters/markdown_python_renderer.py` |
+| Composition root | `get_blog_service()` in `app/http/deps.py` |
 
 ```mermaid
 flowchart TD
@@ -44,14 +74,25 @@ flowchart TD
   APP --> M1[Canonical redirect middleware]
   APP --> M2[Cache policy middleware]
 
-  APP --> HTML[HTML router]
-  APP --> API[API router]
+  APP --> HTML[HTML router aggregator]
+  APP --> API[JSON API router]
   APP --> RSS[RSS router]
-  APP --> SEO[Sitemap/robots router]
+  APP --> MMSP[MMSP router]
+  APP --> SEO[Sitemap / robots router]
 
-  HTML --> DI[get_blog_service]
+  HTML --> PAGES[pages]
+  HTML --> POSTS[posts]
+  HTML --> TOPICS[topics]
+  HTML --> BOOKS[books]
+  HTML --> PORT[portfolio]
+
+  PAGES --> DI[get_blog_service]
+  POSTS --> DI
+  TOPICS --> DI
+  BOOKS --> DI
   API --> DI
   RSS --> DI
+  MMSP --> DI
   SEO --> DI
 
   DI --> SVC[BlogService]
@@ -67,228 +108,134 @@ flowchart TD
   MR --> REND[PythonMarkdownRenderer]
 
   FS --> MD[posts/*.md]
-  HTML --> TPL[Jinja templates]
-  APP --> STA[Static mounts: /static, /docs]
+  POSTS --> TPL[Jinja templates]
+  APP --> STA[Static mounts: /static, optional /docs]
   STA --> CFS[CachingStaticFiles]
   REND --> ASM[AssetManifest URL rewriting]
 ```
 
+### Routers
+
+`app/http/routers/html.py` is an aggregator only. It defines no routes; it includes the sub-routers so `app/main.py` can keep importing a single object.
+
+| Module | Routes |
+|---|---|
+| `pages.py` | `/`, `/about`, `/explore` and the legacy redirects (`/about-me`, `/about/oliver-ernster`, `/start-here`, `/governance`, `/writing`, `/help`, `/battlestation`) |
+| `posts.py` | `/posts` listing and `/posts/{slug}` detail |
+| `topics.py` | `/decision-architecture`, `/topics`, `/topics/{layer}`, `/patterns`, `/patterns/{layer}` |
+| `books.py` | `/books` |
+| `portfolio.py` | `/portfolio`, a 301 to ernster.dev |
+| `api.py` | `/api/posts`, `/api/posts/{slug}`, `/api/posts/{slug}/meta` |
+| `rss.py` | `/rss.xml` |
+| `mmsp.py` | `/.well-known/mmsp.json` |
+| `sitemap.py` | `/sitemap.xml`, `/robots.txt` |
+
+Template context assembly lives beside them in `app/http/view_models/`: `context.py` for the shared base context, `sidebar.py` for navigation state and the posts view model, `posts.py` for display helpers and grouping, `leadership.py` for the hub listings.
+
+---
+
 ## Request flows
 
-### Homepage (`/`)
+### Homepage
 
-- Route handler: [`homepage()`](app/http/routers/html.py:1185)
-- Shared request context (canonical URL, query state, defaults): [`_base_context()`](app/http/routers/html.py:606)
-- Homepage JSON-LD is created server-side and emitted via template slots: [`jsonld_json`](templates/base.html:90)
+`homepage()` in `app/http/routers/pages.py` renders `templates/index.html`. It is deliberately a gateway rather than a post listing: a featured call to action for the thesis post `posts/what-is-decision-architecture.md`, then two cards routing into the two Decision Architecture ecosystems. JSON-LD is built server-side and emitted through slots in `templates/base.html`.
 
-The homepage is intentionally a gateway (not a post listing).
+### Posts index
 
-It contains:
+`posts_index()` in `app/http/routers/posts.py` serves three views, selected by the `view` query parameter and normalised by `normalize_posts_view()` in `app/http/view_models/sidebar.py`:
 
-- A featured single-post CTA for the thesis post:
-  - Source post: [`posts/what-is-decision-architecture.md`](posts/what-is-decision-architecture.md:1)
-  - Link target: `/posts/what-is-decision-architecture`
-- Two gateway cards routing users into the two Decision Architecture ecosystems:
+* **Writing**, which excludes the two categories that have their own hub surfaces (`WRITING_EXCLUDED_CAT_KEYS` in `app/http/view_models/posts.py`). Every post in those categories carries a `layer:` tag and is therefore already listed on its hub.
+* **Projects**, ordered by `PROJECT_CAT_ORDER` in `app/domain/taxonomy.py` rather than alphabetically.
+* **Archive**, bucketed by `ARCHIVE_CAT_BUCKETS`.
 
-- Decision Architecture (Structures) → `/decision-architecture`
-- Decision Architecture Patterns → `/patterns`
+Filtering accepts `cat=<Label>` and `layer=<slug>` and applies them together as an AND. The older `q=cat:<Label>` deeplink form is still honoured; the older `exclude_blog` parameter maps onto the view model through `posts_view_from_legacy_exclude_blog()`.
 
-Template: [`templates/index.html`](templates/index.html:60)
+### Post detail
 
-Visual structure on the homepage is intentionally separated by the green “pill” divider:
+`read_post()` in `app/http/routers/posts.py` delegates content to `GetPostUseCase.execute()`. The canonical URL preserves the query string so a filtered listing links back correctly (`canonical_url_for_request()` in `app/http/seo.py`). The meta description is built from frontmatter, blurb first with the one-liner as fallback (`build_meta_description()`).
 
-- Separator component: [`post-separator`](static/styles.css:1396)
+### Decision Architecture hubs
 
-### Books (`/books`)
+Two parallel hub systems live in `app/http/routers/topics.py`.
 
-- Route handler: [`books_page()`](app/http/routers/html.py:1775)
-- Template: [`templates/books.html`](templates/books.html:1)
-- Book metadata is centralized to avoid duplication:
-  - [`BOOKS_CATALOGUE`](app/domain/books_catalogue.py:29)
+| Ecosystem | Gateway | Layer hub | Category tag |
+|---|---|---|---|
+| Decision Architecture (Structures) | `/decision-architecture` | `/topics/<layer>` | `cat:Leadership` |
+| Decision Architecture Patterns | `/patterns` | `/patterns/<layer>` | `cat:decision-architecture-patterns` |
 
-The Books page presents a calm visual catalogue (covers only, linked to Amazon) with restrained spacing.
+`/topics` is the shared "view all layers" destination for both. It renders two pill rows and intentionally does not repeat those destinations as a second hub list below them.
 
-### Posts index (`/posts`)
+### Feeds and SEO surfaces
 
-- Route handler: [`posts_index()`](app/http/routers/html.py:1493)
-- Default behaviour hides blog posts from listing unless explicitly included via `exclude_blog=0`-like truthy values: [`exclude_blog`](app/http/routers/html.py:638)
-- Filtering inputs:
-  - legacy `q=cat:<Label>` is still supported via `current_q`: [`current_q`](app/http/routers/html.py:635)
-  - newer query params `cat=<Label>` and `layer=<slug>` are also tracked in base context: [`current_cat`](app/http/routers/html.py:636), [`current_layer`](app/http/routers/html.py:637)
+* RSS (`rss_feed()`): excludes the Decision Architecture stream via `_is_leadership_post()` and the hidden special pages via `_is_hidden_special_post()`, wraps HTML bodies in CDATA and carries Media RSS thumbnails, backfilling an image from older posts when the newest ones have none.
+* MMSP (`mmsp_feed()`): a machine-readable subscription manifest at `/.well-known/mmsp.json`, applying the same exclusions and emitting absolute URLs.
+* Sitemap and robots (`sitemap_xml()`, `robots_txt()`): robots.txt is served from the static file when present and falls back to a generated body; the sitemap line is appended either way.
 
-### Post detail (`/posts/{slug}`)
+---
 
-- Route handler: [`read_post()`](app/http/routers/html.py:2186)
-- Content is produced by the application layer: [`GetPostUseCase.execute()`](app/usecases/get_post.py:164)
-- Canonical URL preserves query string (e.g. for filtered listings): [`canonical_url_for_request()`](app/http/seo.py:41)
-- Meta description is built from frontmatter (blurb first, then one-liner fallback): [`build_meta_description()`](app/http/seo.py:53)
-- JSON-LD is emitted by the base template in two slots (primary + optional extra graph): [`templates/base.html`](templates/base.html:1)
+## Content model
 
-### Decision Architecture gateways and hubs
+Posts are `posts/*.md` with YAML frontmatter, loaded by `FilesystemPostsRepository`. The storage model is `MarkdownPost`. Beyond `title`, `date` and `tags` it supports:
 
-There are two parallel “layer hub” systems.
+| Field | Purpose |
+|---|---|
+| `blurb` | Meta description and list UI |
+| `one_liner` | Social preview snippet; also the meta description fallback |
+| `image` | Explicit cover image; also the default thumbnail |
+| `thumb_image` | Tile thumbnail, falling back to `image` |
+| `emoji` | Visual thumbnail where there is no image |
+| `social_image` | OpenGraph and Twitter image, falling back to the cover |
+| `extra_images` | Gallery and screenshot images |
 
-#### Decision Architecture (Structures)
+Normalisation rules:
 
-- Gateway (grouped listing by `layer:`): `/decision-architecture`
-  - Route: [`decision_architecture_gateway()`](app/http/routers/html.py:1269)
-  - Template: [`templates/decision_architecture.html`](templates/decision_architecture.html:1)
-- Layer hubs (per-layer listing): `/topics/<layer>`
-  - Route: [`topic_hub_page()`](app/http/routers/html.py:2026)
-  - Template: [`templates/topic_hub.html`](templates/topic_hub.html:1)
+* Tags normalise to a list of strings (`_normalize_tags()`).
+* Dates normalise to the sortable string form `YYYY-MM-DD HH:MM` (`_normalize_published_at()`).
+* Files named `blog*.md` are always discoverable under `cat:Blog` even without the tag, as a safety net.
 
-#### Decision Architecture Patterns
+Rendering decisions are a use case concern, so the resulting HTML shape stays testable and consistent:
 
-- Gateway (grouped listing by `layer:`): `/patterns`
-  - Route: [`patterns_index()`](app/http/routers/html.py:1397)
-  - Template: [`templates/patterns_index.html`](templates/patterns_index.html:1)
-- Layer hubs (per-layer listing): `/patterns/<layer>`
-  - Route: [`patterns_layer_page()`](app/http/routers/html.py:1449)
-  - Template: [`templates/patterns_hub.html`](templates/patterns_hub.html:1)
+* `ListPostsUseCase.execute()` extracts the first paragraph as a summary and handles cover and thumbnail selection and stripping.
+* `GetPostUseCase.execute()` strips an explicit cover image paragraph near the top, protects an author-written Screenshots section and can inject a controlled one from `extra_images`. AxisDB additionally gets an install prompt snippet inserted after its Problem, Solution and Impact section.
 
-#### Shared “all layers” hub (`/topics`)
+### Taxonomy
 
-`/topics` is the shared “View all layers” destination for both ecosystems.
+Navigation is driven by two tag conventions, not by hardcoded lists:
 
-It renders two pill rows (and intentionally does **not** duplicate those destinations as a second hub-list section):
+* `cat:<Label>` for the primary category. The canonical labels are in `app/domain/taxonomy.py`.
+* `layer:<slug>` for grouping into layers within both hub ecosystems. Slug normalisation and humanisation are shared by every consumer through `normalize_layer_slug()` and `humanize_layer_slug()` in `app/domain/tags.py`.
 
-- Patterns layers → `/patterns/<layer>`
-- Structures layers → `/topics/<layer>`
+Sidebar navigation is the deliberate exception: it is explicit in `templates/base.html` rather than derived from tags, so the order of the top-level entries is an editorial decision rather than an emergent one.
 
-Route + template:
-
-- [`topics_index()`](app/http/routers/html.py:1920)
-- [`templates/topics_index.html`](templates/topics_index.html:1)
-
-### RSS, sitemap, robots
-
-- RSS feed: [`rss_feed()`](app/http/routers/rss.py:158)
-  - Excludes Leadership/Decision-Architecture stream: [`_is_leadership_post()`](app/http/routers/rss.py:129)
-  - Uses Media RSS thumbnails + CDATA for HTML bodies: [`_wrap_cdata()`](app/http/routers/rss.py:33)
-- Sitemap: [`sitemap_xml()`](app/http/routers/sitemap.py:17)
-- Robots: [`robots_txt()`](app/http/routers/sitemap.py:81)
-
-## Content model and authoring contract (posts)
-
-Posts are `posts/*.md` files with YAML frontmatter loaded via the filesystem repository: [`FilesystemPostsRepository`](app/adapters/filesystem_posts_repository.py:16).
-
-### Supported frontmatter (current)
-
-The post storage model is: [`MarkdownPost`](app/domain/models.py:8). In addition to `title`, `date` and `tags`, it supports:
-
-- `blurb` (used for meta description and list UI)
-- `one_liner` (used for social preview snippets)
-- `image` (explicit cover image; also used as default thumbnail)
-- `thumb_image` (optional tile thumbnail; falls back to `image`): [`thumb_image`](app/domain/models.py:18)
-- `emoji` (optional visual thumbnail): [`emoji`](app/domain/models.py:22)
-- `social_image` (OpenGraph/Twitter image; falls back to cover): [`social_image`](app/domain/models.py:24)
-- `extra_images` (gallery/screenshot images): [`extra_images`](app/domain/models.py:20)
-
-### Normalization rules
-
-- Tags are normalized to a list of strings: [`FilesystemPostsRepository._normalize_tags()`](app/adapters/filesystem_posts_repository.py:34)
-- Dates are normalized to a sortable string format currently stored as `YYYY-MM-DD HH:MM`: [`FilesystemPostsRepository._normalize_published_at()`](app/adapters/filesystem_posts_repository.py:141)
-- Safety-net: files named `blog*.md` are always discoverable under `cat:Blog` even if missing the tag: [`slug.lower().startswith("blog")`](app/adapters/filesystem_posts_repository.py:103)
-
-### Rendering rules (covers + screenshots)
-
-Rendering is intentionally a use case concern (so HTML shape stays testable and consistent):
-
-- List views extract the first paragraph as a summary and handle cover/thumb selection/stripping: [`ListPostsUseCase.execute()`](app/usecases/list_posts.py:106)
-- Detail views strip an explicit cover image paragraph near the top, protect author screenshots sections and can inject a controlled Screenshots section from `extra_images`: [`GetPostUseCase.execute()`](app/usecases/get_post.py:164)
-  - Special-case AxisDB: inject an install prompt snippet after the Problem→Solution→Impact section: [`_axisdb_install_prompt_markdown()`](app/usecases/get_post.py:133)
-
-## Taxonomy conventions (navigation)
-
-The site uses simple tag conventions to drive grouping and navigation:
-
-- Primary category tags: `cat:<Label>`
-  - Decision Architecture (Structures) is `cat:Leadership`.
-  - Patterns is `cat:decision-architecture-patterns`.
-- Layer tags: `layer:<slug>`
-  - Used for grouping into layers (both ecosystems).
-  - Normalization/humanization is shared: [`normalize_layer_slug()`](app/domain/tags.py:10) and [`humanize_layer_slug()`](app/domain/tags.py:41)
-
-Decision Architecture (Structures) hubs are derived from `cat:Leadership` + `layer:` tags:
-
-- [`_leadership_topic_hubs()`](app/http/routers/html.py:697)
-
-Patterns hubs are derived from `cat:decision-architecture-patterns` + `layer:` tags:
-
-- [`patterns_index()`](app/http/routers/html.py:1397)
+---
 
 ## Templates, static assets and caching
 
-### Templates
+The Jinja environment is created in the factory and stored on `fastapi_app.state.templates`, with `asset_url()` exposed as a global so templates can emit fingerprinted URLs. `templates/base.html` owns the SEO slots, the JSON-LD slots and the sidebar.
 
-- Jinja environment is created in the app factory and stored in app state: [`fastapi_app.state.templates`](app/main.py:137)
-- Global helper `asset_url()` is exposed to templates for fingerprinted URLs: [`env.globals["asset_url"]`](app/main.py:136)
-- Base template owns SEO and JSON-LD slots and the global sidebar: [`templates/base.html`](templates/base.html:1)
+### Serving
 
-Sidebar navigation is intentionally explicit/hardcoded (not derived from tags):
+Static files go through `FallbackStaticFiles`, a subclass of `CachingStaticFiles`:
 
-- Sidebar template: [`templates/base.html`](templates/base.html:308)
+* A fingerprinted filename gets `public, max-age=31536000, immutable`.
+* Anything else gets `no-store`, which is the safe answer when the URL is not content-addressed.
+* A 404 in the primary directory falls through to the fallback directory rather than failing.
 
-The sidebar is styled + sized in CSS:
+`/docs` is mounted only if the directory exists, so `/docs/...` 404s otherwise. EPUB files are kept in the repository but are not published there.
 
-- Layout column width (sidebar vs content): [`static/styles.css`](static/styles.css:219)
+### The fingerprinting pipeline
 
-Sidebar section headers are clickable (and highlight when any child route is active):
+`build_static_dist()` in `app/assets/build_static.py` copies every file in `static/` to `static_dist/` under its original name, emits a fingerprinted copy alongside it and writes `manifest.json` mapping logical relative path to fingerprinted relative path. Render runs it as a build command; CI runs it before pytest.
 
-- Template: [`templates/base.html`](templates/base.html:308)
-- Styling: [`sidebar-link--section`](static/styles.css:337)
+`AssetManifest` in `app/assets/manifest.py` loads that map, resolves `asset_url()` lookups for templates and rewrites `/static/...` URLs inside rendered HTML.
 
-### Static assets in runtime
+Which directory is served is decided at startup in `create_app()`:
 
-Static files are served via a caching-aware StaticFiles subclass:
+| Variable | Default | Effect |
+|---|---|---|
+| `CTC_USE_STATIC_DIST` | unset | When truthy, serve the fingerprinted build instead of `static/` |
+| `CTC_STATIC_DIST_DIR` | `static_dist` | Which directory that is. It steers the mount as well as the CV lookup. |
+| `CTC_STATIC_MANIFEST_PATH` | `static_dist/manifest.json` | Where the manifest is read from |
+| `CTC_CANONICAL_HOST` | `www.crankthecode.com` | The host the redirect middleware normalises to |
 
-- Static mount: [`fastapi_app.mount("/static", ...)`](app/main.py:119)
-- Primary implementation: [`FallbackStaticFiles`](app/assets/staticfiles.py:40) + [`CachingStaticFiles`](app/assets/staticfiles.py:14)
-  - Fingerprinted filenames cache for 1y immutable: [`CachingStaticFiles.get_response()`](app/assets/staticfiles.py:23)
-  - Non-fingerprinted assets are `no-cache, must-revalidate` as a safe fallback: [`Cache-Control`](app/assets/staticfiles.py:35)
-
-The app mounts `/docs` for public artifacts like the CV: [`fastapi_app.mount("/docs", ...)`](app/main.py:124)
-
-EPUB files are retained in-repo but are no longer published under `/docs`.
-
-### Asset fingerprinting pipeline (build step)
-
-Render runs an explicit build step before starting the app: [`buildCommand`](render.yaml:5).
-
-- Builder script: [`build_static_dist()`](app/assets/build_static.py:24)
-  - Copies every file to its original path in `static_dist/` and emits a fingerprinted copy.
-  - Writes `manifest.json` mapping logical rel-path → fingerprinted rel-path.
-- Manifest loader + URL rewriting:
-  - Load: [`AssetManifest.load()`](app/assets/manifest.py:27)
-  - Template helper: [`asset_url()`](app/assets/manifest.py:136)
-  - Rewrite `/static/...` URLs inside rendered HTML: [`rewrite_html_static_urls()`](app/assets/manifest.py:77)
-
-Runtime selection:
-
-- The app serves from `static_dist/` when present, otherwise falls back to `static/`: [`static_dir`](app/main.py:112)
-- Environment overrides:
-  - `CTC_USE_STATIC_DIST` toggles serving from `static_dist/` when present: [`use_static_dist`](app/main.py:108)
-  - `CTC_STATIC_DIST_DIR` selects the served static directory: [`configured_static_dist_dir`](app/main.py:109)
-
-## Book builder (Decision Architecture EPUB)
-
-The repository also ships a small book-building subsystem that compiles selected posts into an EPUB.
-
-- Script entrypoints:
-  - Decision Architecture: [`main()`](book/build_decision_architecture_book.py:48)
-  - Patterns: [`main()`](book/build_da_patterns_book.py:1)
-- Orchestrator use case: [`BuildOrchestrator.build()`](book/book_builder/orchestrator.py:19)
-  - Reads source posts from `posts/` (filtered by tags depending on the build script): [`FilesystemBookPostsRepository.list_posts()`](book/book_builder/repository.py:17)
-  - Uses shared tag logic from the app domain to keep layer parsing consistent: [`primary_layer_slug_from_tags()`](app/domain/tags.py:73)
-- Output is written under a non-public directory so EPUBs are retained but not served by the app:
-  - Decision Architecture: [`output_file`](book/book_builder/paths.py:24) → `book/private_epubs/Decision-Architecture.epub`
-  - Patterns build mirrors this to `book/private_epubs/decision-architecture-patterns.epub`: [`PatternsBookPaths.from_repo_root()`](book/build_da_patterns_book.py:80)
-- EPUB build is executed by calling `pandoc` via subprocess:
-  - Command construction + up-to-date checks: [`PandocEpubBuilder.build()`](book/book_builder/pandoc_epub.py:29)
-
-## Tests (architecture regression nets)
-
-The test suite doubles as architecture enforcement by locking in outward behaviour (routing, SEO, caching and deterministic HTML output).
-
-- Canonical redirect middleware behaviour: [`test_canonical_redirect_middleware_redirects_http_apex_to_https_www()`](tests/test_canonical_redirect_middleware.py:18)
-- Entrypoint shim coverage (`python main.py` path without starting Uvicorn): [`test_root_main_module_can_run_as_script_without_starting_server()`](tests/test_entrypoints.py:23)
+If the selected directory does not exist, the mount falls back to `static/`. Mounting a missing directory raises at startup; `static_dist/` is gitignored build output, so without that fallback a clean checkout could not start.
