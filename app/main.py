@@ -152,7 +152,27 @@ def create_app() -> FastAPI:
         "on",
     }
 
-    static_dir = PROJECT_ROOT / ("static_dist" if use_static_dist else "static")
+    configured_static_dist_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
+    static_dist_dir = configured_static_dist_dir or "static_dist"
+
+    # CTC_STATIC_DIST_DIR has to steer the mount as well as the CV lookup below.
+    # It previously only steered the CV, so pointing it at another directory
+    # still mounted the repository's own static_dist.
+    if use_static_dist:
+        static_dir = (
+            Path(configured_static_dist_dir)
+            if configured_static_dist_dir
+            else PROJECT_ROOT / "static_dist"
+        )
+    else:
+        static_dir = PROJECT_ROOT / "static"
+
+    # The build output is not in the repository, so on a fresh checkout it is
+    # absent until `python -m app.assets.build_static` has run. Mounting a
+    # missing directory raises at startup, so fall back to the unfingerprinted
+    # sources instead: the site still serves, it just serves them uncached.
+    if not static_dir.is_dir():
+        static_dir = PROJECT_ROOT / "static"
 
     # Log once at startup; useful to prove which directory is mounted in prod.
     print(">>> STATIC DIR:", static_dir)
@@ -164,9 +184,6 @@ def create_app() -> FastAPI:
         FallbackStaticFiles(directory=str(static_dir)),
         name="static",
     )
-
-    configured_static_dist_dir = (os.getenv("CTC_STATIC_DIST_DIR") or "").strip()
-    static_dist_dir = configured_static_dist_dir or "static_dist"
 
     # `docs/` is optional. Only mount if it exists, otherwise `/docs/...` should 404.
     if Path("docs").exists():

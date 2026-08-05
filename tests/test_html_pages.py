@@ -181,6 +181,29 @@ def test_cv_pdf_prefers_static_dist_when_enabled(tmp_path: Path, monkeypatch):
     assert resp.content == cv_bytes
 
 
+def test_app_starts_when_the_static_build_has_not_run(tmp_path: Path, monkeypatch):
+    """A fresh checkout has no `static_dist/`, and the app must still serve.
+
+    `static_dist/` is a build output and is gitignored, so on a clean clone it
+    does not exist until the build has run. Mounting a missing directory raises
+    at startup, which took CI down with a RuntimeError while passing locally
+    purely because a built copy happened to be lying around. The app now falls
+    back to the unfingerprinted sources.
+    """
+    missing = tmp_path / "never_built"
+    assert not missing.exists()
+
+    monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
+    monkeypatch.setenv("CTC_STATIC_DIST_DIR", str(missing))
+
+    app = create_app()
+    client = TestClient(app, base_url="http://localhost")
+
+    # It serves, and it serves the plain sources rather than 500ing.
+    resp = client.get("/static/styles.css")
+    assert resp.status_code == 200
+
+
 def test_fingerprinted_static_assets_are_immutable_cached(monkeypatch):
     # Ensure the build output exists *before* app creation; `create_app()`
     # mounts `static_dist/` only if it exists.

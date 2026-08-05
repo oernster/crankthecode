@@ -41,6 +41,12 @@ jobs:
       - name: ruff
         run: python -m ruff check .
 
+      # static_dist/ is a build output and is gitignored, so a fresh checkout
+      # does not have it. The suite reaches for it, and a deploy builds it, so
+      # CI has to build it too or it is testing a state that never ships.
+      - name: Build fingerprinted static assets
+        run: python -m app.assets.build_static
+
       # pytest.ini carries the 100% coverage gate, so a bare run enforces it.
       - name: pytest
         run: python -m pytest
