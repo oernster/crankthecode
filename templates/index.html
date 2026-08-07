@@ -134,33 +134,68 @@
             </a>
           </div>
 
-          <a
-            class="fulcrum-card"
-            href="https://ernster.dev/fulcrum/"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Fulcrum: Decision Architecture incarnate"
-            aria-label="Open Fulcrum, Decision Architecture as an engine you operate, opens in a new tab"
-          >
-            <img
-              class="fulcrum-card__icon"
-              src="/static/images/fulcrum-icon.png"
-              alt="Fulcrum icon"
-              width="64"
-              height="64"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="fulcrum-card__copy">
-              <span class="fulcrum-card__eyebrow">Decision-support / simulation tool</span>
-              <span class="fulcrum-card__title">Fulcrum: Decision Architecture as an engine you operate</span>
-              <span class="fulcrum-card__text">
-                Model any organisation, score its structural health from 0 to 100 and
-                find the moves that make it stronger.
+          {#
+            The two Decision Architecture instruments, side by side: one scores a
+            structure and values its moves, the other prices what that structure
+            costs in latency before it is built. Same card, same weight.
+          #}
+          <div class="instruments-grid" role="group" aria-label="Decision Architecture instruments">
+            <a
+              class="instrument-card"
+              href="https://ernster.dev/fulcrum/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Fulcrum: Decision Architecture incarnate"
+              aria-label="Open Fulcrum, Decision Architecture as an engine you operate, opens in a new tab"
+            >
+              <img
+                class="instrument-card__icon"
+                src="/static/images/fulcrum-icon.png"
+                alt="Fulcrum icon"
+                width="64"
+                height="64"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="instrument-card__copy">
+                <span class="instrument-card__eyebrow">Decision-support / simulation tool</span>
+                <span class="instrument-card__title">Fulcrum: Decision Architecture as an engine you operate</span>
+                <span class="instrument-card__text">
+                  Model any organisation, score its structural health from 0 to 100 and
+                  find the moves that make it stronger.
+                </span>
+                <span class="instrument-card__cta">Open Fulcrum &rarr;</span>
               </span>
-              <span class="fulcrum-card__cta">Open Fulcrum &rarr;</span>
-            </span>
-          </a>
+            </a>
+
+            <a
+              class="instrument-card"
+              href="https://ernster.dev/latencylab/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="LatencyLab: the cost of structure, priced before it hardens"
+              aria-label="Open LatencyLab, a design-time latency simulator for event-driven systems, opens in a new tab"
+            >
+              <img
+                class="instrument-card__icon"
+                src="/static/images/latencylab-icon.png"
+                alt="LatencyLab icon"
+                width="64"
+                height="64"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="instrument-card__copy">
+                <span class="instrument-card__eyebrow">Design-time / simulation tool</span>
+                <span class="instrument-card__title">LatencyLab: the cost of structure, priced before it hardens</span>
+                <span class="instrument-card__text">
+                  Model an event-driven system, run it deterministically from a stated
+                  seed and see where queues, delays and contention actually bite.
+                </span>
+                <span class="instrument-card__cta">Open LatencyLab &rarr;</span>
+              </span>
+            </a>
+          </div>
 
           <div class="hero-actions" aria-label="Primary actions">
             <a

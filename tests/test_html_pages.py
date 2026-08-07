@@ -540,3 +540,23 @@ def test_leadership_post_back_link_targets_decision_architecture_gateway():
     # Leadership/Decision Architecture posts should route back to the gateway.
     assert 'href="/decision-architecture"' in resp.text
     assert "Back to Decision Architecture" in resp.text
+
+
+def test_homepage_shows_both_decision_architecture_instruments_side_by_side():
+    """Fulcrum and LatencyLab sit in one grid, as equal cards linking to the hub."""
+
+    app = create_app()
+    client = TestClient(app)
+
+    resp = client.get("/")
+    assert resp.status_code == 200
+
+    assert 'class="instruments-grid"' in resp.text
+    assert resp.text.count('class="instrument-card"') == 2
+
+    assert 'href="https://ernster.dev/fulcrum/"' in resp.text
+    assert "Open Fulcrum" in resp.text
+
+    assert 'href="https://ernster.dev/latencylab/"' in resp.text
+    assert "Open LatencyLab" in resp.text
+    assert 'src="/static/images/latencylab-icon.png"' in resp.text

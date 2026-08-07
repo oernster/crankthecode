@@ -1552,7 +1552,7 @@ a {
   - Avoid layout shift: no padding/line-height changes; use inset box-shadow.
   - Scope to content links to avoid overriding nav/button-like links.
 */
-.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):not(.hero-meta__link):hover {
+.page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.instrument-card):not(.hero-meta__link):hover {
   color: var(--cta-fg);
   text-decoration: none;
   text-shadow: none;
@@ -1561,7 +1561,7 @@ a {
 }
 
 /* Light mode: use accent blue tint for link hover highlight. */
-html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.fulcrum-card):not(.hero-meta__link):hover {
+html.theme-light .page-main a:not(.btn-link):not(.cta-button):not(.header-cta-link):not(.sticky-cta):not(.tag):not(.sidebar-link):not(.breadcrumb-link):not(.site-title-link):not(.back-link):not(.book-cover-link):not(.post-cover-link):not(.books-compilation-card__link):not(.site-nav-preview-link):not(.showcase-card):not(.showcase-proof):not(.instrument-card):not(.hero-meta__link):hover {
   color: #111118;
   box-shadow: inset 0 -1.1em 0 var(--cta-bg-hover);
 }
@@ -4887,12 +4887,19 @@ html.theme-light .section-title {
   background: color-mix(in srgb, var(--link-color) 14%, transparent);
 }
 
-/* Prominent Fulcrum callout below the flagship showcase: rounded card + icon. */
-.fulcrum-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+/* The Decision Architecture instruments below the flagship showcase: two equal
+   cards side by side, each a rounded card + icon. Stacks below 640px. */
+.instruments-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
   margin: 16px 0 4px;
+}
+
+.instrument-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
   padding: 16px 20px;
   border: 2px solid var(--link-color);
   border-radius: 14px;
@@ -4901,12 +4908,12 @@ html.theme-light .section-title {
   transition: background 0.15s ease;
 }
 
-.fulcrum-card:hover,
-.fulcrum-card:focus-visible {
+.instrument-card:hover,
+.instrument-card:focus-visible {
   background: color-mix(in srgb, var(--link-color) 17%, transparent);
 }
 
-.fulcrum-card__icon {
+.instrument-card__icon {
   flex: 0 0 auto;
   width: 64px;
   height: 64px;
@@ -4916,18 +4923,18 @@ html.theme-light .section-title {
   transition: border-color 0.15s ease;
 }
 
-.fulcrum-card:hover .fulcrum-card__icon,
-.fulcrum-card:focus-visible .fulcrum-card__icon {
+.instrument-card:hover .instrument-card__icon,
+.instrument-card:focus-visible .instrument-card__icon {
   border-color: var(--link-color);
 }
 
-.fulcrum-card__copy {
+.instrument-card__copy {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-.fulcrum-card__eyebrow {
+.instrument-card__eyebrow {
   display: block;
   margin: 0 0 3px;
   color: var(--link-color);
@@ -4937,7 +4944,7 @@ html.theme-light .section-title {
   text-transform: uppercase;
 }
 
-.fulcrum-card__title {
+.instrument-card__title {
   display: block;
   margin: 0 0 5px;
   color: var(--heading-color);
@@ -4946,7 +4953,7 @@ html.theme-light .section-title {
   line-height: 1.25;
 }
 
-.fulcrum-card__text {
+.instrument-card__text {
   display: block;
   margin: 0 0 8px;
   color: var(--text-color);
@@ -4954,8 +4961,11 @@ html.theme-light .section-title {
   line-height: 1.5;
 }
 
-.fulcrum-card__cta {
+.instrument-card__cta {
   display: inline-block;
+  /* Pin the call to action to the card foot so both cards align it, whatever
+     their copy length. */
+  margin-top: auto;
   color: var(--link-color);
   font-size: 14.4px;
   font-weight: 700;
@@ -4980,23 +4990,9 @@ html.theme-light .section-title {
     flex-basis: 100%;
     white-space: normal;
   }
-  .showcase__grid {
+
+  .instruments-grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .showcase__label-sub {
-    display: block;
-    margin-left: 0;
-    margin-top: 3px;
-  }
-
-  .showcase-proof {
-    flex-wrap: wrap;
-  }
-
-  .showcase-proof__cta {
-    flex-basis: 100%;
-    white-space: normal;
   }
 }
 
