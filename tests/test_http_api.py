@@ -29,11 +29,11 @@ def test_api_get_post_returns_content_for_known_slug():
     app = create_app()
     client = TestClient(app)
 
-    resp = client.get("/api/posts/pigeonpost")
+    resp = client.get("/api/posts/battlestation")
 
     assert resp.status_code == 200
     body = resp.json()
-    assert body["slug"] == "pigeonpost"
+    assert body["slug"] == "battlestation"
     assert body["title"]
     assert isinstance(body.get("tags"), list)
     assert "content_html" in body

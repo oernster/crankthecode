@@ -8,15 +8,10 @@ import unicodedata
 from pathlib import Path
 from typing import cast
 
-from app.domain.taxonomy import (
-    ARCHIVE_CAT_BUCKETS,
-    PROJECT_CATEGORY_LABELS,
-    PROJECT_CAT_ORDER,
-)
+from app.domain.taxonomy import ARCHIVE_CAT_BUCKETS
 from app.http.view_models.sidebar import (
     POSTS_VIEW_ARCHIVE,
     POSTS_VIEW_WRITING,
-    extract_category_queries_from_tags,
     normalize_cat_label,
     sidebar_label_with_emoji,
     build_sidebar_categories,
@@ -150,12 +145,6 @@ def post_emoji_map() -> dict[str, str]:
         "hardware-guides-are-accidental-bios": "🔧",
         "tiny-tools": "🧩",
         "the-led-problem-the-virpil-community-had": "💡",
-        # 3D printing info has no dedicated icon asset - literal, not guessed
-        "3D-printing-info": "🖨️",
-        # Pre-existing emojis from old template hardcodes - restored, not invented
-        "audiodeck": "🔊",
-        "elevator": "🛗",
-        "galacticunicorn": "🦄",
     }
 
 
@@ -250,21 +239,7 @@ def group_posts_by_cat(
         sort_label = (text_part or raw_label).strip().lower()
         return (0, sort_label)
 
-    def _default_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
-        key, _entry = item
-        if key == "\xff":  # pragma: no cover — all project posts carry a cat: tag
-            return (100, "")
-        # Projects view: an explicit curated category order (Leadership is filtered
-        # out before grouping, so it never reaches here); anything unlisted sorts
-        # after the curated set, alphabetically.
-        return (PROJECT_CAT_ORDER.get(key, 50), key)
-
-    if is_archive:
-        sort_key = _archive_sort_key
-    elif is_writing:
-        sort_key = _writing_sort_key
-    else:
-        sort_key = _default_sort_key
+    sort_key = _archive_sort_key if is_archive else _writing_sort_key
 
     return [entry for _, entry in sorted(groups.items(), key=sort_key)]
 
@@ -297,22 +272,3 @@ def category_label_for_query(
         if (str(c.get("query") or "")).strip().lower() == raw.lower():
             return cast(str | None, c.get("label"))
     return None
-
-
-def is_project_post_by_tags(
-    post_type: str,
-    tags: list[str],
-) -> bool:
-    """Determine if a post is a project post.
-
-    New model: structural frontmatter `post_type: project`.
-    Transition fallback: infer from legacy portfolio categories.
-    """
-    if (post_type or "").strip().lower() == "project":
-        return True
-    cats = extract_category_queries_from_tags(tags)
-    cats_lower = {
-        (q.split(":", 1)[1].strip().lower() if ":" in q else q.strip().lower())
-        for q in cats
-    }
-    return any(c in PROJECT_CATEGORY_LABELS for c in cats_lower)

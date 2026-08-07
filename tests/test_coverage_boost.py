@@ -252,68 +252,9 @@ def test_alias_redirects_hit_coverage():
 
 
 def test_get_post_helper_functions_cover_empty_and_fallback_paths():
-    from app.usecases.get_post import (
-        _extract_markdown_sections,
-        _has_problem_solution_impact_section,
-        _insert_screenshots_after_problem_solution_impact,
-    )
+    from app.usecases.get_post import _extract_markdown_sections
 
     assert _extract_markdown_sections("", title="Screenshots") == ("", [])
-    assert _has_problem_solution_impact_section("") is False
-
-    # Empty screenshots: no changes.
-    assert (
-        _insert_screenshots_after_problem_solution_impact(
-            "abc", screenshots_markdown=""
-        )
-        == "abc"
-    )
-
-    # Empty markdown but screenshots provided: should return screenshots with newline.
-    s = _insert_screenshots_after_problem_solution_impact(
-        "", screenshots_markdown="## Screenshots\n- one"
-    )
-    assert s.startswith("## Screenshots")
-
-    # Fallback append: no PSI heading found.
-    s2 = _insert_screenshots_after_problem_solution_impact(
-        "# Title\n\nIntro\n", screenshots_markdown="## Screenshots\n- two"
-    )
-    assert s2.strip().endswith("- two")
-
-
-def test_insert_screenshots_inserts_after_problem_solution_impact_heading():
-    from app.usecases.get_post import _insert_screenshots_after_problem_solution_impact
-
-    md = (
-        "## Problem → Solution → Impact\n"
-        "\n"
-        "Some content\n"
-        "\n"
-        "## Next\n"
-        "More\n"
-    )
-    screenshots = "## Screenshots\n\n![x](/static/images/x.png)"
-    out = _insert_screenshots_after_problem_solution_impact(
-        md, screenshots_markdown=screenshots
-    )
-
-    # Should be inserted before the next heading.
-    assert out.index("## Screenshots") < out.index("## Next")
-    assert "/static/images/x.png" in out
-
-
-def test_insert_screenshots_when_problem_solution_impact_is_last_section():
-    """Covers the branch where PSI is the final heading (no following heading)."""
-
-    from app.usecases.get_post import _insert_screenshots_after_problem_solution_impact
-
-    md = "## Problem -> Solution -> Impact\n" "\n" "Some content\n" "More content\n"
-    screenshots = "## Screenshots\n\n![x](/static/images/x.png)"
-    out = _insert_screenshots_after_problem_solution_impact(
-        md, screenshots_markdown=screenshots
-    )
-    assert out.strip().endswith("/static/images/x.png)")
 
 
 def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():

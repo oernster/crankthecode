@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 import json
-from typing import cast
 
-from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi import APIRouter, Depends, Request, status
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from app.http.deps import get_blog_service, get_templates
@@ -25,13 +24,11 @@ from app.http.view_models.posts import (
     display_title_parts,
     estimate_read_time_minutes,
     group_posts_by_cat,
-    is_project_post_by_tags,
     post_emoji_map,
     split_leading_emoji_from_title,
 )
 from app.http.view_models.sidebar import (
     POSTS_VIEW_ARCHIVE,
-    POSTS_VIEW_PROJECTS,
     POSTS_VIEW_WRITING,
     build_sidebar_categories,
     normalize_cat_label,
@@ -41,7 +38,6 @@ from app.http.view_models.sidebar import (
     posts_view_from_legacy_exclude_blog,
     posts_view_href,
 )
-from app.domain.taxonomy import PROJECT_CATEGORY_LABELS
 from app.domain.tags import (
     humanize_layer_slug,
     normalize_layer_slug,
@@ -51,7 +47,34 @@ from app.services.blog_service import BlogService
 
 router = APIRouter()
 
-_LEGACY_POST_REDIRECTS: dict[str, str] = {}
+# Retired project write-ups. The essays duplicated the per-project landing
+# pages on the portfolio hub, so the posts were removed and each old slug now
+# redirects permanently to its canonical home. Keys compare case-insensitively.
+_PORTFOLIO_HUB_URL = "https://ernster.dev"
+
+_LEGACY_POST_REDIRECTS: dict[str, str] = {
+    "3d-printer-launcher": f"{_PORTFOLIO_HUB_URL}/3D-Printer-Launcher/",
+    "3d-printing-info": f"{_PORTFOLIO_HUB_URL}/3D-printing-info/",
+    "audiodeck": f"{_PORTFOLIO_HUB_URL}/AudioDeck/",
+    "axisdb": f"{_PORTFOLIO_HUB_URL}/tooling.html",
+    "clearbudget": f"{_PORTFOLIO_HUB_URL}/ClearBudget/",
+    "commandfixer": f"{_PORTFOLIO_HUB_URL}/CommandFixer/",
+    "edcolonisationasst": f"{_PORTFOLIO_HUB_URL}/EDColonisationAsst/",
+    "elevator": f"{_PORTFOLIO_HUB_URL}/elevator/",
+    "fancy-clock": f"{_PORTFOLIO_HUB_URL}/FancyClock/",
+    "fulcrum": f"{_PORTFOLIO_HUB_URL}/fulcrum/",
+    "galacticunicorn": _PORTFOLIO_HUB_URL,
+    "latencylab": f"{_PORTFOLIO_HUB_URL}/latencylab/",
+    "locus": f"{_PORTFOLIO_HUB_URL}/locus/",
+    "meridian": f"{_PORTFOLIO_HUB_URL}/meridian/",
+    "mmsp": f"{_PORTFOLIO_HUB_URL}/MMSP-Spec/",
+    "narratex": "https://narratex.co.uk",
+    "numismatism": f"{_PORTFOLIO_HUB_URL}/coin-analysis/",
+    "o7debrief": f"{_PORTFOLIO_HUB_URL}/o7Debrief/",
+    "pigeonpost": "https://pigeonpost.ink",
+    "postal-gambit": f"{_PORTFOLIO_HUB_URL}/postal-gambit/",
+    "snarkapi": "https://www.snarkapi.com",
+}
 
 # Legacy post aliases: serve the *new* post content at an old public slug.
 # Keys are compared case-insensitively.
@@ -141,45 +164,8 @@ async def posts_index(
         )
     )
 
-    cat_norm = (cat_label or "").strip().lower()
-    default_view = (
-        POSTS_VIEW_PROJECTS
-        if cat_norm in PROJECT_CATEGORY_LABELS
-        else POSTS_VIEW_WRITING
-    )
-    current_view = view_norm or legacy_view or default_view
+    current_view = view_norm or legacy_view or POSTS_VIEW_WRITING
     ctx["current_view"] = current_view
-
-    # Content-type filtering (primary)
-    if current_view == POSTS_VIEW_WRITING:
-        posts = [
-            p
-            for p in posts
-            if not is_project_post_by_tags(
-                str(p.get("post_type") or ""),
-                [str(t) for t in cast(list[object], p.get("tags") or [])],
-            )
-        ]
-    elif current_view == POSTS_VIEW_PROJECTS:
-        posts = [
-            p
-            for p in posts
-            if is_project_post_by_tags(
-                str(p.get("post_type") or ""),
-                [str(t) for t in cast(list[object], p.get("tags") or [])],
-            )
-        ]
-    elif current_view == POSTS_VIEW_ARCHIVE:
-        posts = posts
-    else:  # pragma: no cover
-        posts = [
-            p
-            for p in posts
-            if not is_project_post_by_tags(
-                str(p.get("post_type") or ""),
-                [str(t) for t in cast(list[object], p.get("tags") or [])],
-            )
-        ]
 
     # Server-side filtering for category + layer (AND semantics).
     if cat_label:
@@ -253,12 +239,6 @@ async def posts_index(
         cat=cat_label,
         layer=layer_slug,
     )
-    projects_href = posts_view_href(
-        view=POSTS_VIEW_PROJECTS,
-        query=current_q or None,
-        cat=cat_label,
-        layer=layer_slug,
-    )
     archive_href = posts_view_href(
         view=POSTS_VIEW_ARCHIVE,
         query=current_q or None,
@@ -287,7 +267,6 @@ async def posts_index(
             "og_description": og_description,
             "meta_description": meta_description,
             "writing_href": writing_href,
-            "projects_href": projects_href,
             "archive_href": archive_href,
             "breadcrumb_items": [
                 {"label": "Home", "href": "/"},
@@ -336,6 +315,13 @@ async def read_post(
     templates: Jinja2Templates = Depends(get_templates),
 ):
     slug_raw = (slug or "").strip()
+
+    redirect_target = _LEGACY_POST_REDIRECTS.get(slug_raw.strip().lower())
+    if redirect_target:
+        return RedirectResponse(
+            url=redirect_target,
+            status_code=status.HTTP_301_MOVED_PERMANENTLY,
+        )
 
     alias_target = _LEGACY_POST_ALIASES.get(slug_raw.strip().lower())
     canonical_slug = alias_target or slug_raw

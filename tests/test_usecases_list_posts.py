@@ -164,3 +164,36 @@ def test_cover_helpers_handle_empty_markdown_gracefully():
 
     # Stripping an image from empty content should be a no-op.
     assert _strip_image_paragraph("", "/static/images/x.png") == ""
+
+
+def test_list_posts_strips_extra_image_paragraphs_from_the_summary():
+    """`extra_images` render in a controlled gallery, never inline in the summary."""
+
+    repo = InMemoryPostsRepository(
+        posts=(
+            MarkdownPost(
+                slug="gallery",
+                title="Gallery",
+                date="2020-01-01 12:00",
+                tags=(),
+                blurb=None,
+                one_liner=None,
+                image="/static/images/cover.png",
+                thumb_image=None,
+                extra_images=("/static/images/extra.png",),
+                content_markdown=(
+                    "![Cover](/static/images/cover.png)\n\n"
+                    "Lead paragraph.\n\n"
+                    "![Extra](/static/images/extra.png)\n"
+                ),
+                emoji=None,
+                post_type=None,
+                role=None,
+            ),
+        )
+    )
+
+    summaries = ListPostsUseCase(repo=repo, renderer=PythonMarkdownRenderer()).execute()
+
+    assert len(summaries) == 1
+    assert "/static/images/extra.png" not in summaries[0].summary_html

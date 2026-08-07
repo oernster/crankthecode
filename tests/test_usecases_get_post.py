@@ -138,38 +138,9 @@ def test_get_post_extracts_first_standalone_image_as_cover_when_no_frontmatter_i
     assert "/static/images/cover.png" not in result.content_html
 
 
-def test_get_post_axisdb_injects_install_terminal_when_has_problem_solution_impact():
-    repo = InMemoryPostsRepository(
-        posts=(
-            MarkdownPost(
-                slug="axisdb",
-                title="AxisDB",
-                date="2020-01-01 12:00",
-                tags=(),
-                blurb="Project blurb",
-                one_liner=None,
-                image=None,
-                thumb_image=None,
-                extra_images=(),
-                content_markdown=(
-                    "## Problem → Solution → Impact\n\n" "Some body.\n\n" "More body.\n"
-                ),
-                emoji=None,
-                post_type=None,
-                role=None,
-            ),
-        )
-    )
-    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
-    result = uc.execute("axisdb")
-
-    assert result is not None
-    assert "fake-terminal--axisdb-install" in result.content_html
-
-
-def test_get_post_inserts_author_screenshots_when_has_psi_but_no_primary_images():
-    # Covers the branch where we have a PSI section but no cover/extra images;
-    # still includes the author-provided screenshots body.
+def test_get_post_inserts_author_screenshots_when_no_primary_images():
+    # Covers the branch where there are no cover or extra images; the
+    # author-provided screenshots body is still included.
     repo = InMemoryPostsRepository(
         posts=(
             MarkdownPost(

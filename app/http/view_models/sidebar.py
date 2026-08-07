@@ -24,12 +24,10 @@ _FALSY_QUERY: frozenset[str] = frozenset({"0", "false", "no", "n", "off"})
 
 # /posts filter view names
 POSTS_VIEW_WRITING = "writing"
-POSTS_VIEW_PROJECTS = "projects"
 POSTS_VIEW_ARCHIVE = "archive"
 POSTS_ALLOWED_VIEWS: frozenset[str] = frozenset(
     {
         POSTS_VIEW_WRITING,
-        POSTS_VIEW_PROJECTS,
         POSTS_VIEW_ARCHIVE,
     }
 )
@@ -98,7 +96,7 @@ def posts_view_href(
 ) -> str:
     """Build a /posts href preserving secondary filters.
 
-    Primary filter is `view=writing|projects|archive`.
+    Primary filter is `view=writing|archive`.
     Secondary filters remain `q`, `cat`, `layer`.
     """
     parts: list[str] = [f"view={quote(view, safe='')}"]
@@ -128,16 +126,17 @@ def posts_view_from_legacy_exclude_blog(raw: str | None) -> str | None:
     """Backwards compatibility for legacy links.
 
     Mapping:
-    - exclude_blog=1 -> view=projects
+    - exclude_blog=1 -> view=writing
     - exclude_blog=0 -> view=archive
 
-    Only used when `view` is absent.
+    Only used when `view` is absent. The legacy truthy value meant "projects
+    only"; the projects view is gone, so it now lands on Writing.
     """
     val = (raw or "").strip().lower()
     if not val:
         return None
     if val in _TRUTHY_QUERY:
-        return POSTS_VIEW_PROJECTS
+        return POSTS_VIEW_WRITING
     if val in _FALSY_QUERY:
         return POSTS_VIEW_ARCHIVE
     return None

@@ -68,7 +68,7 @@ That is the outcome I was hoping for.
 
 ## In closing
 
-For context on what LatencyLab is, why it exists and why it is intentionally literal, the primary post [LatencyLab](https://www.crankthecode.com/posts/latencylab) remains the right place to start.
+For context on what LatencyLab is, why it exists and why it is intentionally literal, its own page, [LatencyLab](https://ernster.dev/latencylab/), remains the right place to start.
 
 This entry exists to document a simple observation.
 

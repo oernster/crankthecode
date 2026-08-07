@@ -83,7 +83,7 @@ The alternative is not to stop profiling. It is to move some of the thinking ear
 
 Make coordination explicit before code exists. Name feedback paths. Consider contention as a first class concern. Model how work interacts, not just how long it runs.
 
-Tools like [LatencyLab](https://www.crankthecode.com/posts/latencylab) exist to make this possible but the deeper point is cultural rather than technical.
+Tools like [LatencyLab](https://ernster.dev/latencylab/) exist to make this possible but the deeper point is cultural rather than technical.
 
 Latency problems are rarely caused by a single slow function. They are caused by decisions made long before there is anything to measure.
 

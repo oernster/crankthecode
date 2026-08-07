@@ -196,7 +196,7 @@ Normalisation rules:
 Rendering decisions are a use case concern, so the resulting HTML shape stays testable and consistent:
 
 * `ListPostsUseCase.execute()` extracts the first paragraph as a summary and handles cover and thumbnail selection and stripping.
-* `GetPostUseCase.execute()` strips an explicit cover image paragraph near the top, protects an author-written Screenshots section and can inject a controlled one from `extra_images`. AxisDB additionally gets an install prompt snippet inserted after its Problem, Solution and Impact section.
+* `GetPostUseCase.execute()` strips an explicit cover image paragraph near the top, protects an author-written Screenshots section and can inject a controlled one from `extra_images`.
 
 ### Taxonomy
 

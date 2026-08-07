@@ -151,3 +151,46 @@ def test_normalize_published_at_supports_datetime_date_datetime_string_and_fallb
         FilesystemPostsRepository._normalize_published_at(object())
         == "1900-01-01 12:00"
     )
+
+
+def test_filesystem_repository_parses_structural_type_and_role_frontmatter(
+    tmp_path: Path,
+):
+    """`type:` and `role:` are frontmatter passthrough, normalized to lowercase.
+
+    No published post carries them today (the project write-ups that did were
+    retired), so the parsing is pinned here rather than by real content.
+    """
+
+    (tmp_path / "typed.md").write_text(
+        "---\n"
+        "title: Typed\n"
+        "date: 2024-01-01\n"
+        "type: Project\n"
+        "role: Flagship\n"
+        "---\n"
+        "Body\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "blank.md").write_text(
+        "---\n"
+        "title: Blank\n"
+        "date: 2024-01-01\n"
+        "type: '  '\n"
+        "role: ''\n"
+        "---\n"
+        "Body\n",
+        encoding="utf-8",
+    )
+
+    repo = FilesystemPostsRepository(posts_dir=tmp_path)
+
+    typed = repo.get_post("typed")
+    assert typed is not None
+    assert typed.post_type == "project"
+    assert typed.role == "flagship"
+
+    blank = repo.get_post("blank")
+    assert blank is not None
+    assert blank.post_type is None
+    assert blank.role is None

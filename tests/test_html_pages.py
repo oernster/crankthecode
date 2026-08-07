@@ -10,24 +10,6 @@ from app.main import create_app
 from app.domain.books_catalogue import BookCatalogueEntry
 
 
-def test_axisdb_post_injects_install_flourish():
-    """Regression: the AxisDB install console must inject on /posts/axisdb.
-
-    It is gated on detecting the framing heading, which was renamed from
-    "Problem -> Solution -> Impact" to "Problem -> System -> Outcome"; the gate
-    must keep matching after such a rename.
-    """
-
-    app = create_app()
-    client = TestClient(app)
-
-    resp = client.get("/posts/axisdb")
-
-    assert resp.status_code == 200
-    assert "fake-terminal--axisdb-install" in resp.text
-    assert "pip install axisdb" in resp.text
-
-
 def test_homepage_renders():
     app = create_app()
     client = TestClient(app)
@@ -71,14 +53,15 @@ def test_homepage_renders():
     assert 'class="homepage-portfolio-cue"' not in hero_block
     assert 'class="homepage-selected-project"' not in hero_block
 
-    # All four areas should remain reachable from the homepage (via the sidebar nav).
-    # The portfolio link now points externally at ernster.dev; the project
-    # essays keep their own on-site index via the projects view.
+    # The remaining areas stay reachable from the homepage (via the sidebar nav).
+    # The portfolio lives entirely on ernster.dev now: the project write-ups
+    # duplicated it, so they were retired along with their on-site index.
     assert 'href="/decision-architecture"' in resp.text
     assert 'href="/patterns"' in resp.text
     assert 'href="/books"' in resp.text
     assert 'href="https://ernster.dev"' in resp.text
-    assert 'href="/posts?view=projects"' in resp.text
+    assert 'href="/posts?view=projects"' not in resp.text
+    assert "Project write-ups" not in resp.text
 
     # No separate contact section at the bottom.
     assert "If the mandate is real" not in resp.text

@@ -74,8 +74,7 @@ That may well be the intent for a content site where one bad frontmatter block s
 
 ## Looks like debt, not worth touching
 
-- The 124 markdown files in `posts/`. That is the content, not the codebase.
-- `app/usecases/snippets/axisdb.py`, a code snippet held as a Python module so it can be rendered into a post. It looks like a category error and it is the correct answer: the snippet is under the same lint and the same tests as everything else, so it cannot rot into something that does not run.
+- The markdown files in `posts/`. That is the content, not the codebase.
 - The `app/services/blog_service.py` layer sitting alongside `app/usecases/`. Two names for related things; each has distinct content and merging them is churn.
 - The relaxation from strict clean architecture to "light ports/adapters" that `ARCHITECTURE.md` announces up front. That is the documented web variation and it is the right call for a server-rendered site.
 - `pytest.ini` pointing the cache at `.pytest_cache_writable` with a comment about a non-writable directory. Ugly, load-bearing and harmless.

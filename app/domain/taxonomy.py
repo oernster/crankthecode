@@ -5,46 +5,13 @@ No HTTP dependency. Safe to import from any layer of the stack.
 
 from __future__ import annotations
 
-# Portfolio/systems categories (used to classify posts as "projects" vs "writing").
-PROJECT_CATEGORY_LABELS: frozenset[str] = frozenset(
-    {
-        "desktop apps",
-        "protocols & reference apps",
-        "decision architecture instruments",
-        "gaming",
-        "tools & libraries",
-        "hardware",
-        "web apis",
-    }
-)
-
-# Projects view: explicit top-to-bottom display order for the project categories.
-# Anything not listed sorts after these (alpha), and "Other" is always last.
-PROJECT_CAT_ORDER: dict[str, int] = {
-    "desktop apps": 0,
-    "protocols & reference apps": 1,
-    "decision architecture instruments": 2,
-    "gaming": 3,
-    "tools & libraries": 4,
-    "hardware": 5,
-    "web apis": 6,
-}
-
 # Archive view: explicit category sort buckets.
-# Bucket 0 = portfolio/project categories (alpha within bucket).
 # Bucket 1 = Decision Architecture (Leadership).
 # Bucket 2 = Decision Architecture Patterns.
 # Bucket 3 = Governance.
 # Bucket 4 = Blog and any other writing categories (alpha within bucket).
-# Bucket 5 = uncategorised ("Other") — always last.
+# Bucket 5 = uncategorised ("Other"), always last.
 ARCHIVE_CAT_BUCKETS: dict[str, int] = {
-    "desktop apps": 0,
-    "protocols & reference apps": 0,
-    "decision architecture instruments": 0,
-    "gaming": 0,
-    "tools & libraries": 0,
-    "hardware": 0,
-    "web apis": 0,
     "leadership": 1,
     "decision-architecture-patterns": 2,
     "governance": 3,

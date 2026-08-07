@@ -665,18 +665,7 @@
       </a>
 
       <a
-        class="sidebar-link{% if request.url.path == '/posts' and (request.query_params.get('view') or '') == 'projects' %} is-active{% endif %}"
-        href="/posts?view=projects"
-        title="The essay behind each project: what was broken, what changed, what works now"
-      >
-        <span class="sidebar-link__text">
-          <span class="sidebar-link__text-main">Project write-ups</span>
-          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
-        </span>
-      </a>
-
-      <a
-        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '') == '' and (request.query_params.get('view') or '') != 'projects' %} is-active{% endif %}"
+        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '') == '' %} is-active{% endif %}"
         href="/posts?view=writing"
       >
         <span class="sidebar-link__text" aria-label="Writing">
