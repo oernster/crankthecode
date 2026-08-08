@@ -1,7 +1,7 @@
 ---
 title: Decision adapter
 one_liner: Organisations often require translation layers when decisions move between incompatible domains.
-date: 2026-03-16 23:00
+date: 2026-03-16 17:15
 emoji: 🔌
 tags:
 - cat:decision-architecture-patterns

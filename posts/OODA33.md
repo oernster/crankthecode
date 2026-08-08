@@ -1,7 +1,7 @@
 ---
 title: Decision shadow
 one_liner: Informal decisions often exist in parallel to formal authority structures, shaping outcomes invisibly.
-date: 2026-04-08 21:00
+date: 2026-04-08 21:10
 emoji: 🌒
 tags:
 - cat:decision-architecture-patterns

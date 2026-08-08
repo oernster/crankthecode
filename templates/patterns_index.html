@@ -9,9 +9,18 @@
       <a class="btn-link btn-link--compact" href="/books" aria-label="Books">Books</a>
     </div>
 
-    {% if (description or '')|length > 0 %}
-      <p class="muted" style="margin: 0 0 12px 0;">{{ description }}</p>
-    {% endif %}
+    <p class="muted">
+      A pattern language for decision systems: forty-two named, reusable
+      structures for how authority, escalation and decisions behave inside
+      organisations. The <a href="/essays">essays</a> argue the thesis; the
+      patterns name its moving parts.
+    </p>
+
+    <p class="muted">
+      This is the catalogue in card form. The full patterns, with worked
+      context and consequences, are the subject of the
+      <a href="/books">Decision Architecture books</a>.
+    </p>
 
     <div class="featured-buttons featured-buttons--compact" aria-label="Pattern layers">
       {% for l in layers or [] %}
@@ -22,6 +31,26 @@
     </div>
 
     <hr class="post-separator" aria-hidden="true" />
+
+    {% if featured and (featured|length) > 0 %}
+      <div class="featured-group" aria-label="Start here patterns">
+        <h2 class="featured-group-title" style="margin: 0;">Start here</h2>
+        <div class="posts-featured-list">
+          {% for f in featured %}
+            <div class="posts-featured-item">
+              <a class="btn-link btn-link--primary posts-featured-pill" href="/posts/{{ f.slug }}">
+                <span class="posts-featured-pill__title">{{ f.title }}</span>
+              </a>
+              {% if f.one_liner %}
+                <p class="posts-featured-item__desc">{{ f.one_liner }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <hr class="post-separator" aria-hidden="true" />
+    {% endif %}
 
     <div class="featured-buttons" aria-label="Patterns groups">
       {% if groups and (groups|length) > 0 %}

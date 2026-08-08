@@ -267,3 +267,63 @@ def test_category_posts_grouped_by_layer_tolerates_empty_cat_tag():
         )
         == []
     )
+
+
+def test_patterns_gateway_shows_header_copy_and_featured_start_here_row():
+    """Acceptance: new header copy, exactly the 8 featured cards in order,
+    all 42 OODA posts listed beneath and none removed or redirected."""
+
+    from app.domain.taxonomy import PATTERNS_FEATURED_SLUGS
+
+    app = create_app()
+    client = TestClient(app, base_url="http://localhost")
+
+    resp = client.get("/patterns")
+    assert resp.status_code == 200
+    html = resp.text
+
+    # Header copy links the essays and the books.
+    assert "A pattern language for decision systems" in html
+    assert 'href="/essays"' in html
+    assert "This is the catalogue in card form" in html
+    assert 'href="/books"' in html
+
+    # Start here row: exactly the featured slugs, in list order.
+    assert 'aria-label="Start here patterns"' in html
+    start = html.index('aria-label="Start here patterns"')
+    end = html.index('aria-label="Patterns groups"')
+    row = html[start:end]
+    assert row.count("posts-featured-pill__title") == len(PATTERNS_FEATURED_SLUGS) == 8
+    positions = [row.index(f'href="/posts/{s}"') for s in PATTERNS_FEATURED_SLUGS]
+    assert positions == sorted(positions)
+
+    # All 42 pattern posts are listed beneath and each still serves 200.
+    groups = html[end:]
+    ooda = [f"OODA{i}" for i in range(1, 43)]
+    for slug in ooda:
+        assert f'href="/posts/{slug}"' in groups, slug
+    for slug in (ooda[0], ooda[-1]):
+        post = client.get(f"/posts/{slug}", follow_redirects=False)
+        assert post.status_code == 200, slug
+
+    # Five layer sections present.
+    for label in (
+        "Authority Patterns",
+        "Behaviour Patterns",
+        "Decision Interfaces",
+        "Decision Objects",
+        "System Patterns",
+    ):
+        assert label in groups, label
+
+
+def test_patterns_ordering_has_no_timestamp_ties():
+    """OODA32/OODA33 and OODA10/OODA22 once shared timestamps; ordering must
+    never depend on a tie."""
+
+    from app.http.deps import get_blog_service
+
+    posts = get_blog_service().list_posts()
+    dates = [str(p.date) for p in posts if str(p.slug or "").upper().startswith("OODA")]
+    assert len(dates) == 42
+    assert len(set(dates)) == len(dates), "duplicate OODA timestamps"

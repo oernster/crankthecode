@@ -14,6 +14,7 @@ from fastapi.templating import Jinja2Templates
 from app.domain.tags import humanize_layer_slug
 from app.domain.taxonomy import (
     PATTERNS_CAT_TAG,
+    PATTERNS_FEATURED_SLUGS,
     PATTERNS_LAYER_EMOJIS,
     PATTERNS_LAYER_LABELS,
     PATTERNS_LAYER_ORDER,
@@ -60,6 +61,20 @@ async def patterns_index(
         layer_label_overrides=PATTERNS_LAYER_LABELS,
     )
 
+    # "Start here" featured row: resolved in PATTERNS_FEATURED_SLUGS order,
+    # skipping any slug that no longer exists so the row degrades quietly.
+    by_slug = {str(p.slug or "").strip().lower(): p for p in blog.list_posts()}
+    featured = [
+        {
+            "slug": p.slug,
+            "title": p.title,
+            "one_liner": getattr(p, "one_liner", None),
+            "emoji": getattr(p, "emoji", None),
+        }
+        for p in (by_slug.get(s.lower()) for s in PATTERNS_FEATURED_SLUGS)
+        if p is not None
+    ]
+
     layers = sorted(
         [
             {
@@ -84,7 +99,7 @@ async def patterns_index(
                 {"label": "Home", "href": "/"},
                 {"label": "Decision Architecture Patterns", "href": "/patterns"},
             ],
-            "description": _PATTERNS_DESCRIPTION,
+            "featured": featured,
             "layers": layers,
             "groups": groups,
             "emoji_index": emoji_index,

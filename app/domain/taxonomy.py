@@ -53,6 +53,19 @@ PATTERNS_LAYER_LABELS: dict[str, str] = {
     "pattern-catalogue": "System Patterns",
 }
 
+# "Start here" featured row on the /patterns gateway. The selection is data,
+# not structure: edit this list to change the row. Order is display order.
+PATTERNS_FEATURED_SLUGS: tuple[str, ...] = (
+    "OODA2",
+    "OODA4",
+    "OODA6",
+    "OODA9",
+    "OODA20",
+    "OODA32",
+    "OODA33",
+    "OODA38",
+)
+
 PATTERNS_LAYER_EMOJIS: dict[str, str] = {
     "decision-primitives": "🧠",
     "decision-interfaces": "🪟",
