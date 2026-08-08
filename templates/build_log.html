@@ -29,9 +29,6 @@
               <a class="btn-link" href="/posts/{{ p.slug }}">
                 <span class="btn-text">{{ p.title }}</span>
               </a>
-              {% if p.date %}
-                <div class="post-meta">{{ p.date }}</div>
-              {% endif %}
               {% if p.one_liner or p.blurb %}
                 <div class="post-one-liner">{{ p.one_liner or p.blurb }}</div>
               {% endif %}
