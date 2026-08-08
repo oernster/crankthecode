@@ -51,7 +51,12 @@ def estimate_read_time_from_template(template_name: str) -> int:
         text = re.sub(r"<[^>]+>", " ", text)
         words = len(text.split())
         return max(1, math.ceil(words / _WORDS_PER_MINUTE))
-    except Exception:
+    except (OSError, UnicodeDecodeError):
+        # Degrades to a 1 minute estimate rather than failing the page: a
+        # read-time pill is decoration and no page should 500 over one.
+        # The only fallible step is reading the template, so the surface is
+        # just those two. The regex and the arithmetic that follow cannot
+        # raise on a string.
         return 1
 
 

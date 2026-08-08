@@ -194,3 +194,37 @@ def test_filesystem_repository_parses_structural_type_and_role_frontmatter(
     assert blank is not None
     assert blank.post_type is None
     assert blank.role is None
+
+
+def test_filesystem_posts_repository_load_file_falls_back_to_utf8_sig(monkeypatch):
+    """Covers the UTF-8 BOM fallback branch in `_load_file()`."""
+
+    from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
+
+    md = (
+        "---\n"
+        "title: 'Hello'\n"
+        "date: '2026-01-01'\n"
+        "tags: ['x']\n"
+        "---\n\n"
+        "Body\n"
+    )
+
+    calls: list[str] = []
+
+    def fake_read_text(self: Path, *, encoding: str):  # type: ignore[override]
+        calls.append(encoding)
+        if encoding == "utf-8":
+            # Simulate the first decode failing.
+            raise UnicodeDecodeError("utf-8", b"\\xff", 0, 1, "boom")
+        assert encoding == "utf-8-sig"
+        return md
+
+    monkeypatch.setattr(Path, "read_text", fake_read_text)
+    post = FilesystemPostsRepository._load_file(Path("dummy.md"))
+
+    assert calls == ["utf-8", "utf-8-sig"]
+    assert post.slug == "dummy"
+    assert post.title == "Hello"
+    # Date-only normalization assumes midday.
+    assert post.date == "2026-01-01 12:00"

@@ -4,24 +4,13 @@ A standing reference to the site's outstanding technical debt. It records what i
 
 ---
 
-## 1. Four files are over the 400-line module cap and nothing measures them
+## 1. `static/search.js` is 459 lines and the size rule cannot reach it
 
-| File | Lines |
-|---|---|
-| `tests/test_coverage_boost.py` | 617 |
-| `tests/test_html_pages.py` | 558 |
-| `app/http/routers/posts.py` | 556 |
-| `static/search.js` | 459 |
+Every Python file is now under the 400-line cap and `tests/test_module_size_limits.py` holds both halves of the rule, the cap and the 5% danger band, over `app/`, `tests/` and the repository root. Its scope is Python only, so this one file sits outside it.
 
-There is no size guardrail in the suite, so none of these is reported anywhere. The router is the one that matters: `posts.py` carries route handling, view-model assembly and rendering decisions together; it is the file most likely to be edited when a post gains a new capability. Splitting its view-model assembly out (the `app/http/view_models/` package already exists and already holds `posts.py`) takes it under the cap without inventing structure.
+Splitting it is not a refactor, it is a pipeline change. `static/search.js` is a single IIFE loaded as a classic deferred script from `templates/base.html`. Breaking it up means ES modules; the asset pipeline cannot serve those: `app/assets/build_static.py` fingerprints each file by content hash but never rewrites anything inside a file, while `AssetManifest.rewrite_html_static_urls` only rewrites `src`/`href` attributes and CSS `url(...)` in rendered HTML. An `import "./search_index.js"` would therefore keep pointing at an unfingerprinted path and 404 once `CTC_USE_STATIC_DIST` is on. There are no JavaScript tests, so that failure would reach production unseen.
 
-`tests/test_coverage_boost.py` deserves a separate note: it is named after the gate rather than after any behaviour, which is what a file becomes when tests are written to move a percentage rather than to pin a rule. Its contents are worth redistributing into the behaviour-named test modules beside it.
-
-## 2. Two broad exception handlers with no stated reason
-
-`load_about_html()` in `app/http/view_models/context.py` and `estimate_read_time_from_template()` in `app/http/view_models/posts.py` each catch a bare `except Exception` with no `# noqa` and no comment. Both are on view-model assembly paths, so the effect is that a malformed post silently renders as something else rather than failing.
-
-That may well be the intent for a content site where one bad frontmatter block should not take down a page. The debt is that the intent is not written down, so neither handler can be reviewed and neither can be narrowed with confidence. Give each one a comment naming what it is degrading and why, then narrow it to the exception type that actually occurs.
+**Needs a ruling**, two ways to settle it. Either the pipeline learns to rewrite JS import specifiers (or an import map is emitted beside the manifest) and the file is then split. Or the cap is recorded as Python-only by design and this moves to "Not debt". Splitting the file without doing one of those first would break search in the fingerprinted build.
 
 ---
 
@@ -42,4 +31,4 @@ These look like candidates but are correct as they stand; changing them would re
 - **The asset-fingerprinting pipeline and the `static/` versus `static_dist/` split.** Two directories for the same assets looks redundant; one is the source and one is the built, hashed output; the `CTC_USE_STATIC_DIST` switch is what lets the site run from source locally.
 - **The pure `app/domain` package with no framework imports.** Verified pure, then held that way by the source scan in `tests/test_architecture_boundaries.py` rather than by habit.
 - **The canonical-host and https redirect middleware in `app/main.py`.** Deployment policy expressed as code, driven by environment. Correct placement.
-- **The many small router modules** (`api`, `books`, `html`, `mmsp`, `pages`, `portfolio`, `rss`, `sitemap`). One router per concern plus an aggregator is the intended shape. Item 1 concerns only `posts.py`, the single router that outgrew it.
+- **The many small router modules** (`api`, `books`, `html`, `mmsp`, `pages`, `portfolio`, `rss`, `sitemap`). One router per concern plus an aggregator is the intended shape; every one of them is now under the size cap.

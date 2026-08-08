@@ -3,45 +3,54 @@
 from __future__ import annotations
 
 import json
+from typing import Any
 
 from fastapi import APIRouter, Depends, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
+from app.domain.tags import humanize_layer_slug, normalize_layer_slug
 from app.http.deps import get_blog_service, get_templates
 from app.http.seo import (
     DEFAULT_SITE_URL,
     absolute_url,
-    build_meta_description,
     canonical_url_for_request,
-    to_iso_date,
     to_iso_datetime,
 )
 from app.http.view_models.context import build_base_context
+from app.http.view_models.post_detail import (
+    build_article_jsonld,
+    build_breadcrumb_jsonld,
+    build_descriptions,
+    build_navigation,
+    build_og_image,
+    build_og_title,
+    build_post_row,
+    first_cat_tag,
+    is_essay_post,
+)
 from app.http.view_models.posts import (
     PILL_GROUP_SIZE,
     category_label_for_query,
-    display_title_parts,
     estimate_read_time_minutes,
     group_posts_by_cat,
-    post_emoji_map,
-    split_leading_emoji_from_title,
+)
+from app.http.view_models.posts_index import (
+    build_index_breadcrumbs,
+    build_index_rows,
+    build_index_titles,
+    filter_rows_by_cat,
+    filter_rows_by_layer,
+    resolve_cat_label,
 )
 from app.http.view_models.sidebar import (
     POSTS_VIEW_ARCHIVE,
     POSTS_VIEW_WRITING,
     build_sidebar_categories,
-    normalize_cat_label,
     normalize_posts_view,
-    posts_base_href,
-    posts_href,
     posts_view_from_legacy_exclude_blog,
     posts_view_href,
-)
-from app.domain.essays import ESSAY_SLUGS
-from app.domain.tags import (
-    humanize_layer_slug,
-    normalize_layer_slug,
+    sidebar_label_with_emoji,
 )
 from app.services.blog_service import BlogService
 
@@ -83,7 +92,25 @@ _LEGACY_POST_ALIASES: dict[str, str] = {
     "oodaintro": "what-is-decision-architecture",
 }
 
-_CAT_TAG_PREFIX = "cat:"
+_LOCAL_HOSTS = {"127.0.0.1", "localhost"}
+
+
+def _dump_jsonld(payload: dict[str, Any]) -> str:
+    return json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+
+
+def _rendered(
+    request: Request,
+    templates: Jinja2Templates,
+    template_name: str,
+    ctx: dict[str, Any],
+):
+    """Render a template, clearing the local cache when served from loopback."""
+
+    resp = templates.TemplateResponse(request, template_name, ctx)
+    if (request.url.hostname or "").strip().lower() in _LOCAL_HOSTS:
+        resp.headers["Clear-Site-Data"] = '"cache"'
+    return resp
 
 
 @router.get("/posts", response_class=HTMLResponse)
@@ -92,65 +119,21 @@ async def posts_index(
     blog: BlogService = Depends(get_blog_service),
     templates: Jinja2Templates = Depends(get_templates),
 ):
-    emoji_map = post_emoji_map()
-    posts = [
-        (
-            lambda _p: (
-                {
-                    "slug": _p.slug,
-                    "title": _p.title,
-                    "title_text": display_title_parts(
-                        title=_p.title,
-                        emoji=(
-                            getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")
-                        ),
-                    )[1],
-                    "date": _p.date,
-                    "tags": list(_p.tags),
-                    "post_type": getattr(_p, "post_type", None),
-                    "blurb": getattr(_p, "blurb", None),
-                    "one_liner": getattr(_p, "one_liner", None),
-                    "cover_image_url": _p.cover_image_url,
-                    "thumb_image_url": getattr(_p, "thumb_image_url", None),
-                    "emoji": display_title_parts(
-                        title=_p.title,
-                        emoji=(
-                            getattr(_p, "emoji", None) or emoji_map.get(_p.slug, "")
-                        ),
-                    )[0],
-                    "summary_html": _p.summary_html,
-                }
-            )
-        )(p)
-        for p in blog.list_posts()
-    ]
+    rows = build_index_rows(blog)
 
-    hidden_slugs = {"about-me", "about", "start-here", "portfolio"}
-    posts = [
-        p for p in posts if str(p.get("slug", "")).strip().lower() not in hidden_slugs
-    ]
     ctx = build_base_context(request)
     current_q = (ctx.get("current_q", "") or "").strip()
-    current_cat_raw = (ctx.get("current_cat", "") or "").strip()
-    current_layer_raw = (ctx.get("current_layer", "") or "").strip()
 
     ctx["sidebar_categories"] = build_sidebar_categories(
         blog, exclude_blog=bool(ctx.get("exclude_blog"))
     )
 
-    cat_label: str | None = None
-    if current_cat_raw:
-        cat_label = normalize_cat_label(current_cat_raw)
-    elif (
-        current_q.lower().startswith(_CAT_TAG_PREFIX)
-        and current_q.strip().lower() != _CAT_TAG_PREFIX
-    ):
-        tail = current_q.split(":", 1)[1].strip()
-        cat_label = normalize_cat_label(tail) if tail else None
-
-    layer_slug: str | None = None
-    if current_layer_raw:
-        layer_slug = normalize_layer_slug(current_layer_raw)
+    cat_label = resolve_cat_label(
+        current_cat=(ctx.get("current_cat", "") or "").strip(),
+        current_q=current_q,
+    )
+    current_layer_raw = (ctx.get("current_layer", "") or "").strip()
+    layer_slug = normalize_layer_slug(current_layer_raw) if current_layer_raw else None
 
     ctx["current_cat"] = cat_label or ""
     ctx["current_layer"] = layer_slug or ""
@@ -163,148 +146,65 @@ async def posts_index(
             request.query_params.get("exclude_blog")
         )
     )
-
     current_view = view_norm or legacy_view or POSTS_VIEW_WRITING
     ctx["current_view"] = current_view
 
-    # Server-side filtering for category + layer (AND semantics).
+    # Category and layer narrow the list together, as an AND.
     if cat_label:
-        from app.http.view_models.sidebar import extract_category_queries_from_tags
-
-        cat_tag_norm = f"cat:{normalize_cat_label(cat_label)}".strip().lower()
-        posts = [
-            p
-            for p in posts
-            if any(
-                (q or "").strip().lower() == cat_tag_norm
-                for q in extract_category_queries_from_tags(
-                    [str(t) for t in (p.get("tags") or [])]
-                )
-            )
-        ]
-
+        rows = filter_rows_by_cat(rows, cat_label)
     if layer_slug:
-        from app.domain.tags import extract_layer_slugs_from_tags
+        rows = filter_rows_by_layer(rows, layer_slug)
 
-        layer_tag_norm = f"layer:{normalize_layer_slug(layer_slug)}".strip().lower()
-        posts = [
-            p
-            for p in posts
-            if any(
-                f"layer:{s}".strip().lower() == layer_tag_norm
-                for s in extract_layer_slugs_from_tags(
-                    [str(t) for t in (p.get("tags") or [])]
-                )
-            )
-        ]
-
-    category_label = None
-    if cat_label:
-        from app.http.view_models.sidebar import sidebar_label_with_emoji
-
-        category_label = sidebar_label_with_emoji(cat_label)
-    else:
-        category_label = category_label_for_query(
-            current_q, blog=blog, exclude_blog=False
-        )
-
+    category_label = (
+        sidebar_label_with_emoji(cat_label)
+        if cat_label
+        else category_label_for_query(current_q, blog=blog, exclude_blog=False)
+    )
     layer_label = humanize_layer_slug(layer_slug) if layer_slug else None
-
-    page_title = "Posts | Crank The Code"
-    og_title = "Posts | Crank The Code"
-    og_description = "Browse all Crank The Code posts and project write-ups."
-    meta_description = "Browse all Crank The Code posts and project write-ups."
-    if cat_label:
-        cat_display = (category_label or cat_label).strip()
-        _, cat_text = split_leading_emoji_from_title(cat_display)
-        cat_text = (cat_text or cat_display).strip()
-        if layer_label:
-            page_title = f"{layer_label} | {cat_text} | Posts | Crank The Code"
-            og_title = page_title
-            og_description = (
-                f"Browse posts in {layer_label} ({cat_text}) on Crank The Code."
-            )
-            meta_description = og_description
-        elif cat_text:
-            page_title = f"{cat_text} | Posts | Crank The Code"
-            og_title = page_title
-            og_description = f"Browse posts in {cat_text} on Crank The Code."
-            meta_description = og_description
-        else:
-            meta_description = meta_description  # pragma: no cover
-
-    writing_href = posts_view_href(
-        view=POSTS_VIEW_WRITING,
-        query=current_q or None,
-        cat=cat_label,
-        layer=layer_slug,
-    )
-    archive_href = posts_view_href(
-        view=POSTS_VIEW_ARCHIVE,
-        query=current_q or None,
-        cat=cat_label,
-        layer=layer_slug,
-    )
-    filtered_href = posts_view_href(
-        view=current_view,
-        query=None,
-        cat=cat_label,
-        layer=layer_slug,
-    )
 
     ctx.update(
         {
-            "posts": posts,
+            "posts": rows,
             "posts_grouped": group_posts_by_cat(
-                posts,
+                rows,
                 view=current_view,
                 exclude_hub_cats=not cat_label,
             ),
             "pill_group_size": PILL_GROUP_SIZE,
             "is_homepage": False,
-            "page_title": page_title,
-            "og_title": og_title,
-            "og_description": og_description,
-            "meta_description": meta_description,
-            "writing_href": writing_href,
-            "archive_href": archive_href,
-            "breadcrumb_items": [
-                {"label": "Home", "href": "/"},
-                {"label": "Posts", "href": posts_base_href(view=current_view)},
-                *(
-                    [
-                        {
-                            "label": category_label or cat_label,
-                            "href": posts_href(
-                                query=None,
-                                cat=cat_label,
-                                layer=None,
-                                exclude_blog=None,
-                            ),
-                        }
-                    ]
-                    if cat_label
-                    else []
+            "writing_href": posts_view_href(
+                view=POSTS_VIEW_WRITING,
+                query=current_q or None,
+                cat=cat_label,
+                layer=layer_slug,
+            ),
+            "archive_href": posts_view_href(
+                view=POSTS_VIEW_ARCHIVE,
+                query=current_q or None,
+                cat=cat_label,
+                layer=layer_slug,
+            ),
+            "breadcrumb_items": build_index_breadcrumbs(
+                view=current_view,
+                cat_label=cat_label,
+                category_label=category_label,
+                layer_label=layer_label,
+                filtered_href=posts_view_href(
+                    view=current_view,
+                    query=None,
+                    cat=cat_label,
+                    layer=layer_slug,
                 ),
-                *(
-                    [
-                        {
-                            "label": layer_label,
-                            "href": filtered_href,
-                        }
-                    ]
-                    if (cat_label and layer_label)
-                    else []
-                ),
-            ],
+            ),
+            **build_index_titles(
+                cat_label=cat_label,
+                category_label=category_label,
+                layer_label=layer_label,
+            ),
         }
     )
 
-    resp = templates.TemplateResponse(request, "posts.html", ctx)
-    hostname = (request.url.hostname or "").strip().lower()
-    if hostname in {"127.0.0.1", "localhost"}:
-        resp.headers["Clear-Site-Data"] = '"cache"'
-    return resp
+    return _rendered(request, templates, "posts.html", ctx)
 
 
 @router.get("/posts/{slug}", response_class=HTMLResponse)
@@ -325,68 +225,13 @@ async def read_post(
 
     alias_target = _LEGACY_POST_ALIASES.get(slug_raw.strip().lower())
     canonical_slug = alias_target or slug_raw
-    lookup_slug = alias_target or slug_raw
-
-    detail = blog.get_post(lookup_slug)
+    detail = blog.get_post(alias_target or slug_raw)
 
     if detail is None:
         return HTMLResponse(content="<h1>404 - Post Not Found</h1>", status_code=404)
 
-    emoji, title_text = display_title_parts(
-        title=detail.title,
-        emoji=getattr(detail, "emoji", None),
-    )
-    post = {
-        "slug": detail.slug,
-        "title": detail.title,
-        "title_text": title_text,
-        "emoji": emoji,
-        "date": detail.date,
-        "tags": list(detail.tags),
-        "blurb": getattr(detail, "blurb", None),
-        "one_liner": getattr(detail, "one_liner", None),
-        "cover_image_url": detail.cover_image_url,
-        "thumb_image_url": getattr(detail, "thumb_image_url", None),
-        "extra_image_urls": list(getattr(detail, "extra_image_urls", [])),
-        "content": detail.content_html,
-    }
-
-    def _first_cat_tag(tags: list[str]) -> str:
-        for t in tags or []:
-            t_norm = str(t or "").strip()
-            if t_norm.lower().startswith("cat:"):
-                return t_norm
-        return ""
-
-    cat_tag = _first_cat_tag(post.get("tags") or [])
-    cat_norm = cat_tag.lower()
-    is_essay = cat_norm == "cat:leadership" or (
-        (detail.slug or "").strip().lower() in ESSAY_SLUGS
-    )
-    if is_essay:
-        back_link_href = "/essays"
-        back_link_label = "← Back to essays"
-        breadcrumb_items = [
-            {"label": "Home", "href": "/"},
-            {"label": "Selected Essays", "href": "/essays"},
-            {"label": detail.title, "href": f"/posts/{detail.slug}"},
-        ]
-    elif cat_norm == "cat:decision-architecture-patterns":
-        back_link_href = "/patterns"
-        back_link_label = "← Back to Patterns"
-        breadcrumb_items = [
-            {"label": "Home", "href": "/"},
-            {"label": "Decision Architecture Patterns", "href": "/patterns"},
-            {"label": detail.title, "href": f"/posts/{detail.slug}"},
-        ]
-    else:
-        back_link_href = "/posts"
-        back_link_label = "← Back to posts"
-        breadcrumb_items = [
-            {"label": "Home", "href": "/"},
-            {"label": "Posts", "href": "/posts"},
-            {"label": detail.title, "href": f"/posts/{detail.slug}"},
-        ]
+    cat_tag = first_cat_tag(list(detail.tags))
+    is_essay = is_essay_post(detail, cat_tag)
 
     ctx = build_base_context(request)
     ctx["sidebar_categories"] = build_sidebar_categories(
@@ -396,161 +241,53 @@ async def read_post(
     site_url = ctx.get("site_url") or DEFAULT_SITE_URL
 
     if alias_target:
+        # An alias serves the canonical post's content at an old slug, so point
+        # the canonical link at the real one and keep the alias out of the index.
         canonical = absolute_url(site_url, f"/posts/{canonical_slug}")
         ctx["robots_meta"] = "noindex,follow"
     else:
         canonical = canonical_url_for_request(request, site_url=site_url)
 
-    description = build_meta_description(
-        getattr(detail, "blurb", None),
-        fallback=getattr(detail, "one_liner", None),
-        default=f"Read {detail.title} on Crank The Code.",
-    )
-
-    og_description = build_meta_description(
-        getattr(detail, "one_liner", None),
-        fallback=getattr(detail, "blurb", None),
-        default=description,
-    )
-
-    subtitle = (
-        getattr(detail, "one_liner", None) or getattr(detail, "blurb", None) or ""
-    ).strip()
-    og_title = f"{detail.title} - {subtitle}" if subtitle else detail.title
-
-    og_image = (
-        getattr(detail, "social_image_url", None)
-        or detail.cover_image_url
-        or absolute_url(site_url, "/static/images/me.jpg")
-    )
-    og_image = absolute_url(site_url, og_image)
-
-    is_project = bool(
-        getattr(detail, "one_liner", None) or getattr(detail, "blurb", None)
-    )
-    if is_project:
-        app_jsonld = {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": detail.title,
-            "operatingSystem": "Cross-platform",
-            "applicationCategory": "Developer Tool",
-            "description": og_description,
-            "author": {"@type": "Person", "name": "Oliver Ernster"},
-            "url": canonical,
-        }
-        ctx["jsonld_extra_json"] = json.dumps(
-            app_jsonld, ensure_ascii=False, separators=(",", ":")
-        )
-
-    published_iso = to_iso_date(detail.date)
+    description, og_description = build_descriptions(detail)
+    og_title = build_og_title(detail)
     published_dt = to_iso_datetime(detail.date)
-
-    jsonld: dict[str, object] = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": detail.title,
-        "author": {"@type": "Person", "name": "Oliver Ernster"},
-        "mainEntityOfPage": canonical,
-        "url": canonical,
-        "description": description,
-    }
-    if published_iso:
-        jsonld["datePublished"] = published_iso
-        jsonld["dateModified"] = published_iso
-    if detail.cover_image_url:
-        jsonld["image"] = [absolute_url(site_url, detail.cover_image_url)]
-
-    tags = [str(t).strip() for t in (detail.tags or []) if str(t).strip()]
-    if tags:
-        jsonld["keywords"] = ", ".join(tags)
-
-    # For essays, route the JSON-LD breadcrumb through /essays. This keeps a
-    # hub-and-spoke graph for crawlers now that the topic hubs are retired.
-    if is_essay:
-        breadcrumb_items_jsonld = [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": absolute_url(site_url, "/"),
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Selected Essays",
-                "item": absolute_url(site_url, "/essays"),
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "name": detail.title,
-                "item": canonical,
-            },
-        ]
-    else:
-        breadcrumb_items_jsonld = [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": absolute_url(site_url, "/"),
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Posts",
-                "item": absolute_url(site_url, "/posts"),
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "name": detail.title,
-                "item": canonical,
-            },
-        ]
-
-    breadcrumb_jsonld = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": breadcrumb_items_jsonld,
-    }
-
-    # Reading time: estimate from rendered HTML content.
-    read_time = estimate_read_time_minutes(detail.content_html or "")
 
     ctx.update(
         {
-            "post": post,
+            "post": build_post_row(detail),
             "is_homepage": False,
             "show_read_time": True,
-            "read_time_minutes": read_time,
+            "read_time_minutes": estimate_read_time_minutes(detail.content_html or ""),
             "page_title": f"{og_title} | Crank The Code",
             "canonical_url": canonical,
             "meta_description": description,
             "og_title": og_title,
             "og_description": og_description,
             "og_type": "article",
-            "og_image_url": og_image,
+            "og_image_url": build_og_image(detail, site_url=site_url),
             "og_image_alt": detail.title,
             "og_image_width": None,
             "og_image_height": None,
-            "jsonld_json": json.dumps(
-                jsonld, ensure_ascii=False, separators=(",", ":")
+            "jsonld_json": _dump_jsonld(
+                build_article_jsonld(
+                    detail,
+                    canonical=canonical,
+                    description=description,
+                    site_url=site_url,
+                )
             ),
-            "jsonld_extra_json": json.dumps(
-                breadcrumb_jsonld, ensure_ascii=False, separators=(",", ":")
+            "jsonld_extra_json": _dump_jsonld(
+                build_breadcrumb_jsonld(
+                    detail,
+                    canonical=canonical,
+                    site_url=site_url,
+                    is_essay=is_essay,
+                )
             ),
             "article_published_time": published_dt,
             "article_modified_time": published_dt,
-            "back_link_href": back_link_href,
-            "back_link_label": back_link_label,
-            "breadcrumb_items": breadcrumb_items,
+            **build_navigation(detail, cat_tag=cat_tag, is_essay=is_essay),
         }
     )
 
-    resp = templates.TemplateResponse(request, "post.html", ctx)
-    hostname = (request.url.hostname or "").strip().lower()
-    if hostname in {"127.0.0.1", "localhost"}:
-        resp.headers["Clear-Site-Data"] = '"cache"'
-    return resp
+    return _rendered(request, templates, "post.html", ctx)

@@ -208,3 +208,11 @@ def test_list_posts_strips_extra_image_paragraphs_from_the_summary():
 
     assert len(summaries) == 1
     assert "/static/images/extra.png" not in summaries[0].summary_html
+
+
+def test_strip_image_paragraph_tail_branch_covered():
+    from app.usecases.list_posts import _strip_image_paragraph
+
+    md = "Para\n\n![Alt](/static/images/cover.png)\n"
+    out = _strip_image_paragraph(md, "/static/images/cover.png", tail=1)
+    assert "cover.png" not in out

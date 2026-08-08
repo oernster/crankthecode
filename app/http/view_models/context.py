@@ -74,4 +74,13 @@ def load_about_html() -> str:
             return ""
         return PythonMarkdownRenderer().render(about_post.content_markdown)
     except Exception:
+        # Deliberately broad, and it stays broad. This runs while building the
+        # base context for every page, so a failure here would take down the
+        # whole site rather than one section. Degrades to an empty About block.
+        #
+        # The failure surface spans three libraries with no common exception
+        # type: reading the file (OSError), parsing hand-written YAML
+        # frontmatter (a parse error from python-frontmatter) and rendering the
+        # markdown. Naming a subset would let the unnamed one through, which is
+        # the outcome this is here to prevent.
         return ""

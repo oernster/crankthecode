@@ -38,3 +38,23 @@ def test_legacy_posts_views_redirect_but_live_filters_fall_through():
 
     # Trailing slashes normalise onto the table.
     assert resolve_redirect("/decision-architecture/", {}) == "/essays"
+
+
+def test_alias_redirects_hit_coverage():
+    """Cover the /about-me, /start-here and /governance redirect routes."""
+    from app.main import create_app as _create
+
+    app = _create()
+    client = TestClient(app, base_url="http://localhost")
+
+    r = client.get("/about-me", follow_redirects=False)
+    assert r.status_code == 301
+    assert r.headers["location"].endswith("/about")
+
+    r = client.get("/start-here", follow_redirects=False)
+    assert r.status_code == 301
+    assert r.headers["location"].endswith("/posts/start-here")
+
+    r = client.get("/governance", follow_redirects=False)
+    assert r.status_code == 301
+    assert r.headers["location"] == "/essays"
