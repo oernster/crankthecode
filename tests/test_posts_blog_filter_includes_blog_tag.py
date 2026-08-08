@@ -27,6 +27,7 @@ def test_posts_blog_view_has_cat_blog_in_data_search(tmp_path: Path):
 
     from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
     from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
+    from app.assets.manifest import AssetManifest
     from app.http.deps import get_blog_service
     from app.main import create_app
     from app.services.blog_service import BlogService
@@ -36,8 +37,12 @@ def test_posts_blog_view_has_cat_blog_in_data_search(tmp_path: Path):
     repo = FilesystemPostsRepository(posts_dir=tmp_path)
     renderer = PythonMarkdownRenderer()
     blog = BlogService(
-        list_posts_uc=ListPostsUseCase(repo=repo, renderer=renderer),
-        get_post_uc=GetPostUseCase(repo=repo, renderer=renderer),
+        list_posts_uc=ListPostsUseCase(
+            repo=repo, renderer=renderer, assets=AssetManifest(mapping={})
+        ),
+        get_post_uc=GetPostUseCase(
+            repo=repo, renderer=renderer, assets=AssetManifest(mapping={})
+        ),
     )
 
     app = create_app()

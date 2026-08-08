@@ -5,8 +5,8 @@ from typing import Sequence
 
 import re
 
-from app.assets.manifest import get_asset_manifest
 from app.domain.models import PostSummary
+from app.ports.asset_urls import AssetUrls
 from app.ports.markdown_renderer import MarkdownRenderer
 from app.ports.posts_repository import PostsRepository
 
@@ -102,9 +102,10 @@ def _strip_image_paragraph(
 class ListPostsUseCase:
     repo: PostsRepository
     renderer: MarkdownRenderer
+    assets: AssetUrls
 
     def execute(self) -> Sequence[PostSummary]:
-        assets = get_asset_manifest()
+        assets = self.assets
         posts = []
         for post in self.repo.list_posts():
             cover_url = getattr(post, "image", None)

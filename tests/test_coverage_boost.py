@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
+from app.assets.manifest import AssetManifest
 from app.domain.models import MarkdownPost, PostSummary
 from app.main import create_app
 
@@ -285,7 +286,11 @@ def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():
         role=None,
     )
 
-    uc = GetPostUseCase(repo=FakeRepo(post), renderer=IdentityRenderer())
+    uc = GetPostUseCase(
+        repo=FakeRepo(post),
+        renderer=IdentityRenderer(),
+        assets=AssetManifest(mapping={}),
+    )
     detail = uc.execute("demo")
     assert detail is not None
     assert "## Screenshots" in detail.content_html
@@ -316,7 +321,11 @@ def test_get_post_injects_screenshots_dedupes_and_keeps_embedded():
         post_type=None,
         role=None,
     )
-    uc2 = GetPostUseCase(repo=FakeRepo(post2), renderer=IdentityRenderer())
+    uc2 = GetPostUseCase(
+        repo=FakeRepo(post2),
+        renderer=IdentityRenderer(),
+        assets=AssetManifest(mapping={}),
+    )
     detail2 = uc2.execute("demo2")
     assert detail2 is not None
     assert "## Screenshots" in detail2.content_html
@@ -369,7 +378,11 @@ def test_get_post_usecase_has_psi_but_no_screenshots_no_changes():
         role=None,
     )
 
-    uc = GetPostUseCase(repo=FakeRepo(post), renderer=IdentityRenderer())
+    uc = GetPostUseCase(
+        repo=FakeRepo(post),
+        renderer=IdentityRenderer(),
+        assets=AssetManifest(mapping={}),
+    )
     detail = uc.execute("psi-no-images")
     assert detail is not None
     # No screenshot content injected.
@@ -566,7 +579,9 @@ def test_get_post_includes_author_screenshots_section_when_has_psi(monkeypatch):
             # For coverage tests we can treat markdown as the final output.
             return markdown_text
 
-    uc = GetPostUseCase(repo=FakeRepo(), renderer=IdentityRenderer())
+    uc = GetPostUseCase(
+        repo=FakeRepo(), renderer=IdentityRenderer(), assets=AssetManifest(mapping={})
+    )
     detail = uc.execute("demo")
     assert detail is not None
 
@@ -610,7 +625,9 @@ def test_get_post_appends_screenshots_when_body_markdown_empty_covers_else_branc
         def list_posts(self):
             return ()
 
-    uc = GetPostUseCase(repo=FakeRepo(), renderer=IdentityRenderer())
+    uc = GetPostUseCase(
+        repo=FakeRepo(), renderer=IdentityRenderer(), assets=AssetManifest(mapping={})
+    )
     detail = uc.execute("demo")
     assert detail is not None
     assert detail.content_html.startswith("## Screenshots")

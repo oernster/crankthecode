@@ -149,7 +149,7 @@ def get_asset_manifest() -> AssetManifest:
 
     # One record per process, because the function is cached. Between them these
     # answer the question that actually matters in production: is the env flag
-    # applied at runtime, and did the manifest resolve to a file that exists?
+    # applied at runtime; did the manifest resolve to a file that exists?
     # Lazy %-args so nothing is formatted unless debug logging is enabled.
     logger.debug(
         "CTC_USE_STATIC_DIST=%r resolved to use_static_dist=%s", raw_flag, use_dist

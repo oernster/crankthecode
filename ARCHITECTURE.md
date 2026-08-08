@@ -63,9 +63,23 @@ Key types:
 | Service facade | `BlogService` in `app/services/blog_service.py` |
 | Use cases | `ListPostsUseCase.execute()` in `app/usecases/list_posts.py`, `GetPostUseCase.execute()` in `app/usecases/get_post.py` |
 | Domain models | `MarkdownPost`, `PostSummary`, `PostDetail` in `app/domain/models.py` |
-| Ports | `PostsRepository` in `app/ports/posts_repository.py`, `MarkdownRenderer` in `app/ports/markdown_renderer.py` |
-| Adapters | `FilesystemPostsRepository` in `app/adapters/filesystem_posts_repository.py`, `PythonMarkdownRenderer` in `app/adapters/markdown_python_renderer.py` |
+| Ports | `PostsRepository` in `app/ports/posts_repository.py`, `MarkdownRenderer` in `app/ports/markdown_renderer.py`, `AssetUrls` in `app/ports/asset_urls.py` |
+| Adapters | `FilesystemPostsRepository` in `app/adapters/filesystem_posts_repository.py`, `PythonMarkdownRenderer` in `app/adapters/markdown_python_renderer.py`, `AssetManifest` in `app/assets/manifest.py` |
 | Composition root | `get_blog_service()` in `app/http/deps.py` |
+
+The direction of these dependencies is held by a source scan rather than by
+habit, because a behavioural suite cannot see an import that crosses a boundary:
+
+| Invariant | Enforced by |
+|---|---|
+| `app/domain` imports nothing outside the standard library. | `test_domain_imports_nothing_outside_the_standard_library` in `tests/test_architecture_boundaries.py` |
+| A use case imports only `app.domain` and `app.ports`, never a concrete adapter. | `test_usecases_import_only_domain_and_ports` in `tests/test_architecture_boundaries.py` |
+| A port never depends on `app.adapters`, `app.http` or `app.assets`. | `test_ports_do_not_depend_on_adapters_http_or_assets` in `tests/test_architecture_boundaries.py` |
+| The scan actually reaches those three layers, so renaming one cannot turn the assertions into vacuous passes. | `test_the_scan_reaches_the_layers_it_claims_to_cover` in `tests/test_architecture_boundaries.py` |
+
+`AssetManifest` satisfies `AssetUrls` structurally, so the use cases resolve
+fingerprinted asset URLs without knowing whether fingerprinting is configured at
+all. A test supplies `AssetManifest(mapping={})` and gets identity behaviour.
 
 ```mermaid
 flowchart TD

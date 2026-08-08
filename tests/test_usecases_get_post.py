@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
+from app.assets.manifest import AssetManifest
 from app.domain.models import MarkdownPost
 from app.usecases.get_post import GetPostUseCase
 from tests.fakes import InMemoryPostsRepository
@@ -8,7 +9,9 @@ from tests.fakes import InMemoryPostsRepository
 
 def test_get_post_returns_none_when_missing():
     repo = InMemoryPostsRepository(posts=())
-    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = GetPostUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
     assert uc.execute("missing") is None
 
 
@@ -32,7 +35,9 @@ def test_get_post_renders_html_when_found():
             ),
         )
     )
-    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = GetPostUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
     result = uc.execute("hello")
 
     assert result is not None
@@ -61,7 +66,9 @@ def test_get_post_uses_frontmatter_image_as_cover_and_strips_matching_image_para
             ),
         )
     )
-    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = GetPostUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
     result = uc.execute("hello")
 
     assert result is not None
@@ -100,7 +107,9 @@ def test_get_post_does_not_strip_cover_image_when_it_only_appears_in_body():
             ),
         )
     )
-    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = GetPostUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
     result = uc.execute("hello")
 
     assert result is not None
@@ -130,7 +139,9 @@ def test_get_post_extracts_first_standalone_image_as_cover_when_no_frontmatter_i
             ),
         )
     )
-    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = GetPostUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
     result = uc.execute("hello")
 
     assert result is not None
@@ -165,7 +176,9 @@ def test_get_post_inserts_author_screenshots_when_no_primary_images():
             ),
         )
     )
-    uc = GetPostUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = GetPostUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
     result = uc.execute("hello")
 
     assert result is not None

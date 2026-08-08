@@ -65,7 +65,7 @@ _CAT_BLOG = "blog"
 
 
 def resolve_redirect(path: str, query_params: Mapping[str, str]) -> str | None:
-    """Return a 301 target for a legacy URL, or None to fall through.
+    """Return a 301 target for a legacy URL; None falls through.
 
     Exact-path lookups come from `REDIRECT_TABLE`. The old /posts views are
     matched on their query string: `view=writing` lands on /essays and

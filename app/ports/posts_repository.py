@@ -12,4 +12,4 @@ class PostsRepository(Protocol):
         """Return all posts available in storage."""
 
     def get_post(self, slug: str) -> MarkdownPost | None:
-        """Return a single post by slug, or None if it does not exist."""
+        """Return a single post by slug; None if it does not exist."""

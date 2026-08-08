@@ -7,6 +7,7 @@ from fastapi import Request
 
 from app.adapters.filesystem_posts_repository import FilesystemPostsRepository
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
+from app.assets.manifest import get_asset_manifest
 from app.services.blog_service import BlogService
 from app.usecases.get_post import GetPostUseCase
 from app.usecases.list_posts import ListPostsUseCase
@@ -25,9 +26,12 @@ def _markdown_renderer() -> PythonMarkdownRenderer:
 def get_blog_service() -> BlogService:
     repo = _posts_repo()
     renderer = _markdown_renderer()
+    # The composition root is the only place that knows the concrete manifest.
+    # `get_asset_manifest()` is itself cached, so this stays one instance.
+    assets = get_asset_manifest()
     return BlogService(
-        list_posts_uc=ListPostsUseCase(repo=repo, renderer=renderer),
-        get_post_uc=GetPostUseCase(repo=repo, renderer=renderer),
+        list_posts_uc=ListPostsUseCase(repo=repo, renderer=renderer, assets=assets),
+        get_post_uc=GetPostUseCase(repo=repo, renderer=renderer, assets=assets),
     )
 
 

@@ -4,31 +4,7 @@ A standing reference to the site's outstanding technical debt. It records what i
 
 ---
 
-## 1. Two use cases reach past their own ports into the asset layer
-
-`app/usecases/get_post.py` and `app/usecases/list_posts.py` both do:
-
-```python
-from app.assets.manifest import get_asset_manifest
-```
-
-Everything else in `app/usecases` depends on `app.domain` and `app.ports` only, which is exactly right. `app.assets.manifest` is the opposite of a port: it reads environment variables, touches the filesystem and holds an `lru_cache`. Two use cases therefore cannot be exercised without the asset pipeline's ambient state; the ports/adapters shape the rest of the package maintains is broken in precisely two places.
-
-The fix is small: declare an `AssetUrls` port beside `MarkdownRenderer` and `PostsRepository`, have the composition root inject the manifest-backed adapter and let the use cases keep depending on the interface. That is one new file and two import changes.
-
-## 2. Nothing enforces the layering
-
-`ARCHITECTURE.md` lists the invariants the suite holds and every one of them is behavioural: routing, redirects, SEO surfaces, cache headers, feed exclusions. Behavioural tests are valuable and this suite has a lot of them. Not one of them can see item 1; none will see the next import that reaches across a boundary either.
-
-`app/domain` is currently pure (stdlib only, verified) and the ports/adapters split is otherwise intact. That state is unguarded. Three source-scan assertions would hold it:
-
-- `app/domain/*` imports nothing outside the standard library.
-- `app/usecases/*` imports only `app.domain` and `app.ports`.
-- `app/ports/*` imports nothing from `app.adapters`, `app.http` or `app.assets`.
-
-The third one is what would have caught item 1 the day it was written.
-
-## 3. Four files are over the 400-line module cap and nothing measures them
+## 1. Four files are over the 400-line module cap and nothing measures them
 
 | File | Lines |
 |---|---|
@@ -41,7 +17,7 @@ There is no size guardrail in the suite, so none of these is reported anywhere. 
 
 `tests/test_coverage_boost.py` deserves a separate note: it is named after the gate rather than after any behaviour, which is what a file becomes when tests are written to move a percentage rather than to pin a rule. Its contents are worth redistributing into the behaviour-named test modules beside it.
 
-## 4. Two broad exception handlers with no stated reason
+## 2. Two broad exception handlers with no stated reason
 
 `load_about_html()` in `app/http/view_models/context.py` and `estimate_read_time_from_template()` in `app/http/view_models/posts.py` each catch a bare `except Exception` with no `# noqa` and no comment. Both are on view-model assembly paths, so the effect is that a malformed post silently renders as something else rather than failing.
 
@@ -64,6 +40,6 @@ These look like candidates but are correct as they stand; changing them would re
 - **The 100% branch-coverage gate living in `pytest.ini` `addopts`.** A bare `pytest` enforces it with no flags to remember. This is the pattern the rest of the portfolio should copy, not a thing to loosen.
 - **flake8 and ruff both running over the same code.** Deliberate duplication; `pyproject.toml` explains it: the two are held to the same line length, rule families, ignores and exclusions so they cannot contradict each other; ruff carries `E402` because flake8 does not report it here. Do not drop either one to save a CI step.
 - **The asset-fingerprinting pipeline and the `static/` versus `static_dist/` split.** Two directories for the same assets looks redundant; one is the source and one is the built, hashed output; the `CTC_USE_STATIC_DIST` switch is what lets the site run from source locally.
-- **The pure `app/domain` package with no framework imports.** Verified pure today. Item 3 exists to keep it that way, not because anything is currently wrong with it.
+- **The pure `app/domain` package with no framework imports.** Verified pure, then held that way by the source scan in `tests/test_architecture_boundaries.py` rather than by habit.
 - **The canonical-host and https redirect middleware in `app/main.py`.** Deployment policy expressed as code, driven by environment. Correct placement.
-- **The many small router modules** (`api`, `books`, `html`, `mmsp`, `pages`, `portfolio`, `rss`, `sitemap`). One router per concern plus an aggregator is the intended shape. Item 4 concerns only the two that outgrew it.
+- **The many small router modules** (`api`, `books`, `html`, `mmsp`, `pages`, `portfolio`, `rss`, `sitemap`). One router per concern plus an aggregator is the intended shape. Item 1 concerns only `posts.py`, the single router that outgrew it.

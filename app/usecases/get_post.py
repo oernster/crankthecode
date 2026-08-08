@@ -4,13 +4,13 @@ from dataclasses import dataclass
 
 import re
 
-from app.assets.manifest import get_asset_manifest
 from app.usecases.list_posts import (
     _extract_cover_image_and_strip,
     _strip_image_paragraph,
 )
 
 from app.domain.models import PostDetail
+from app.ports.asset_urls import AssetUrls
 from app.ports.markdown_renderer import MarkdownRenderer
 from app.ports.posts_repository import PostsRepository
 
@@ -73,9 +73,10 @@ def _extract_markdown_sections(
 class GetPostUseCase:
     repo: PostsRepository
     renderer: MarkdownRenderer
+    assets: AssetUrls
 
     def execute(self, slug: str) -> PostDetail | None:
-        assets = get_asset_manifest()
+        assets = self.assets
         post = self.repo.get_post(slug)
         if post is None:
             return None

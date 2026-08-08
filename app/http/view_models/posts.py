@@ -179,7 +179,7 @@ def group_posts_by_cat(
 
     `exclude_hub_cats` drops the categories with dedicated hub surfaces from
     the Writing view's grouping; it must stay False when an explicit category
-    filter is active, or a deliberate `?cat=Leadership` page would go empty.
+    filter is active; a deliberate `?cat=Leadership` page would otherwise go empty.
     """
 
     _CAT_TAG_PREFIX = "cat:"

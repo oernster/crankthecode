@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from app.adapters.markdown_python_renderer import PythonMarkdownRenderer
+from app.assets.manifest import AssetManifest
 from app.domain.models import MarkdownPost
 from app.usecases.list_posts import (
     ListPostsUseCase,
@@ -45,7 +46,9 @@ def test_list_posts_sorts_by_date_desc_and_renders_summary():
             ),
         )
     )
-    uc = ListPostsUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = ListPostsUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
 
     result = uc.execute()
 
@@ -76,7 +79,9 @@ def test_list_posts_prefers_frontmatter_image_as_cover_and_strips_image_paragrap
             ),
         )
     )
-    uc = ListPostsUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = ListPostsUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
 
     result = uc.execute()
     assert len(result) == 1
@@ -116,7 +121,9 @@ def test_list_posts_does_not_strip_cover_image_when_it_only_appears_in_body():
             ),
         )
     )
-    uc = ListPostsUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = ListPostsUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
 
     result = uc.execute()
 
@@ -149,7 +156,9 @@ def test_list_posts_prefers_thumb_image_when_provided():
             ),
         )
     )
-    uc = ListPostsUseCase(repo=repo, renderer=PythonMarkdownRenderer())
+    uc = ListPostsUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    )
 
     result = uc.execute()
 
@@ -193,7 +202,9 @@ def test_list_posts_strips_extra_image_paragraphs_from_the_summary():
         )
     )
 
-    summaries = ListPostsUseCase(repo=repo, renderer=PythonMarkdownRenderer()).execute()
+    summaries = ListPostsUseCase(
+        repo=repo, renderer=PythonMarkdownRenderer(), assets=AssetManifest(mapping={})
+    ).execute()
 
     assert len(summaries) == 1
     assert "/static/images/extra.png" not in summaries[0].summary_html
