@@ -4,9 +4,10 @@ Nothing in this repository reported file size before this test existed, so four
 files sat over the cap unnoticed. Both halves of the rule are asserted
 separately, one test each, so a red run names which half was broken.
 
-Scope is Python. `static/search.js` is deliberately outside it: see the note in
-TECH_DEBT.md, which records why splitting a browser IIFE is blocked on the asset
-pipeline learning to rewrite JS import specifiers.
+Scope is Python by decision rather than by omission. `static/search.js` sits
+outside it and stays there: see the "Not debt" section of TECH_DEBT.md, which
+records why splitting a browser IIFE would break the fingerprinted build. Do not
+widen this scan to JavaScript without reading that entry first.
 """
 
 from __future__ import annotations
