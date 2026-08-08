@@ -50,7 +50,7 @@ The fix is small: declare an `AssetUrls` port beside `MarkdownRenderer` and `Pos
 
 The third one is what would have caught item 2 the day it was written.
 
-## 4. Five files are over the 400-line module cap and nothing measures them
+## 4. Four files are over the 400-line module cap and nothing measures them
 
 | File | Lines |
 |---|---|
