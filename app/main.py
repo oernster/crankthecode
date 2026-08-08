@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 from typing import Awaitable, Callable
 
@@ -20,12 +21,14 @@ from app.http.routers.mmsp import router as mmsp_router
 from app.http.routers.rss import router as rss_router
 from app.http.routers.sitemap import router as sitemap_router
 
+logger = logging.getLogger(__name__)
+
 
 class _CachePolicyMiddleware:
     """Pure-ASGI cache-control middleware.
 
     Intercepts the ``http.response.start`` event and injects ``Cache-Control``
-    headers at the ASGI protocol level — before any bytes reach the wire.
+    headers at the ASGI protocol level, before any bytes reach the wire.
 
     This is more reliable than FastAPI's higher-level ``call_next`` middleware,
     which reconstructs the response object and can lose header mutations in
@@ -188,10 +191,15 @@ def create_app() -> FastAPI:
     if not static_dir.is_dir():
         static_dir = PROJECT_ROOT / "static"
 
-    # Log once at startup; useful to prove which directory is mounted in prod.
-    print(">>> STATIC DIR:", static_dir)
-    print(">>> ENV CTC_USE_STATIC_DIST:", os.getenv("CTC_USE_STATIC_DIST"))
-    print(">>> ENV CTC_STATIC_MANIFEST_PATH:", os.getenv("CTC_STATIC_MANIFEST_PATH"))
+    # Logged once at startup; proves which directory is actually mounted in
+    # production. Lazy %-args so nothing is formatted unless debug is enabled.
+    logger.debug(
+        "mounting /static from %s "
+        "(CTC_USE_STATIC_DIST=%r, CTC_STATIC_MANIFEST_PATH=%r)",
+        static_dir,
+        os.getenv("CTC_USE_STATIC_DIST"),
+        os.getenv("CTC_STATIC_MANIFEST_PATH"),
+    )
 
     fastapi_app.mount(
         "/static",
@@ -245,7 +253,7 @@ def create_app() -> FastAPI:
         return resp
 
     # Pure-ASGI cache middleware: intercepts http.response.start before any bytes
-    # hit the wire — more reliable than call_next which can lose header mutations.
+    # hit the wire, more reliable than call_next which can lose header mutations.
     fastapi_app.add_middleware(_CachePolicyMiddleware)
 
     fastapi_app.include_router(html_router)

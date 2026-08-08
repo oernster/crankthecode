@@ -278,7 +278,7 @@ def category_posts_grouped_by_layer(
     def _layer_sort_key(slug: str) -> tuple[int, str]:
         if (
             slug in preferred
-        ):  # pragma: no cover — no active caller passes preferred_layer_order
+        ):  # pragma: no cover, no active caller passes preferred_layer_order
             return (preferred.index(slug), "")
         if slug == "":
             return (9999, "zzzz-general")

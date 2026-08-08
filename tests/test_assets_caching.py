@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import runpy
 import sys
 from pathlib import Path
@@ -183,50 +184,69 @@ def test_asset_manifest_cache_reset(tmp_path: Path, monkeypatch: pytest.MonkeyPa
 
 
 def test_asset_manifest_debug_logs_when_disabled(
-    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
 ):
-    """Cover the debug-only logging branches.
+    """The diagnostics go to the logger at debug level, never to stdout.
 
-    The project enforces 100% coverage, so we keep these one-shot runtime logs
-    covered with a hermetic env-based test.
+    A web application has no business printing to stdout, so these assert on
+    the log records rather than on captured output. Asserting stdout is empty
+    is what stops a `print` creeping back in.
     """
 
     # Make the test hermetic even if the outer environment sets these.
-    monkeypatch.setenv("CTC_ASSET_MANIFEST_DEBUG", "1")
     monkeypatch.delenv("CTC_USE_STATIC_DIST", raising=False)
-    monkeypatch.delenv("CTC_FORCE_STATIC_DIST_MANIFEST", raising=False)
     monkeypatch.delenv("CTC_STATIC_MANIFEST_PATH", raising=False)
 
     reset_asset_manifest_cache()
-    man = get_asset_manifest()
+    with caplog.at_level(logging.DEBUG, logger="app.assets.manifest"):
+        man = get_asset_manifest()
     assert man.mapping == {}
 
-    out = capsys.readouterr().out
-    assert "ASSET_MANIFEST_DEBUG:" in out
-    assert "manifest rewriting disabled" in out
+    messages = [record.getMessage() for record in caplog.records]
+    assert any("resolved to use_static_dist=False" in m for m in messages)
+    assert any("rewriting disabled" in m for m in messages)
 
 
 def test_asset_manifest_debug_logs_when_manifest_loaded(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture[str],
+    caplog: pytest.LogCaptureFixture,
 ):
-    """Cover debug logs that run after manifest load."""
+    """Cover the debug logs that run after a manifest is loaded."""
 
     path = tmp_path / "manifest.json"
     path.write_text(json.dumps({"styles.css": "styles.11111111.css"}), encoding="utf-8")
 
-    monkeypatch.setenv("CTC_ASSET_MANIFEST_DEBUG", "1")
     monkeypatch.setenv("CTC_USE_STATIC_DIST", "1")
     monkeypatch.setenv("CTC_STATIC_MANIFEST_PATH", str(path))
 
     reset_asset_manifest_cache()
-    man = get_asset_manifest()
+    with caplog.at_level(logging.DEBUG, logger="app.assets.manifest"):
+        man = get_asset_manifest()
     assert man.static_url("styles.css") == "/static/styles.11111111.css"
 
-    out = capsys.readouterr().out
-    assert "MANIFEST KEYS:" in out
-    assert "manifest_key_count" in out
+    messages = [record.getMessage() for record in caplog.records]
+    assert any("loaded with 1 key(s)" in m for m in messages)
+
+
+def test_asset_manifest_never_writes_to_stdout(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+):
+    """A shipped web application must not print diagnostics to stdout.
+
+    This is the regression guard for the debt item that removed eight `print`
+    calls: it fails if any of them returns, whatever the log level.
+    """
+
+    monkeypatch.delenv("CTC_USE_STATIC_DIST", raising=False)
+    monkeypatch.delenv("CTC_STATIC_MANIFEST_PATH", raising=False)
+
+    reset_asset_manifest_cache()
+    get_asset_manifest()
+
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert captured.err == ""
 
 
 def test_caching_staticfiles_cache_headers(tmp_path: Path):

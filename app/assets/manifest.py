@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from dataclasses import dataclass
@@ -9,9 +10,7 @@ from pathlib import Path
 
 _FINGERPRINT_RE = re.compile(r"\.[0-9a-f]{8,}\.")
 
-
-_ASSET_DEBUG_ENV = "CTC_ASSET_MANIFEST_DEBUG"
-_ASSET_FORCE_LOAD_ENV = "CTC_FORCE_STATIC_DIST_MANIFEST"
+logger = logging.getLogger(__name__)
 
 
 def _truthy_env(name: str) -> bool:
@@ -32,16 +31,6 @@ def _use_static_dist() -> bool:
     """
 
     return _truthy_env("CTC_USE_STATIC_DIST")
-
-
-def _debug_enabled() -> bool:
-    """Enable one-shot runtime diagnostics for asset manifest resolution.
-
-    Note: `get_asset_manifest()` is cached (single evaluation per process), so
-    logging here is low-noise even when enabled.
-    """
-
-    return _truthy_env(_ASSET_DEBUG_ENV)
 
 
 def _normalize_rel_path(path: str) -> str:
@@ -154,50 +143,35 @@ def _default_manifest_path() -> Path:
 
 @lru_cache(maxsize=1)
 def get_asset_manifest() -> AssetManifest:
-    debug = _debug_enabled()
     raw_flag = os.getenv("CTC_USE_STATIC_DIST")
     use_dist = _use_static_dist()
-    force_load = _truthy_env(_ASSET_FORCE_LOAD_ENV)
     manifest_path = _default_manifest_path()
 
-    # Always print this single line once per process (function is cached).
-    # It directly answers: "Is the env flag applied at runtime?"
-    print(f"USE_STATIC_DIST: {use_dist} (raw={raw_flag!r})")
-
-    if debug:
-        # These logs are intentionally explicit and copy/paste friendly.
-        print(
-            "ASSET_MANIFEST_DEBUG:",
-            {
-                "CTC_USE_STATIC_DIST": raw_flag,
-                "CTC_STATIC_MANIFEST_PATH": os.getenv("CTC_STATIC_MANIFEST_PATH"),
-                "CTC_FORCE_STATIC_DIST_MANIFEST": os.getenv(_ASSET_FORCE_LOAD_ENV),
-                "computed_use_static_dist": use_dist,
-                "computed_force_load": force_load,
-                "manifest_path": str(manifest_path),
-                "manifest_exists": manifest_path.exists(),
-                "cwd": str(Path.cwd()),
-            },
-        )
+    # One record per process, because the function is cached. Between them these
+    # answer the question that actually matters in production: is the env flag
+    # applied at runtime, and did the manifest resolve to a file that exists?
+    # Lazy %-args so nothing is formatted unless debug logging is enabled.
+    logger.debug(
+        "CTC_USE_STATIC_DIST=%r resolved to use_static_dist=%s", raw_flag, use_dist
+    )
+    logger.debug(
+        "asset manifest path=%s exists=%s (CTC_STATIC_MANIFEST_PATH=%r, cwd=%s)",
+        manifest_path,
+        manifest_path.exists(),
+        os.getenv("CTC_STATIC_MANIFEST_PATH"),
+        Path.cwd(),
+    )
 
     # If we're not serving from `static_dist/`, do not rewrite URLs to
     # fingerprinted filenames (they won't exist under the mounted `/static`).
-    #
-    # `CTC_FORCE_STATIC_DIST_MANIFEST=1` is a temporary diagnostic escape hatch
-    # to prove that the manifest+templates wiring works even when the env flag
-    # is not applied correctly in production.
-    if not use_dist and not force_load:
-        if debug:
-            print(
-                "ASSET_MANIFEST_DEBUG: manifest rewriting disabled (set "
-                f"{_ASSET_FORCE_LOAD_ENV}=1 to force-load manifest for testing)"
-            )
+    if not use_dist:
+        logger.debug(
+            "asset manifest rewriting disabled; serving unfingerprinted assets"
+        )
         return AssetManifest(mapping={})
 
     manifest = AssetManifest.load(manifest_path)
-    if debug:
-        print("MANIFEST KEYS:", list(manifest.mapping.keys())[:20])
-        print("ASSET_MANIFEST_DEBUG: manifest_key_count=", len(manifest.mapping))
+    logger.debug("asset manifest loaded with %d key(s)", len(manifest.mapping))
     return manifest
 
 

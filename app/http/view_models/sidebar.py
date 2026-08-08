@@ -1,7 +1,7 @@
 """Sidebar context builders and shared URL/tag utilities.
 
 These helpers are used by multiple routers. They have no dependency on
-FastAPI routing objects — only on domain models and blog service.
+FastAPI routing objects, only on domain models and blog service.
 """
 
 from __future__ import annotations

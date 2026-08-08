@@ -193,7 +193,7 @@ def group_posts_by_cat(
             raw = (tag or "").strip()
             if raw.lower().startswith(_CAT_TAG_PREFIX):
                 tail = raw.split(":", 1)[1].strip()
-                if tail:  # pragma: no branch — real posts never emit a bare "cat:" tag
+                if tail:  # pragma: no branch, real posts never emit a bare "cat:" tag
                     primary_cat = normalize_cat_label(tail)
                     break
 
@@ -230,7 +230,7 @@ def group_posts_by_cat(
 
     def _writing_sort_key(item: tuple[str, dict[str, object]]) -> tuple[int, str]:
         key, entry = item
-        if key == "\xff":  # pragma: no cover — all writing posts carry a cat: tag
+        if key == "\xff":  # pragma: no cover, all writing posts carry a cat: tag
             return (2, "")
         if key == "blog":
             return (1, "")

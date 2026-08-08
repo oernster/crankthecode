@@ -4,29 +4,7 @@ A standing reference to the site's outstanding technical debt. It records what i
 
 ---
 
-## 1. Production diagnostics are still wired into the shipped path
-
-`app/assets/manifest.py` prints on every process start, unconditionally:
-
-```
-print(f"USE_STATIC_DIST: {use_dist} (raw={raw_flag!r})")
-```
-
-The comment beside it explains why ("It directly answers: is the env flag applied at runtime?") and the file goes further: `CTC_FORCE_STATIC_DIST_MANIFEST` is documented in its own source as "a temporary diagnostic escape hatch to prove that the manifest+templates wiring works even when the env flag is not applied correctly in production".
-
-`create_app()` in `app/main.py` does the same thing three more times:
-
-```python
-print(">>> STATIC DIR:", static_dir)
-print(">>> ENV CTC_USE_STATIC_DIST:", os.getenv("CTC_USE_STATIC_DIST"))
-print(">>> ENV CTC_STATIC_MANIFEST_PATH:", os.getenv("CTC_STATIC_MANIFEST_PATH"))
-```
-
-All of these were debugging aids for one specific deployment problem: `CTC_STATIC_DIST_DIR` steered the CV lookup but not the static mount. That problem is fixed. The aids shipped. What is left is an env var that can silently force fingerprinted URLs the mounted `/static` cannot serve, plus eight `print` calls across two modules in a web application that has no other use of `print`. The proportionate fix is to delete the force-load escape hatch and route the remaining diagnostics through the logger at debug level, so Render's log stream carries them only when asked.
-
-This is first in the file because it is the only item here that is visible from outside the repository.
-
-## 2. Two use cases reach past their own ports into the asset layer
+## 1. Two use cases reach past their own ports into the asset layer
 
 `app/usecases/get_post.py` and `app/usecases/list_posts.py` both do:
 
@@ -34,13 +12,13 @@ This is first in the file because it is the only item here that is visible from 
 from app.assets.manifest import get_asset_manifest
 ```
 
-Everything else in `app/usecases` depends on `app.domain` and `app.ports` only, which is exactly right. `app.assets.manifest` is the opposite of a port: it reads environment variables, touches the filesystem, holds an `lru_cache` and prints. Two use cases therefore cannot be exercised without the asset pipeline's ambient state; the ports/adapters shape the rest of the package maintains is broken in precisely two places.
+Everything else in `app/usecases` depends on `app.domain` and `app.ports` only, which is exactly right. `app.assets.manifest` is the opposite of a port: it reads environment variables, touches the filesystem and holds an `lru_cache`. Two use cases therefore cannot be exercised without the asset pipeline's ambient state; the ports/adapters shape the rest of the package maintains is broken in precisely two places.
 
 The fix is small: declare an `AssetUrls` port beside `MarkdownRenderer` and `PostsRepository`, have the composition root inject the manifest-backed adapter and let the use cases keep depending on the interface. That is one new file and two import changes.
 
-## 3. Nothing enforces the layering
+## 2. Nothing enforces the layering
 
-`ARCHITECTURE.md` lists the invariants the suite holds and every one of them is behavioural: routing, redirects, SEO surfaces, cache headers, feed exclusions. Behavioural tests are valuable and this suite has a lot of them. Not one of them can see item 2; none will see the next import that reaches across a boundary either.
+`ARCHITECTURE.md` lists the invariants the suite holds and every one of them is behavioural: routing, redirects, SEO surfaces, cache headers, feed exclusions. Behavioural tests are valuable and this suite has a lot of them. Not one of them can see item 1; none will see the next import that reaches across a boundary either.
 
 `app/domain` is currently pure (stdlib only, verified) and the ports/adapters split is otherwise intact. That state is unguarded. Three source-scan assertions would hold it:
 
@@ -48,9 +26,9 @@ The fix is small: declare an `AssetUrls` port beside `MarkdownRenderer` and `Pos
 - `app/usecases/*` imports only `app.domain` and `app.ports`.
 - `app/ports/*` imports nothing from `app.adapters`, `app.http` or `app.assets`.
 
-The third one is what would have caught item 2 the day it was written.
+The third one is what would have caught item 1 the day it was written.
 
-## 4. Four files are over the 400-line module cap and nothing measures them
+## 3. Four files are over the 400-line module cap and nothing measures them
 
 | File | Lines |
 |---|---|
@@ -63,7 +41,7 @@ There is no size guardrail in the suite, so none of these is reported anywhere. 
 
 `tests/test_coverage_boost.py` deserves a separate note: it is named after the gate rather than after any behaviour, which is what a file becomes when tests are written to move a percentage rather than to pin a rule. Its contents are worth redistributing into the behaviour-named test modules beside it.
 
-## 5. Two broad exception handlers with no stated reason
+## 4. Two broad exception handlers with no stated reason
 
 `load_about_html()` in `app/http/view_models/context.py` and `estimate_read_time_from_template()` in `app/http/view_models/posts.py` each catch a bare `except Exception` with no `# noqa` and no comment. Both are on view-model assembly paths, so the effect is that a malformed post silently renders as something else rather than failing.
 
@@ -85,7 +63,7 @@ These look like candidates but are correct as they stand; changing them would re
 - **The absence of a `VERSION` file.** Settled decision: this repository does not want one. It is a continuously-deployed website with no released artefact and no user-facing surface that asks for a version, so the portfolio's single-source-of-truth rule does not apply here. Do not add one and do not raise it again.
 - **The 100% branch-coverage gate living in `pytest.ini` `addopts`.** A bare `pytest` enforces it with no flags to remember. This is the pattern the rest of the portfolio should copy, not a thing to loosen.
 - **flake8 and ruff both running over the same code.** Deliberate duplication; `pyproject.toml` explains it: the two are held to the same line length, rule families, ignores and exclusions so they cannot contradict each other; ruff carries `E402` because flake8 does not report it here. Do not drop either one to save a CI step.
-- **The asset-fingerprinting pipeline and the `static/` versus `static_dist/` split.** Two directories for the same assets looks redundant; one is the source and one is the built, hashed output; the `CTC_USE_STATIC_DIST` switch is what lets the site run from source locally. Item 1 is about the diagnostics bolted onto this, not about the pipeline.
+- **The asset-fingerprinting pipeline and the `static/` versus `static_dist/` split.** Two directories for the same assets looks redundant; one is the source and one is the built, hashed output; the `CTC_USE_STATIC_DIST` switch is what lets the site run from source locally.
 - **The pure `app/domain` package with no framework imports.** Verified pure today. Item 3 exists to keep it that way, not because anything is currently wrong with it.
 - **The canonical-host and https redirect middleware in `app/main.py`.** Deployment policy expressed as code, driven by environment. Correct placement.
 - **The many small router modules** (`api`, `books`, `html`, `mmsp`, `pages`, `portfolio`, `rss`, `sitemap`). One router per concern plus an aggregator is the intended shape. Item 4 concerns only the two that outgrew it.

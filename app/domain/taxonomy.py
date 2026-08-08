@@ -24,7 +24,7 @@ ARCHIVE_CAT_BUCKETS: dict[str, int] = {
 # Bucket 2 = Governance.
 # Bucket 3 = Blog.
 # Bucket 4 = anything else (alpha within bucket).
-# Bucket 5 = uncategorised ("Other") — always last.
+# Bucket 5 = uncategorised ("Other"), always last.
 WRITING_CAT_BUCKETS: dict[str, int] = {
     "leadership": 0,
     "decision-architecture-patterns": 1,

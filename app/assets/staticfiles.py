@@ -33,7 +33,7 @@ class CachingStaticFiles(StaticFiles):
         if resp.status_code not in (
             200,
             304,
-        ):  # pragma: no cover — Starlette raises HTTPException for other codes
+        ):  # pragma: no cover, Starlette raises HTTPException for other codes
             return resp
 
         # Immutable caching for fingerprinted filenames.
