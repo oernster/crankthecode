@@ -120,9 +120,10 @@ flowchart TD
 
 | Module | Routes |
 |---|---|
-| `pages.py` | `/`, `/about`, `/explore` and the legacy redirects (`/about-me`, `/about/oliver-ernster`, `/start-here`, `/governance`, `/writing`, `/help`, `/battlestation`) |
+| `pages.py` | `/`, `/about`, `/explore` and the legacy redirects (`/about-me`, `/about/oliver-ernster`, `/start-here`, `/governance`, `/help`, `/battlestation`) |
 | `posts.py` | `/posts` listing and `/posts/{slug}` detail |
-| `topics.py` | `/decision-architecture`, `/topics`, `/topics/{layer}`, `/patterns`, `/patterns/{layer}` |
+| `essays.py` | `/essays` (the curated essay set) and `/build-log` (the dated record) |
+| `topics.py` | `/patterns`, `/patterns/{layer}` |
 | `books.py` | `/books` |
 | `portfolio.py` | `/portfolio`, a 301 to ernster.dev |
 | `api.py` | `/api/posts`, `/api/posts/{slug}`, `/api/posts/{slug}/meta` |
@@ -142,11 +143,7 @@ Template context assembly lives beside them in `app/http/view_models/`: `context
 
 ### Posts index
 
-`posts_index()` in `app/http/routers/posts.py` serves three views, selected by the `view` query parameter and normalised by `normalize_posts_view()` in `app/http/view_models/sidebar.py`:
-
-* **Writing**, which excludes the two categories that have their own hub surfaces (`WRITING_EXCLUDED_CAT_KEYS` in `app/http/view_models/posts.py`). Every post in those categories carries a `layer:` tag and is therefore already listed on its hub.
-* **Projects**, ordered by `PROJECT_CAT_ORDER` in `app/domain/taxonomy.py` rather than alphabetically.
-* **Archive**, bucketed by `ARCHIVE_CAT_BUCKETS`.
+`posts_index()` in `app/http/routers/posts.py` remains the search and archive surface. The old `view=writing` links 301 to `/essays` (and the Blog variant to `/build-log`) via the redirect table; the archive view is still selected by the `view` query parameter and normalised by `normalize_posts_view()` in `app/http/view_models/sidebar.py`.
 
 Filtering accepts `cat=<Label>` and `layer=<slug>` and applies them together as an AND. The older `q=cat:<Label>` deeplink form is still honoured; the older `exclude_blog` parameter maps onto the view model through `posts_view_from_legacy_exclude_blog()`.
 
@@ -154,16 +151,13 @@ Filtering accepts `cat=<Label>` and `layer=<slug>` and applies them together as 
 
 `read_post()` in `app/http/routers/posts.py` delegates content to `GetPostUseCase.execute()`. The canonical URL preserves the query string so a filtered listing links back correctly (`canonical_url_for_request()` in `app/http/seo.py`). The meta description is built from frontmatter, blurb first with the one-liner as fallback (`build_meta_description()`).
 
-### Decision Architecture hubs
+### Essays, Build Log and Patterns
 
-Two parallel hub systems live in `app/http/routers/topics.py`.
+`/essays` (in `app/http/routers/essays.py`) is the curated Decision Architecture essay set. Its grouping is editorial, fixed in `app/domain/essays.py`, not derived from tags. `/build-log` lists every dated post that is not an essay, a pattern or a site page.
 
-| Ecosystem | Gateway | Layer hub | Category tag |
-|---|---|---|---|
-| Decision Architecture (Structures) | `/decision-architecture` | `/topics/<layer>` | `cat:Leadership` |
-| Decision Architecture Patterns | `/patterns` | `/patterns/<layer>` | `cat:decision-architecture-patterns` |
+Patterns keep their hub system in `app/http/routers/topics.py`: `/patterns` as the gateway and `/patterns/<layer>` per layer, driven by `cat:decision-architecture-patterns`.
 
-`/topics` is the shared "view all layers" destination for both. It renders two pill rows and intentionally does not repeat those destinations as a second hub list below them.
+The former `/decision-architecture`, `/topics` and `/topics/<layer>` surfaces are retired. Their URLs, the culled essay slugs and the old `/posts` view query strings all 301 through one table in `app/http/redirects.py`, checked by a single middleware in `app/main.py`.
 
 ### Feeds and SEO surfaces
 

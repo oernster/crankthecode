@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Selected Essays | Crank The Code{% endblock %}
+
+{% block content %}
+  <section class="section-panel" aria-label="Selected Essays">
+    <div class="section-heading-row" aria-label="Selected Essays heading">
+      <h1 class="section-title section-title--accent">Selected Essays</h1>
+      <a class="btn-link btn-link--compact" href="/books" aria-label="Books">Books</a>
+    </div>
+
+    <p class="muted">
+      The Decision Architecture thesis, in essay form. These are the pieces
+      that carry the core of the argument: structure determines outcomes,
+      authority is a design material and decision latency is the performance
+      problem underneath most others.
+    </p>
+
+    <p class="muted">
+      I write from a specific method, not a mood:
+      <a href="/posts/crystal">Crystalline</a> describes the lens.
+    </p>
+
+    <p class="muted">
+      This is the curated set, not the whole of it. The full model (four
+      books, or one combined hardback) lives on the
+      <a href="/books">Books</a> page.
+    </p>
+
+    <hr class="post-separator" aria-hidden="true" />
+
+    <div class="featured-buttons" aria-label="Selected Essays">
+      {% for g in groups %}
+        <div class="featured-group" aria-label="Essay group">
+          <h3 class="featured-group-title">{{ g.label }}</h3>
+          <div class="featured-group-items">
+            {% for p in g.posts %}
+              <a class="btn-link" href="/posts/{{ p.slug }}">
+                <span class="btn-text">{{ p.title }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

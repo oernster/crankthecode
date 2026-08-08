@@ -37,33 +37,12 @@ def build_person_jsonld(*, site_url: str) -> dict[str, object]:
             {
                 "@type": "Thing",
                 "name": "Decision Architecture",
-                "url": absolute_url(site_url, "/decision-architecture"),
+                "url": absolute_url(site_url, "/essays"),
             },
-            {
-                "@type": "Thing",
-                "name": "Decision Systems",
-                "url": absolute_url(site_url, "/topics/decision-systems"),
-            },
-            {
-                "@type": "Thing",
-                "name": "CTO Operating Model",
-                "url": absolute_url(site_url, "/topics/cto-operating-model"),
-            },
-            {
-                "@type": "Thing",
-                "name": "Organisational Structure",
-                "url": absolute_url(site_url, "/topics/organisational-structure"),
-            },
-            {
-                "@type": "Thing",
-                "name": "Structural Design",
-                "url": absolute_url(site_url, "/topics/structural-design"),
-            },
-            {
-                "@type": "Thing",
-                "name": "Architecture",
-                "url": absolute_url(site_url, "/topics/architecture"),
-            },
+            {"@type": "Thing", "name": "Decision Systems"},
+            {"@type": "Thing", "name": "CTO Operating Model"},
+            {"@type": "Thing", "name": "Organisational Structure"},
+            {"@type": "Thing", "name": "Structural Design"},
             {"@type": "Thing", "name": "Software Architecture"},
             {"@type": "Thing", "name": "Backend Systems Design"},
         ],

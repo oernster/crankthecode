@@ -149,16 +149,9 @@ def test_sidebar_renders_nested_layers_under_category_and_humanizes_labels():
     assert 'href="/patterns/authority-models"' in resp.text
     assert 'href="/patterns/system-dynamics"' in resp.text
     assert 'href="/patterns/pattern-catalogue"' in resp.text
-    assert "Decision Architecture" in resp.text
-    assert 'href="/decision-architecture"' in resp.text
-    assert 'href="/topics/decision-systems"' in resp.text
-    assert 'href="/topics/cto-operating-model"' in resp.text
-    assert 'href="/topics/organisational-structure"' in resp.text
-    assert 'href="/topics/structural-design"' in resp.text
-    assert 'href="/topics/architecture"' in resp.text
-    assert 'href="/posts?view=writing&cat=Blog"' in resp.text
+    assert 'href="/essays"' in resp.text
+    assert 'href="/build-log"' in resp.text
     assert 'href="https://ernster.dev"' in resp.text
-    assert 'href="/posts?view=writing"' in resp.text
 
 
 def test_layer_slug_normalization_collapses_spaces_underscores_and_punctuation():

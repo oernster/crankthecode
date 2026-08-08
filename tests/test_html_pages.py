@@ -22,11 +22,8 @@ def test_homepage_renders():
     assert "Things I build with" not in resp.text
     assert "Featured Systems" not in resp.text
     assert "docs/CV-OliverErnster.pdf" not in resp.text
-    assert 'href="/decision-architecture"' in resp.text
-    assert 'href="/patterns"' in resp.text
-
-    # Explore section navigation pills should appear.
-    assert 'href="/decision-architecture"' in resp.text
+    assert 'href="/essays"' in resp.text
+    assert 'href="/build-log"' in resp.text
     assert 'href="/patterns"' in resp.text
     assert 'href="https://ernster.dev"' in resp.text
 
@@ -56,7 +53,7 @@ def test_homepage_renders():
     # The remaining areas stay reachable from the homepage (via the sidebar nav).
     # The portfolio lives entirely on ernster.dev now: the project write-ups
     # duplicated it, so they were retired along with their on-site index.
-    assert 'href="/decision-architecture"' in resp.text
+    assert 'href="/essays"' in resp.text
     assert 'href="/patterns"' in resp.text
     assert 'href="/books"' in resp.text
     assert 'href="https://ernster.dev"' in resp.text
@@ -424,10 +421,10 @@ def test_posts_index_renders_and_supports_query_filter():
     assert "All posts" in filtered.text
 
 
-def test_writing_alias_redirects_to_posts_writing_view():
+def test_writing_alias_redirects_to_essays():
     app = create_app()
     # Use the canonical host+scheme so the canonical-redirect middleware passes through
-    # and the /writing alias route handler fires.
+    # and the legacy-redirect table fires.
     client = TestClient(
         app, base_url="https://www.crankthecode.com", follow_redirects=False
     )
@@ -435,7 +432,7 @@ def test_writing_alias_redirects_to_posts_writing_view():
     resp = client.get("/writing")
 
     assert resp.status_code == 301
-    assert resp.headers["location"] == "/posts?view=writing"
+    assert resp.headers["location"] == "/essays"
 
 
 def test_about_page_renders():
@@ -448,18 +445,18 @@ def test_about_page_renders():
     assert "How I got here" in resp.text
 
 
-def test_topics_pages_render():
+def test_essays_and_build_log_pages_render():
     app = create_app()
     client = TestClient(app)
 
-    resp = client.get("/topics")
+    resp = client.get("/essays")
     assert resp.status_code == 200
-    assert "Topics" in resp.text
-    assert 'href="/topics/decision-systems"' in resp.text
+    assert "Selected Essays" in resp.text
+    assert 'href="/posts/crystal"' in resp.text
 
-    resp = client.get("/topics/decision-systems")
+    resp = client.get("/build-log")
     assert resp.status_code == 200
-    assert "Decision Systems" in resp.text
+    assert "Build Log" in resp.text
 
 
 def test_about_author_alias_redirects_to_about():
@@ -491,10 +488,9 @@ def test_explore_page_renders_orientation_and_theme_links():
 
     assert resp.status_code == 200
     assert 'aria-label="Orientation"' in resp.text
-    assert 'href="/topics"' in resp.text
+    assert 'href="/essays"' in resp.text
     assert 'href="/about"' in resp.text
     assert 'aria-label="Explore themes"' in resp.text
-    assert 'href="/topics/decision-systems"' in resp.text
 
 
 def test_help_redirects_to_explore():
@@ -530,16 +526,16 @@ def test_post_pages_render_read_time_bar_shell():
     assert 'class="read-time-bar"' in resp.text
 
 
-def test_leadership_post_back_link_targets_decision_architecture_gateway():
+def test_essay_post_back_link_targets_essays_page():
     app = create_app()
     client = TestClient(app)
 
     resp = client.get("/posts/what-is-decision-architecture")
     assert resp.status_code == 200
 
-    # Leadership/Decision Architecture posts should route back to the gateway.
-    assert 'href="/decision-architecture"' in resp.text
-    assert "Back to Decision Architecture" in resp.text
+    # Essays route back to the Selected Essays page.
+    assert 'href="/essays"' in resp.text
+    assert "Back to essays" in resp.text
 
 
 def test_homepage_shows_both_decision_architecture_instruments_side_by_side():

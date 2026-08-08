@@ -87,7 +87,7 @@ def build_leadership_topic_hubs(blog: BlogService) -> list[dict[str, object]]:
                 "layer": slug,
                 "label": label,
                 "description": descriptions.get(slug, ""),
-                "href": f"/topics/{slug}" if slug else "/topics/general",
+                "href": "/essays",
                 "count": layer_counts.get(slug, 0),
             }
         )

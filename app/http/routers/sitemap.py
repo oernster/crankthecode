@@ -41,20 +41,9 @@ async def sitemap_xml(
     _add_url("/about/oliver-ernster")
     _add_url("/posts/start-here")
     _add_url("/posts/battlestation")
-    _add_url("/topics")
-    _add_url("/decision-architecture")
+    _add_url("/essays")
+    _add_url("/build-log")
     _add_url("/patterns")
-
-    # Topic hub pages (Leadership layers only).
-    layer_slugs: set[str] = set()
-    for post in blog.list_posts():
-        tags = [str(t) for t in (post.tags or [])]
-        if not any(t.strip().lower() == "cat:leadership" for t in tags):
-            continue
-        layer_slugs.update(extract_layer_slugs_from_tags(tags))
-
-    for layer in sorted(layer_slugs):
-        _add_url(f"/topics/{layer}")
 
     # Patterns hub pages.
     patterns_layer_slugs: set[str] = set()

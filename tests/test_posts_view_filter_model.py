@@ -129,16 +129,19 @@ def test_writing_view_excludes_hub_categories_but_explicit_cat_still_lists():
     app = create_app()
     client = TestClient(app)
 
-    resp = client.get("/posts?view=writing")
-    assert resp.status_code == 200
-    assert ">♟️ Decision Architecture</h3>" not in resp.text
-    assert ">Decision-Architecture-Patterns</h3>" not in resp.text
-    assert ">📝 Blog</h3>" in resp.text
-    assert ">🏛️ Governance</h3>" in resp.text
+    # The old Writing view is retired: it 301s to the Selected Essays page.
+    resp = client.get("/posts?view=writing", follow_redirects=False)
+    assert resp.status_code == 301
+    assert resp.headers.get("location") == "/essays"
+
+    # And its Blog variant lands on the Build Log.
+    resp = client.get("/posts?view=writing&cat=Blog", follow_redirects=False)
+    assert resp.status_code == 301
+    assert resp.headers.get("location") == "/build-log"
 
     resp_cat = client.get("/posts?cat=Leadership")
     assert resp_cat.status_code == 200
-    assert 'href="/posts/lead1"' in resp_cat.text
+    assert 'href="/posts/lead2"' in resp_cat.text
 
 
 def test_posts_href_helpers_have_basic_coverage():

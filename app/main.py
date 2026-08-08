@@ -13,6 +13,7 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 
 from app.assets.manifest import asset_url
 from app.assets.staticfiles import CachingStaticFiles, FallbackStaticFiles
+from app.http.redirects import resolve_redirect
 from app.http.routers.api import router as api_router
 from app.http.routers.html import router as html_router
 from app.http.routers.mmsp import router as mmsp_router
@@ -136,6 +137,19 @@ def create_app() -> FastAPI:
             target = f"https://{CANONICAL_HOST}{path}" + (f"?{query}" if query else "")
             return RedirectResponse(url=target, status_code=301)
 
+        return await call_next(request)
+
+    # Legacy-URL redirects: one table (app/http/redirects.py), one middleware.
+    # Covers the culled essay slugs, the retired topic taxonomy and the old
+    # /posts view query strings.
+    @fastapi_app.middleware("http")
+    async def legacy_url_redirects(
+        request: Request,
+        call_next: Callable[[Request], Awaitable[Response]],
+    ) -> Response:
+        target = resolve_redirect(request.url.path, request.query_params)
+        if target is not None:
+            return RedirectResponse(url=target, status_code=301)
         return await call_next(request)
 
     # Static and templates

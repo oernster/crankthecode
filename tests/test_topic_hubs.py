@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import json
 import os
-import re
 import xml.etree.ElementTree as ET
 
 from fastapi.testclient import TestClient
@@ -10,75 +8,22 @@ from fastapi.testclient import TestClient
 from app.main import create_app
 
 
-def test_topics_index_renders_and_includes_decision_systems_link():
+def test_retired_topic_surfaces_redirect_to_essays():
     app = create_app()
-    client = TestClient(app)
+    client = TestClient(app, base_url="http://localhost")
 
-    resp = client.get("/topics")
-    assert resp.status_code == 200
-    assert "Topics" in resp.text
-    # Structures pill row should include stable layer links.
-    assert 'aria-label="Decision Architecture layers"' in resp.text
-    assert 'href="/topics/decision-systems"' in resp.text
-
-    # `/topics` is the shared "View all layers" destination for both Structures
-    # and Patterns: ensure the patterns pill row is present and links into
-    # `/patterns/<layer>`.
-    assert 'aria-label="Pattern layers"' in resp.text
-    assert 'href="/patterns/decision-primitives"' in resp.text
-    assert 'href="/patterns/pattern-catalogue"' in resp.text
-
-    # The old hub list section is intentionally omitted to avoid duplicating the pills.
-    assert 'aria-label="Topic hub links"' not in resp.text
-    assert 'class="btn-subtext"' not in resp.text
-
-
-def test_topic_hub_page_lists_posts_and_emits_jsonld_and_canonical():
-    os.environ["SITE_URL"] = "https://example.com"
-    try:
-        app = create_app()
-        client = TestClient(app)
-
-        resp = client.get("/topics/decision-systems")
-        assert resp.status_code == 200
-
-        html = resp.text
-        assert (
-            '<link rel="canonical" href="https://example.com/topics/decision-systems"'
-            in html
-        )
-        assert "application/ld+json" in html
-
-        # Ensure at least one known decision-systems leadership post is listed.
-        assert 'href="/posts/lead1"' in html
-        # Topic hub post items should render as links.
-        assert 'class="btn-link"' in html
-
-        # Structures UI parity: layer pills + "All structures" link.
-        assert "All structures" in html
-        assert "View all layers" in html
-        assert 'href="/decision-architecture"' in html
-        assert 'href="/topics/decision-systems"' in html
-        assert 'href="/topics/cto-operating-model"' in html
-        assert 'href="/topics/organisational-structure"' in html
-        assert 'href="/topics/structural-design"' in html
-        assert 'href="/topics/architecture"' in html
-
-        # Removed buttons.
-        assert "All topics" not in html
-        assert "View in Posts index" not in html
-
-        # JSON-LD should be parseable.
-        blocks = re.findall(
-            r'<script\s+type="application/ld\+json">(.*?)</script>',
-            html,
-            flags=re.S,
-        )
-        assert blocks
-        for raw in blocks:
-            json.loads(raw)
-    finally:
-        os.environ.pop("SITE_URL", None)
+    for path in (
+        "/topics",
+        "/topics/architecture",
+        "/topics/cto-operating-model",
+        "/topics/decision-systems",
+        "/topics/organisational-structure",
+        "/topics/structural-design",
+        "/decision-architecture",
+    ):
+        resp = client.get(path, follow_redirects=False)
+        assert resp.status_code == 301, path
+        assert resp.headers.get("location") == "/essays", path
 
 
 def test_about_author_alias_redirects_to_about():
@@ -104,7 +49,7 @@ def test_start_here_post_includes_orientation_links_to_topics_and_about():
     assert 'aria-label="Explore themes"' not in resp.text
 
 
-def test_sitemap_includes_topics_and_topic_hub_pages():
+def test_sitemap_includes_essays_and_build_log_but_no_retired_pages():
     os.environ["SITE_URL"] = "https://example.com"
     try:
         app = create_app()
@@ -117,11 +62,15 @@ def test_sitemap_includes_topics_and_topic_hub_pages():
         ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
         locs = [elem.text for elem in root.findall("sm:url/sm:loc", ns) if elem.text]
 
-        assert "https://example.com/topics" in locs
-        assert "https://example.com/topics/decision-systems" in locs
-        assert "https://example.com/decision-architecture" in locs
+        assert "https://example.com/essays" in locs
+        assert "https://example.com/build-log" in locs
         assert "https://example.com/patterns" in locs
         # Alias route should be discoverable but canonical remains /about.
         assert "https://example.com/about/oliver-ernster" in locs
+
+        # The retired taxonomy no longer appears.
+        assert "https://example.com/topics" not in locs
+        assert "https://example.com/decision-architecture" not in locs
+        assert not any("/topics/" in loc for loc in locs)
     finally:
         os.environ.pop("SITE_URL", None)

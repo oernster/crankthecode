@@ -38,10 +38,10 @@ from app.http.view_models.sidebar import (
     posts_view_from_legacy_exclude_blog,
     posts_view_href,
 )
+from app.domain.essays import ESSAY_SLUGS
 from app.domain.tags import (
     humanize_layer_slug,
     normalize_layer_slug,
-    primary_layer_slug_from_tags,
 )
 from app.services.blog_service import BlogService
 
@@ -360,12 +360,15 @@ async def read_post(
 
     cat_tag = _first_cat_tag(post.get("tags") or [])
     cat_norm = cat_tag.lower()
-    if cat_norm == "cat:leadership":
-        back_link_href = "/decision-architecture"
-        back_link_label = "← Back to Decision Architecture"
+    is_essay = cat_norm == "cat:leadership" or (
+        (detail.slug or "").strip().lower() in ESSAY_SLUGS
+    )
+    if is_essay:
+        back_link_href = "/essays"
+        back_link_label = "← Back to essays"
         breadcrumb_items = [
             {"label": "Home", "href": "/"},
-            {"label": "Decision Architecture", "href": "/decision-architecture"},
+            {"label": "Selected Essays", "href": "/essays"},
             {"label": detail.title, "href": f"/posts/{detail.slug}"},
         ]
     elif cat_norm == "cat:decision-architecture-patterns":
@@ -462,19 +465,9 @@ async def read_post(
     if tags:
         jsonld["keywords"] = ", ".join(tags)
 
-    # For leadership posts with a layer tag, route the JSON-LD breadcrumb
-    # through the topic hub. This creates a hub-and-spoke graph that Google
-    # uses to infer topical clusters. Invisible to users, high signal to crawlers.
-    post_tags_for_layer = [str(t) for t in (detail.tags or [])]
-    from app.http.view_models.leadership import is_leadership_post
-
-    _is_leadership = is_leadership_post(post_tags_for_layer)
-    _primary_layer = (
-        primary_layer_slug_from_tags(post_tags_for_layer) if _is_leadership else None
-    )
-
-    if _primary_layer:
-        _layer_label = humanize_layer_slug(_primary_layer)
+    # For essays, route the JSON-LD breadcrumb through /essays. This keeps a
+    # hub-and-spoke graph for crawlers now that the topic hubs are retired.
+    if is_essay:
         breadcrumb_items_jsonld = [
             {
                 "@type": "ListItem",
@@ -485,18 +478,12 @@ async def read_post(
             {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "Topics",
-                "item": absolute_url(site_url, "/topics"),
+                "name": "Selected Essays",
+                "item": absolute_url(site_url, "/essays"),
             },
             {
                 "@type": "ListItem",
                 "position": 3,
-                "name": _layer_label,
-                "item": absolute_url(site_url, f"/topics/{_primary_layer}"),
-            },
-            {
-                "@type": "ListItem",
-                "position": 4,
                 "name": detail.title,
                 "item": canonical,
             },

@@ -38,6 +38,15 @@ _ABOUT_DESCRIPTION = (
     "decisions."
 )
 
+# One sentence, reused for the homepage meta, Open Graph and Twitter
+# descriptions. The shipping line belongs to ernster.dev; this site carries
+# the thesis.
+_HOMEPAGE_DESCRIPTION = (
+    "Oliver Ernster on Decision Architecture: structure determines outcomes. "
+    "Essays, patterns and the four-book series on structural system design, "
+    "authority boundaries and decision latency."
+)
+
 
 @router.get("/", response_class=HTMLResponse)
 async def homepage(
@@ -60,16 +69,8 @@ async def homepage(
         "is_homepage": True,
         "page_title": "Oliver Ernster - Principal Engineer and Decision Architect",
         "og_title": "Oliver Ernster | Crank The Code",
-        "og_description": (
-            "Oliver Ernster is a principal engineer and decision architect "
-            "writing on structural system design, authority boundaries and backend "
-            "engineering."
-        ),
-        "meta_description": (
-            "Oliver Ernster is a principal engineer and decision architect "
-            "writing on structural system design, authority boundaries and backend "
-            "engineering."
-        ),
+        "og_description": _HOMEPAGE_DESCRIPTION,
+        "meta_description": _HOMEPAGE_DESCRIPTION,
         "canonical_url": canonical,
         "og_image_url": absolute_url(
             site_url, "/static/images/crankthecode_og-card.png"
@@ -217,14 +218,8 @@ async def start_here_redirect(request: Request):
 
 @router.get("/governance", include_in_schema=False)
 async def governance_redirect(request: Request):
-    """Guessable top-level alias for the Governance writing section."""
-    return RedirectResponse(url="/posts?view=writing&cat=Governance", status_code=301)
-
-
-@router.get("/writing", include_in_schema=False)
-async def writing_redirect(request: Request):
-    """Guessable top-level alias for the Writing section."""
-    return RedirectResponse(url="/posts?view=writing", status_code=301)
+    """Guessable top-level alias. The governance essays live on /essays."""
+    return RedirectResponse(url="/essays", status_code=301)
 
 
 @router.get("/help", response_class=HTMLResponse)
@@ -277,7 +272,7 @@ async def explore_page(
             ],
             "start_here": {
                 "author_href": "/about",
-                "topics_href": "/topics",
+                "topics_href": "/essays",
                 "topic_hubs": hubs,
                 "recommended_by_topic": recommendations,
             },

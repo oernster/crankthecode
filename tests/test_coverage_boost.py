@@ -68,7 +68,7 @@ def test_filesystem_posts_repository_load_file_falls_back_to_utf8_sig(monkeypatc
 
 
 def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
-    """Homepage should render the Leadership menu and keep it newest-first."""
+    """Homepage renders; the retired gateway 301s to the essays page."""
 
     posts = (
         _mk_summary(
@@ -114,26 +114,10 @@ def test_html_homepage_leadership_section_is_present_and_ordered(monkeypatch):
     assert resp.status_code == 200
     assert "Decision Architecture" in resp.text
 
-    # Homepage no longer renders leadership post pills; ordering is enforced on
-    # the Decision Architecture gateway page.
-    resp = client.get("/decision-architecture")
-    assert resp.status_code == 200
-
-    # UI parity with Patterns: the "All structures" gateway should show the
-    # structures layer pill row (linking into /topics/<layer>). This must be
-    # present regardless of whether posts are in those layers.
-    assert 'aria-label="Decision Architecture layers"' in resp.text
-    assert 'href="/topics/decision-systems"' in resp.text
-    assert 'href="/topics/cto-operating-model"' in resp.text
-    assert 'href="/topics/organisational-structure"' in resp.text
-    assert 'href="/topics/structural-design"' in resp.text
-    assert 'href="/topics/architecture"' in resp.text
-    idx_lead10 = resp.text.index("Leadership Ten")
-    idx_lead1 = resp.text.index("Leadership One")
-    assert idx_lead10 < idx_lead1
-
-    # Non-leadership posts should not show up in the Decision Architecture section.
-    assert "Not Leadership" not in resp.text
+    # The old gateway is retired: it 301s to the Selected Essays page.
+    resp = client.get("/decision-architecture", follow_redirects=False)
+    assert resp.status_code == 301
+    assert resp.headers.get("location") == "/essays"
 
 
 def test_posts_index_excludes_about_me_from_all_lists(monkeypatch):
@@ -248,7 +232,7 @@ def test_alias_redirects_hit_coverage():
 
     r = client.get("/governance", follow_redirects=False)
     assert r.status_code == 301
-    assert "Governance" in r.headers["location"]
+    assert r.headers["location"] == "/essays"
 
 
 def test_get_post_helper_functions_cover_empty_and_fallback_paths():

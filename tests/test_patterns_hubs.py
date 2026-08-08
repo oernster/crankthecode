@@ -182,7 +182,7 @@ def test_patterns_layer_page_lists_posts_newest_first_and_humanizes_unknown_laye
     html = resp.text
     assert "Decision Objects" in html
     assert 'href="/patterns"' in html
-    assert 'href="/topics"' in html
+    assert 'href="/patterns"' in html
 
     # Non-pattern posts must not leak into layer views.
     assert "Not Patterns" not in html

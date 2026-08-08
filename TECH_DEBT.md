@@ -54,13 +54,12 @@ The third one is what would have caught item 2 the day it was written.
 
 | File | Lines |
 |---|---|
-| `tests/test_coverage_boost.py` | 692 |
-| `app/http/routers/posts.py` | 583 |
-| `tests/test_html_pages.py` | 559 |
-| `app/http/routers/topics.py` | 482 |
+| `tests/test_coverage_boost.py` | 617 |
+| `tests/test_html_pages.py` | 558 |
+| `app/http/routers/posts.py` | 556 |
 | `static/search.js` | 459 |
 
-There is no size guardrail in the suite, so none of these is reported anywhere. The two routers are the ones that matter: `posts.py` carries route handling, view-model assembly and rendering decisions together; it is the file most likely to be edited when a post gains a new capability. Splitting each router's view-model assembly out (the `app/http/view_models/` package already exists and already holds `posts.py`) takes both under the cap without inventing structure.
+There is no size guardrail in the suite, so none of these is reported anywhere. The router is the one that matters: `posts.py` carries route handling, view-model assembly and rendering decisions together; it is the file most likely to be edited when a post gains a new capability. Splitting its view-model assembly out (the `app/http/view_models/` package already exists and already holds `posts.py`) takes it under the cap without inventing structure.
 
 `tests/test_coverage_boost.py` deserves a separate note: it is named after the gate rather than after any behaviour, which is what a file becomes when tests are written to move a percentage rather than to pin a rule. Its contents are worth redistributing into the behaviour-named test modules beside it.
 

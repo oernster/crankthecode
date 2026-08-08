@@ -537,58 +537,16 @@
         </span>
       </a>
 
-      {% set _da_exp = request.url.path == '/decision-architecture' or request.url.path == '/topics' or request.url.path.startswith('/topics/') %}
       {% set _pat_exp = request.url.path == '/patterns' or request.url.path.startswith('/patterns/') %}
 
-      <div class="sidebar-expandable sidebar-link{% if _da_exp %} is-active{% endif %}">
-        <button
-          class="sidebar-expand-btn{% if _da_exp %} is-open{% endif %}"
-          type="button"
-          aria-expanded="{{ 'true' if _da_exp else 'false' }}"
-          aria-label="Toggle Decision Architecture"
-          onclick="(function(b){var g=b.closest('.sidebar-expandable').nextElementSibling;var e=g.classList.toggle('is-expanded');b.classList.toggle('is-open',e);b.setAttribute('aria-expanded',e);})(this)"
-        ></button>
-        <a class="sidebar-expandable__nav" href="/decision-architecture">
-          <span class="sidebar-link__text-main">Decision Architecture</span>
-        </a>
-      </div>
-      <div class="sidebar-group{% if _da_exp %} is-expanded{% endif %}">
-        <a
-          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/architecture' %} is-active{% endif %}"
-          href="/topics/architecture"
-        >
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Architecture</span>
-        </a>
-        <a
-          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/cto-operating-model' %} is-active{% endif %}"
-          href="/topics/cto-operating-model"
-        >
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">CTO Operating Model</span>
-        </a>
-        <a
-          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/decision-systems' %} is-active{% endif %}"
-          href="/topics/decision-systems"
-        >
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Decision Systems</span>
-        </a>
-        <a
-          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/organisational-structure' %} is-active{% endif %}"
-          href="/topics/organisational-structure"
-        >
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Organisational Structure</span>
-        </a>
-        <a
-          class="sidebar-link sidebar-link--layer{% if request.url.path == '/topics/structural-design' %} is-active{% endif %}"
-          href="/topics/structural-design"
-        >
-          <span class="sidebar-layer-bullet" aria-hidden="true">↳</span>
-          <span class="sidebar-layer-text">Structural Design</span>
-        </a>
-      </div>
+      <a
+        class="sidebar-link{% if request.url.path == '/essays' %} is-active{% endif %}"
+        href="/essays"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Essays</span>
+        </span>
+      </a>
 
       <div class="sidebar-expandable sidebar-link{% if _pat_exp %} is-active{% endif %}">
         <button
@@ -651,6 +609,16 @@
       </a>
 
       <a
+        class="sidebar-link{% if request.url.path == '/build-log' %} is-active{% endif %}"
+        href="/build-log"
+        title="Applications, tooling, 3D printing and this site itself"
+      >
+        <span class="sidebar-link__text">
+          <span class="sidebar-link__text-main">Build Log</span>
+        </span>
+      </a>
+
+      <a
         class="sidebar-link"
         href="https://ernster.dev"
         target="_blank"
@@ -661,26 +629,6 @@
         <span class="sidebar-link__text">
           <span class="sidebar-link__text-main">Portfolio</span>
           <span class="sidebar-link__text-sub" aria-hidden="true"></span>
-        </span>
-      </a>
-
-      <a
-        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '') == '' %} is-active{% endif %}"
-        href="/posts?view=writing"
-      >
-        <span class="sidebar-link__text" aria-label="Writing">
-          <span class="sidebar-link__text-main">Writing</span>
-          <span class="sidebar-link__text-sub" aria-hidden="true"></span>
-        </span>
-      </a>
-
-      <a
-        class="sidebar-link{% if request.url.path == '/posts' and (current_cat or '')|lower == 'blog' %} is-active{% endif %}"
-        href="/posts?view=writing&cat=Blog"
-        title="Technical projects, tools and personal builds"
-      >
-        <span class="sidebar-link__text">
-          <span class="sidebar-link__text-main">Blog</span>
         </span>
       </a>
 

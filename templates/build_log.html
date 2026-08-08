@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Build Log | Crank The Code{% endblock %}
+
+{% block content %}
+  <section class="section-panel" aria-label="Build Log">
+    <div class="section-heading-row" aria-label="Build Log heading">
+      <h1 class="section-title section-title--accent">Build Log</h1>
+    </div>
+
+    <p class="muted">
+      A running, dated record of what I'm making: applications, tooling,
+      3D printing, this site itself. Essays are ideas with a thesis; the
+      build log is artifacts with a date.
+    </p>
+
+    <p class="muted">
+      The finished versions live in the
+      <a href="https://ernster.dev" target="_blank" rel="noopener noreferrer">portfolio</a>.
+    </p>
+
+    <hr class="post-separator" aria-hidden="true" />
+
+    {% if posts and (posts|length) > 0 %}
+      <div class="posts-index" aria-label="Build log posts">
+        {% for p in posts %}
+          <div class="post-item">
+            <div class="post-heading">
+              <a class="btn-link" href="/posts/{{ p.slug }}">
+                <span class="btn-text">{{ p.title }}</span>
+              </a>
+              {% if p.date %}
+                <div class="post-meta">{{ p.date }}</div>
+              {% endif %}
+              {% if p.one_liner or p.blurb %}
+                <div class="post-one-liner">{{ p.one_liner or p.blurb }}</div>
+              {% endif %}
+            </div>
+          </div>
+          {% if not loop.last %}
+            <hr class="post-separator" />
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state" aria-label="No build log posts">
+        <p class="muted">No build log posts yet.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
