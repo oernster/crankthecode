@@ -247,3 +247,8 @@ Which directory is served is decided at startup in `create_app()`:
 | `CTC_CANONICAL_HOST` | `www.crankthecode.com` | The host the redirect middleware normalises to |
 
 If the selected directory does not exist, the mount falls back to `static/`. Mounting a missing directory raises at startup; `static_dist/` is gitignored build output, so without that fallback a clean checkout could not start.
+
+---
+
+See also [README.md](README.md), [TESTING.md](TESTING.md) and
+[DEVELOPMENT.md](DEVELOPMENT.md).

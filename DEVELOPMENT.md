@@ -1,6 +1,6 @@
 # Development guide
 
-How to run, test and work on the Crank The Code site locally. For what the site is, see [README.md](README.md); for how it is structured and what holds it together, see [ARCHITECTURE.md](ARCHITECTURE.md).
+How to run, test and work on the Crank The Code site locally. For what the site is, see [README.md](README.md); for how it is structured and what holds it together, see [ARCHITECTURE.md](ARCHITECTURE.md); for running and writing the tests, see [TESTING.md](TESTING.md).
 
 ## Prerequisites
 
@@ -42,37 +42,9 @@ Remove-Item -Recurse -Force static_dist
 
 `static_dist/` is gitignored build output, so a fresh clone does not have one. The app no longer refuses to start in that state: if the configured static directory is missing it falls back to `static/` and serves the unfingerprinted sources.
 
-## Tests
+## Tests, lint and CI
 
-The suite enforces 100% coverage of `app/` (`pytest.ini` carries `--cov-fail-under=100`), so a bare run is the whole gate:
-
-```powershell
-.\venv\Scripts\python.exe -m pytest
-```
-
-Trust the exit code, not the output text: the coverage table prints last and there is no `N passed` summary line. `$LASTEXITCODE` of 0 means every test passed and the coverage gate held.
-
-A few tests assert on fingerprinted asset URLs, so build the static output first if you have just cleared it:
-
-```powershell
-.\venv\Scripts\python.exe -m app.assets.build_static
-```
-
-## Formatting and lint
-
-```powershell
-.\venv\Scripts\python.exe -m black --check .
-.\venv\Scripts\python.exe -m flake8 .
-.\venv\Scripts\python.exe -m ruff check .
-```
-
-flake8 is configured in `.flake8` and ruff in `pyproject.toml`. The two are deliberately kept in agreement on line length, rule families, ignores and exclusions: if they disagree, neither can be trusted and every run becomes a negotiation. Ruff keeps `E402` live because flake8 does not report it here and it is the rule that catches `from __future__ import annotations` placed above a module docstring, which silently turns the docstring into a bare expression.
-
-## Continuous integration
-
-`.github/workflows/checks.yml` runs on every push to `main`, on every pull request and on demand. It installs both requirements files, runs black, flake8 and ruff, builds the fingerprinted static assets and then runs pytest. The asset build is not optional: the suite reaches for `static_dist/` and a deploy produces one, so skipping it would test a state that never ships.
-
-If a change is green locally and red in CI, check the Python version first: CI is on 3.11.
+The gate, its order, what CI runs and how to read a result are in [TESTING.md](TESTING.md).
 
 ## Content
 
@@ -99,3 +71,8 @@ Two further variables, `CTC_ASSET_MANIFEST_DEBUG` and `CTC_FORCE_STATIC_DIST_MAN
 The site deploys to Render from [render.yaml](render.yaml): the build installs `requirements.txt` and runs `python -m app.assets.build_static` to produce `static_dist/`, then starts `uvicorn main:app` with the static-dist variables set. Nothing needs doing locally for a deploy beyond pushing to the repository.
 
 There is no release artefact and no version to cut. The deployed site is whatever is on `main`.
+
+---
+
+See also [README.md](README.md), [ARCHITECTURE.md](ARCHITECTURE.md) and
+[TESTING.md](TESTING.md).

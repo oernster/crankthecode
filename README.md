@@ -76,7 +76,7 @@ Then open http://127.0.0.1:8000. No environment variables are needed locally and
 .\venv\Scripts\python.exe -m pytest
 ```
 
-`pytest.ini` carries `--cov-fail-under=100`, so a bare run is the whole gate. Trust the exit code rather than the output text: the coverage table prints last and there is no `N passed` summary line.
+`pytest.ini` carries `--cov-fail-under=100`, so a bare run enforces the coverage floor; trust its exit code rather than the output text. [TESTING.md](TESTING.md) gives the whole gate in CI's order, including the lint steps and the static build the tests need first.
 
 ## Build
 
@@ -93,7 +93,8 @@ That writes fingerprinted copies of everything in `static/` to `static_dist/` al
 ## Documentation
 
 * [ARCHITECTURE.md](ARCHITECTURE.md): the invariants, the tests that hold them, the layering and the request flows
-* [DEVELOPMENT.md](DEVELOPMENT.md): local run, tests, environment variables and the asset pipeline
+* [TESTING.md](TESTING.md): the gate, what CI runs, how to read a result and how a test is written
+* [DEVELOPMENT.md](DEVELOPMENT.md): local run, environment variables and the asset pipeline
 * [TECH_DEBT.md](TECH_DEBT.md): what is still open, what is deliberately left and what only looks like debt
 
 ---
