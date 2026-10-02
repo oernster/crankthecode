@@ -93,7 +93,7 @@ That writes fingerprinted copies of everything in `static/` to `static_dist/` al
 ## Documentation
 
 * [ARCHITECTURE.md](ARCHITECTURE.md): the invariants, the tests that hold them, the layering and the request flows
-* [DEVELOPMENT-README.md](DEVELOPMENT-README.md): local run, tests, environment variables and the asset pipeline
+* [DEVELOPMENT.md](DEVELOPMENT.md): local run, tests, environment variables and the asset pipeline
 * [TECH_DEBT.md](TECH_DEBT.md): what is still open, what is deliberately left and what only looks like debt
 
 ---
