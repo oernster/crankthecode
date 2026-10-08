@@ -127,6 +127,29 @@ def _internal_path(link: str, page: str, site_url: str) -> str | None:
     return parts.path or "/"
 
 
+def route_paths(routes, prefix: str = "") -> set[str]:
+    """Every GET route without a path parameter, however FastAPI holds them.
+
+    FastAPI up to 0.128 flattened each included router into `app.routes`; by
+    0.143 an included router stays nested, carrying its prefix in an
+    `include_context`. CI installs the newest release, so both shapes are
+    walked. Reading only the flat one cost the CI build its sitemap, its feeds
+    and every redirect.
+    """
+    from fastapi.routing import APIRoute
+
+    found: set[str] = set()
+    for route in routes:
+        included = getattr(route, "include_context", None)
+        if included is not None:
+            nested = included.included_router.routes
+            found |= route_paths(nested, prefix + included.prefix)
+        elif isinstance(route, APIRoute) and "GET" in route.methods:
+            if "{" not in route.path:
+                found.add(prefix + route.path)
+    return found
+
+
 def _seed_paths(app) -> set[str]:
     """Every route without a path parameter, every post and the legacy URLs.
 
@@ -135,19 +158,11 @@ def _seed_paths(app) -> set[str]:
     them. The legacy URLs exist only for old inbound links. Both are therefore
     named outright.
     """
-    from fastapi.routing import APIRoute
-
     from app.http.deps import get_blog_service
     from app.http.redirects import REDIRECT_TABLE
     from app.http.routers import posts as posts_router
 
-    routes = {
-        route.path
-        for route in app.routes
-        if isinstance(route, APIRoute)
-        and "GET" in route.methods
-        and "{" not in route.path
-    }
+    routes = route_paths(app.routes)
     slugs = (
         {post.slug for post in get_blog_service().list_posts()}
         | posts_router._LEGACY_POST_REDIRECTS.keys()

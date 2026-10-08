@@ -74,6 +74,17 @@ def test_html_is_written_beside_its_url_and_everything_else_at_it(
     )
 
 
+def test_the_route_walk_finds_routes_that_no_page_links_to() -> None:
+    # These are reached only by seeding: nothing on the site links to them.
+    # FastAPI 0.143 nests included routers, which once hid every one of them.
+    from app.main import create_app
+
+    paths = build_site.route_paths(create_app().routes)
+
+    for unlinked in ("/sitemap.xml", "/robots.txt", "/api/posts", "/start-here"):
+        assert unlinked in paths, unlinked
+
+
 def test_the_link_check_names_a_planted_broken_link(tmp_path: Path) -> None:
     _touch(tmp_path / "index.html")
     _touch(tmp_path / "about.html")
