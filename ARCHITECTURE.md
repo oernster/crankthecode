@@ -36,7 +36,18 @@ The whole suite is the gate: `pytest.ini` carries `--cov-fail-under=100` against
 
 ## What runs in production
 
-Render starts Uvicorn against the repo-root shim (`render.yaml` to `main.py`). `main.py` exists only so `uvicorn main:app` and `python main.py` keep working; it re-exports the real application.
+Nothing runs: production is static files on GitHub Pages. `build_site.py` creates the application, requests every URL from it through Starlette's test client and writes each response to disk, so the app below remains the only definition of every page. Requests carry the production origin, which the canonical-host middleware lets through. What a static host cannot answer is translated at build time:
+
+* A page is written as `<path>.html`, which Pages serves at `<path>` with no trailing-slash redirect. `static/search.js` depends on that, since it recognises the posts index by the exact pathname `/posts`.
+* A 301 becomes a stub page carrying a canonical link and an immediate refresh to the target.
+* Non-HTML responses (feeds, sitemap, `/api/posts`, the MMSP feed) are written at their exact paths.
+* Every internal `href` and `src` on every page must resolve to a written file; otherwise the build fails naming each one.
+
+The seeds are every GET route without a path parameter, every post slug and every legacy URL; everything else is reached by following links. The CI deploy then asks the live site for a fixed set of URLs, which is what confirms the `.html` rule on Pages itself (`tests/test_build_site.py` holds the rules locally).
+
+Two things the server did are lost on a static host. HTTP to HTTPS and apex to `www` are done by GitHub Pages rather than by the canonical-host middleware, which now acts only under Uvicorn. Old `/posts?view=` query-string URLs land on the posts index instead of being redirected, because a static host cannot route on a query string.
+
+`main.py` exists only so `uvicorn main:app` and `python main.py` keep working for local development; it re-exports the real application.
 
 The real ASGI app and its factory are `create_app()` and the module-level `app` in `app/main.py`.
 
@@ -233,7 +244,7 @@ Static files go through `FallbackStaticFiles`, a subclass of `CachingStaticFiles
 
 ### The fingerprinting pipeline
 
-`build_static_dist()` in `app/assets/build_static.py` copies every file in `static/` to `static_dist/` under its original name, emits a fingerprinted copy alongside it and writes `manifest.json` mapping logical relative path to fingerprinted relative path. Render runs it as a build command; CI runs it before pytest.
+`build_static_dist()` in `app/assets/build_static.py` copies every file in `static/` to `static_dist/` under its original name, emits a fingerprinted copy alongside it and writes `manifest.json` mapping logical relative path to fingerprinted relative path. `build_site.py` runs it before rendering the site; CI runs it before pytest.
 
 `AssetManifest` in `app/assets/manifest.py` loads that map, resolves `asset_url()` lookups for templates and rewrites `/static/...` URLs inside rendered HTML.
 

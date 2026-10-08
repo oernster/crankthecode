@@ -64,6 +64,12 @@ and ruff, builds the fingerprinted static assets and then runs pytest. The
 asset build is not optional: the suite reaches for `static_dist/` and a deploy
 produces one, so skipping it would test a state that never ships.
 
+On a push to `main` the same workflow then builds the static site and deploys
+it to GitHub Pages; it does so only after those checks pass. `tests/test_build_site.py`
+holds the build's path rules, proves its link check by planting a broken link
+and runs the real build in a child process. The deploy itself ends by asking
+the live site for a fixed set of URLs, each of which must answer 200.
+
 If a change is green locally and red in CI, check the Python version first: CI
 is on 3.11, while the local venv was built with 3.13.
 

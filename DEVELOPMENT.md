@@ -28,7 +28,7 @@ pip install -r requirements.txt -r requirements-dev.txt
 
 The test and lint tooling lives in `requirements-dev.txt`, not `requirements.txt`. Installing only the latter gives you an app that runs and a suite that cannot.
 
-`main.py` at the root is a compatibility shim for deployment (`uvicorn main:app` also works); the real application lives in `app/main.py`.
+`main.py` at the root is a compatibility shim (`uvicorn main:app` also works); the real application lives in `app/main.py`.
 
 ## Static assets in development
 
@@ -68,7 +68,19 @@ Two further variables, `CTC_ASSET_MANIFEST_DEBUG` and `CTC_FORCE_STATIC_DIST_MAN
 
 ## Deployment
 
-The site deploys to Render from [render.yaml](render.yaml): the build installs `requirements.txt` and runs `python -m app.assets.build_static` to produce `static_dist/`, then starts `uvicorn main:app` with the static-dist variables set. Nothing needs doing locally for a deploy beyond pushing to the repository.
+The site is static files on GitHub Pages at `www.crankthecode.com`. A push to `main` runs `.github/workflows/checks.yml`; once its checks pass, it:
+
+1. runs `python build_site.py`, which builds `static_dist/` with `CTC_USE_STATIC_DIST` on, renders every page into `site/` and fails on any internal link that lands on nothing;
+2. publishes `site/` to Pages;
+3. asks the live site for a fixed set of URLs, each of which must answer 200 directly.
+
+Nothing needs doing locally for a deploy beyond pushing to the repository. To see what will ship, build and serve it:
+
+```powershell
+python build_site.py --serve
+```
+
+The repository's Pages source must be set to GitHub Actions, with `www.crankthecode.com` as its custom domain. The build writes the same name into `site/CNAME`, taken from the site URL the app already uses.
 
 There is no release artefact and no version to cut. The deployed site is whatever is on `main`.
 

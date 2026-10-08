@@ -23,7 +23,7 @@ The writing models those structures directly. The implementation applies the sam
 ## Who it is not for
 
 * Anyone looking for a reusable blog engine or a static site generator. The routing, the taxonomy and the navigation are specific to this site and are not parameterised for reuse.
-* Anyone looking for a downloadable application. This is a continuously deployed web service with no release artefact and no version to install.
+* Anyone looking for a downloadable application. This is a continuously deployed website with no release artefact and no version to install.
 * Contributors adding content. The posts are one author's body of writing.
 
 ---
@@ -47,13 +47,13 @@ The writing models those structures directly. The implementation applies the sam
 |---|---|
 | Language | Python 3.13 locally, 3.11 in CI |
 | Web framework | FastAPI on Starlette |
-| Server | Uvicorn |
-| Templating | Jinja2, server-rendered |
+| Server | Uvicorn, in development only |
+| Templating | Jinja2, rendered to static files at build time |
 | Content | Markdown files with YAML frontmatter, via `python-frontmatter` and `markdown` |
 | Storage | The filesystem. No database. |
 | Tests | pytest with a 100% coverage gate in `pytest.ini` |
 | Lint and format | black, flake8 and ruff, all three enforced in CI |
-| Hosting | Render, configured by `render.yaml` |
+| Hosting | GitHub Pages, built by `build_site.py` and deployed by CI |
 
 ---
 
@@ -80,13 +80,13 @@ Then open http://127.0.0.1:8000. No environment variables are needed locally and
 
 ## Build
 
-Only the static asset pipeline has a build step; only production needs it:
+The live site is static files. `build_site.py` asks the application for every page in-process and writes each answer to `site/`, so no page is defined anywhere but the app:
 
 ```powershell
-python -m app.assets.build_static
+python build_site.py
 ```
 
-That writes fingerprinted copies of everything in `static/` to `static_dist/` along with a manifest mapping logical paths to fingerprinted ones. Render runs it as its build command before starting the app. Locally the app serves `static/` directly unless `CTC_USE_STATIC_DIST` is set.
+Add `--serve` to browse the result at http://127.0.0.1:8000 exactly as GitHub Pages will serve it. The build first runs the asset pipeline, which writes fingerprinted copies of everything in `static/` to `static_dist/` with a manifest mapping logical paths to fingerprinted ones. It fails on any internal link that lands on nothing. [DEVELOPMENT.md](DEVELOPMENT.md) covers the deploy.
 
 ---
 

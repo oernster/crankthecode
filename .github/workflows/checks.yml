@@ -1,9 +1,13 @@
-name: Checks
+name: Checks and deploy
 
 # The repository had no CI at all. The coverage gate was real but only ever ran
-# at whatever prompt someone happened to be sitting at, and nothing linted, so
+# at whatever prompt someone happened to be sitting at. Nothing linted either, so
 # 29 files had drifted out of black's formatting and 97 findings had built up
 # unnoticed. All four checks now run on every push and pull request.
+#
+# A push to main that passes them is then built into static files by
+# build_site.py and published to GitHub Pages. The deploy needs the checks job,
+# so a red gate can never reach the live site.
 
 on:
   push:
@@ -13,6 +17,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   checks:
@@ -42,7 +50,7 @@ jobs:
         run: python -m ruff check .
 
       # static_dist/ is a build output and is gitignored, so a fresh checkout
-      # does not have it. The suite reaches for it, and a deploy builds it, so
+      # does not have it. The suite reaches for it; a deploy builds it. So
       # CI has to build it too or it is testing a state that never ships.
       - name: Build fingerprinted static assets
         run: python -m app.assets.build_static
@@ -50,3 +58,63 @@ jobs:
       # pytest.ini carries the 100% coverage gate, so a bare run enforces it.
       - name: pytest
         run: python -m pytest
+
+  site:
+    needs: checks
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # The build drives the app through Starlette's test client, which needs
+      # httpx from requirements-dev.txt.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      # Fails on any internal link that lands on no written file.
+      - name: Build the static site
+        run: python build_site.py
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: site
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+      # build_site.py writes /posts as posts.html beside a posts/ directory and
+      # relies on Pages serving the file at /posts without a trailing-slash
+      # redirect, since search.js matches that exact pathname. This asks the
+      # live site rather than trusting it: each URL must answer 200 directly.
+      # --insecure because this probes paths, not TLS: until Pages issues the
+      # custom domain's certificate it presents its generic one, which would
+      # fail every request before the path was ever asked about.
+      - name: Smoke-check the live site
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          failed=0
+          for path in "" posts posts/what-is-decision-architecture patterns patterns/authority-models api/posts .well-known/mmsp.json rss.xml sitemap.xml help; do
+            code=$(curl -s --insecure -o /dev/null -w "%{http_code}" "${PAGE_URL}${path}")
+            echo "${code} /${path}"
+            [ "$code" = "200" ] || failed=1
+          done
+          exit $failed

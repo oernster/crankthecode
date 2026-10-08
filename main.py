@@ -1,6 +1,6 @@
 """Compatibility shim.
 
-Deployments may still reference `uvicorn main:app` (see [`render.yaml`](render.yaml:1)).
+Keeps `uvicorn main:app` and `python main.py` working for local development.
 
 The real application lives in [`app.main`](app/main.py:1).
 """
