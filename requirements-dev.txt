@@ -1,8 +1,8 @@
-pytest
-black
-flake8
-ruff
-httpx
-pre-commit
-pytest-cov
-
+# Pinned to the local venv, as requirements.txt is; see the note there.
+pytest==9.0.2
+black==26.1.0
+flake8==7.3.0
+ruff==0.15.22
+httpx==0.28.1
+pre-commit==4.5.1
+pytest-cov==7.0.0

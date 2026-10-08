@@ -45,7 +45,7 @@ The writing models those structures directly. The implementation applies the sam
 
 | Concern | Choice |
 |---|---|
-| Language | Python 3.13 locally, 3.11 in CI |
+| Language | Python 3.13, locally and in CI |
 | Web framework | FastAPI on Starlette |
 | Server | Uvicorn, in development only |
 | Templating | Jinja2, rendered to static files at build time |

@@ -70,8 +70,9 @@ holds the build's path rules, proves its link check by planting a broken link
 and runs the real build in a child process. The deploy itself ends by asking
 the live site for a fixed set of URLs, each of which must answer 200.
 
-If a change is green locally and red in CI, check the Python version first: CI
-is on 3.11, while the local venv was built with 3.13.
+CI runs Python 3.13 with every dependency pinned to the local venv's versions,
+so a change green locally should be green there. If it is not, check first
+whether the venv has drifted from the pins in the two requirements files.
 
 ## Where the tests live
 

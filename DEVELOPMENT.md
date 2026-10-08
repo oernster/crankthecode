@@ -4,7 +4,8 @@ How to run, test and work on the Crank The Code site locally. For what the site 
 
 ## Prerequisites
 
-* Python 3.13 locally (the checked-in `venv/` was built with it). CI runs 3.11; black and ruff both target 3.11, so avoid syntax newer than that.
+* Python 3.13, locally and in CI. Black and ruff still target 3.11, so avoid syntax newer than that.
+* Dependencies are pinned in `requirements.txt` and `requirements-dev.txt` to the versions in the local venv. To upgrade one, install it in the venv, run the gate, then move its pin to match; CI installs exactly the pins.
 * Nothing else. No database, no external services: the content is markdown files in `posts/`.
 
 ## Run the site

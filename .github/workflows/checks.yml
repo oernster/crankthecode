@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       # The test and lint tooling lives in requirements-dev.txt, not
       # requirements.txt. Installing only the latter is what made the first run
@@ -68,7 +68,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       # The build drives the app through Starlette's test client, which needs
       # httpx from requirements-dev.txt.
