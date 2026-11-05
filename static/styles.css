@@ -4162,6 +4162,13 @@ html.theme-light .section-title {
   gap: 3px;
 }
 
+/* The entry outside the series: a hairline sets it apart from the progression. */
+.books-entry-guidance__item--beyond {
+  margin-top: 4px;
+  padding-top: 11px;
+  border-top: 1px solid var(--panel-border);
+}
+
 .books-entry-guidance__condition {
   font-weight: 400;
   color: var(--text-muted);

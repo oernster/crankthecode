@@ -60,6 +60,7 @@ async def books_page(
             "books_by_title": {b.title: b for b in BOOKS_CATALOGUE},
             "complete_series_edition": COMPLETE_SERIES_EDITION,
             "standalone_books": (EVERGENCE,),
+            "standalone_by_title": {EVERGENCE.title: EVERGENCE},
         }
     )
 

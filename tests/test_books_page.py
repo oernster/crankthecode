@@ -177,6 +177,20 @@ def test_unpublished_format_renders_as_text_never_a_link(monkeypatch):
     assert "book-cover-link--static" in evergence
 
 
+def test_entry_guidance_offers_evergence_after_the_series():
+    html = _books_html()
+    start = html.index('aria-label="Entry points"')
+    guidance = html[start : html.index("books-series-label", start)]
+
+    beyond = guidance.index("books-entry-guidance__item--beyond")
+    # Evergence comes after every series entry, set apart from the progression.
+    assert guidance.index("Complete Series Edition") < beyond
+    assert re.search(
+        rf'href="{re.escape(_EVERGENCE_HARDBACK_URL)}"[^>]*>\s*Evergence\s*</a>',
+        guidance[beyond:],
+    ), guidance
+
+
 def test_evergence_cover_links_the_hardback_with_no_format_pill():
     _, editions = _split_series_and_editions(_books_html())
     evergence = _evergence_section(editions)

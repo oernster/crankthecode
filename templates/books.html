@@ -16,11 +16,12 @@
         {% set da_patterns = (books_by_title or {}).get('Decision Architecture Patterns') %}
         {% set move_space = (books_by_title or {}).get('Decision Architecture: The Move Space') %}
         {% set rda = (books_by_title or {}).get('Relativistic Decision Architecture') %}
+        {% set evergence = (standalone_by_title or {}).get('Evergence') %}
 
         <div class="books-entry-guidance__layout">
           <div class="books-entry-guidance__header">
             <div class="books-entry-guidance__title">Choose your entry point</div>
-            <div class="books-entry-guidance__subtext">This is a progression. Start where your problem sits.</div>
+            <div class="books-entry-guidance__subtext">The Decision Architecture series is a progression. Start where your problem sits.</div>
           </div>
 
           <div class="books-entry-guidance__list" role="list" aria-label="Entry points">
@@ -114,6 +115,25 @@
                     >Complete Series Edition</a>
                   {% else %}
                     <span class="books-entry-guidance__book">Complete Series Edition</span>
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+
+            <div class="books-entry-guidance__item books-entry-guidance__item--beyond" role="listitem">
+              <div class="books-entry-guidance__condition">If you are thinking about the long-term future of humanity and AI</div>
+              <div class="books-entry-guidance__target">
+                <span class="books-entry-guidance__action">
+                  <span class="books-entry-guidance__arrow" aria-hidden="true">→</span>
+                  {% if evergence and evergence.purchase_url %}
+                    <a
+                      class="books-entry-guidance__link"
+                      href="{{ evergence.purchase_url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >Evergence</a>
+                  {% else %}
+                    <span class="books-entry-guidance__book">Evergence</span>
                   {% endif %}
                 </span>
               </div>
