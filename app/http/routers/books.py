@@ -6,8 +6,11 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from app.domain.books_catalogue import BOOKS_CATALOGUE
-from app.domain.books_compilations import COMPLETE_SERIES_EDITION
+from app.domain.books_catalogue import (
+    BOOKS_CATALOGUE,
+    COMPLETE_SERIES_EDITION,
+    EVERGENCE,
+)
 from app.http.deps import get_blog_service, get_templates
 from app.http.seo import absolute_url, get_site_url
 from app.http.view_models.context import build_base_context
@@ -20,7 +23,8 @@ router = APIRouter()
 # duplicated character for character, which is how they drift apart.
 _DESCRIPTION = (
     "Authored books on decision architecture and structural design in "
-    "technical organisations."
+    "technical organisations. Also Evergence: a framework for human-AI "
+    "co-evolution."
 )
 
 
@@ -55,6 +59,7 @@ async def books_page(
             "books": BOOKS_CATALOGUE,
             "books_by_title": {b.title: b for b in BOOKS_CATALOGUE},
             "complete_series_edition": COMPLETE_SERIES_EDITION,
+            "standalone_books": (EVERGENCE,),
         }
     )
 

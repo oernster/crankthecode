@@ -7,7 +7,7 @@
     <h1 class="section-title section-title--accent">Books</h1>
 
     <p class="muted" style="margin: 0 0 20px 0;">
-      These books represent my work on decision architecture, developed across nearly three decades in engineering and technical leadership.
+      These books represent my work on decision architecture and on civilisational continuity, developed across nearly three decades in engineering and technical leadership.
     </p>
 
     <section class="books-entry-guidance" aria-label="Entry guidance" style="margin: 0 0 20px 0;">
@@ -157,36 +157,85 @@
       {% endfor %}
     </div>
 
-    {% if complete_series_edition %}
-      <section class="books-compilation" aria-label="Complete series edition">
-        <h2 class="books-compilation__title">Complete Series Edition</h2>
+    {% if complete_series_edition or standalone_books %}
+      <div class="books-grid books-grid--editions" aria-label="Complete edition and other books">
+        {% if complete_series_edition %}
+          {% set e = complete_series_edition %}
+          <section class="books-edition" aria-label="Complete series edition">
+            <h2 class="books-series-label books-edition__label">Complete Series Edition</h2>
 
-        <article class="books-compilation-card" aria-label="{{ complete_series_edition.title }}">
-          <a
-            class="books-compilation-card__link"
-            href="{{ complete_series_edition.amazon_uk_url }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="{{ complete_series_edition.support_line }}"
-            aria-label="{{ complete_series_edition.alt_text }} (Amazon UK)"
-          >
-            <img
-              class="books-compilation-card__cover"
-              src="{{ asset_url(complete_series_edition.cover_asset) }}"
-              alt="{{ complete_series_edition.alt_text }}"
-              loading="lazy"
-              decoding="async"
-            />
+            <article class="book-tile" aria-label="{{ e.title }}">
+              <a
+                class="book-cover-link"
+                href="{{ e.amazon_uk_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="{{ e.support_line }}"
+                aria-label="{{ e.alt_text }} (Amazon UK)"
+              >
+                <img
+                  class="book-cover"
+                  src="{{ asset_url(e.cover_asset) }}"
+                  alt="{{ e.alt_text }}"
+                  loading="lazy"
+                  decoding="async"
+                />
 
-            <div class="books-compilation-card__meta" aria-label="Edition details">
-              <div class="books-compilation-card__name">{{ complete_series_edition.title }}</div>
-              <div class="books-compilation-card__support">{{ complete_series_edition.support_line }}</div>
-            </div>
+                <div class="book-meta" aria-label="Edition details">
+                  <div class="book-title">{{ e.title }}</div>
+                  <div class="book-subtitle">{{ e.support_line }}</div>
+                </div>
+              </a>
+            </article>
+          </section>
+        {% endif %}
 
-            <span class="visually-hidden">{{ complete_series_edition.support_line }}</span>
-          </a>
-        </article>
-      </section>
+        {% for s in standalone_books or [] %}
+          <section class="books-edition" aria-label="{{ s.title }}">
+            <h2 class="books-series-label books-edition__label">{{ s.title }}</h2>
+
+            <article class="book-tile" aria-label="{{ s.title }}">
+              <a
+                class="book-cover-link"
+                href="{{ s.cover_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="{{ s.subtitle }}"
+                aria-label="{{ s.alt_text }}"
+              >
+                <img
+                  class="book-cover"
+                  src="{{ asset_url(s.cover_asset) }}"
+                  alt="{{ s.alt_text }}"
+                  loading="lazy"
+                  decoding="async"
+                />
+
+                <div class="book-meta book-meta--standalone" aria-label="Book details">
+                  <div class="book-title">{{ s.title }}</div>
+                  <div class="book-subtitle">{{ s.subtitle }}</div>
+                  <div class="book-summary">{{ s.summary }}</div>
+                </div>
+              </a>
+
+              <div class="book-formats" aria-label="Formats">
+                {% for f in s.formats %}
+                  {% if f.is_available %}
+                    <a
+                      class="book-format"
+                      href="{{ f.url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >{{ f.label }}</a>
+                  {% else %}
+                    <span class="book-format book-format--pending">{{ f.label }}: coming soon</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </article>
+          </section>
+        {% endfor %}
+      </div>
     {% endif %}
 
     <p class="muted books-footer-note">

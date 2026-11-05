@@ -182,6 +182,10 @@ Filtering accepts `cat=<Label>` and `layer=<slug>` and applies them together as 
 
 Patterns keep their hub system in `app/http/routers/topics.py`: `/patterns` as the gateway and `/patterns/<layer>` per layer, driven by `cat:decision-architecture-patterns`.
 
+### Books
+
+`/books` (in `app/http/routers/books.py`) renders authored data, not posts. Every book card's data lives in `app/domain/books_catalogue.py`: the four series volumes are `BOOKS_CATALOGUE`, the compiled hardback is `COMPLETE_SERIES_EDITION` and books outside the series, such as Evergence, are `StandaloneBook` entries. One module, so every card shares one alt-text rule (`book_alt_text()`) without one domain module importing another. The series grid holds the volumes alone, with the compiled edition and the standalone books in a labelled row after it. A `BookFormat` with no URL is a format announced but not yet published, rendered as forthcoming text and never as a link; `tests/test_books_page.py` holds both halves of that rule. Covers point at web-sized WebP copies kept beside their PNG masters in `static/images/`.
+
 The former `/decision-architecture`, `/topics` and `/topics/<layer>` surfaces are retired. Their URLs, the culled essay slugs and the old `/posts` view query strings all 301 through one table in `app/http/redirects.py`, checked by a single middleware in `app/main.py`.
 
 ### Feeds and SEO surfaces

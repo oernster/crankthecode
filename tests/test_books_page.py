@@ -6,8 +6,32 @@ import re
 
 from fastapi.testclient import TestClient
 
-from app.domain.books_catalogue import BookCatalogueEntry
+from app.domain.books_catalogue import (
+    EVERGENCE,
+    BookCatalogueEntry,
+    BookFormat,
+    CompilationEdition,
+    StandaloneBook,
+    book_alt_text,
+)
 from app.main import create_app
+
+_EDITIONS_MARKER = "books-grid--editions"
+
+
+def _split_series_and_editions(html: str) -> tuple[str, str]:
+    """Return the series grid and the editions row, as separate HTML slices."""
+
+    start = html.index('aria-label="Published books"')
+    split = html.index(_EDITIONS_MARKER, start)
+    end = html.index("books-footer-note", split)
+    return html[start:split], html[split:end]
+
+
+def _books_html() -> str:
+    resp = TestClient(create_app()).get("/books")
+    assert resp.status_code == 200
+    return resp.text
 
 
 def test_books_page_renders_and_links_to_amazon_uk():
@@ -22,24 +46,20 @@ def test_books_page_renders_and_links_to_amazon_uk():
     # Read time is post-only; non-post pages should not render the pill.
     assert 'class="read-time-bar"' not in resp.text
 
-    # Covers (served from /static). Support both unfingerprinted and
-    # fingerprinted asset paths.
-    assert re.search(
-        r"/static/images/_cover_da(?:\.[0-9a-f]{8,})?\.png",
-        resp.text,
-    ), resp.text
-    assert re.search(
-        r"/static/images/_cover_da_patterns(?:\.[0-9a-f]{8,})?\.png",
-        resp.text,
-    ), resp.text
-    assert re.search(
-        r"/static/images/_cover_relativistic_da_architecture(?:\.[0-9a-f]{8,})?\.png",
-        resp.text,
-    ), resp.text
-    assert re.search(
-        r"/static/images/_cover-da-move-space(?:\.[0-9a-f]{8,})?\.png",
-        resp.text,
-    ), resp.text
+    # Covers (served from /static as web-sized WebP copies). Support both
+    # unfingerprinted and fingerprinted asset paths.
+    for stem in (
+        "_cover_da",
+        "_cover_da_patterns",
+        "_cover_relativistic_da_architecture",
+        "_cover-da-move-space",
+        "hardback_cover",
+        "_cover_evergence",
+    ):
+        assert re.search(
+            rf"/static/images/{re.escape(stem)}(?:\.[0-9a-f]{{8,}})?\.webp",
+            resp.text,
+        ), stem
 
     # Canonical Amazon UK links (no link switching).
     assert "https://www.amazon.co.uk/dp/B0GT4JNMGK" in resp.text
@@ -47,21 +67,22 @@ def test_books_page_renders_and_links_to_amazon_uk():
     assert "https://www.amazon.co.uk/dp/B0H8HTM8H3" in resp.text
     assert "https://www.amazon.co.uk/dp/B0GTDX7186" in resp.text
 
-    # Complete series hardback compilation: rendered separately (not a 5th peer
-    # card in the primary series grid).
+    # Complete series hardback compilation: labelled in its own row, not a 5th
+    # peer card in the primary series grid.
     assert "Complete Series Edition" in resp.text
     assert "https://www.amazon.co.uk/dp/B0H8HVZKY1" in resp.text
-    assert re.search(
-        r"/static/images/hardback_cover(?:\.[0-9a-f]{8,})?\.png",
-        resp.text,
-    ), resp.text
     assert (
         "All four volumes combined into a single hardback reference edition"
         in resp.text
     )
 
-    # Guardrail: the main series grid should remain exactly 4 tiles.
-    assert resp.text.count('class="book-tile"') == 4, resp.text
+    # Guardrail: the series grid holds exactly the 4 volumes; the compiled
+    # edition and Evergence sit in the editions row after it.
+    series, editions = _split_series_and_editions(resp.text)
+    assert series.count('class="book-tile"') == 4, series
+    assert editions.count('class="book-tile"') == 2, editions
+    assert "Evergence" not in series
+    assert "B0H8HVZKY1" not in series
 
     # Hover/subtitle text should be present (consistent behaviour across cards).
     assert "A Positional Model of Organisational Change" in resp.text
@@ -101,12 +122,71 @@ def test_book_catalogue_entry_alt_text_omits_empty_subtitle():
     assert entry.alt_text == "T"
 
 
-def test_compilation_edition_alt_text_omits_empty_support_line():
-    from app.domain.books_compilations import CompilationEdition
+def test_evergence_renders_in_the_editions_row():
+    _, editions = _split_series_and_editions(_books_html())
 
+    assert re.search(r'class="book-title">\s*Evergence\s*</div>', editions)
+    assert re.search(
+        r'class="book-subtitle">\s*A Framework for Human-AI Co-Evolution\s*</div>',
+        editions,
+    )
+    assert 'href="https://ernster.dev/Evergence/"' in editions
+
+
+def test_unpublished_format_renders_as_text_never_a_link():
+    _, editions = _split_series_and_editions(_books_html())
+
+    pending = re.search(
+        r'<span class="book-format book-format--pending">'
+        r"\s*Hardback: coming soon\s*</span>",
+        editions,
+    )
+    assert pending, editions
+    # No placeholder anchor stands in for the missing hardback link.
+    assert 'href="#"' not in editions
+    assert 'href=""' not in editions
+
+
+def test_published_format_renders_as_a_link(monkeypatch):
+    hardback_url = "https://example.invalid/hardback"
+    formats = tuple(
+        BookFormat(label=f.label, url=f.url or hardback_url) for f in EVERGENCE.formats
+    )
+    published = StandaloneBook(
+        title=EVERGENCE.title,
+        subtitle=EVERGENCE.subtitle,
+        summary=EVERGENCE.summary,
+        cover_asset=EVERGENCE.cover_asset,
+        cover_url=EVERGENCE.cover_url,
+        formats=formats,
+    )
+    monkeypatch.setattr("app.http.routers.books.EVERGENCE", published)
+
+    _, editions = _split_series_and_editions(_books_html())
+
+    assert f'href="{hardback_url}"' in editions
+    assert "coming soon" not in editions
+
+
+def test_book_format_is_available_only_with_a_url():
+    assert BookFormat(label="Hardback").is_available is False
+    assert BookFormat(label="Hardback", url="").is_available is False
+    assert BookFormat(label="Hardback", url="https://example.invalid").is_available
+
+
+def test_standalone_book_alt_text_joins_title_and_subtitle():
+    assert EVERGENCE.alt_text == ("Evergence - A Framework for Human-AI Co-Evolution")
+
+
+def test_book_alt_text_strips_detail_and_omits_it_when_blank():
+    assert book_alt_text("T", "  detail  ") == "T - detail"
+    assert book_alt_text("T", "   ") == "T"
+
+
+def test_compilation_edition_alt_text_omits_empty_support_line():
     edition = CompilationEdition(
         title="Decision Architecture Series",
-        cover_asset="images/hardback_cover.png",
+        cover_asset="images/hardback_cover.webp",
         amazon_uk_url="https://www.amazon.co.uk/dp/B0H8HVZKY1",
         support_line="",
     )
