@@ -177,13 +177,18 @@ def test_unpublished_format_renders_as_text_never_a_link(monkeypatch):
     assert "book-cover-link--static" in evergence
 
 
-def test_evergence_hardback_links_from_cover_and_format():
+def test_evergence_cover_links_the_hardback_with_no_format_pill():
     _, editions = _split_series_and_editions(_books_html())
     evergence = _evergence_section(editions)
 
-    # The cover and the format both link to the published hardback.
-    assert evergence.count(f'href="{_EVERGENCE_HARDBACK_URL}"') == 2, evergence
-    assert re.search(r'class="book-format"[^>]*>\s*Hardback\s*</a>', evergence)
+    # The cover is the one link to the published hardback, as on every other
+    # book card; a published format adds no pill of its own.
+    assert evergence.count(f'href="{_EVERGENCE_HARDBACK_URL}"') == 1, evergence
+    assert re.search(
+        rf'<a\s+class="book-cover-link"\s+href="{re.escape(_EVERGENCE_HARDBACK_URL)}"',
+        evergence,
+    ), evergence
+    assert "book-formats" not in evergence
     assert "book-cover-link--static" not in evergence
     assert "coming soon" not in evergence
 
@@ -201,6 +206,9 @@ def test_purchase_url_is_the_first_published_format():
     assert book(pending).purchase_url is None
     assert book().purchase_url is None
     assert book(pending, paperback, hardback).purchase_url == paperback.url
+
+    assert book(pending, paperback).pending_formats == (pending,)
+    assert book(paperback, hardback).pending_formats == ()
 
 
 def test_book_format_is_available_only_with_a_url():

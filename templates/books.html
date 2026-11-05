@@ -223,20 +223,13 @@
                 </div>
               {% if buy_url %}</a>{% else %}</div>{% endif %}
 
-              <div class="book-formats" aria-label="Formats">
-                {% for f in s.formats %}
-                  {% if f.is_available %}
-                    <a
-                      class="book-format"
-                      href="{{ f.url }}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >{{ f.label }}</a>
-                  {% else %}
-                    <span class="book-format book-format--pending">{{ f.label }}: coming soon</span>
-                  {% endif %}
+              {% if s.pending_formats %}
+              <div class="book-formats" aria-label="Forthcoming formats">
+                {% for f in s.pending_formats %}
+                  <span class="book-format book-format--pending">{{ f.label }}: coming soon</span>
                 {% endfor %}
               </div>
+              {% endif %}
             </article>
           </section>
         {% endfor %}

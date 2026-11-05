@@ -104,6 +104,15 @@ class StandaloneBook:
                 return book_format.url
         return None
 
+    @property
+    def pending_formats(self) -> tuple[BookFormat, ...]:
+        """Formats announced but not yet published, shown as forthcoming.
+
+        A published format needs no label of its own: the cover is its link.
+        """
+
+        return tuple(f for f in self.formats if not f.is_available)
+
 
 # Notes for every entry below:
 # - `cover_asset` is an `asset_url()` path (relative to `static/`). Each points
