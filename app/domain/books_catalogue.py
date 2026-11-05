@@ -85,12 +85,24 @@ class StandaloneBook:
     subtitle: str
     summary: str
     cover_asset: str
-    cover_url: str
     formats: tuple[BookFormat, ...]
 
     @property
     def alt_text(self) -> str:
         return book_alt_text(self.title, self.subtitle)
+
+    @property
+    def purchase_url(self) -> str | None:
+        """Where the cover links: the first published format, else nowhere.
+
+        Derived rather than stored, so the cover cannot point somewhere the
+        formats do not; it starts linking the moment a format publishes.
+        """
+
+        for book_format in self.formats:
+            if book_format.is_available:
+                return book_format.url
+        return None
 
 
 # Notes for every entry below:
@@ -142,13 +154,9 @@ EVERGENCE = StandaloneBook(
     subtitle="A Framework for Human-AI Co-Evolution",
     summary="A provisional research framework, separate from the series above.",
     cover_asset="images/_cover_evergence.webp",
-    cover_url="https://ernster.dev/Evergence/",
     formats=(
-        BookFormat(
-            label="Read the living framework",
-            url="https://ernster.dev/Evergence/",
-        ),
         # Hardback in publication: set `url` to its Amazon UK link when live.
+        # The cover links to it from then on; until then it links nowhere.
         BookFormat(label="Hardback"),
     ),
 )

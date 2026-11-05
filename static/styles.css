@@ -4355,6 +4355,16 @@ html.theme-light .section-title {
   color: var(--text-muted);
 }
 
+/* A cover with nowhere to buy yet: no pointer, no link highlight. */
+.book-cover-link--static {
+  cursor: default;
+}
+
+.book-cover-link--static:hover .book-cover {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+}
+
 .book-meta--standalone {
   min-height: 0;
 }

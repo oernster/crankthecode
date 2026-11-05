@@ -195,14 +195,19 @@
             <h2 class="books-series-label books-edition__label">{{ s.title }}</h2>
 
             <article class="book-tile" aria-label="{{ s.title }}">
+              {% set buy_url = s.purchase_url %}
+              {% if buy_url %}
               <a
                 class="book-cover-link"
-                href="{{ s.cover_url }}"
+                href="{{ buy_url }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 title="{{ s.subtitle }}"
                 aria-label="{{ s.alt_text }}"
               >
+              {% else %}
+              <div class="book-cover-link book-cover-link--static">
+              {% endif %}
                 <img
                   class="book-cover"
                   src="{{ asset_url(s.cover_asset) }}"
@@ -216,7 +221,7 @@
                   <div class="book-subtitle">{{ s.subtitle }}</div>
                   <div class="book-summary">{{ s.summary }}</div>
                 </div>
-              </a>
+              {% if buy_url %}</a>{% else %}</div>{% endif %}
 
               <div class="book-formats" aria-label="Formats">
                 {% for f in s.formats %}

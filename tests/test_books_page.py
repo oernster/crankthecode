@@ -130,21 +130,34 @@ def test_evergence_renders_in_the_editions_row():
         r'class="book-subtitle">\s*A Framework for Human-AI Co-Evolution\s*</div>',
         editions,
     )
-    assert 'href="https://ernster.dev/Evergence/"' in editions
+
+
+def test_books_page_never_links_the_free_framework():
+    # The page sells the book; pointing at the free framework undercuts it.
+    html = _books_html()
+
+    assert "ernster.dev/Evergence" not in html
+    assert "living framework" not in html.lower()
+
+
+def _evergence_section(editions: str) -> str:
+    return editions[editions.index('aria-label="Evergence"') :]
 
 
 def test_unpublished_format_renders_as_text_never_a_link():
     _, editions = _split_series_and_editions(_books_html())
+    evergence = _evergence_section(editions)
 
     pending = re.search(
         r'<span class="book-format book-format--pending">'
         r"\s*Hardback: coming soon\s*</span>",
-        editions,
+        evergence,
     )
-    assert pending, editions
-    # No placeholder anchor stands in for the missing hardback link.
-    assert 'href="#"' not in editions
-    assert 'href=""' not in editions
+    assert pending, evergence
+    # Nothing to buy yet, so nothing in the tile is a link: not the cover,
+    # not a placeholder anchor standing in for the missing hardback.
+    assert not re.search(r"<a[\s>]", evergence), evergence
+    assert "book-cover-link--static" in evergence
 
 
 def test_published_format_renders_as_a_link(monkeypatch):
@@ -157,15 +170,32 @@ def test_published_format_renders_as_a_link(monkeypatch):
         subtitle=EVERGENCE.subtitle,
         summary=EVERGENCE.summary,
         cover_asset=EVERGENCE.cover_asset,
-        cover_url=EVERGENCE.cover_url,
         formats=formats,
     )
     monkeypatch.setattr("app.http.routers.books.EVERGENCE", published)
 
     _, editions = _split_series_and_editions(_books_html())
+    evergence = _evergence_section(editions)
 
-    assert f'href="{hardback_url}"' in editions
-    assert "coming soon" not in editions
+    # The cover and the format both link to the hardback once it publishes.
+    assert evergence.count(f'href="{hardback_url}"') == 2, evergence
+    assert "book-cover-link--static" not in evergence
+    assert "coming soon" not in evergence
+
+
+def test_purchase_url_is_the_first_published_format():
+    pending = BookFormat(label="Hardback")
+    paperback = BookFormat(label="Paperback", url="https://example.invalid/pb")
+    hardback = BookFormat(label="Hardback", url="https://example.invalid/hb")
+
+    def book(*formats: BookFormat) -> StandaloneBook:
+        return StandaloneBook(
+            title="T", subtitle="", summary="", cover_asset="x", formats=formats
+        )
+
+    assert book(pending).purchase_url is None
+    assert book().purchase_url is None
+    assert book(pending, paperback, hardback).purchase_url == paperback.url
 
 
 def test_book_format_is_available_only_with_a_url():
