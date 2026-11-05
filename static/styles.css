@@ -4334,7 +4334,8 @@ html.theme-light .section-title {
 .books-grid--editions {
   margin-top: 26px;
   padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  /* Themed token, so the hairline shows in light mode as well as dark. */
+  border-top: 1px solid var(--panel-border);
   /* Tiles in this row carry different amounts of text; stretch keeps their
      frames level. */
   align-items: stretch;

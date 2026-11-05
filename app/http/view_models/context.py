@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import datetime as dt
 from pathlib import Path
 
 from fastapi import Request
@@ -27,7 +26,6 @@ def build_base_context(request: Request) -> dict:
     return {
         "request": request,
         "site_url": site_url,
-        "current_year": dt.datetime.now(dt.timezone.utc).year,
         "page_title": "Crank The Code",
         "site_name": "Crank The Code",
         "robots_meta": "index,follow",
@@ -74,7 +72,7 @@ def load_about_html() -> str:
             return ""
         return PythonMarkdownRenderer().render(about_post.content_markdown)
     except Exception:
-        # Deliberately broad, and it stays broad. This runs while building the
+        # Deliberately broad; it stays broad. This runs while building the
         # base context for every page, so a failure here would take down the
         # whole site rather than one section. Degrades to an empty About block.
         #
