@@ -144,7 +144,24 @@ def _evergence_section(editions: str) -> str:
     return editions[editions.index('aria-label="Evergence"') :]
 
 
-def test_unpublished_format_renders_as_text_never_a_link():
+_EVERGENCE_HARDBACK_URL = "https://www.amazon.co.uk/dp/B0HQFRWWGN"
+
+
+def _evergence_with(*formats: BookFormat) -> StandaloneBook:
+    return StandaloneBook(
+        title=EVERGENCE.title,
+        subtitle=EVERGENCE.subtitle,
+        summary=EVERGENCE.summary,
+        cover_asset=EVERGENCE.cover_asset,
+        formats=formats,
+    )
+
+
+def test_unpublished_format_renders_as_text_never_a_link(monkeypatch):
+    # The rule outlives any one book: a format announced before it publishes.
+    pending = _evergence_with(BookFormat(label="Hardback"))
+    monkeypatch.setattr("app.http.routers.books.EVERGENCE", pending)
+
     _, editions = _split_series_and_editions(_books_html())
     evergence = _evergence_section(editions)
 
@@ -160,25 +177,13 @@ def test_unpublished_format_renders_as_text_never_a_link():
     assert "book-cover-link--static" in evergence
 
 
-def test_published_format_renders_as_a_link(monkeypatch):
-    hardback_url = "https://example.invalid/hardback"
-    formats = tuple(
-        BookFormat(label=f.label, url=f.url or hardback_url) for f in EVERGENCE.formats
-    )
-    published = StandaloneBook(
-        title=EVERGENCE.title,
-        subtitle=EVERGENCE.subtitle,
-        summary=EVERGENCE.summary,
-        cover_asset=EVERGENCE.cover_asset,
-        formats=formats,
-    )
-    monkeypatch.setattr("app.http.routers.books.EVERGENCE", published)
-
+def test_evergence_hardback_links_from_cover_and_format():
     _, editions = _split_series_and_editions(_books_html())
     evergence = _evergence_section(editions)
 
-    # The cover and the format both link to the hardback once it publishes.
-    assert evergence.count(f'href="{hardback_url}"') == 2, evergence
+    # The cover and the format both link to the published hardback.
+    assert evergence.count(f'href="{_EVERGENCE_HARDBACK_URL}"') == 2, evergence
+    assert re.search(r'class="book-format"[^>]*>\s*Hardback\s*</a>', evergence)
     assert "book-cover-link--static" not in evergence
     assert "coming soon" not in evergence
 

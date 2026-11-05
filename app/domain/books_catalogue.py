@@ -155,8 +155,10 @@ EVERGENCE = StandaloneBook(
     summary="A provisional research framework, separate from the series above.",
     cover_asset="images/_cover_evergence.webp",
     formats=(
-        # Hardback in publication: set `url` to its Amazon UK link when live.
-        # The cover links to it from then on; until then it links nowhere.
-        BookFormat(label="Hardback"),
+        # The cover links to the first published format, so to this one.
+        BookFormat(
+            label="Hardback",
+            url="https://www.amazon.co.uk/dp/B0HQFRWWGN",
+        ),
     ),
 )
